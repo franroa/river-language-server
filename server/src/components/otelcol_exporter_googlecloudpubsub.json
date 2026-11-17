@@ -1,0 +1,255 @@
+{
+  "name": "otelcol.exporter.googlecloudpubsub",
+  "usage": "otelcol.exporter.googlecloudpubsub \"<LABEL>\" {\n    project = \"<PROJECT-ID>\"\n    topic   = \"projects/<PROJECT-ID>/topics/<TOPIC-NAME>\"\n}",
+  "arguments": [
+    {
+      "name": "topic",
+      "type": "string",
+      "description": "The topic name to send OTLP data over. The topic name should be a fully qualified resource name, for example, projects/otel-project/topics/otlp.",
+      "default": "\"\"",
+      "required": true
+    },
+    {
+      "name": "compression",
+      "type": "string",
+      "description": "The compression used on the data sent to the topic. Only gzip is supported. Default is no compression.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "Override the default Pub/Sub endpoint. This is useful when connecting to the Pub/Sub emulator instance or switching between global and regional service endpoints.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "insecure",
+      "type": "bool",
+      "description": "Allows performing insecure SSL connections and transfers. This is useful when connecting to a local emulator instance. Only has effect if you set endpoint.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "project",
+      "type": "string",
+      "description": "Google Cloud Platform project identifier.",
+      "default": "Fetch from credentials",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "Duration",
+      "description": "Timeout for calls to the Pub/Sub API.",
+      "default": "\"12s\"",
+      "required": false
+    },
+    {
+      "name": "universe_domain",
+      "type": "string",
+      "description": "Universe domain for the Pub/Sub service. Set to support Sovereign Cloud regions.",
+      "default": "\"googleapis.com\"",
+      "required": false
+    },
+    {
+      "name": "user_agent",
+      "type": "string",
+      "description": "Override the user agent string used for Pub/Sub requests. Specify {{version}} to include the application version number.",
+      "default": "\"opentelemetry-collector-contrib {{version}}\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#debug_metrics"
+    },
+    {
+      "block": "ordering",
+      "description": "Configures the Pub/Sub ordering feature.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#ordering"
+    },
+    {
+      "block": "retry_on_failure",
+      "description": "Configures the retry behavior when the receiver encounters an error downstream in the pipeline.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#retry_on_failure"
+    },
+    {
+      "block": "sending_queue",
+      "description": "Configures batching of data before sending.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#sending_queue"
+    },
+    {
+      "block": "sending_queue > batch",
+      "description": "Configures batching requests based on a timeout and a minimum number of items.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#batch"
+    },
+    {
+      "block": "sending_queue > batch > partition",
+      "description": "Configures partitioning of batches by client metadata.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#partition"
+    },
+    {
+      "block": "watermark",
+      "description": "Behaviour of how the ce-time attribute is set.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#watermark"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.exporter.googlecloudpubsub",
+    "arguments": {
+      "topic": {
+        "type": "string",
+        "description": "The topic name to send OTLP data over. The topic name should be a fully qualified resource name, for example, projects/otel-project/topics/otlp.",
+        "default": "\"\"",
+        "required": true
+      },
+      "compression": {
+        "type": "string",
+        "description": "The compression used on the data sent to the topic. Only gzip is supported. Default is no compression.",
+        "default": "\"\"",
+        "required": false
+      },
+      "endpoint": {
+        "type": "string",
+        "description": "Override the default Pub/Sub endpoint. This is useful when connecting to the Pub/Sub emulator instance or switching between global and regional service endpoints.",
+        "default": "\"\"",
+        "required": false
+      },
+      "insecure": {
+        "type": "bool",
+        "description": "Allows performing insecure SSL connections and transfers. This is useful when connecting to a local emulator instance. Only has effect if you set endpoint.",
+        "default": "false",
+        "required": false
+      },
+      "project": {
+        "type": "string",
+        "description": "Google Cloud Platform project identifier.",
+        "default": "Fetch from credentials",
+        "required": false
+      },
+      "timeout": {
+        "type": "Duration",
+        "description": "Timeout for calls to the Pub/Sub API.",
+        "default": "\"12s\"",
+        "required": false
+      },
+      "universe_domain": {
+        "type": "string",
+        "description": "Universe domain for the Pub/Sub service. Set to support Sovereign Cloud regions.",
+        "default": "\"googleapis.com\"",
+        "required": false
+      },
+      "user_agent": {
+        "type": "string",
+        "description": "Override the user agent string used for Pub/Sub requests. Specify {{version}} to include the application version number.",
+        "default": "\"opentelemetry-collector-contrib {{version}}\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.googlecloudpubsub \"<LABEL>\" {\n    project = \"<PROJECT-ID>\"\n    topic   = \"projects/<PROJECT-ID>/topics/<TOPIC-NAME>\"\n}"
+      },
+      "ordering": {
+        "description": "Configures the Pub/Sub ordering feature.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.googlecloudpubsub \"<LABEL>\" {\n    project = \"<PROJECT-ID>\"\n    topic   = \"projects/<PROJECT-ID>/topics/<TOPIC-NAME>\"\n}"
+      },
+      "retry_on_failure": {
+        "description": "Configures the retry behavior when the receiver encounters an error downstream in the pipeline.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.googlecloudpubsub \"<LABEL>\" {\n    project = \"<PROJECT-ID>\"\n    topic   = \"projects/<PROJECT-ID>/topics/<TOPIC-NAME>\"\n}"
+      },
+      "sending_queue": {
+        "description": "Configures batching of data before sending.",
+        "required": false,
+        "children": {
+          "batch": {
+            "description": "Configures batching requests based on a timeout and a minimum number of items.",
+            "required": false,
+            "children": {
+              "partition": {
+                "description": "Configures partitioning of batches by client metadata.",
+                "required": false,
+                "children": {},
+                "arguments": [],
+                "nested_blocks": [],
+                "usage": "otelcol.exporter.googlecloudpubsub \"<LABEL>\" {\n    project = \"<PROJECT-ID>\"\n    topic   = \"projects/<PROJECT-ID>/topics/<TOPIC-NAME>\"\n}"
+              }
+            },
+            "arguments": [],
+            "nested_blocks": [
+              {
+                "block": "partition",
+                "description": "Configures partitioning of batches by client metadata.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#partition"
+              }
+            ],
+            "usage": "otelcol.exporter.googlecloudpubsub \"<LABEL>\" {\n    project = \"<PROJECT-ID>\"\n    topic   = \"projects/<PROJECT-ID>/topics/<TOPIC-NAME>\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "batch",
+            "description": "Configures batching requests based on a timeout and a minimum number of items.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#batch"
+          },
+          {
+            "block": "batch > partition",
+            "description": "Configures partitioning of batches by client metadata.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.googlecloudpubsub/#partition"
+          }
+        ],
+        "usage": "otelcol.exporter.googlecloudpubsub \"<LABEL>\" {\n    project = \"<PROJECT-ID>\"\n    topic   = \"projects/<PROJECT-ID>/topics/<TOPIC-NAME>\"\n}"
+      },
+      "watermark": {
+        "description": "Behaviour of how the ce-time attribute is set.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.googlecloudpubsub \"<LABEL>\" {\n    project = \"<PROJECT-ID>\"\n    topic   = \"projects/<PROJECT-ID>/topics/<TOPIC-NAME>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.exporter.googlecloudpubsub \"${1:default}\" {\n  debug_metrics {\n    $0\n  }\n  ordering {\n    $0\n  }\n  retry_on_failure {\n    $0\n  }\n  sending_queue {\n  }\n  watermark {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value other components can use to send telemetry data to.\n}"
+}

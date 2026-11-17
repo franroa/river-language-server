@@ -1,0 +1,397 @@
+{
+  "name": "otelcol.processor.span",
+  "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}",
+  "arguments": [],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#debug_metrics"
+    },
+    {
+      "block": "exclude",
+      "description": "Filter for data excluded from this processor’s actions",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#exclude"
+    },
+    {
+      "block": "exclude > attribute",
+      "description": "A list of attributes to match against.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#attribute"
+    },
+    {
+      "block": "exclude > library",
+      "description": "A list of items to match the implementation library against.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#library"
+    },
+    {
+      "block": "exclude > regexp",
+      "description": "Regex cache settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#regexp"
+    },
+    {
+      "block": "exclude > resource",
+      "description": "A list of items to match the resources against.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#resource"
+    },
+    {
+      "block": "include",
+      "description": "Filter for data included in this processor’s actions.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#include"
+    },
+    {
+      "block": "include > attribute",
+      "description": "A list of attributes to match against.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#attribute"
+    },
+    {
+      "block": "include > library",
+      "description": "A list of items to match the implementation library against.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#library"
+    },
+    {
+      "block": "include > regexp",
+      "description": "Regex cache settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#regexp"
+    },
+    {
+      "block": "include > resource",
+      "description": "A list of items to match the resources against.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#resource"
+    },
+    {
+      "block": "name",
+      "description": "Configures how to rename a span and add attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#name"
+    },
+    {
+      "block": "name > to-attributes",
+      "description": "Configuration to create attributes from a span name.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#to_attributes"
+    },
+    {
+      "block": "status",
+      "description": "Specifies a status which should be set for this span.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#status"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.span",
+    "arguments": {},
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "exclude": {
+        "description": "Filter for data excluded from this processor’s actions",
+        "required": false,
+        "children": {
+          "attribute": {
+            "description": "A list of attributes to match against.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "library": {
+            "description": "A list of items to match the implementation library against.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "regexp": {
+            "description": "Regex cache settings.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "resource": {
+            "description": "A list of items to match the resources against.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "match_type",
+            "type": "string",
+            "description": "Controls how items to match against are interpreted.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "services",
+            "type": "list(string)",
+            "description": "A list of items to match the service name against.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "span_kinds",
+            "type": "list(string)",
+            "description": "A list of items to match the span kind against.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "span_names",
+            "type": "list(string)",
+            "description": "A list of items to match the span name against.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "attribute",
+            "description": "A list of attributes to match against.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#attribute"
+          },
+          {
+            "block": "library",
+            "description": "A list of items to match the implementation library against.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#library"
+          },
+          {
+            "block": "regexp",
+            "description": "Regex cache settings.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#regexp"
+          },
+          {
+            "block": "resource",
+            "description": "A list of items to match the resources against.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#resource"
+          }
+        ],
+        "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "include": {
+        "description": "Filter for data included in this processor’s actions.",
+        "required": false,
+        "children": {
+          "attribute": {
+            "description": "A list of attributes to match against.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "library": {
+            "description": "A list of items to match the implementation library against.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "regexp": {
+            "description": "Regex cache settings.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "resource": {
+            "description": "A list of items to match the resources against.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "match_type",
+            "type": "string",
+            "description": "Controls how items to match against are interpreted.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "services",
+            "type": "list(string)",
+            "description": "A list of items to match the service name against.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "span_kinds",
+            "type": "list(string)",
+            "description": "A list of items to match the span kind against.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "span_names",
+            "type": "list(string)",
+            "description": "A list of items to match the span name against.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "attribute",
+            "description": "A list of attributes to match against.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#attribute"
+          },
+          {
+            "block": "library",
+            "description": "A list of items to match the implementation library against.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#library"
+          },
+          {
+            "block": "regexp",
+            "description": "Regex cache settings.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#regexp"
+          },
+          {
+            "block": "resource",
+            "description": "A list of items to match the resources against.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#resource"
+          }
+        ],
+        "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "name": {
+        "description": "Configures how to rename a span and add attributes.",
+        "required": false,
+        "children": {
+          "to-attributes": {
+            "description": "Configuration to create attributes from a span name.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "from_attributes",
+            "type": "list(string)",
+            "description": "Attribute keys to pull values from, to generate a new span name.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "separator",
+            "type": "string",
+            "description": "Separates attributes values in the new span name.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "to-attributes",
+            "description": "Configuration to create attributes from a span name.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.span/#to_attributes"
+          }
+        ],
+        "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "status": {
+        "description": "Specifies a status which should be set for this span.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "code",
+            "type": "string",
+            "description": "A status code.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "An optional field documenting Error status codes.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.span \"<LABEL>\" {\n  output {\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.span \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  exclude {\n    match_type = \"${2}\"\n  }\n  include {\n    match_type = \"${2}\"\n  }\n  name {\n  }\n  status {\n    code = \"${2}\"\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

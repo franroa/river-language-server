@@ -1,0 +1,266 @@
+{
+  "name": "prometheus.exporter.elasticsearch",
+  "usage": "prometheus.exporter.elasticsearch \"<LABEL>\" {\n    address = \"<ELASTICSEARCH_ADDRESS>\"\n}",
+  "arguments": [
+    {
+      "name": "address",
+      "type": "string",
+      "description": "HTTP API address of an Elasticsearch node.",
+      "default": "\"http://localhost:9200\"",
+      "required": false
+    },
+    {
+      "name": "aliases",
+      "type": "bool",
+      "description": "Include informational aliases metrics.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "all",
+      "type": "bool",
+      "description": "Export stats for all nodes in the cluster. If used, this flag overrides the flag node.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "ca",
+      "type": "string",
+      "description": "Path to PEM file that contains trusted Certificate Authorities for the Elasticsearch connection.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "client_cert",
+      "type": "string",
+      "description": "Path to PEM file that contains the corresponding cert for the private key to connect to Elasticsearch.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "client_private_key",
+      "type": "string",
+      "description": "Path to PEM file that contains the private key for client auth when connecting to Elasticsearch.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "cluster_settings",
+      "type": "bool",
+      "description": "Export stats for cluster settings.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "clusterinfo_interval",
+      "type": "duration",
+      "description": "Cluster info update interval for the cluster label.",
+      "default": "\"5m\"",
+      "required": false
+    },
+    {
+      "name": "data_stream",
+      "type": "bool",
+      "description": "Export stats for Data Streams.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "indices_settings",
+      "type": "bool",
+      "description": "Export stats for settings of all indices of the cluster.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "indices",
+      "type": "bool",
+      "description": "Export stats for indices in the cluster.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "node",
+      "type": "string",
+      "description": "Node’s name of which metrics should be exposed",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "shards",
+      "type": "bool",
+      "description": "Export stats for shards in the cluster (implies indices).",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "slm",
+      "type": "bool",
+      "description": "Export stats for SLM (Snapshot Lifecycle Management).",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "snapshots",
+      "type": "bool",
+      "description": "Export stats for the cluster snapshots.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "ssl_skip_verify",
+      "type": "bool",
+      "description": "Skip SSL verification when connecting to Elasticsearch.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "Timeout for trying to get stats from Elasticsearch.",
+      "default": "\"5s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "basic_auth",
+      "description": "Configure basic_auth for authenticating to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.elasticsearch/#basic_auth"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.elasticsearch",
+    "arguments": {
+      "address": {
+        "type": "string",
+        "description": "HTTP API address of an Elasticsearch node.",
+        "default": "\"http://localhost:9200\"",
+        "required": false
+      },
+      "aliases": {
+        "type": "bool",
+        "description": "Include informational aliases metrics.",
+        "default": "",
+        "required": false
+      },
+      "all": {
+        "type": "bool",
+        "description": "Export stats for all nodes in the cluster. If used, this flag overrides the flag node.",
+        "default": "",
+        "required": false
+      },
+      "ca": {
+        "type": "string",
+        "description": "Path to PEM file that contains trusted Certificate Authorities for the Elasticsearch connection.",
+        "default": "",
+        "required": false
+      },
+      "client_cert": {
+        "type": "string",
+        "description": "Path to PEM file that contains the corresponding cert for the private key to connect to Elasticsearch.",
+        "default": "",
+        "required": false
+      },
+      "client_private_key": {
+        "type": "string",
+        "description": "Path to PEM file that contains the private key for client auth when connecting to Elasticsearch.",
+        "default": "",
+        "required": false
+      },
+      "cluster_settings": {
+        "type": "bool",
+        "description": "Export stats for cluster settings.",
+        "default": "",
+        "required": false
+      },
+      "clusterinfo_interval": {
+        "type": "duration",
+        "description": "Cluster info update interval for the cluster label.",
+        "default": "\"5m\"",
+        "required": false
+      },
+      "data_stream": {
+        "type": "bool",
+        "description": "Export stats for Data Streams.",
+        "default": "",
+        "required": false
+      },
+      "indices_settings": {
+        "type": "bool",
+        "description": "Export stats for settings of all indices of the cluster.",
+        "default": "",
+        "required": false
+      },
+      "indices": {
+        "type": "bool",
+        "description": "Export stats for indices in the cluster.",
+        "default": "",
+        "required": false
+      },
+      "node": {
+        "type": "string",
+        "description": "Node’s name of which metrics should be exposed",
+        "default": "",
+        "required": false
+      },
+      "shards": {
+        "type": "bool",
+        "description": "Export stats for shards in the cluster (implies indices).",
+        "default": "",
+        "required": false
+      },
+      "slm": {
+        "type": "bool",
+        "description": "Export stats for SLM (Snapshot Lifecycle Management).",
+        "default": "",
+        "required": false
+      },
+      "snapshots": {
+        "type": "bool",
+        "description": "Export stats for the cluster snapshots.",
+        "default": "",
+        "required": false
+      },
+      "ssl_skip_verify": {
+        "type": "bool",
+        "description": "Skip SSL verification when connecting to Elasticsearch.",
+        "default": "",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "Timeout for trying to get stats from Elasticsearch.",
+        "default": "\"5s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "basic_auth": {
+        "description": "Configure basic_auth for authenticating to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.elasticsearch \"<LABEL>\" {\n    address = \"<ELASTICSEARCH_ADDRESS>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.elasticsearch \"${1:default}\" {\n  basic_auth {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

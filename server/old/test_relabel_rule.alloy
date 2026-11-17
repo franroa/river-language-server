@@ -1,0 +1,36 @@
+loki.relabel "test" {
+    forward_to = []
+
+    rule {
+        // Cursor should be here - should show action, source_labels, target_label, etc.
+    }
+}
+
+prometheus.relabel "test2" {
+    forward_to = []
+
+    rule {
+        action = "replace"
+        target_label = "instance"
+        replacement = "local"
+        value = "test"
+        source_labels = ["__name__"]
+        regex = "(.*)"
+    }
+}
+
+discovery.relabel "test3" {
+    forward_to = []
+
+    rule {
+        // Should also work for discovery.relabel  
+    }
+}
+
+pyroscope.relabel "test4" {
+    forward_to = []
+
+    rule {
+        // Should also work for pyroscope.relabel
+    }
+}

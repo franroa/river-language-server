@@ -1,0 +1,213 @@
+{
+  "name": "pyroscope.ebpf",
+  "usage": "pyroscope.ebpf \"<LABEL>\" {\n  targets    = <TARGET_LIST>\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(ProfilesReceiver)",
+      "description": "List of receivers to send collected profiles to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "List of targets to group profiles by container id",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "build_id_cache_size",
+      "type": "int",
+      "description": "The size of the elf file build id -> symbols table LRU cache",
+      "default": "64",
+      "required": false
+    },
+    {
+      "name": "collect_interval",
+      "type": "duration",
+      "description": "How frequently to collect profiles",
+      "default": "\"15s\"",
+      "required": false
+    },
+    {
+      "name": "collect_kernel_profile",
+      "type": "bool",
+      "description": "A flag to enable/disable collection of kernelspace profiles",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "collect_user_profile",
+      "type": "bool",
+      "description": "A flag to enable/disable collection of userspace profiles",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "container_id_cache_size",
+      "type": "int",
+      "description": "The size of the PID -> container ID table LRU cache",
+      "default": "1024",
+      "required": false
+    },
+    {
+      "name": "demangle",
+      "type": "string",
+      "description": "C++ demangle mode. Available options are: none, simplified, templates, or full",
+      "default": "\"none\"",
+      "required": false
+    },
+    {
+      "name": "go_table_fallback",
+      "type": "bool",
+      "description": "A flag to enable symbol lookup in .sym / .dynsym sections when .gopclntab lookup failed. May be useful for cgo binaries.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "pid_cache_size",
+      "type": "int",
+      "description": "The size of the PID -> proc symbols table LRU cache",
+      "default": "32",
+      "required": false
+    },
+    {
+      "name": "pid_map_size",
+      "type": "int",
+      "description": "The size of eBPF PID map",
+      "default": "2048",
+      "required": false
+    },
+    {
+      "name": "python_enabled",
+      "type": "bool",
+      "description": "A flag to enable/disable python profiling",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "same_file_cache_size",
+      "type": "int",
+      "description": "The size of the elf file -> symbols table LRU cache",
+      "default": "8",
+      "required": false
+    },
+    {
+      "name": "sample_rate",
+      "type": "int",
+      "description": "How many times per second to collect profile samples",
+      "default": "97",
+      "required": false
+    },
+    {
+      "name": "symbols_map_size",
+      "type": "int",
+      "description": "The size of eBPF symbols map",
+      "default": "16384",
+      "required": false
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "pyroscope.ebpf",
+    "arguments": {
+      "forward_to": {
+        "type": "list(ProfilesReceiver)",
+        "description": "List of receivers to send collected profiles to.",
+        "default": "",
+        "required": true
+      },
+      "targets": {
+        "type": "list(map(string))",
+        "description": "List of targets to group profiles by container id",
+        "default": "",
+        "required": true
+      },
+      "build_id_cache_size": {
+        "type": "int",
+        "description": "The size of the elf file build id -> symbols table LRU cache",
+        "default": "64",
+        "required": false
+      },
+      "collect_interval": {
+        "type": "duration",
+        "description": "How frequently to collect profiles",
+        "default": "\"15s\"",
+        "required": false
+      },
+      "collect_kernel_profile": {
+        "type": "bool",
+        "description": "A flag to enable/disable collection of kernelspace profiles",
+        "default": "true",
+        "required": false
+      },
+      "collect_user_profile": {
+        "type": "bool",
+        "description": "A flag to enable/disable collection of userspace profiles",
+        "default": "true",
+        "required": false
+      },
+      "container_id_cache_size": {
+        "type": "int",
+        "description": "The size of the PID -> container ID table LRU cache",
+        "default": "1024",
+        "required": false
+      },
+      "demangle": {
+        "type": "string",
+        "description": "C++ demangle mode. Available options are: none, simplified, templates, or full",
+        "default": "\"none\"",
+        "required": false
+      },
+      "go_table_fallback": {
+        "type": "bool",
+        "description": "A flag to enable symbol lookup in .sym / .dynsym sections when .gopclntab lookup failed. May be useful for cgo binaries.",
+        "default": "false",
+        "required": false
+      },
+      "pid_cache_size": {
+        "type": "int",
+        "description": "The size of the PID -> proc symbols table LRU cache",
+        "default": "32",
+        "required": false
+      },
+      "pid_map_size": {
+        "type": "int",
+        "description": "The size of eBPF PID map",
+        "default": "2048",
+        "required": false
+      },
+      "python_enabled": {
+        "type": "bool",
+        "description": "A flag to enable/disable python profiling",
+        "default": "true",
+        "required": false
+      },
+      "same_file_cache_size": {
+        "type": "int",
+        "description": "The size of the elf file -> symbols table LRU cache",
+        "default": "8",
+        "required": false
+      },
+      "sample_rate": {
+        "type": "int",
+        "description": "How many times per second to collect profile samples",
+        "default": "97",
+        "required": false
+      },
+      "symbols_map_size": {
+        "type": "int",
+        "description": "The size of eBPF symbols map",
+        "default": "16384",
+        "required": false
+      }
+    },
+    "blocks": {},
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "pyroscope.ebpf \"${1:default}\" {\n}"
+}

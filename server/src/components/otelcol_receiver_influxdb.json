@@ -1,0 +1,245 @@
+{
+  "name": "otelcol.receiver.influxdb",
+  "usage": "otelcol.receiver.influxdb \"influxdb_metrics\" {\n  endpoint = \"localhost:8086\"  // InfluxDB metrics ingestion endpoint\n\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "auth",
+      "type": "capsule(otelcol.Handler)",
+      "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "compression_algorithms",
+      "type": "list(string)",
+      "description": "A list of compression algorithms the server can accept.",
+      "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+      "required": false
+    },
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "host:port to listen for traffic on.",
+      "default": "\"localhost:8086\"",
+      "required": false
+    },
+    {
+      "name": "include_metadata",
+      "type": "bool",
+      "description": "Propagate incoming connection metadata to downstream consumers.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "max_request_body_size",
+      "type": "string",
+      "description": "Maximum request body size the server will allow.",
+      "default": "\"20MiB\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received metrics.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.influxdb/#output"
+    },
+    {
+      "block": "cors",
+      "description": "Configures CORS for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.influxdb/#cors"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.influxdb/#debug_metrics"
+    },
+    {
+      "block": "tls",
+      "description": "Configures TLS for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.influxdb/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.influxdb/#tpm"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.influxdb",
+    "arguments": {
+      "auth": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+        "default": "",
+        "required": false
+      },
+      "compression_algorithms": {
+        "type": "list(string)",
+        "description": "A list of compression algorithms the server can accept.",
+        "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+        "required": false
+      },
+      "endpoint": {
+        "type": "string",
+        "description": "host:port to listen for traffic on.",
+        "default": "\"localhost:8086\"",
+        "required": false
+      },
+      "include_metadata": {
+        "type": "bool",
+        "description": "Propagate incoming connection metadata to downstream consumers.",
+        "default": "false",
+        "required": false
+      },
+      "max_request_body_size": {
+        "type": "string",
+        "description": "Maximum request body size the server will allow.",
+        "default": "\"20MiB\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received metrics.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.influxdb \"influxdb_metrics\" {\n  endpoint = \"localhost:8086\"  // InfluxDB metrics ingestion endpoint\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "cors": {
+        "description": "Configures CORS for the HTTP server.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "allowed_origins",
+            "type": "list(string)",
+            "description": "Allowed values for the Origin header.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "allowed_headers",
+            "type": "list(string)",
+            "description": "Accepted headers from CORS requests.",
+            "default": "[\"X-Requested-With\"]",
+            "required": false
+          },
+          {
+            "name": "max_age",
+            "type": "number",
+            "description": "Configures the Access-Control-Max-Age.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.influxdb \"influxdb_metrics\" {\n  endpoint = \"localhost:8086\"  // InfluxDB metrics ingestion endpoint\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.influxdb \"influxdb_metrics\" {\n  endpoint = \"localhost:8086\"  // InfluxDB metrics ingestion endpoint\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "tls": {
+        "description": "Configures TLS for the HTTP server.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "auth",
+                "type": "capsule(otelcol.Handler)",
+                "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "compression_algorithms",
+                "type": "list(string)",
+                "description": "A list of compression algorithms the server can accept.",
+                "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+                "required": false
+              },
+              {
+                "name": "endpoint",
+                "type": "string",
+                "description": "host:port to listen for traffic on.",
+                "default": "\"localhost:8086\"",
+                "required": false
+              },
+              {
+                "name": "include_metadata",
+                "type": "bool",
+                "description": "Propagate incoming connection metadata to downstream consumers.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "max_request_body_size",
+                "type": "string",
+                "description": "Maximum request body size the server will allow.",
+                "default": "\"20MiB\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.influxdb \"influxdb_metrics\" {\n  endpoint = \"localhost:8086\"  // InfluxDB metrics ingestion endpoint\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.influxdb/#tpm"
+          }
+        ],
+        "usage": "otelcol.receiver.influxdb \"influxdb_metrics\" {\n  endpoint = \"localhost:8086\"  // InfluxDB metrics ingestion endpoint\n\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.influxdb \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  cors {\n  }\n  debug_metrics {\n    $0\n  }\n  tls {\n  }\n}"
+}

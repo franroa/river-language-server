@@ -1,0 +1,13 @@
+// This file should trigger diagnostic errors for missing required blocks
+
+prometheus.remote_write "example1" {
+  // Missing required 'endpoint' block - should show diagnostic error
+  // Code action should offer to add: endpoint { url = "http://localhost:9090/api/v1/write" }
+}
+
+prometheus.remote_write "example2" {
+  // This one has the endpoint block - should be valid
+  endpoint {
+    url = "http://localhost:9090/api/v1/write"
+  }
+}

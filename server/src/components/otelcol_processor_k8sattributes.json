@@ -1,0 +1,523 @@
+{
+  "name": "otelcol.processor.k8sattributes",
+  "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "auth_type",
+      "type": "string",
+      "description": "Authentication method when connecting to the Kubernetes API.",
+      "default": "\"serviceAccount\"",
+      "required": false
+    },
+    {
+      "name": "passthrough",
+      "type": "bool",
+      "description": "Pass through signals as-is, only adding a k8s.pod.ip resource attribute.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "wait_for_metadata_timeout",
+      "type": "duration",
+      "description": "How long to wait for Kubernetes metadata to arrive.",
+      "default": "\"10s\"",
+      "required": false
+    },
+    {
+      "name": "wait_for_metadata",
+      "type": "bool",
+      "description": "Whether to wait for Kubernetes metadata to arrive before processing telemetry.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#debug_metrics"
+    },
+    {
+      "block": "exclude",
+      "description": "Exclude pods from being processed.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#exclude"
+    },
+    {
+      "block": "exclude > pod",
+      "description": "Pod information.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#pod"
+    },
+    {
+      "block": "extract",
+      "description": "Rules for extracting data from Kubernetes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#extract"
+    },
+    {
+      "block": "extract > annotation",
+      "description": "Creating resource attributes from Kubernetes annotations.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#annotation"
+    },
+    {
+      "block": "extract > label",
+      "description": "Creating resource attributes from Kubernetes labels.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#label-extract"
+    },
+    {
+      "block": "filter",
+      "description": "Filters the data loaded from Kubernetes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#filter"
+    },
+    {
+      "block": "filter > field",
+      "description": "Filter pods by generic Kubernetes fields.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#field"
+    },
+    {
+      "block": "filter > label",
+      "description": "Filter pods by Kubernetes labels.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#label-filter"
+    },
+    {
+      "block": "pod_association",
+      "description": "Rules to associate Pod metadata with telemetry signals.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#pod_association"
+    },
+    {
+      "block": "pod_association > source",
+      "description": "Source information to identify a Pod.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#source"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.k8sattributes",
+    "arguments": {
+      "auth_type": {
+        "type": "string",
+        "description": "Authentication method when connecting to the Kubernetes API.",
+        "default": "\"serviceAccount\"",
+        "required": false
+      },
+      "passthrough": {
+        "type": "bool",
+        "description": "Pass through signals as-is, only adding a k8s.pod.ip resource attribute.",
+        "default": "false",
+        "required": false
+      },
+      "wait_for_metadata_timeout": {
+        "type": "duration",
+        "description": "How long to wait for Kubernetes metadata to arrive.",
+        "default": "\"10s\"",
+        "required": false
+      },
+      "wait_for_metadata": {
+        "type": "bool",
+        "description": "Whether to wait for Kubernetes metadata to arrive before processing telemetry.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "exclude": {
+        "description": "Exclude pods from being processed.",
+        "required": false,
+        "children": {
+          "pod": {
+            "description": "Pod information.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "auth_type",
+                "type": "string",
+                "description": "Authentication method when connecting to the Kubernetes API.",
+                "default": "\"serviceAccount\"",
+                "required": false
+              },
+              {
+                "name": "passthrough",
+                "type": "bool",
+                "description": "Pass through signals as-is, only adding a k8s.pod.ip resource attribute.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata_timeout",
+                "type": "duration",
+                "description": "How long to wait for Kubernetes metadata to arrive.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata",
+                "type": "bool",
+                "description": "Whether to wait for Kubernetes metadata to arrive before processing telemetry.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "pod",
+            "description": "Pod information.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#pod"
+          }
+        ],
+        "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "extract": {
+        "description": "Rules for extracting data from Kubernetes.",
+        "required": false,
+        "children": {
+          "annotation": {
+            "description": "Creating resource attributes from Kubernetes annotations.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "auth_type",
+                "type": "string",
+                "description": "Authentication method when connecting to the Kubernetes API.",
+                "default": "\"serviceAccount\"",
+                "required": false
+              },
+              {
+                "name": "passthrough",
+                "type": "bool",
+                "description": "Pass through signals as-is, only adding a k8s.pod.ip resource attribute.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata_timeout",
+                "type": "duration",
+                "description": "How long to wait for Kubernetes metadata to arrive.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata",
+                "type": "bool",
+                "description": "Whether to wait for Kubernetes metadata to arrive before processing telemetry.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "label": {
+            "description": "Creating resource attributes from Kubernetes labels.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "auth_type",
+                "type": "string",
+                "description": "Authentication method when connecting to the Kubernetes API.",
+                "default": "\"serviceAccount\"",
+                "required": false
+              },
+              {
+                "name": "passthrough",
+                "type": "bool",
+                "description": "Pass through signals as-is, only adding a k8s.pod.ip resource attribute.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata_timeout",
+                "type": "duration",
+                "description": "How long to wait for Kubernetes metadata to arrive.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata",
+                "type": "bool",
+                "description": "Whether to wait for Kubernetes metadata to arrive before processing telemetry.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "metadata",
+            "type": "list(string)",
+            "description": "Pre-configured metadata keys to add.",
+            "default": "See below",
+            "required": false
+          },
+          {
+            "name": "otel_annotations",
+            "type": "bool",
+            "description": "Whether to set the recommended resource attributes.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "annotation",
+            "description": "Creating resource attributes from Kubernetes annotations.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#annotation"
+          },
+          {
+            "block": "label",
+            "description": "Creating resource attributes from Kubernetes labels.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#label-extract"
+          }
+        ],
+        "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "filter": {
+        "description": "Filters the data loaded from Kubernetes.",
+        "required": false,
+        "children": {
+          "field": {
+            "description": "Filter pods by generic Kubernetes fields.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "auth_type",
+                "type": "string",
+                "description": "Authentication method when connecting to the Kubernetes API.",
+                "default": "\"serviceAccount\"",
+                "required": false
+              },
+              {
+                "name": "passthrough",
+                "type": "bool",
+                "description": "Pass through signals as-is, only adding a k8s.pod.ip resource attribute.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata_timeout",
+                "type": "duration",
+                "description": "How long to wait for Kubernetes metadata to arrive.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata",
+                "type": "bool",
+                "description": "Whether to wait for Kubernetes metadata to arrive before processing telemetry.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "label": {
+            "description": "Filter pods by Kubernetes labels.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "auth_type",
+                "type": "string",
+                "description": "Authentication method when connecting to the Kubernetes API.",
+                "default": "\"serviceAccount\"",
+                "required": false
+              },
+              {
+                "name": "passthrough",
+                "type": "bool",
+                "description": "Pass through signals as-is, only adding a k8s.pod.ip resource attribute.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata_timeout",
+                "type": "duration",
+                "description": "How long to wait for Kubernetes metadata to arrive.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata",
+                "type": "bool",
+                "description": "Whether to wait for Kubernetes metadata to arrive before processing telemetry.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "node",
+            "type": "string",
+            "description": "Configures a Kubernetes node name or host name.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "namespace",
+            "type": "string",
+            "description": "Filters all pods by the provided namespace. All other pods are ignored.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "field",
+            "description": "Filter pods by generic Kubernetes fields.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#field"
+          },
+          {
+            "block": "label",
+            "description": "Filter pods by Kubernetes labels.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#label-filter"
+          }
+        ],
+        "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "pod_association": {
+        "description": "Rules to associate Pod metadata with telemetry signals.",
+        "required": false,
+        "children": {
+          "source": {
+            "description": "Source information to identify a Pod.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "auth_type",
+                "type": "string",
+                "description": "Authentication method when connecting to the Kubernetes API.",
+                "default": "\"serviceAccount\"",
+                "required": false
+              },
+              {
+                "name": "passthrough",
+                "type": "bool",
+                "description": "Pass through signals as-is, only adding a k8s.pod.ip resource attribute.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata_timeout",
+                "type": "duration",
+                "description": "How long to wait for Kubernetes metadata to arrive.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "wait_for_metadata",
+                "type": "bool",
+                "description": "Whether to wait for Kubernetes metadata to arrive before processing telemetry.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "source",
+            "description": "Source information to identify a Pod.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.k8sattributes/#source"
+          }
+        ],
+        "usage": "otelcol.processor.k8sattributes \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.k8sattributes \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  exclude {\n  }\n  extract {\n  }\n  filter {\n  }\n  pod_association {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

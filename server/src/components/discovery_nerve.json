@@ -1,0 +1,81 @@
+{
+  "name": "discovery.nerve",
+  "usage": "discovery.nerve \"<LABEL>\" {\n    servers = [\"<SERVER_1>\", \"<SERVER_2>\"]\n    paths   = [\"<PATH_1>\", \"<PATH_2>\"]\n}",
+  "arguments": [
+    {
+      "name": "paths",
+      "type": "list(string)",
+      "description": "The paths to look for targets at.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "servers",
+      "type": "list(string)",
+      "description": "The Zookeeper servers.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "The timeout to use.",
+      "default": "\"10s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from Nerve’s API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.nerve",
+    "arguments": {
+      "paths": {
+        "type": "list(string)",
+        "description": "The paths to look for targets at.",
+        "default": "",
+        "required": true
+      },
+      "servers": {
+        "type": "list(string)",
+        "description": "The Zookeeper servers.",
+        "default": "",
+        "required": true
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "The timeout to use.",
+        "default": "\"10s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from Nerve’s API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.nerve \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from Nerve’s API.\n}"
+}

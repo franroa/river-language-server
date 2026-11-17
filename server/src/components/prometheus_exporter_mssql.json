@@ -1,0 +1,120 @@
+{
+  "name": "prometheus.exporter.mssql",
+  "usage": "prometheus.exporter.mssql \"<LABEL>\" {\n    connection_string = \"<CONNECTION_STRING>\"\n}",
+  "arguments": [
+    {
+      "name": "connection_string",
+      "type": "secret",
+      "description": "The connection string used to connect to an Microsoft SQL Server.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "connection_name",
+      "type": "string",
+      "description": "The name of the connection, used as a label in uptime metrics.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "max_idle_connections",
+      "type": "int",
+      "description": "Maximum number of idle connections to any one target.",
+      "default": "3",
+      "required": false
+    },
+    {
+      "name": "max_open_connections",
+      "type": "int",
+      "description": "Maximum number of open connections to any one target.",
+      "default": "3",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "The query timeout in seconds.",
+      "default": "\"10s\"",
+      "required": false
+    },
+    {
+      "name": "query_config",
+      "type": "string",
+      "description": "MSSQL query to Prometheus metric configuration as an inline string.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.mssql",
+    "arguments": {
+      "connection_string": {
+        "type": "secret",
+        "description": "The connection string used to connect to an Microsoft SQL Server.",
+        "default": "",
+        "required": true
+      },
+      "connection_name": {
+        "type": "string",
+        "description": "The name of the connection, used as a label in uptime metrics.",
+        "default": "\"\"",
+        "required": false
+      },
+      "max_idle_connections": {
+        "type": "int",
+        "description": "Maximum number of idle connections to any one target.",
+        "default": "3",
+        "required": false
+      },
+      "max_open_connections": {
+        "type": "int",
+        "description": "Maximum number of open connections to any one target.",
+        "default": "3",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "The query timeout in seconds.",
+        "default": "\"10s\"",
+        "required": false
+      },
+      "query_config": {
+        "type": "string",
+        "description": "MSSQL query to Prometheus metric configuration as an inline string.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.mssql \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

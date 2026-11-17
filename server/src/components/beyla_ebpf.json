@@ -1,0 +1,1140 @@
+{
+  "name": "beyla.ebpf",
+  "usage": "beyla.ebpf \"<LABEL>\" {\n\n}",
+  "arguments": [
+    {
+      "name": "debug",
+      "type": "bool",
+      "description": "Enable debug mode for Beyla.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enforce_sys_caps",
+      "type": "bool",
+      "description": "Enforce system capabilities required for eBPF instrumentation.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "trace_printer",
+      "type": "string",
+      "description": "Format for printing trace information.",
+      "default": "\"disabled\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#output"
+    },
+    {
+      "block": "attributes",
+      "description": "Configures the Beyla attributes for the component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#attributes"
+    },
+    {
+      "block": "attributes > kubernetes",
+      "description": "Configures decorating of the metrics and traces with Kubernetes metadata of the instrumented Pods.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-attributes"
+    },
+    {
+      "block": "attributes > instance_id",
+      "description": "Configures instance ID settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#instance_id"
+    },
+    {
+      "block": "attributes > select",
+      "description": "Configures which attributes to include or exclude for specific sections.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#select"
+    },
+    {
+      "block": "discovery",
+      "description": "Configures the discovery for processes to instrument matching given criteria.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#discovery"
+    },
+    {
+      "block": "discovery > exclude_services",
+      "description": "Configures the services to exclude for the component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#services"
+    },
+    {
+      "block": "discovery > exclude_services > kubernetes",
+      "description": "Configures the Kubernetes services to exclude for the component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+    },
+    {
+      "block": "discovery > services",
+      "description": "Configures the services to discover for the component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#services"
+    },
+    {
+      "block": "discovery > services > kubernetes",
+      "description": "Configures the Kubernetes services to discover for the component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+    },
+    {
+      "block": "discovery > survey",
+      "description": "Configures the surveying mechanism for the component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#services"
+    },
+    {
+      "block": "discovery > survey > kubernetes",
+      "description": "Configures the Kubernetes surveying mechanism for the component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+    },
+    {
+      "block": "ebpf",
+      "description": "Configures eBPF-specific settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#ebpf"
+    },
+    {
+      "block": "filters",
+      "description": "Configures filtering of attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#filters"
+    },
+    {
+      "block": "filters > application",
+      "description": "Configures filtering of application attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#application"
+    },
+    {
+      "block": "filters > network",
+      "description": "Configures filtering of network attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#network-filters"
+    },
+    {
+      "block": "metrics",
+      "description": "Configures which metrics Beyla exposes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#metrics"
+    },
+    {
+      "block": "metrics > network",
+      "description": "Configures network metrics options for Beyla.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#network-metrics"
+    },
+    {
+      "block": "routes",
+      "description": "Configures the routes to match HTTP paths into user-provided HTTP routes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#routes"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect metrics of instrumented services with eBPF."
+    }
+  ],
+  "lsp_structure": {
+    "component": "beyla.ebpf",
+    "arguments": {
+      "debug": {
+        "type": "bool",
+        "description": "Enable debug mode for Beyla.",
+        "default": "false",
+        "required": false
+      },
+      "enforce_sys_caps": {
+        "type": "bool",
+        "description": "Enforce system capabilities required for eBPF instrumentation.",
+        "default": "false",
+        "required": false
+      },
+      "trace_printer": {
+        "type": "string",
+        "description": "Format for printing trace information.",
+        "default": "\"disabled\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+      },
+      "attributes": {
+        "description": "Configures the Beyla attributes for the component.",
+        "required": false,
+        "children": {
+          "kubernetes": {
+            "description": "Configures decorating of the metrics and traces with Kubernetes metadata of the instrumented Pods.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          },
+          "instance_id": {
+            "description": "Configures instance ID settings.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          },
+          "select": {
+            "description": "Configures which attributes to include or exclude for specific sections.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "cluster_name",
+            "type": "string",
+            "description": "The name of the Kubernetes cluster.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "disable_informers",
+            "type": "list(string)",
+            "description": "List of Kubernetes informers to disable.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "enable",
+            "type": "string",
+            "description": "Enable the Kubernetes metadata decoration.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "informers_resync_period",
+            "type": "duration",
+            "description": "Period for Kubernetes informers resynchronization.",
+            "default": "\"30m\"",
+            "required": false
+          },
+          {
+            "name": "informers_sync_timeout",
+            "type": "duration",
+            "description": "Timeout for Kubernetes informers synchronization.",
+            "default": "\"30s\"",
+            "required": false
+          },
+          {
+            "name": "meta_restrict_local_node",
+            "type": "bool",
+            "description": "Restrict Kubernetes metadata collection to local node.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "dns",
+            "type": "bool",
+            "description": "Enable DNS resolution for hostname.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "override_hostname",
+            "type": "string",
+            "description": "Override the hostname used for instance identification.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "attr",
+            "type": "string",
+            "description": "The attribute name to select.",
+            "default": "[]",
+            "required": true
+          },
+          {
+            "name": "exclude",
+            "type": "list(string)",
+            "description": "List of attributes to exclude.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "list(string)",
+            "description": "List of attributes to include. Use * to include all.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "kubernetes",
+            "description": "Configures decorating of the metrics and traces with Kubernetes metadata of the instrumented Pods.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-attributes"
+          },
+          {
+            "block": "instance_id",
+            "description": "Configures instance ID settings.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#instance_id"
+          },
+          {
+            "block": "select",
+            "description": "Configures which attributes to include or exclude for specific sections.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#select"
+          }
+        ],
+        "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+      },
+      "discovery": {
+        "description": "Configures the discovery for processes to instrument matching given criteria.",
+        "required": false,
+        "children": {
+          "exclude_services": {
+            "description": "Configures the services to exclude for the component.",
+            "required": false,
+            "children": {
+              "kubernetes": {
+                "description": "Configures the Kubernetes services to exclude for the component.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "debug",
+                    "type": "bool",
+                    "description": "Enable debug mode for Beyla.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "enforce_sys_caps",
+                    "type": "bool",
+                    "description": "Enforce system capabilities required for eBPF instrumentation.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "trace_printer",
+                    "type": "string",
+                    "description": "Format for printing trace information.",
+                    "default": "\"disabled\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "kubernetes",
+                "description": "Configures the Kubernetes services to exclude for the component.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+              }
+            ],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          },
+          "services": {
+            "description": "Configures the services to discover for the component.",
+            "required": false,
+            "children": {
+              "kubernetes": {
+                "description": "Configures the Kubernetes services to discover for the component.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "debug",
+                    "type": "bool",
+                    "description": "Enable debug mode for Beyla.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "enforce_sys_caps",
+                    "type": "bool",
+                    "description": "Enforce system capabilities required for eBPF instrumentation.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "trace_printer",
+                    "type": "string",
+                    "description": "Format for printing trace information.",
+                    "default": "\"disabled\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "kubernetes",
+                "description": "Configures the Kubernetes services to discover for the component.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+              }
+            ],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          },
+          "survey": {
+            "description": "Configures the surveying mechanism for the component.",
+            "required": false,
+            "children": {
+              "kubernetes": {
+                "description": "Configures the Kubernetes surveying mechanism for the component.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "debug",
+                    "type": "bool",
+                    "description": "Enable debug mode for Beyla.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "enforce_sys_caps",
+                    "type": "bool",
+                    "description": "Enforce system capabilities required for eBPF instrumentation.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "trace_printer",
+                    "type": "string",
+                    "description": "Format for printing trace information.",
+                    "default": "\"disabled\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "kubernetes",
+                "description": "Configures the Kubernetes surveying mechanism for the component.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+              }
+            ],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "exclude_otel_instrumented_services",
+            "type": "bool",
+            "description": "Exclude services that are already instrumented with OpenTelemetry.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "skip_go_specific_tracers",
+            "type": "bool",
+            "description": "Skip Go-specific tracers during discovery.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The name of the service to match.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "namespace",
+            "type": "string",
+            "description": "The namespace of the service to match.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "open_ports",
+            "type": "string",
+            "description": "The port of the running service for Beyla automatically instrumented with eBPF.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "exe_path",
+            "type": "string",
+            "description": "The path of the running service for Beyla automatically instrumented with eBPF.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "containers_only",
+            "type": "bool",
+            "description": "Restrict the discovery to processes which are running inside a container.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "daemonset_name",
+            "type": "string",
+            "description": "Regular expression of Kubernetes DaemonSets to match.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "deployment_name",
+            "type": "string",
+            "description": "Regular expression of Kubernetes Deployments to match.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "namespace",
+            "type": "string",
+            "description": "Regular expression of Kubernetes Namespaces to match.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "owner_name",
+            "type": "string",
+            "description": "Regular expression of Kubernetes owners of running Pods to match.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "pod_labels",
+            "type": "map(string)",
+            "description": "Key-value pairs of labels with keys matching Kubernetes Pods with the provided value as regular expression.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "pod_annotations",
+            "type": "map(string)",
+            "description": "Key-value pairs of labels with keys matching Kubernetes annotations with the provided value as regular expression.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "pod_name",
+            "type": "string",
+            "description": "Regular expression of Kubernetes Pods to match.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "replicaset_name",
+            "type": "string",
+            "description": "Regular expression of Kubernetes ReplicaSets to match.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "statefulset_name",
+            "type": "string",
+            "description": "Regular expression of Kubernetes StatefulSets to match.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "exclude_services",
+            "description": "Configures the services to exclude for the component.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#services"
+          },
+          {
+            "block": "exclude_services > kubernetes",
+            "description": "Configures the Kubernetes services to exclude for the component.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+          },
+          {
+            "block": "services",
+            "description": "Configures the services to discover for the component.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#services"
+          },
+          {
+            "block": "services > kubernetes",
+            "description": "Configures the Kubernetes services to discover for the component.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+          },
+          {
+            "block": "survey",
+            "description": "Configures the surveying mechanism for the component.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#services"
+          },
+          {
+            "block": "survey > kubernetes",
+            "description": "Configures the Kubernetes surveying mechanism for the component.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#kubernetes-services"
+          }
+        ],
+        "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+      },
+      "ebpf": {
+        "description": "Configures eBPF-specific settings.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "wakeup_len",
+            "type": "int",
+            "description": "Number of messages to accumulate before wakeup request.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "track_request_headers",
+            "type": "bool",
+            "description": "Enable tracking of request headers for Traceparent fields.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "http_request_timeout",
+            "type": "duration",
+            "description": "Timeout for HTTP requests.",
+            "default": "\"30s\"",
+            "required": false
+          },
+          {
+            "name": "context_propagation",
+            "type": "string",
+            "description": "Enables injecting of the Traceparent header value for outgoing HTTP requests.",
+            "default": "\"disabled\"",
+            "required": false
+          },
+          {
+            "name": "high_request_volume",
+            "type": "bool",
+            "description": "Optimize for immediate request information when response is seen.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "heuristic_sql_detect",
+            "type": "bool",
+            "description": "Enable heuristic-based detection of SQL requests.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+      },
+      "filters": {
+        "description": "Configures filtering of attributes.",
+        "required": false,
+        "children": {
+          "application": {
+            "description": "Configures filtering of application attributes.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          },
+          "network": {
+            "description": "Configures filtering of network attributes.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "attr",
+            "type": "string",
+            "description": "The name of the attribute to match.",
+            "default": "yes",
+            "required": false
+          },
+          {
+            "name": "match",
+            "type": "string",
+            "description": "String to match attribute values.",
+            "default": "no",
+            "required": false
+          },
+          {
+            "name": "not_match",
+            "type": "string",
+            "description": "String to exclude matching values.",
+            "default": "no",
+            "required": false
+          },
+          {
+            "name": "attr",
+            "type": "string",
+            "description": "The name of the attribute to match.",
+            "default": "yes",
+            "required": false
+          },
+          {
+            "name": "match",
+            "type": "string",
+            "description": "String to match attribute values.",
+            "default": "no",
+            "required": false
+          },
+          {
+            "name": "not_match",
+            "type": "string",
+            "description": "String to exclude matching values.",
+            "default": "no",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "application",
+            "description": "Configures filtering of application attributes.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#application"
+          },
+          {
+            "block": "network",
+            "description": "Configures filtering of network attributes.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#network-filters"
+          }
+        ],
+        "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+      },
+      "metrics": {
+        "description": "Configures which metrics Beyla exposes.",
+        "required": false,
+        "children": {
+          "network": {
+            "description": "Configures network metrics options for Beyla.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug mode for Beyla.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "enforce_sys_caps",
+                "type": "bool",
+                "description": "Enforce system capabilities required for eBPF instrumentation.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "trace_printer",
+                "type": "string",
+                "description": "Format for printing trace information.",
+                "default": "\"disabled\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "allow_service_graph_self_references",
+            "type": "bool",
+            "description": "Allow service graph metrics to reference the same service.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "features",
+            "type": "list(string)",
+            "description": "List of features to enable for the metrics.",
+            "default": "[\"application\"]",
+            "required": false
+          },
+          {
+            "name": "instrumentations",
+            "type": "list(string)",
+            "description": "List of instrumentations to enable for the metrics.",
+            "default": "[\"*\"]",
+            "required": false
+          },
+          {
+            "name": "agent_ip_iface",
+            "type": "string",
+            "description": "Network interface to get agent IP from.",
+            "default": "\"external\"",
+            "required": false
+          },
+          {
+            "name": "agent_ip_type",
+            "type": "string",
+            "description": "Type of IP address to use.",
+            "default": "\"any\"",
+            "required": false
+          },
+          {
+            "name": "agent_ip",
+            "type": "string",
+            "description": "Allows overriding the reported beyla.ip attribute on each metric.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "cache_active_timeout",
+            "type": "duration",
+            "description": "Timeout for active flow cache entries.",
+            "default": "\"5s\"",
+            "required": false
+          },
+          {
+            "name": "cache_max_flows",
+            "type": "int",
+            "description": "Maximum number of flows to cache.",
+            "default": "5000",
+            "required": false
+          },
+          {
+            "name": "cidrs",
+            "type": "list(string)",
+            "description": "List of CIDR ranges to monitor.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "direction",
+            "type": "string",
+            "description": "Direction of traffic to monitor.",
+            "default": "\"both\"",
+            "required": false
+          },
+          {
+            "name": "exclude_interfaces",
+            "type": "list(string)",
+            "description": "List of network interfaces to exclude from monitoring.",
+            "default": "[\"lo\"]",
+            "required": false
+          },
+          {
+            "name": "exclude_protocols",
+            "type": "list(string)",
+            "description": "List of protocols to exclude from monitoring.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "interfaces",
+            "type": "list(string)",
+            "description": "List of network interfaces to monitor.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "protocols",
+            "type": "list(string)",
+            "description": "List of protocols to monitor.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "sampling",
+            "type": "int",
+            "description": "Sampling rate for network metrics.",
+            "default": "0 (disabled)",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Linux Kernel feature used to source the network events Beyla reports.",
+            "default": "\"socket_filter\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "network",
+            "description": "Configures network metrics options for Beyla.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/beyla/beyla.ebpf/#network-metrics"
+          }
+        ],
+        "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+      },
+      "routes": {
+        "description": "Configures the routes to match HTTP paths into user-provided HTTP routes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "ignore_mode",
+            "type": "string",
+            "description": "The mode to use when ignoring patterns.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "ignored_patterns",
+            "type": "list(string)",
+            "description": "List of provided URL path patterns to ignore from http.route trace/metric property.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "patterns",
+            "type": "list(string)",
+            "description": "List of provided URL path patterns to set the http.route trace/metric property.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "unmatched",
+            "type": "string",
+            "description": "Specifies what to do when a trace HTTP path doesn’t match any of the patterns entries.",
+            "default": "\"heuristic\"",
+            "required": false
+          },
+          {
+            "name": "wildcard_char",
+            "type": "string",
+            "description": "Character to use as wildcard in patterns.",
+            "default": "\"*\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "beyla.ebpf \"<LABEL>\" {\n\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect metrics of instrumented services with eBPF."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "beyla.ebpf \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  attributes {\n    attr = []\n  }\n  discovery {\n  }\n  ebpf {\n  }\n  filters {\n  }\n  metrics {\n  }\n  routes {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect metrics of instrumented services with eBPF.\n}"
+}

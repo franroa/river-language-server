@@ -1,0 +1,196 @@
+{
+  "name": "prometheus.exporter.snmp",
+  "usage": "prometheus.exporter.snmp \"<LABEL>\" {\n  config_file = \"<SNMP_CONFIG_FILE_PATH>\"\n\n  target \"<TARGET_NAME>\" {\n    address = \"<TARGET_ADDRESS>\"\n  }\n}",
+  "arguments": [
+    {
+      "name": "concurrency",
+      "type": "int",
+      "description": "SNMP exporter concurrency.",
+      "default": "1",
+      "required": false
+    },
+    {
+      "name": "config_file",
+      "type": "string",
+      "description": "SNMP configuration file defining custom modules.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "config_merge_strategy",
+      "type": "string",
+      "description": "A strategy defining how config or config_file contents merge with the embedded SNMP config. Can be replace or merge.",
+      "default": "\"replace\"",
+      "required": false
+    },
+    {
+      "name": "config",
+      "type": "string or secret",
+      "description": "SNMP configuration as inline string.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "SNMP targets.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "target",
+      "description": "Configures an SNMP target.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.snmp/#target"
+    },
+    {
+      "block": "walk_param",
+      "description": "SNMP connection profiles to override default SNMP settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.snmp/#walk_param"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.snmp",
+    "arguments": {
+      "concurrency": {
+        "type": "int",
+        "description": "SNMP exporter concurrency.",
+        "default": "1",
+        "required": false
+      },
+      "config_file": {
+        "type": "string",
+        "description": "SNMP configuration file defining custom modules.",
+        "default": "",
+        "required": false
+      },
+      "config_merge_strategy": {
+        "type": "string",
+        "description": "A strategy defining how config or config_file contents merge with the embedded SNMP config. Can be replace or merge.",
+        "default": "\"replace\"",
+        "required": false
+      },
+      "config": {
+        "type": "string or secret",
+        "description": "SNMP configuration as inline string.",
+        "default": "",
+        "required": false
+      },
+      "targets": {
+        "type": "list(map(string))",
+        "description": "SNMP targets.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "target": {
+        "description": "Configures an SNMP target.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "address",
+            "type": "string",
+            "description": "The address of SNMP device.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "auth",
+            "type": "string",
+            "description": "SNMP authentication profile to use.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "labels",
+            "type": "map(string)",
+            "description": "Map of labels to apply to all metrics captured from the target.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "module",
+            "type": "string",
+            "description": "SNMP modules to use for polling, separated by comma.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "snmp_context",
+            "type": "string",
+            "description": "Override the context_name parameter in the SNMP configuration file.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "walk_params",
+            "type": "string",
+            "description": "Config to use for this target.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.snmp \"<LABEL>\" {\n  config_file = \"<SNMP_CONFIG_FILE_PATH>\"\n\n  target \"<TARGET_NAME>\" {\n    address = \"<TARGET_ADDRESS>\"\n  }\n}"
+      },
+      "walk_param": {
+        "description": "SNMP connection profiles to override default SNMP settings.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "max_repetitions",
+            "type": "int",
+            "description": "How many objects to request with GET/GETBULK.",
+            "default": "25",
+            "required": false
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "Name of the module to override.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "retries",
+            "type": "int",
+            "description": "How many times to retry a failed request.",
+            "default": "3",
+            "required": false
+          },
+          {
+            "name": "timeout",
+            "type": "duration",
+            "description": "Timeout for each individual SNMP request.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.snmp \"<LABEL>\" {\n  config_file = \"<SNMP_CONFIG_FILE_PATH>\"\n\n  target \"<TARGET_NAME>\" {\n    address = \"<TARGET_ADDRESS>\"\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.snmp \"${1:default}\" {\n  target {\n    address = \"${2}\"\n  }\n  walk_param {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

@@ -1,0 +1,29 @@
+{
+  "comments": {
+    "lineComment": "//",
+    "blockComment": ["/*", "*/"]
+  },
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"]
+  ],
+  "autoClosingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "[", "close": "]" },
+    { "open": "(", "close": ")" },
+    { "open": "\"", "close": "\"", "notIn": ["string"] }
+  ],
+  "surroundingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""]
+  ],
+  "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
+  "indentationRules": {
+    "increaseIndentPattern": "^\\s*(declare|beyla|prometheus|loki|otelcol|database_observability|faro|pyroscope|mimir|local|remote|discovery)\\.\\w+\\s+\"[^\"]*\"\\s*\\{[^}]*$|^\\s*(output|attributes|select|filters|metrics|routes|ebpf|discovery|client|http|grpc|basic_auth)\\s*\\{[^}]*$",
+    "decreaseIndentPattern": "^\\s*\\}",
+    "indentNextLinePattern": "^\\s*(declare|beyla|prometheus|loki|otelcol|database_observability|faro|pyroscope|mimir|local|remote|discovery)\\.\\w+\\s+\"[^\"]*\"\\s*\\{[^}]*$|^\\s*(output|attributes|select|filters|metrics|routes|ebpf|discovery|client|http|grpc|basic_auth)\\s*\\{[^}]*$"
+  }
+}

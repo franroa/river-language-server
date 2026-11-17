@@ -1,0 +1,361 @@
+{
+  "name": "otelcol.receiver.splunkhec",
+  "usage": "otelcol.receiver.splunkhec \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "access_token_passthrough",
+      "type": "bool",
+      "description": "If enabled preserves incoming access token as a attribute com.splunk.hec.access_token",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "auth",
+      "type": "capsule(otelcol.Handler)",
+      "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "compression_algorithms",
+      "type": "list(string)",
+      "description": "A list of compression algorithms the server can accept.",
+      "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+      "required": false
+    },
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "host:port to listen for traffic on.",
+      "default": "\"localhost:8088\"",
+      "required": false
+    },
+    {
+      "name": "health_path",
+      "type": "string",
+      "description": "The path reporting health checks.",
+      "default": "\"/services/collector/health\"",
+      "required": false
+    },
+    {
+      "name": "include_metadata",
+      "type": "bool",
+      "description": "Propagate incoming connection metadata to downstream consumers.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "max_request_body_size",
+      "type": "string",
+      "description": "Maximum request body size the server will allow.",
+      "default": "\"20MiB\"",
+      "required": false
+    },
+    {
+      "name": "raw_path",
+      "type": "string",
+      "description": "The path accepting raw HEC events. Only applies when the receiver is used for logs.",
+      "default": "\"/services/collector/raw\"",
+      "required": false
+    },
+    {
+      "name": "splitting",
+      "type": "string",
+      "description": "Defines the splitting strategy used by the receiver when ingesting raw events. Can be set to “line” or “none”.",
+      "default": "\"line\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.splunkhec/#output"
+    },
+    {
+      "block": "cors",
+      "description": "Configures CORS for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.splunkhec/#cors"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.splunkhec/#debug_metrics"
+    },
+    {
+      "block": "hec_metadata_to_otel_attrs",
+      "description": "Configures OpenTelemetry attributes from HEC metadata.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.splunkhec/#hec_metadata_to_otel_attrs"
+    },
+    {
+      "block": "tls",
+      "description": "Configures TLS for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.splunkhec/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.splunkhec/#tpm"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.splunkhec",
+    "arguments": {
+      "access_token_passthrough": {
+        "type": "bool",
+        "description": "If enabled preserves incoming access token as a attribute com.splunk.hec.access_token",
+        "default": "false",
+        "required": false
+      },
+      "auth": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+        "default": "",
+        "required": false
+      },
+      "compression_algorithms": {
+        "type": "list(string)",
+        "description": "A list of compression algorithms the server can accept.",
+        "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+        "required": false
+      },
+      "endpoint": {
+        "type": "string",
+        "description": "host:port to listen for traffic on.",
+        "default": "\"localhost:8088\"",
+        "required": false
+      },
+      "health_path": {
+        "type": "string",
+        "description": "The path reporting health checks.",
+        "default": "\"/services/collector/health\"",
+        "required": false
+      },
+      "include_metadata": {
+        "type": "bool",
+        "description": "Propagate incoming connection metadata to downstream consumers.",
+        "default": "false",
+        "required": false
+      },
+      "max_request_body_size": {
+        "type": "string",
+        "description": "Maximum request body size the server will allow.",
+        "default": "\"20MiB\"",
+        "required": false
+      },
+      "raw_path": {
+        "type": "string",
+        "description": "The path accepting raw HEC events. Only applies when the receiver is used for logs.",
+        "default": "\"/services/collector/raw\"",
+        "required": false
+      },
+      "splitting": {
+        "type": "string",
+        "description": "Defines the splitting strategy used by the receiver when ingesting raw events. Can be set to “line” or “none”.",
+        "default": "\"line\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.splunkhec \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n  }\n}"
+      },
+      "cors": {
+        "description": "Configures CORS for the HTTP server.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "allowed_headers",
+            "type": "list(string)",
+            "description": "Accepted headers from CORS requests.",
+            "default": "[\"X-Requested-With\"]",
+            "required": false
+          },
+          {
+            "name": "allowed_origins",
+            "type": "list(string)",
+            "description": "Allowed values for the Origin header.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "max_age",
+            "type": "number",
+            "description": "Configures the Access-Control-Max-Age response header.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.splunkhec \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.splunkhec \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n  }\n}"
+      },
+      "hec_metadata_to_otel_attrs": {
+        "description": "Configures OpenTelemetry attributes from HEC metadata.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "host",
+            "type": "string",
+            "description": "Specifies the mapping of the host field to a attribute.",
+            "default": "host.name",
+            "required": false
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "Specifies the mapping of the index field to a attribute.",
+            "default": "com.splunk.index",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Specifies the mapping of the source field to a attribute.",
+            "default": "com.splunk.source",
+            "required": false
+          },
+          {
+            "name": "sourcetype",
+            "type": "string",
+            "description": "Specifies the mapping of the sourcetype field to a attribute.",
+            "default": "com.splunk.sourcetype",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.splunkhec \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n  }\n}"
+      },
+      "tls": {
+        "description": "Configures TLS for the HTTP server.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "access_token_passthrough",
+                "type": "bool",
+                "description": "If enabled preserves incoming access token as a attribute com.splunk.hec.access_token",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "auth",
+                "type": "capsule(otelcol.Handler)",
+                "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "compression_algorithms",
+                "type": "list(string)",
+                "description": "A list of compression algorithms the server can accept.",
+                "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+                "required": false
+              },
+              {
+                "name": "endpoint",
+                "type": "string",
+                "description": "host:port to listen for traffic on.",
+                "default": "\"localhost:8088\"",
+                "required": false
+              },
+              {
+                "name": "health_path",
+                "type": "string",
+                "description": "The path reporting health checks.",
+                "default": "\"/services/collector/health\"",
+                "required": false
+              },
+              {
+                "name": "include_metadata",
+                "type": "bool",
+                "description": "Propagate incoming connection metadata to downstream consumers.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "max_request_body_size",
+                "type": "string",
+                "description": "Maximum request body size the server will allow.",
+                "default": "\"20MiB\"",
+                "required": false
+              },
+              {
+                "name": "raw_path",
+                "type": "string",
+                "description": "The path accepting raw HEC events. Only applies when the receiver is used for logs.",
+                "default": "\"/services/collector/raw\"",
+                "required": false
+              },
+              {
+                "name": "splitting",
+                "type": "string",
+                "description": "Defines the splitting strategy used by the receiver when ingesting raw events. Can be set to “line” or “none”.",
+                "default": "\"line\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.splunkhec \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.splunkhec/#tpm"
+          }
+        ],
+        "usage": "otelcol.receiver.splunkhec \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.splunkhec \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  cors {\n  }\n  debug_metrics {\n    $0\n  }\n  hec_metadata_to_otel_attrs {\n  }\n  tls {\n  }\n}"
+}

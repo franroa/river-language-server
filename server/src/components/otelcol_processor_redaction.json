@@ -1,0 +1,396 @@
+{
+  "name": "otelcol.processor.redaction",
+  "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "allow_all_keys",
+      "type": "bool",
+      "description": "Allow all attribute keys. Disables the allowed_keys list.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "allowed_keys",
+      "type": "list(string)",
+      "description": "Allowed attribute keys. Keys not on the list are removed.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "allowed_values",
+      "type": "list(string)",
+      "description": "Regular expressions for values that the processor leaves unchanged, even when they also match blocked value patterns.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "blocked_key_patterns",
+      "type": "list(string)",
+      "description": "Regular expressions for attribute keys whose values are masked.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "blocked_values",
+      "type": "list(string)",
+      "description": "Regular expressions for value substrings that the processor masks after key filtering.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "hash_function",
+      "type": "string",
+      "description": "Function used to hash redacted values instead of masking them with a fixed string.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "hmac_key",
+      "type": "secret",
+      "description": "Secret key used for HMAC hashing when hash_function is an HMAC variant.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "ignored_key_patterns",
+      "type": "list(string)",
+      "description": "Regular expressions for attribute keys that pass through unchanged.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "ignored_keys",
+      "type": "list(string)",
+      "description": "Attribute keys that pass through unchanged.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "redact_all_types",
+      "type": "bool",
+      "description": "Redact non-string attributes as well, by converting them to a string representation.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "summary",
+      "type": "string",
+      "description": "Controls diagnostic attributes that describe redaction activity. Use debug or info to send diagnostics. Use silent or \"\" to suppress them.",
+      "default": "\"\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#output"
+    },
+    {
+      "block": "db_sanitizer",
+      "description": "Configures database query sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db_sanitizer"
+    },
+    {
+      "block": "db_sanitizer > es",
+      "description": "Configures Elasticsearch query sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+    },
+    {
+      "block": "db_sanitizer > memcached",
+      "description": "Configures Memcached command sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+    },
+    {
+      "block": "db_sanitizer > mongo",
+      "description": "Configures MongoDB query sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+    },
+    {
+      "block": "db_sanitizer > opensearch",
+      "description": "Configures OpenSearch query sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+    },
+    {
+      "block": "db_sanitizer > redis",
+      "description": "Configures Redis command sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+    },
+    {
+      "block": "db_sanitizer > sql",
+      "description": "Configures SQL query sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+    },
+    {
+      "block": "db_sanitizer > valkey",
+      "description": "Configures Valkey command sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#debug_metrics"
+    },
+    {
+      "block": "url_sanitizer",
+      "description": "Configures URL sanitization.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#url_sanitizer"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "Accepts otelcol.Consumer data for metrics, logs, or traces."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.redaction",
+    "arguments": {
+      "allow_all_keys": {
+        "type": "bool",
+        "description": "Allow all attribute keys. Disables the allowed_keys list.",
+        "default": "false",
+        "required": false
+      },
+      "allowed_keys": {
+        "type": "list(string)",
+        "description": "Allowed attribute keys. Keys not on the list are removed.",
+        "default": "[]",
+        "required": false
+      },
+      "allowed_values": {
+        "type": "list(string)",
+        "description": "Regular expressions for values that the processor leaves unchanged, even when they also match blocked value patterns.",
+        "default": "[]",
+        "required": false
+      },
+      "blocked_key_patterns": {
+        "type": "list(string)",
+        "description": "Regular expressions for attribute keys whose values are masked.",
+        "default": "[]",
+        "required": false
+      },
+      "blocked_values": {
+        "type": "list(string)",
+        "description": "Regular expressions for value substrings that the processor masks after key filtering.",
+        "default": "[]",
+        "required": false
+      },
+      "hash_function": {
+        "type": "string",
+        "description": "Function used to hash redacted values instead of masking them with a fixed string.",
+        "default": "\"\"",
+        "required": false
+      },
+      "hmac_key": {
+        "type": "secret",
+        "description": "Secret key used for HMAC hashing when hash_function is an HMAC variant.",
+        "default": "\"\"",
+        "required": false
+      },
+      "ignored_key_patterns": {
+        "type": "list(string)",
+        "description": "Regular expressions for attribute keys that pass through unchanged.",
+        "default": "[]",
+        "required": false
+      },
+      "ignored_keys": {
+        "type": "list(string)",
+        "description": "Attribute keys that pass through unchanged.",
+        "default": "[]",
+        "required": false
+      },
+      "redact_all_types": {
+        "type": "bool",
+        "description": "Redact non-string attributes as well, by converting them to a string representation.",
+        "default": "false",
+        "required": false
+      },
+      "summary": {
+        "type": "string",
+        "description": "Controls diagnostic attributes that describe redaction activity. Use debug or info to send diagnostics. Use silent or \"\" to suppress them.",
+        "default": "\"\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "db_sanitizer": {
+        "description": "Configures database query sanitization.",
+        "required": false,
+        "children": {
+          "es": {
+            "description": "Configures Elasticsearch query sanitization.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "memcached": {
+            "description": "Configures Memcached command sanitization.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "mongo": {
+            "description": "Configures MongoDB query sanitization.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "opensearch": {
+            "description": "Configures OpenSearch query sanitization.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "redis": {
+            "description": "Configures Redis command sanitization.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "sql": {
+            "description": "Configures SQL query sanitization.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "valkey": {
+            "description": "Configures Valkey command sanitization.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "es",
+            "description": "Configures Elasticsearch query sanitization.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+          },
+          {
+            "block": "memcached",
+            "description": "Configures Memcached command sanitization.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+          },
+          {
+            "block": "mongo",
+            "description": "Configures MongoDB query sanitization.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+          },
+          {
+            "block": "opensearch",
+            "description": "Configures OpenSearch query sanitization.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+          },
+          {
+            "block": "redis",
+            "description": "Configures Redis command sanitization.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+          },
+          {
+            "block": "sql",
+            "description": "Configures SQL query sanitization.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+          },
+          {
+            "block": "valkey",
+            "description": "Configures Valkey command sanitization.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.redaction/#db-blocks"
+          }
+        ],
+        "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "url_sanitizer": {
+        "description": "Configures URL sanitization.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.redaction \"<LABEL>\" {\n  allowed_keys  = [\"<KEY>\", ...]\n  blocked_values = [\"<REGEX>\", ...]\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "Accepts otelcol.Consumer data for metrics, logs, or traces."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.redaction \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  db_sanitizer {\n  }\n  debug_metrics {\n    $0\n  }\n  url_sanitizer {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): Accepts otelcol.Consumer data for metrics, logs, or traces.\n}"
+}

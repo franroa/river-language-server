@@ -1,0 +1,70 @@
+{
+  "name": "loki.source.gelf",
+  "usage": "loki.source.gelf \"<LABEL>\" {\n  forward_to    = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "listen_address",
+      "type": "string",
+      "description": "UDP address and port to listen for Graylog messages.",
+      "default": "\"0.0.0.0:12201\"",
+      "required": false
+    },
+    {
+      "name": "relabel_rules",
+      "type": "RelabelRules",
+      "description": "Relabeling rules to apply on log entries.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "use_incoming_timestamp",
+      "type": "bool",
+      "description": "When false, assigns the current timestamp to the log when it was processed",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.gelf",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "listen_address": {
+        "type": "string",
+        "description": "UDP address and port to listen for Graylog messages.",
+        "default": "\"0.0.0.0:12201\"",
+        "required": false
+      },
+      "relabel_rules": {
+        "type": "RelabelRules",
+        "description": "Relabeling rules to apply on log entries.",
+        "default": "{}",
+        "required": false
+      },
+      "use_incoming_timestamp": {
+        "type": "bool",
+        "description": "When false, assigns the current timestamp to the log when it was processed",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {},
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.gelf \"${1:default}\" {\n}"
+}

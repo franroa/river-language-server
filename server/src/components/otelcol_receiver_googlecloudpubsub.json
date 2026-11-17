@@ -1,0 +1,203 @@
+{
+  "name": "otelcol.receiver.googlecloudpubsub",
+  "usage": "otelcol.receiver.googlecloudpubsub \"<LABEL>\" {\n  subscription = \"projects/<PROJECT-ID>/subscriptions/<SUBSCRIPTION-NAME>\"\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "subscription",
+      "type": "string",
+      "description": "The subscription name to receive OTLP data from. The subscription name should be a fully qualified resource name, for example: projects/otel-project/subscriptions/otlp.",
+      "default": "\"\"",
+      "required": true
+    },
+    {
+      "name": "compression",
+      "type": "string",
+      "description": "The compression used on data received from the subscription. Only gzip is supported. This is only used when no content-encoding attribute is present.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "encoding",
+      "type": "string",
+      "description": "The encoding used to receive data from the subscription. This can either be otlp_proto_trace, otlp_proto_metric, otlp_proto_log or an encoding extension. This is only used when no media type attribute is present.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "Override the default Pub/Sub endpoint. This is useful when connecting to the Pub/Sub emulator instance or switching between global and regional service endpoints.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "ignore_encoding_error",
+      "type": "bool",
+      "description": "Ignore errors when the configured encoder fails to decode Pub/Sub messages. Ignoring the error causes the receiver to drop the message.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "insecure",
+      "type": "bool",
+      "description": "Allows performing insecure SSL connections and transfers. This is useful when connecting to a local emulator instance. Only has effect if you set endpoint.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "project",
+      "type": "string",
+      "description": "The Google Cloud Project project identifier.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "Duration",
+      "description": "Timeout for calls to the Pub/Sub API.",
+      "default": "\"12s\"",
+      "required": false
+    },
+    {
+      "name": "universe_domain",
+      "type": "string",
+      "description": "Universe domain for the Pub/Sub service. Set to support Sovereign Cloud regions.",
+      "default": "\"googleapis.com\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.googlecloudpubsub/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.googlecloudpubsub/#debug_metrics"
+    },
+    {
+      "block": "flow_control",
+      "description": "Tunes Pub/Sub acknowledgement batching and outstanding-message limits.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.googlecloudpubsub/#flow_control"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.googlecloudpubsub",
+    "arguments": {
+      "subscription": {
+        "type": "string",
+        "description": "The subscription name to receive OTLP data from. The subscription name should be a fully qualified resource name, for example: projects/otel-project/subscriptions/otlp.",
+        "default": "\"\"",
+        "required": true
+      },
+      "compression": {
+        "type": "string",
+        "description": "The compression used on data received from the subscription. Only gzip is supported. This is only used when no content-encoding attribute is present.",
+        "default": "\"\"",
+        "required": false
+      },
+      "encoding": {
+        "type": "string",
+        "description": "The encoding used to receive data from the subscription. This can either be otlp_proto_trace, otlp_proto_metric, otlp_proto_log or an encoding extension. This is only used when no media type attribute is present.",
+        "default": "\"\"",
+        "required": false
+      },
+      "endpoint": {
+        "type": "string",
+        "description": "Override the default Pub/Sub endpoint. This is useful when connecting to the Pub/Sub emulator instance or switching between global and regional service endpoints.",
+        "default": "\"\"",
+        "required": false
+      },
+      "ignore_encoding_error": {
+        "type": "bool",
+        "description": "Ignore errors when the configured encoder fails to decode Pub/Sub messages. Ignoring the error causes the receiver to drop the message.",
+        "default": "false",
+        "required": false
+      },
+      "insecure": {
+        "type": "bool",
+        "description": "Allows performing insecure SSL connections and transfers. This is useful when connecting to a local emulator instance. Only has effect if you set endpoint.",
+        "default": "false",
+        "required": false
+      },
+      "project": {
+        "type": "string",
+        "description": "The Google Cloud Project project identifier.",
+        "default": "\"\"",
+        "required": false
+      },
+      "timeout": {
+        "type": "Duration",
+        "description": "Timeout for calls to the Pub/Sub API.",
+        "default": "\"12s\"",
+        "required": false
+      },
+      "universe_domain": {
+        "type": "string",
+        "description": "Universe domain for the Pub/Sub service. Set to support Sovereign Cloud regions.",
+        "default": "\"googleapis.com\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.googlecloudpubsub \"<LABEL>\" {\n  subscription = \"projects/<PROJECT-ID>/subscriptions/<SUBSCRIPTION-NAME>\"\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.googlecloudpubsub \"<LABEL>\" {\n  subscription = \"projects/<PROJECT-ID>/subscriptions/<SUBSCRIPTION-NAME>\"\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}"
+      },
+      "flow_control": {
+        "description": "Tunes Pub/Sub acknowledgement batching and outstanding-message limits.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.googlecloudpubsub \"<LABEL>\" {\n  subscription = \"projects/<PROJECT-ID>/subscriptions/<SUBSCRIPTION-NAME>\"\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.googlecloudpubsub \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  flow_control {\n    $0\n  }\n}"
+}

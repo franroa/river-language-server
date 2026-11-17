@@ -1,0 +1,81 @@
+{
+  "name": "otelcol.encoding.jsonlog",
+  "usage": "otelcol.encoding.jsonlog \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "array_mode",
+      "type": "bool",
+      "description": "Whether to encode and decode JSON arrays.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "mode",
+      "type": "string",
+      "description": "How to marshal fields from each log record.",
+      "default": "\"body\"",
+      "required": false
+    },
+    {
+      "name": "parse_ints",
+      "type": "bool",
+      "description": "Whether to decode integers as int64 values.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "handler",
+      "description": "capsule(otelcol.Handler)",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A handler that compatible otelcol components can use to encode and decode logs."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.encoding.jsonlog",
+    "arguments": {
+      "array_mode": {
+        "type": "bool",
+        "description": "Whether to encode and decode JSON arrays.",
+        "default": "true",
+        "required": false
+      },
+      "mode": {
+        "type": "string",
+        "description": "How to marshal fields from each log record.",
+        "default": "\"body\"",
+        "required": false
+      },
+      "parse_ints": {
+        "type": "bool",
+        "description": "Whether to decode integers as int64 values.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "handler": {
+        "description": "capsule(otelcol.Handler)",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A handler that compatible otelcol components can use to encode and decode logs."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.encoding.jsonlog \"${1:default}\" {\n  handler {\n    $0\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A handler that compatible otelcol components can use to encode and decode logs.\n}"
+}

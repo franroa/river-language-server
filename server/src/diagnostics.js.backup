@@ -1,0 +1,1258 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getDocumentDiagnostics = getDocumentDiagnostics;
+exports.getWorkspaceDiagnostics = getWorkspaceDiagnostics;
+const node_1 = require("vscode-languageserver/node");
+const utils = __importStar(require("./utils"));
+const configuration_1 = require("./configuration");
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
+const workspaceComponentService_1 = require("./workspaceComponentService");
+// Load config blocks data for validation
+function getConfigBlockData() {
+    try {
+        // Try multiple possible paths to find the config blocks data
+        const possiblePaths = [
+            path.join(__dirname, 'config_blocks', 'config_blocks_data.json'),
+            path.join(__dirname, '..', 'src', 'config_blocks', 'config_blocks_data.json'),
+            path.join(process.cwd(), 'server', 'src', 'config_blocks', 'config_blocks_data.json'),
+            path.join(process.cwd(), 'src', 'config_blocks', 'config_blocks_data.json')
+        ];
+        for (const configBlocksPath of possiblePaths) {
+            try {
+                if (fs.existsSync(configBlocksPath)) {
+                    const data = fs.readFileSync(configBlocksPath, 'utf8');
+                    return JSON.parse(data);
+                }
+            }
+            catch (e) {
+                // Continue to next path
+            }
+        }
+        console.error('Could not find config_blocks_data.json in any of the expected locations');
+        return {};
+    }
+    catch (error) {
+        console.error('Failed to load config blocks data:', error);
+        return {};
+    }
+}
+class DiagnosticsValidator {
+    mapConfigSeverityToDiagnosticSeverity(severity) {
+        switch (severity) {
+            case 'error':
+                return node_1.DiagnosticSeverity.Error;
+            case 'warning':
+                return node_1.DiagnosticSeverity.Warning;
+            case 'info':
+                return node_1.DiagnosticSeverity.Information;
+            case 'off':
+            default:
+                return node_1.DiagnosticSeverity.Hint;
+        }
+    }
+    validateRequiredArguments(parsedBlock, requiredArgs, blockPath) {
+        const diagnostics = [];
+        // Check if missing required argument diagnostics are enabled
+        if (!configuration_1.configManager.isDiagnosticEnabled('missingRequiredArgument')) {
+            return diagnostics;
+        }
+        const severity = this.mapConfigSeverityToDiagnosticSeverity(configuration_1.configManager.getDiagnosticSeverity('missingRequiredArgument'));
+        for (const argSpec of requiredArgs) {
+            if (argSpec.required && !parsedBlock.args[argSpec.name]) {
+                const contextName = blockPath.length > 0 ? blockPath.join('.') : 'component';
+                diagnostics.push({
+                    severity,
+                    range: parsedBlock.range,
+                    message: `Missing required argument '${argSpec.name}' in ${contextName}`,
+                    source: "alloy-lsp",
+                });
+            }
+        }
+        return diagnostics;
+    }
+    validateBlockStructure(parsedBlocks, blockStructures, parentPath = [], componentRange) {
+        const diagnostics = [];
+        // Validate required blocks that are missing
+        for (const [blockName, blockStructure] of Object.entries(blockStructures)) {
+            if (blockStructure.required) {
+                const foundBlock = parsedBlocks.find(block => block.name === blockName);
+                if (!foundBlock) {
+                    const contextPath = parentPath.length > 0 ? parentPath.join('.') : 'component';
+                    // Use component range if available, otherwise fall back to first block or default
+                    let errorRange;
+                    if (componentRange && parentPath.length === 0) {
+                        // For missing blocks at component level, use component range
+                        errorRange = componentRange;
+                    }
+                    else if (parsedBlocks.length > 0) {
+                        // For nested missing blocks, use the parent block range
+                        errorRange = parsedBlocks[0].range;
+                    }
+                    else {
+                        errorRange = node_1.Range.create(node_1.Position.create(0, 0), node_1.Position.create(0, 10));
+                    }
+                    diagnostics.push({
+                        severity: node_1.DiagnosticSeverity.Error,
+                        range: errorRange,
+                        message: `Missing required block '${blockName}' in ${contextPath}`,
+                        source: "alloy-lsp",
+                    });
+                }
+            }
+        }
+        // Validate arguments for all blocks that exist in the parsed document
+        for (const parsedBlock of parsedBlocks) {
+            const blockName = parsedBlock.name;
+            const blockStructure = blockStructures[blockName];
+            if (blockStructure) {
+                const currentPath = [...parentPath, blockName];
+                const blockArgs = (blockStructure.arguments || []).map(arg => ({
+                    name: arg.name,
+                    required: arg.required || false
+                }));
+                diagnostics.push(...this.validateRequiredArguments(parsedBlock, blockArgs, currentPath));
+                // Validate unknown arguments
+                if (configuration_1.configManager.isDiagnosticEnabled('unknownArgument')) {
+                    const severity = this.mapConfigSeverityToDiagnosticSeverity(configuration_1.configManager.getDiagnosticSeverity('unknownArgument'));
+                    const validArgNames = new Set((blockStructure.arguments || []).map(arg => arg.name));
+                    for (const [argName, argValue] of Object.entries(parsedBlock.args)) {
+                        if (!validArgNames.has(argName)) {
+                            diagnostics.push({
+                                severity,
+                                range: argValue.range,
+                                message: `Unknown argument '${argName}' in ${currentPath.join('.')}`,
+                                source: "alloy-lsp",
+                            });
+                        }
+                    }
+                }
+                if (blockStructure.children && Object.keys(blockStructure.children).length > 0) {
+                    diagnostics.push(...this.validateBlockStructure(parsedBlock.children, blockStructure.children, currentPath));
+                }
+            }
+            else {
+                // Unknown block name
+                const contextPath = parentPath.length > 0 ? parentPath.join('.') : 'component';
+                diagnostics.push({
+                    severity: node_1.DiagnosticSeverity.Error,
+                    range: parsedBlock.range,
+                    message: `Unknown block '${blockName}' in ${contextPath}`,
+                    source: "alloy-lsp",
+                });
+            }
+        }
+        return diagnostics;
+    }
+    validateComponent(parsedComponent, componentStructure) {
+        const diagnostics = [];
+        const componentArguments = Object.entries(componentStructure.arguments || {})
+            .map(([name, spec]) => ({
+            name,
+            required: spec.required || false
+        }));
+        diagnostics.push(...this.validateRequiredArguments(parsedComponent, componentArguments, []));
+        // Validate unknown component arguments
+        // Check if arguments are actually at component level by examining their position
+        const validComponentArgNames = new Set(Object.keys(componentStructure.arguments || {}));
+        // Get all block ranges to determine if an argument is inside a block
+        const blockRanges = [];
+        for (const block of parsedComponent.blocks) {
+            blockRanges.push({
+                startLine: block.startLine,
+                endLine: block.endLine
+            });
+        }
+        for (const [argName, argValue] of Object.entries(parsedComponent.args)) {
+            // Check if this argument is actually inside a block
+            const isInsideBlock = blockRanges.some(range => argValue.range.start.line >= range.startLine && argValue.range.start.line <= range.endLine);
+            // Skip arguments that are inside blocks
+            if (isInsideBlock) {
+                continue;
+            }
+            if (!validComponentArgNames.has(argName)) {
+                diagnostics.push({
+                    severity: node_1.DiagnosticSeverity.Error,
+                    range: argValue.range,
+                    message: `Unknown argument '${argName}' in component`,
+                    source: "alloy-lsp",
+                });
+            }
+        }
+        diagnostics.push(...this.validateBlockStructure(parsedComponent.blocks, componentStructure.blocks || {}, [], parsedComponent.range));
+        return diagnostics;
+    }
+    validateConfigBlock(parsedConfigBlock) {
+        const diagnostics = [];
+        const configBlockData = getConfigBlockData();
+        if (!configBlockData[parsedConfigBlock.type]) {
+            diagnostics.push({
+                severity: node_1.DiagnosticSeverity.Error,
+                range: parsedConfigBlock.range,
+                message: `Unknown config block type '${parsedConfigBlock.type}'`,
+                source: "alloy-lsp",
+            });
+            return diagnostics;
+        }
+        const blockInfo = configBlockData[parsedConfigBlock.type];
+        const blockStructure = blockInfo.lsp_structure;
+        if (blockStructure && blockStructure.arguments) {
+            const requiredArgs = [];
+            for (const [argName, argInfo] of Object.entries(blockStructure.arguments)) {
+                const argDetail = argInfo;
+                requiredArgs.push({
+                    name: argName,
+                    required: argDetail.required || false
+                });
+            }
+            diagnostics.push(...this.validateRequiredArguments(parsedConfigBlock, requiredArgs, [parsedConfigBlock.type]));
+        }
+        // For declare blocks, validate that the label is provided
+        if (parsedConfigBlock.type === 'declare' && !parsedConfigBlock.label) {
+            diagnostics.push({
+                severity: node_1.DiagnosticSeverity.Error,
+                range: parsedConfigBlock.range,
+                message: "Declare blocks must have a name label",
+                source: "alloy-lsp",
+            });
+        }
+        // For argument and export blocks, validate that they have a label
+        if ((parsedConfigBlock.type === 'argument' || parsedConfigBlock.type === 'export') && !parsedConfigBlock.label) {
+            diagnostics.push({
+                severity: node_1.DiagnosticSeverity.Error,
+                range: parsedConfigBlock.range,
+                message: `${parsedConfigBlock.type} blocks must have a name label`,
+                source: "alloy-lsp",
+            });
+        }
+        return diagnostics;
+    }
+
+    /**
+     * Check if a line is inside a declare block
+     */
+    isInsideDeclareBlock(document, lineIndex) {
+        const text = document.getText();
+        const lines = text.split('\n');
+
+        let braceCount = 0;
+        let inDeclareBlock = false;
+        let declareStartLine = -1;
+
+        for (let i = 0; i <= lineIndex; i++) {
+            const line = lines[i];
+
+            // Check for declare block start
+            const declareMatch = line.match(/^\s*declare\s*"[^"]+"\s*{/);
+            if (declareMatch) {
+                inDeclareBlock = true;
+                declareStartLine = i;
+                braceCount = 0; // Reset count, we'll count all braces from here
+            }
+
+            // If we're inside a declare block, count braces
+            if (inDeclareBlock) {
+                for (const char of line) {
+                    if (char === '{') braceCount++;
+                    if (char === '}') braceCount--;
+                }
+
+                // Exit declare block when braces are balanced (back to 0)
+                if (braceCount === 0 && i > declareStartLine) {
+                    inDeclareBlock = false;
+                }
+            }
+        }
+
+        // Return true if we're inside a declare block and not on the declare line itself
+        return inDeclareBlock && lineIndex > declareStartLine;
+    }
+
+    /**
+     * Validate unused arguments in declare blocks
+     */
+    validateUnusedArguments(document) {
+        const diagnostics = [];
+
+        // Check if unused argument validation is enabled
+        if (!configuration_1.configManager.isDiagnosticEnabled('unusedArgument')) {
+            return diagnostics;
+        }
+
+        const severity = this.mapConfigSeverityToDiagnosticSeverity(
+            configuration_1.configManager.getDiagnosticSeverity('unusedArgument') || 'warning'
+        );
+
+        const text = document.getText();
+        const lines = text.split('\n');
+
+        // Find all declared arguments in declare blocks
+        const declaredArguments = new Map(); // name -> {line, range}
+        let inDeclareBlock = false;
+        let braceCount = 0;
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+
+            // Track declare block
+            if (line.match(/^\s*declare\s*"[^"]+"\s*{/)) {
+                inDeclareBlock = true;
+                braceCount = 1;
+                continue;
+            }
+
+            if (inDeclareBlock) {
+                // Count braces
+                for (const char of line) {
+                    if (char === '{') braceCount++;
+                    if (char === '}') braceCount--;
+                }
+
+                // Exit declare block
+                if (braceCount === 0) {
+                    inDeclareBlock = false;
+                    continue;
+                }
+
+                // Look for argument declarations
+                const argMatch = line.match(/^\s*argument\s*"([^"]+)"\s*{/);
+                if (argMatch) {
+                    const argName = argMatch[1];
+                    const nameStart = line.indexOf(argName);
+                    declaredArguments.set(argName, {
+                        line: i,
+                        range: {
+                            start: { line: i, character: nameStart },
+                            end: { line: i, character: nameStart + argName.length }
+                        }
+                    });
+                }
+            }
+        }
+
+        // Check which arguments are actually used
+        for (const [argName, argInfo] of declaredArguments) {
+            const usagePattern = new RegExp(`argument\\.${argName}(?:\\.\\w+)?`, 'g');
+            const isUsed = usagePattern.test(text);
+
+            if (!isUsed) {
+                diagnostics.push({
+                    severity,
+                    range: argInfo.range,
+                    message: `Unused argument '${argName}' in declare block`,
+                    source: 'alloy-lsp',
+                });
+            }
+        }
+
+        return diagnostics;
+    }
+
+    /**
+     * Validate parameter types against their expected types
+     */
+    validateParameterTypes(document) {
+        const diagnostics = [];
+
+        // Check if type validation diagnostics are enabled
+        if (!configuration_1.configManager.isDiagnosticEnabled('invalidArgumentType')) {
+            return diagnostics;
+        }
+
+        const severity = this.mapConfigSeverityToDiagnosticSeverity(
+            configuration_1.configManager.getDiagnosticSeverity('invalidArgumentType') || 'error'
+        );
+
+        const text = document.getText();
+        const lines = text.split('\n');
+
+        // Process each line looking for parameter assignments
+        for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            const line = lines[lineIndex];
+
+            // Look for parameter assignments: parameter_name = value
+            const assignmentMatch = line.match(/^\s*(\w+)\s*=\s*(.+)$/);
+            if (!assignmentMatch) {
+                continue;
+            }
+
+            const parameterName = assignmentMatch[1];
+            let value = assignmentMatch[2].trim();
+            
+            // Remove inline comments from the value
+            const commentIndex = value.search(/\s*(\/\/|#)/);
+            if (commentIndex !== -1) {
+                value = value.substring(0, commentIndex).trim();
+            }
+
+            // Skip empty values
+            if (!value) {
+                continue;
+            }
+
+            // Get the expected type for this parameter
+            const expectedType = this.getExpectedParameterType(document, lineIndex, parameterName);
+            const actualType = this.inferTypeFromValue(value);
+
+            // Find the position of the value in the line (we'll need this for any diagnostic)
+            const equalsIndex = line.indexOf('=');
+            let valueStart = equalsIndex + 1;
+            while (valueStart < line.length && line[valueStart] === ' ') {
+                valueStart++;
+            }
+            const valueEnd = line.length;
+
+            if (!expectedType) {
+                // We don't know what type is expected - create a warning
+                diagnostics.push({
+                    severity: node_1.DiagnosticSeverity.Warning,
+                    range: node_1.Range.create(
+                        node_1.Position.create(lineIndex, valueStart),
+                        node_1.Position.create(lineIndex, valueEnd)
+                    ),
+                    message: `Cannot determine expected type for parameter '${parameterName}' with value '${value}' - please verify this is correct`,
+                    source: "alloy-lsp",
+                });
+                continue;
+            }
+
+            if (!actualType) {
+                // We can't infer the actual type - create a warning
+                diagnostics.push({
+                    severity: node_1.DiagnosticSeverity.Warning,
+                    range: node_1.Range.create(
+                        node_1.Position.create(lineIndex, valueStart),
+                        node_1.Position.create(lineIndex, valueEnd)
+                    ),
+                    message: `Cannot infer type of value '${value}' for parameter '${parameterName}' (expected: '${expectedType}') - please verify this is correct`,
+                    source: "alloy-lsp",
+                });
+                continue;
+            }
+
+            // Check if the value matches the expected type
+            const isCompatible = this.isValueCompatibleWithType(value, expectedType, document);
+            if (!isCompatible) {
+                diagnostics.push({
+                    severity,
+                    range: node_1.Range.create(
+                        node_1.Position.create(lineIndex, valueStart),
+                        node_1.Position.create(lineIndex, valueEnd)
+                    ),
+                    message: `Type mismatch: expected '${expectedType}' but got '${actualType}' for parameter '${parameterName}'`,
+                    source: "alloy-lsp",
+                });
+            }
+        }
+
+        return diagnostics;
+    }
+
+    /**
+     * Get the expected type for a parameter based on component definition
+     */
+    getExpectedParameterType(document, lineIndex, parameterName) {
+        // Find the component and block context for this line
+        const context = this.findComponentAndBlockForLine(document, lineIndex);
+        if (!context || !context.componentName) {
+            return null;
+        }
+
+        // Get component data from utils
+        const utils = require('./utils.js');
+        const componentData = utils.getAllAvailableComponents(document);
+        const componentInfo = componentData[context.componentName];
+        
+        if (!componentInfo || !componentInfo.lsp_structure) {
+            return null;
+        }
+
+        const structure = componentInfo.lsp_structure;
+
+        // If we're in a nested block, look for the parameter there first
+        if (context.blockName && structure.blocks) {
+            const blockInfo = structure.blocks[context.blockName];
+            if (blockInfo && blockInfo.arguments) {
+                const blockParam = blockInfo.arguments.find(p => p.name === parameterName);
+                if (blockParam) {
+                    return blockParam.type;
+                }
+            }
+        }
+
+        // Look for the parameter in component arguments
+        if (structure.arguments) {
+            const parameter = structure.arguments[parameterName];
+            if (parameter) {
+                return parameter.type;
+            }
+        }
+
+        // Fallback for common parameters
+        if (parameterName === 'forward_to') {
+            return 'list(receiver)';  // Use lowercase receiver as in component definitions
+        }
+        if (parameterName === 'source_labels') {
+            return 'list(string)';
+        }
+        return null;
+    }
+
+    /**
+     * Find the component and block context that contains the given line
+     */
+    findComponentAndBlockForLine(document, lineIndex) {
+        const text = document.getText();
+        const lines = text.split('\n');
+
+        let braceCount = 0;
+        let currentComponent = null;
+        let currentBlock = null;
+        let componentBraceLevel = 0;
+        let blockBraceLevel = 0;
+
+        for (let i = 0; i <= lineIndex; i++) {
+            const line = lines[i];
+            
+            // Check for component declaration (e.g., "loki.process", "prometheus.scrape")
+            // Components have the pattern: component.name "label" {
+            const componentMatch = line.match(/^\s*([a-zA-Z][a-zA-Z0-9_.]*)\s+"[^"]*"\s*{/);
+            if (componentMatch) {
+                const potentialComponent = componentMatch[1];
+                // Skip declare, argument, export blocks - these are not components
+                if (!['declare', 'argument', 'export'].includes(potentialComponent)) {
+                    currentComponent = potentialComponent;
+                    componentBraceLevel = braceCount + 1;
+                    currentBlock = null; // Reset block when entering new component
+                    blockBraceLevel = 0;
+                }
+            }
+
+            // Check for block declaration within component (e.g., "stage.output", "rule")
+            // Blocks have the pattern: block.name {
+            const blockMatch = line.match(/^\s*([a-zA-Z][a-zA-Z0-9_.]*)\s*{/);
+            if (blockMatch && currentComponent && braceCount >= componentBraceLevel) {
+                const potentialBlock = blockMatch[1];
+                // Only consider it a block if we're inside a component and it's not a quoted label
+                if (!line.includes('"')) {
+                    currentBlock = potentialBlock;
+                    blockBraceLevel = braceCount + 1;
+                }
+            }
+
+            // Count braces
+            for (const char of line) {
+                if (char === '{') braceCount++;
+                if (char === '}') braceCount--;
+            }
+
+            // Exit block if we're back to component level
+            if (braceCount < blockBraceLevel) {
+                currentBlock = null;
+                blockBraceLevel = 0;
+            }
+
+            // Exit component if we're back to global level
+            if (braceCount < componentBraceLevel) {
+                currentComponent = null;
+                currentBlock = null;
+                componentBraceLevel = 0;
+                blockBraceLevel = 0;
+            }
+        }
+
+        return {
+            componentName: currentComponent,
+            blockName: currentBlock
+        };
+    }
+
+    /**
+     * Find the component name that contains the given line
+     */
+    findComponentForLine(document, lineIndex) {
+        const text = document.getText();
+        const lines = text.split('\n');
+
+        let braceCount = 0;
+        let currentComponent = null;
+        let componentBraceLevel = 0;
+
+        for (let i = 0; i <= lineIndex; i++) {
+            const line = lines[i];
+
+            // Look for component declarations
+            const componentMatch = line.match(/^\s*(\w+(?:\.\w+)*)\s*"[^"]*"\s*{/);
+            if (componentMatch) {
+                currentComponent = componentMatch[1];
+                componentBraceLevel = braceCount + 1;
+            }
+
+            // Count braces to track nesting
+            for (const char of line) {
+                if (char === '{') braceCount++;
+                if (char === '}') braceCount--;
+            }
+
+            // If we've closed back to the level before this component, we're outside it
+            if (currentComponent && braceCount < componentBraceLevel) {
+                currentComponent = null;
+                componentBraceLevel = 0;
+            }
+        }
+
+        return currentComponent;
+    }
+
+    /**
+     * Load component information from JSON file
+     */
+    loadComponentInfo(componentName) {
+        try {
+            const fileName = componentName.replace(/\./g, '_') + '.json';
+            const srcComponentsPath = path.resolve(__dirname, '..', 'src', 'components');
+            const filePath = path.join(srcComponentsPath, fileName);
+
+            if (!fs.existsSync(filePath)) {
+                return null;
+            }
+
+            const fileContent = fs.readFileSync(filePath, 'utf8');
+            const componentData = JSON.parse(fileContent);
+
+            const parameters = [];
+            if (componentData.arguments && Array.isArray(componentData.arguments)) {
+                for (const arg of componentData.arguments) {
+                    parameters.push({
+                        name: arg.name,
+                        type: arg.type,
+                        required: arg.required === true,
+                        default: arg.default !== "" ? arg.default : undefined,
+                        description: arg.description
+                    });
+                }
+            }
+
+            return {
+                name: componentName,
+                parameters
+            };
+        } catch (error) {
+            return null;
+        }
+    }
+
+    /**
+     * Infer type from value assignment
+     */
+    inferTypeFromValue(value) {
+        value = value.trim();
+
+        // String literals
+        if ((value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))) {
+            return 'string';
+        }
+
+        // Numbers
+        if (/^\d+$/.test(value)) {
+            return 'number';
+        }
+
+        if (/^\d+\.\d+$/.test(value)) {
+            return 'number';
+        }
+
+        // Booleans
+        if (value === 'true' || value === 'false') {
+            return 'bool';
+        }
+
+        // Durations
+        if (/^\d+[smhd]$/.test(value)) {
+            return 'duration';
+        }
+
+        // Lists
+        if (value.startsWith('[') && value.endsWith(']')) {
+            return 'list';
+        }
+
+        // Maps/Objects
+        if (value.startsWith('{') && value.endsWith('}')) {
+            return 'map';
+        }
+
+        // Component references (like prometheus.scrape.default.receiver)
+        if (/^\w+\.\w+\.\w+\.\w+$/.test(value)) {
+            return 'component_reference';
+        }
+
+        // Argument references (like argument.output.value)
+        if (value.startsWith('argument.') && value.endsWith('.value')) {
+            return 'argument_reference';
+        }
+
+        // Declared component references (like component.label.field)
+        if (/^\w+\.\w+\.\w+$/.test(value)) {
+            return 'declared_component_reference';
+        }
+
+        // If we can't infer the type, return null (this will trigger a warning)
+        return null;
+    }
+
+    /**
+     * Check if a value matches the expected type
+     */
+    isValueCompatibleWithType(value, expectedType, document) {
+        const valueType = this.inferTypeFromValue(value);
+
+        // If we couldn't infer the value type, we can't validate it
+        if (!valueType) {
+            return false; // This will be handled by the warning in the main validation
+        }
+
+        // Exact type match
+        if (valueType === expectedType) {
+            return true;
+        }
+
+        // Special handling for lists
+        if (expectedType.startsWith('list(') && valueType === 'list') {
+            return this.validateListElementTypes(value, expectedType, document);
+        }
+
+        // Allow argument references for any expected type
+        if (valueType === 'argument_reference') {
+            return true; // Argument references can resolve to any type
+        }
+
+        // Allow component references for receiver types
+        if ((expectedType === 'receiver' || expectedType === 'LogsReceiver' || expectedType === 'MetricsReceiver') &&
+            (valueType === 'component_reference' || valueType === 'declared_component_reference')) {
+            return true;
+        }
+
+        // Allow strings for duration types
+        if (expectedType === 'duration' && valueType === 'string') {
+            return true;
+        }
+
+        // Allow strings for argument references (might resolve to strings)
+        if (expectedType === 'string' && valueType === 'argument_reference') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Validate that list elements match the expected element type
+     */
+    validateListElementTypes(value, expectedType, document) {
+        // Extract the element type from list(type)
+        const elementTypeMatch = expectedType.match(/^list\((.+)\)$/);
+        if (!elementTypeMatch) {
+            return false;
+        }
+
+        const expectedElementType = elementTypeMatch[1];
+
+        // Parse the list content
+        const listContent = value.trim();
+        if (!listContent.startsWith('[') || !listContent.endsWith(']')) {
+            return false;
+        }
+
+        // Handle empty list
+        const innerContent = listContent.slice(1, -1).trim();
+        if (innerContent === '') {
+            return true; // Empty list is valid for any list type
+        }
+
+        // Simple parsing for testing - split by comma
+        const elements = innerContent.split(',').map(e => e.trim());
+
+        // Validate each element
+        for (const element of elements) {
+            if (!this.validateListElement(element, expectedElementType)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate a single list element against the expected type
+     */
+    validateListElement(element, expectedType) {
+        const trimmedElement = element.trim();
+
+        // Handle receiver elements - enhanced validation (receiver, LogsReceiver, MetricsReceiver)
+        if (expectedType === 'receiver' || expectedType === 'LogsReceiver' || expectedType === 'MetricsReceiver') {
+            // Reject empty strings and simple string literals
+            if ((trimmedElement.startsWith('"') && trimmedElement.endsWith('"')) ||
+                (trimmedElement.startsWith("'") && trimmedElement.endsWith("'"))) {
+                return false; // String literals are not valid receivers
+            }
+
+            // Allow component references like prometheus.remote_write.default.receiver
+            if (/^\w+\.\w+\.\w+\.\w+$/.test(trimmedElement)) {
+                return true;
+            }
+
+            // Allow argument references
+            if (trimmedElement.startsWith('argument.') && trimmedElement.endsWith('.value')) {
+                return true;
+            }
+
+            // Allow declared component references (component_name.label.exported_field)
+            if (/^\w+\.\w+\.\w+$/.test(trimmedElement)) {
+                return true;
+            }
+
+            // Reject anything else for receiver types
+            return false;
+        }
+
+        // Handle string elements
+        if (expectedType === 'string') {
+            return (trimmedElement.startsWith('"') && trimmedElement.endsWith('"')) ||
+                   (trimmedElement.startsWith("'") && trimmedElement.endsWith("'"));
+        }
+
+        // For other types, accept any non-empty value for now
+        return trimmedElement.length > 0;
+    }
+}
+/**
+ * Validate duplicates within a single document (components and config blocks)
+ */
+function validateDuplicatesWithinDocument(parsedComponents, parsedConfigBlocks) {
+    const diagnostics = [];
+    // Track component instances by type + label
+    const componentTracker = {};
+    // Track config blocks by type + label
+    const configBlockTracker = {};
+    // Collect all components (including those from root and declare blocks)
+    for (const component of parsedComponents) {
+        if (component.label) {
+            // Include scope in the key to separate components in different scopes
+            const scope = component.scope || 'root';
+            const key = `${scope}:${component.name}:${component.label}`;
+            if (!componentTracker[key]) {
+                componentTracker[key] = [];
+            }
+            componentTracker[key].push(component);
+        }
+    }
+    
+    // Also collect components from inside declare blocks
+    for (const configBlock of parsedConfigBlocks) {
+        if (configBlock.components) {
+            for (const component of configBlock.components) {
+                if (component.label) {
+                    // Include scope in the key to separate components in different scopes
+                    const scope = component.scope || 'root';
+                    const key = `${scope}:${component.name}:${component.label}`;
+                    if (!componentTracker[key]) {
+                        componentTracker[key] = [];
+                    }
+                    componentTracker[key].push(component);
+                }
+            }
+        }
+    }
+    // Collect all config blocks (including declare blocks)
+    for (const configBlock of parsedConfigBlocks) {
+        if (configBlock.label) {
+            const key = `${configBlock.type}:${configBlock.label}`;
+            if (!configBlockTracker[key]) {
+                configBlockTracker[key] = [];
+            }
+            configBlockTracker[key].push(configBlock);
+        }
+    }
+    // Report duplicates for components
+    for (const [key, occurrences] of Object.entries(componentTracker)) {
+        if (occurrences.length > 1) {
+            const [scope, componentType, label] = key.split(':');
+            const scopeLabel = scope === 'root' ? 'root scope' : `declare block '${scope}'`;
+            for (const occurrence of occurrences) {
+                diagnostics.push({
+                    severity: node_1.DiagnosticSeverity.Error,
+                    range: occurrence.range,
+                    message: `Duplicate component '${componentType}' with label '${label}' in ${scopeLabel}. Found ${occurrences.length} instances.`,
+                    source: "alloy-lsp",
+                });
+            }
+        }
+    }
+    // Report duplicates for config blocks
+    for (const [key, occurrences] of Object.entries(configBlockTracker)) {
+        if (occurrences.length > 1) {
+            const [blockType, label] = key.split(':');
+            for (const occurrence of occurrences) {
+                diagnostics.push({
+                    severity: node_1.DiagnosticSeverity.Error,
+                    range: occurrence.range,
+                    message: `Duplicate ${blockType} block with label '${label}'. Found ${occurrences.length} instances in this document.`,
+                    source: "alloy-lsp",
+                });
+            }
+        }
+    }
+    return diagnostics;
+}
+async function getDocumentDiagnostics(document, documents, workspaceComponentLabelMap, allComponentData) {
+    try {
+        // Use provided component data, or get all component data including declared components - use workspace if available
+        const componentData = allComponentData || (documents ?
+            utils.getCachedWorkspaceComponents(documents) :
+            utils.getAllAvailableComponents(document));
+        if (Object.keys(componentData).length === 0) {
+            return [];
+        }
+        const validator = new DiagnosticsValidator();
+        const parsedComponents = utils.parseDocument(document);
+        const parsedConfigBlocks = utils.parseConfigBlocks(document);
+        const diagnostics = [];
+        // Validate components
+        for (const parsedComponent of parsedComponents) {
+            // Check if component is available (builtin or declared)
+            const componentInfo = componentData[parsedComponent.name];
+            // Check if component is unknown (not in our registry and not declared)
+            if (!componentInfo) {
+                diagnostics.push({
+                    severity: node_1.DiagnosticSeverity.Error,
+                    range: parsedComponent.range,
+                    message: `Unknown component '${parsedComponent.name}'`,
+                    source: "alloy-lsp",
+                });
+                continue; // Skip further validation for unknown components
+            }
+            // Validate component structure (works for both builtin and declared components)
+            const componentStructure = componentInfo.lsp_structure;
+            diagnostics.push(...validator.validateComponent(parsedComponent, componentStructure));
+        }
+        // Validate config blocks
+        for (const parsedConfigBlock of parsedConfigBlocks) {
+            diagnostics.push(...validator.validateConfigBlock(parsedConfigBlock));
+        }
+        // Check for duplicate components and config blocks within the document
+        diagnostics.push(...validateDuplicatesWithinDocument(parsedComponents, parsedConfigBlocks));
+        
+        // Validate parameter types against their expected types  
+        diagnostics.push(...validator.validateParameterTypes(document));
+        
+        // Validate unused arguments in declare blocks
+        diagnostics.push(...validator.validateUnusedArguments(document));
+        
+        // Validate component references in expressions - use workspace context if available
+        // Use the provided workspaceComponentLabelMap, or create one from opened documents if not provided
+        let componentLabelMap = workspaceComponentLabelMap;
+        if (!componentLabelMap && documents) {
+            componentLabelMap = {};
+            for (const doc of documents.all()) {
+                const docComponentLabelMap = utils.createComponentLabelMap(doc);
+                Object.assign(componentLabelMap, docComponentLabelMap);
+            }
+        }
+        diagnostics.push(...validateComponentReferences(document, componentData, componentLabelMap));
+        return diagnostics;
+    }
+    catch (error) {
+        console.error('Error in getDocumentDiagnostics:', error);
+        return [];
+    }
+}
+// Removed getAllWorkspaceDocuments - now using workspaceComponentService
+async function getWorkspaceDiagnostics(documents, workspaceFolders = [], connection) {
+    const diagnostics = [];
+    const labelTracker = {};
+    const declareTracker = {};
+    // Get workspace diagnostics data using the centralized service
+    const { allDocuments, componentLabelMap } = await workspaceComponentService_1.workspaceComponentService.getWorkspaceDiagnosticsData(documents, workspaceFolders);
+    connection?.console.log(`Processing ${allDocuments.length} total documents for diagnostics`);
+    // Use the component label map from the service
+    const workspaceComponentLabelMap = componentLabelMap;
+    // Get all component data from workspace service for consistent diagnostics
+    const allComponentData = await workspaceComponentService_1.workspaceComponentService.getAllWorkspaceComponents(documents, workspaceFolders);
+    for (const document of allDocuments) {
+        try {
+            const parsedComponents = utils.parseDocument(document);
+            const parsedConfigBlocks = utils.parseConfigBlocks(document);
+            // Track component labels for duplicate detection
+            for (const component of parsedComponents) {
+                if (component.label) {
+                    const key = `${component.name}:${component.label}`;
+                    if (!labelTracker[key]) {
+                        labelTracker[key] = [];
+                    }
+                    labelTracker[key].push({
+                        uri: document.uri,
+                        range: component.range
+                    });
+                }
+            }
+            // Track declare blocks for duplicate detection
+            for (const configBlock of parsedConfigBlocks) {
+                if (configBlock.type === 'declare' && configBlock.label) {
+                    const key = `declare:${configBlock.label}`;
+                    if (!declareTracker[key]) {
+                        declareTracker[key] = [];
+                    }
+                    declareTracker[key].push({
+                        uri: document.uri,
+                        range: configBlock.range
+                    });
+                }
+            }
+            // Get full document diagnostics with workspace context for each document
+            const documentDiagnostics = await getDocumentDiagnostics(document, documents, workspaceComponentLabelMap, allComponentData);
+            if (documentDiagnostics.length > 0) {
+                diagnostics.push({
+                    uri: document.uri,
+                    items: documentDiagnostics
+                });
+            }
+        }
+        catch (error) {
+            console.error(`Error processing document ${document.uri}:`, error);
+        }
+    }
+    // Generate duplicate diagnostics
+    const duplicateDiagnostics = {};
+    // Component label duplicates
+    for (const [key, occurrences] of Object.entries(labelTracker)) {
+        if (occurrences.length > 1) {
+            const [componentName, label] = key.split(':');
+            for (const occurrence of occurrences) {
+                if (!duplicateDiagnostics[occurrence.uri]) {
+                    duplicateDiagnostics[occurrence.uri] = [];
+                }
+                duplicateDiagnostics[occurrence.uri].push({
+                    severity: node_1.DiagnosticSeverity.Error,
+                    range: occurrence.range,
+                    message: `Duplicate component label '${label}' for ${componentName}. Component labels must be unique across the workspace.`,
+                    source: "alloy-lsp",
+                });
+            }
+        }
+    }
+    // Declare block duplicates
+    for (const [key, occurrences] of Object.entries(declareTracker)) {
+        if (occurrences.length > 1) {
+            const [, declareName] = key.split(':');
+            for (const occurrence of occurrences) {
+                if (!duplicateDiagnostics[occurrence.uri]) {
+                    duplicateDiagnostics[occurrence.uri] = [];
+                }
+                duplicateDiagnostics[occurrence.uri].push({
+                    severity: node_1.DiagnosticSeverity.Error,
+                    range: occurrence.range,
+                    message: `Duplicate declare block '${declareName}'. Declare block names must be unique across the workspace.`,
+                    source: "alloy-lsp",
+                });
+            }
+        }
+    }
+    // Add duplicate diagnostics to results
+    for (const document of allDocuments) {
+        const workspaceDiagnostics = duplicateDiagnostics[document.uri] || [];
+        if (workspaceDiagnostics.length > 0) {
+            // Check if we already have diagnostics for this URI
+            const existingIndex = diagnostics.findIndex(d => d.uri === document.uri);
+            if (existingIndex >= 0) {
+                diagnostics[existingIndex].items.push(...workspaceDiagnostics);
+            }
+            else {
+                diagnostics.push({
+                    uri: document.uri,
+                    items: workspaceDiagnostics
+                });
+            }
+        }
+    }
+    return diagnostics;
+}
+/**
+ * Validate component references in expressions throughout the document
+ */
+function validateComponentReferences(document, allComponentData, workspaceComponentLabelMap) {
+    const diagnostics = [];
+    // Get all declared component labels for validation - prefer workspace map if available
+    let componentLabelMap;
+    if (workspaceComponentLabelMap) {
+        componentLabelMap = workspaceComponentLabelMap;
+    }
+    else {
+        // Fallback to single document for backward compatibility
+        componentLabelMap = utils.createComponentLabelMap(document);
+    }
+    // Track component scopes for the current document
+    const declareBlocks = utils.parseConfigBlocks(document);
+    const scopeMap = {}; // line -> scope name
+    // Map declare block line ranges to their scope names
+    for (const block of declareBlocks) {
+        if (block.type === 'declare' && block.label) {
+            for (let line = block.range.start.line; line <= block.range.end.line; line++) {
+                scopeMap[line] = block.label;
+            }
+        }
+    }
+    // Use the centralized component reference parsing
+    const componentMatches = utils.parseComponentReferencesInDocument(document, allComponentData);
+    for (const match of componentMatches) {
+        if (match.isValidReference) {
+            // Check if the component with this label exists
+            const key = `${match.componentType}:${match.componentLabel}`;
+            const targetComponent = componentLabelMap[key];
+            if (!targetComponent) {
+                // Component with this label doesn't exist
+                const labelStart = match.matchIndex + match.componentType.length + 1; // +1 for the dot
+                const labelEnd = labelStart + match.componentLabel.length;
+                diagnostics.push({
+                    severity: node_1.DiagnosticSeverity.Error,
+                    range: node_1.Range.create(node_1.Position.create(match.lineIndex, labelStart), node_1.Position.create(match.lineIndex, labelEnd)),
+                    message: `Component '${match.componentType}' with label '${match.componentLabel}' not found`,
+                    source: "alloy-lsp",
+                });
+            }
+            else {
+                // Component exists, now validate export properties for declared components
+                if (match.property && allComponentData[match.componentType]?.isDeclared) {
+                    const componentData = allComponentData[match.componentType];
+                    const declareBlock = componentData.declareBlock;
+                    
+                    if (declareBlock && declareBlock.blocks) {
+                        // Get all export names from the declare block
+                        const exportBlocks = declareBlock.blocks.filter(b => b.name === 'export');
+                        const availableExports = exportBlocks.map(exp => exp.label).filter(Boolean);
+                        
+                        if (availableExports.length > 0 && !availableExports.includes(match.property)) {
+                            // Invalid export property
+                            const propertyStart = match.matchIndex + match.componentType.length + 1 + match.componentLabel.length + 1; // +1 for each dot
+                            const propertyEnd = propertyStart + match.property.length;
+
+                            diagnostics.push({
+                                severity: node_1.DiagnosticSeverity.Error,
+                                range: node_1.Range.create(
+                                    node_1.Position.create(match.lineIndex, propertyStart),
+                                    node_1.Position.create(match.lineIndex, propertyEnd)
+                                ),
+                                message: `Unknown export '${match.property}' for component '${match.componentType}'. Available exports: ${availableExports.join(', ')}`,
+                                source: "alloy-lsp",
+                            });
+                        }
+                    }
+                }
+                
+                // Component exists, now check scope compatibility
+                const referenceScope = scopeMap[match.lineIndex] || 'root';
+                const targetScope = targetComponent.scope || 'root';
+                // Cross-scope validation rules:
+                // 1. Root scope can only reference root scope components
+                // 2. Declare scope components are isolated and cannot reference root scope components  
+                // 3. Components inside declare scopes cannot be referenced from outside
+                // 4. Different declare scopes cannot reference each other
+                if (referenceScope === 'root' && targetScope !== 'root') {
+                    // Rule 3: Root scope trying to reference component in declare scope
+                    const labelStart = match.matchIndex + match.componentType.length + 1; // +1 for the dot
+                    const labelEnd = labelStart + match.componentLabel.length;
+                    diagnostics.push({
+                        severity: node_1.DiagnosticSeverity.Error,
+                        range: node_1.Range.create(node_1.Position.create(match.lineIndex, labelStart), node_1.Position.create(match.lineIndex, labelEnd)),
+                        message: `Cannot reference component '${match.componentType}.${match.componentLabel}' from root scope. Component is defined inside declare block '${targetScope}'`,
+                        source: "alloy-lsp",
+                    });
+                }
+                else if (referenceScope !== 'root' && targetScope === 'root') {
+                    // Rule 2: Declare scope trying to reference root scope component
+                    const labelStart = match.matchIndex + match.componentType.length + 1; // +1 for the dot
+                    const labelEnd = labelStart + match.componentLabel.length;
+                    diagnostics.push({
+                        severity: node_1.DiagnosticSeverity.Error,
+                        range: node_1.Range.create(node_1.Position.create(match.lineIndex, labelStart), node_1.Position.create(match.lineIndex, labelEnd)),
+                        message: `Cannot reference component '${match.componentType}.${match.componentLabel}' from declare block '${referenceScope}'. Component is defined in root scope and not accessible from declare blocks`,
+                        source: "alloy-lsp",
+                    });
+                }
+                else if (referenceScope !== 'root' && targetScope !== 'root' && referenceScope !== targetScope) {
+                    // Rule 4: Different declare scopes trying to reference each other
+                    const labelStart = match.matchIndex + match.componentType.length + 1; // +1 for the dot
+                    const labelEnd = labelStart + match.componentLabel.length;
+                    diagnostics.push({
+                        severity: node_1.DiagnosticSeverity.Error,
+                        range: node_1.Range.create(node_1.Position.create(match.lineIndex, labelStart), node_1.Position.create(match.lineIndex, labelEnd)),
+                        message: `Cannot reference component '${match.componentType}.${match.componentLabel}' from declare block '${referenceScope}'. Component is defined in different declare block '${targetScope}'`,
+                        source: "alloy-lsp",
+                    });
+                }
+            }
+        }
+        else {
+            // Could not parse as a valid component reference - check for unknown component types
+            const parts = match.matchedText.split('.');
+            if (parts.length >= 3) {
+                // Check if any substring of the reference is a known component type
+                let foundKnownComponent = false;
+                for (let i = 1; i < Math.min(parts.length - 1, 4); i++) {
+                    const testType = parts.slice(0, i + 1).join('.');
+                    if (allComponentData[testType]) {
+                        foundKnownComponent = true;
+                        break;
+                    }
+                }
+                if (!foundKnownComponent) {
+                    // No known component type found in this reference
+                    // Report the first part as unknown
+                    const possibleType = parts.slice(0, Math.min(3, parts.length - 1)).join('.');
+                    const typeEnd = match.matchIndex + possibleType.length;
+                    diagnostics.push({
+                        severity: node_1.DiagnosticSeverity.Error,
+                        range: node_1.Range.create(node_1.Position.create(match.lineIndex, match.matchIndex), node_1.Position.create(match.lineIndex, typeEnd)),
+                        message: `Unknown component type '${possibleType}'`,
+                        source: "alloy-lsp",
+                    });
+                }
+            }
+        }
+    }
+    return diagnostics;
+}

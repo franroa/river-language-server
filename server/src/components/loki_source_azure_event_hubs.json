@@ -1,0 +1,175 @@
+{
+  "name": "loki.source.azure_event_hubs",
+  "usage": "loki.source.azure_event_hubs \"<LABEL>\" {\n    fully_qualified_namespace = \"<HOST:PORT>\"\n    event_hubs                = \"<EVENT_HUB_LIST>\"\n    forward_to                = <RECEIVER_LIST>\n\n    authentication {\n        mechanism = \"AUTHENTICATION_MECHANISM\"\n    }\n}",
+  "arguments": [
+    {
+      "name": "event_hubs",
+      "type": "list(string)",
+      "description": "Event Hubs to consume.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "fully_qualified_namespace",
+      "type": "string",
+      "description": "Event hub namespace.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "assignor",
+      "type": "string",
+      "description": "The consumer group rebalancing strategy to use.",
+      "default": "\"range\"",
+      "required": false
+    },
+    {
+      "name": "disallow_custom_messages",
+      "type": "bool",
+      "description": "Whether to ignore messages that don’t match the schema for Azure resource logs.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "group_id",
+      "type": "string",
+      "description": "The Kafka consumer group ID.",
+      "default": "\"loki.source.azure_event_hubs\"",
+      "required": false
+    },
+    {
+      "name": "labels",
+      "type": "map(string)",
+      "description": "The labels to associate with each received event.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "relabel_rules",
+      "type": "RelabelRules",
+      "description": "Relabeling rules to apply on log entries.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "use_incoming_timestamp",
+      "type": "bool",
+      "description": "Whether to use the timestamp received from Azure Event Hub.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "authentication",
+      "description": "Authentication configuration with Azure Event Hub.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.azure_event_hubs/#authentication"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.azure_event_hubs",
+    "arguments": {
+      "event_hubs": {
+        "type": "list(string)",
+        "description": "Event Hubs to consume.",
+        "default": "",
+        "required": true
+      },
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "fully_qualified_namespace": {
+        "type": "string",
+        "description": "Event hub namespace.",
+        "default": "",
+        "required": true
+      },
+      "assignor": {
+        "type": "string",
+        "description": "The consumer group rebalancing strategy to use.",
+        "default": "\"range\"",
+        "required": false
+      },
+      "disallow_custom_messages": {
+        "type": "bool",
+        "description": "Whether to ignore messages that don’t match the schema for Azure resource logs.",
+        "default": "false",
+        "required": false
+      },
+      "group_id": {
+        "type": "string",
+        "description": "The Kafka consumer group ID.",
+        "default": "\"loki.source.azure_event_hubs\"",
+        "required": false
+      },
+      "labels": {
+        "type": "map(string)",
+        "description": "The labels to associate with each received event.",
+        "default": "{}",
+        "required": false
+      },
+      "relabel_rules": {
+        "type": "RelabelRules",
+        "description": "Relabeling rules to apply on log entries.",
+        "default": "{}",
+        "required": false
+      },
+      "use_incoming_timestamp": {
+        "type": "bool",
+        "description": "Whether to use the timestamp received from Azure Event Hub.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "authentication": {
+        "description": "Authentication configuration with Azure Event Hub.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "mechanism",
+            "type": "string",
+            "description": "Authentication mechanism.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "connection_string",
+            "type": "secret",
+            "description": "Event Hubs ConnectionString for authentication on Azure Cloud.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "scopes",
+            "type": "list(string)",
+            "description": "Access token scopes. Default is fully_qualified_namespace without port.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.source.azure_event_hubs \"<LABEL>\" {\n    fully_qualified_namespace = \"<HOST:PORT>\"\n    event_hubs                = \"<EVENT_HUB_LIST>\"\n    forward_to                = <RECEIVER_LIST>\n\n    authentication {\n        mechanism = \"AUTHENTICATION_MECHANISM\"\n    }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "authentication"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.azure_event_hubs \"${1:default}\" {\n  authentication {\n    mechanism = \"${2}\"\n  }\n}"
+}

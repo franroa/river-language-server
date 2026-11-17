@@ -1,0 +1,121 @@
+{
+  "name": "discovery.process",
+  "usage": "discovery.process \"<LABEL>\" {\n\n}",
+  "arguments": [
+    {
+      "name": "join",
+      "type": "list(map(string))",
+      "description": "Join external targets to discovered processes targets based on __container_id__ label.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "How often to sync targets.",
+      "default": "\"60s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "discover_config",
+      "description": "Configures which process metadata to discover.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.process/#discover_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of processes discovered on the local Linux OS."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.process",
+    "arguments": {
+      "join": {
+        "type": "list(map(string))",
+        "description": "Join external targets to discovered processes targets based on __container_id__ label.",
+        "default": "",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "How often to sync targets.",
+        "default": "\"60s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "discover_config": {
+        "description": "Configures which process metadata to discover.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exe",
+            "type": "bool",
+            "description": "A flag to enable discovering __meta_process_exe label.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "cwd",
+            "type": "bool",
+            "description": "A flag to enable discovering __meta_process_cwd label.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "commandline",
+            "type": "bool",
+            "description": "A flag to enable discovering __meta_process_commandline label.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "uid",
+            "type": "bool",
+            "description": "A flag to enable discovering __meta_process_uid label.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "username",
+            "type": "bool",
+            "description": "A flag to enable discovering __meta_process_username label.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "cgroup_path",
+            "type": "bool",
+            "description": "A flag to enable discovering __meta_cgroup_path__ label.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "container_id",
+            "type": "bool",
+            "description": "A flag to enable discovering __container_id__ label.",
+            "default": "true",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "discovery.process \"<LABEL>\" {\n\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of processes discovered on the local Linux OS."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.process \"${1:default}\" {\n  discover_config {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of processes discovered on the local Linux OS.\n}"
+}

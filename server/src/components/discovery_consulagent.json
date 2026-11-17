@@ -1,0 +1,175 @@
+{
+  "name": "discovery.consulagent",
+  "usage": "discovery.consulagent \"<LABEL>\" {\n  server = \"<CONSUL_SERVER>\"\n}",
+  "arguments": [
+    {
+      "name": "datacenter",
+      "type": "string",
+      "description": "Data center in which the Consul Agent is configured to run. If not provided, the data center is retrieved from the local Consul Agent.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "password",
+      "type": "secret",
+      "description": "The password to use.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Frequency to refresh list of containers.",
+      "default": "\"30s\"",
+      "required": false
+    },
+    {
+      "name": "scheme",
+      "type": "string",
+      "description": "The scheme to use when talking to the Consul Agent.",
+      "default": "\"http\"",
+      "required": false
+    },
+    {
+      "name": "server",
+      "type": "string",
+      "description": "Host and port of the Consul Agent API.",
+      "default": "\"localhost:8500\"",
+      "required": false
+    },
+    {
+      "name": "services",
+      "type": "list(string)",
+      "description": "A list of services for which targets are retrieved. If omitted, all services are scraped.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "tag_separator",
+      "type": "string",
+      "description": "The string by which Consul tags are joined into the tag label.",
+      "default": "\",\"",
+      "required": false
+    },
+    {
+      "name": "tags",
+      "type": "list(string)",
+      "description": "An optional list of tags used to filter nodes for a given service. Services must contain all tags in the list.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "token",
+      "type": "secret",
+      "description": "Secret token used to access the Consul Agent API.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "The username to use.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.consulagent/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the Consul Agent API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.consulagent",
+    "arguments": {
+      "datacenter": {
+        "type": "string",
+        "description": "Data center in which the Consul Agent is configured to run. If not provided, the data center is retrieved from the local Consul Agent.",
+        "default": "",
+        "required": false
+      },
+      "password": {
+        "type": "secret",
+        "description": "The password to use.",
+        "default": "",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Frequency to refresh list of containers.",
+        "default": "\"30s\"",
+        "required": false
+      },
+      "scheme": {
+        "type": "string",
+        "description": "The scheme to use when talking to the Consul Agent.",
+        "default": "\"http\"",
+        "required": false
+      },
+      "server": {
+        "type": "string",
+        "description": "Host and port of the Consul Agent API.",
+        "default": "\"localhost:8500\"",
+        "required": false
+      },
+      "services": {
+        "type": "list(string)",
+        "description": "A list of services for which targets are retrieved. If omitted, all services are scraped.",
+        "default": "",
+        "required": false
+      },
+      "tag_separator": {
+        "type": "string",
+        "description": "The string by which Consul tags are joined into the tag label.",
+        "default": "\",\"",
+        "required": false
+      },
+      "tags": {
+        "type": "list(string)",
+        "description": "An optional list of tags used to filter nodes for a given service. Services must contain all tags in the list.",
+        "default": "",
+        "required": false
+      },
+      "token": {
+        "type": "secret",
+        "description": "Secret token used to access the Consul Agent API.",
+        "default": "",
+        "required": false
+      },
+      "username": {
+        "type": "string",
+        "description": "The username to use.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "tls_config": {
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.consulagent \"<LABEL>\" {\n  server = \"<CONSUL_SERVER>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the Consul Agent API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.consulagent \"${1:default}\" {\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the Consul Agent API.\n}"
+}

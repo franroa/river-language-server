@@ -1,0 +1,380 @@
+{
+  "name": "database_observability.sql_server",
+  "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}",
+  "arguments": [
+    {
+      "name": "data_source_name",
+      "type": "secret",
+      "description": "Data Source Name for the SQL Server instance to connect to. Required when no database_instance blocks are defined.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "Where to forward log entries after processing.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "List of external targets to scrape.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "disable_collectors",
+      "type": "list(string)",
+      "description": "A list of collectors to disable from the default set.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "enable_collectors",
+      "type": "list(string)",
+      "description": "A list of collectors to enable on top of the default set.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "exclude_current_user",
+      "type": "bool",
+      "description": "Exclude query samples from sessions opened with the login that Alloy uses.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "exclude_schemas",
+      "type": "list(string)",
+      "description": "A list of schemas to exclude from monitoring, on top of the always-excluded system schemas sys and information_schema.",
+      "default": "[\"alloydbadmin\", \"alloydbmetadata\", \"azure_maintenance\", \"azure_sys\", \"cloudsqladmin\", \"rdsadmin\"]",
+      "required": false
+    },
+    {
+      "name": "exclude_databases",
+      "type": "list(string)",
+      "description": "A list of databases to exclude from monitoring, on top of the always-excluded system databases master, model, msdb, and tempdb.",
+      "default": "[\"alloydbadmin\", \"alloydbmetadata\", \"azure_maintenance\", \"azure_sys\", \"cloudsqladmin\", \"rdsadmin\"]",
+      "required": false
+    },
+    {
+      "name": "exclude_users",
+      "type": "list(string)",
+      "description": "A list of original SQL Server login names to exclude from query samples.",
+      "default": "[\"azuresu\", \"cloudsqladmin\", \"db-o11y\", \"rdsadmin\"]",
+      "required": false
+    },
+    {
+      "name": "query_timeout",
+      "type": "duration",
+      "description": "Timeout for each SQL statement.",
+      "default": "\"10s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "cloud_provider",
+      "description": "Provide Cloud Provider information.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#cloud_provider"
+    },
+    {
+      "block": "cloud_provider > aws",
+      "description": "Provide AWS database host information.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#aws"
+    },
+    {
+      "block": "cloud_provider > azure",
+      "description": "Provide Azure database host information.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#azure"
+    },
+    {
+      "block": "cloud_provider > gcp",
+      "description": "Provide GCP database host information.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#gcp"
+    },
+    {
+      "block": "database_instance",
+      "description": "Define one SQL Server instance to monitor. Repeat the block to monitor several instances.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#database_instance"
+    },
+    {
+      "block": "database_instance > cloud_provider",
+      "description": "Provide Cloud Provider information for one instance.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#cloud_provider"
+    },
+    {
+      "block": "database_instance > rule",
+      "description": "Relabel the metrics and logs of one instance.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#rule"
+    },
+    {
+      "block": "clustering",
+      "description": "Configure the component for when Alloy is running in clustered mode.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#clustering"
+    },
+    {
+      "block": "explain_plans",
+      "description": "Configure the query execution plan collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#explain_plans"
+    },
+    {
+      "block": "health_check",
+      "description": "Configure the health check collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#health_check"
+    },
+    {
+      "block": "query_details",
+      "description": "Configure the Query Store query text collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#query_details"
+    },
+    {
+      "block": "query_metrics",
+      "description": "Configure the Query Store metrics collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#query_metrics"
+    },
+    {
+      "block": "query_samples",
+      "description": "Configure the query samples collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#query_samples"
+    },
+    {
+      "block": "schema_details",
+      "description": "Configure the schema and table details collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#schema_details"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "database_observability.sql_server",
+    "arguments": {
+      "data_source_name": {
+        "type": "secret",
+        "description": "Data Source Name for the SQL Server instance to connect to. Required when no database_instance blocks are defined.",
+        "default": "",
+        "required": false
+      },
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "Where to forward log entries after processing.",
+        "default": "",
+        "required": true
+      },
+      "targets": {
+        "type": "list(map(string))",
+        "description": "List of external targets to scrape.",
+        "default": "",
+        "required": false
+      },
+      "disable_collectors": {
+        "type": "list(string)",
+        "description": "A list of collectors to disable from the default set.",
+        "default": "",
+        "required": false
+      },
+      "enable_collectors": {
+        "type": "list(string)",
+        "description": "A list of collectors to enable on top of the default set.",
+        "default": "",
+        "required": false
+      },
+      "exclude_current_user": {
+        "type": "bool",
+        "description": "Exclude query samples from sessions opened with the login that Alloy uses.",
+        "default": "true",
+        "required": false
+      },
+      "exclude_schemas": {
+        "type": "list(string)",
+        "description": "A list of schemas to exclude from monitoring, on top of the always-excluded system schemas sys and information_schema.",
+        "default": "[\"alloydbadmin\", \"alloydbmetadata\", \"azure_maintenance\", \"azure_sys\", \"cloudsqladmin\", \"rdsadmin\"]",
+        "required": false
+      },
+      "exclude_databases": {
+        "type": "list(string)",
+        "description": "A list of databases to exclude from monitoring, on top of the always-excluded system databases master, model, msdb, and tempdb.",
+        "default": "[\"alloydbadmin\", \"alloydbmetadata\", \"azure_maintenance\", \"azure_sys\", \"cloudsqladmin\", \"rdsadmin\"]",
+        "required": false
+      },
+      "exclude_users": {
+        "type": "list(string)",
+        "description": "A list of original SQL Server login names to exclude from query samples.",
+        "default": "[\"azuresu\", \"cloudsqladmin\", \"db-o11y\", \"rdsadmin\"]",
+        "required": false
+      },
+      "query_timeout": {
+        "type": "duration",
+        "description": "Timeout for each SQL statement.",
+        "default": "\"10s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "cloud_provider": {
+        "description": "Provide Cloud Provider information.",
+        "required": false,
+        "children": {
+          "aws": {
+            "description": "Provide AWS database host information.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+          },
+          "azure": {
+            "description": "Provide Azure database host information.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+          },
+          "gcp": {
+            "description": "Provide GCP database host information.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "aws",
+            "description": "Provide AWS database host information.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#aws"
+          },
+          {
+            "block": "azure",
+            "description": "Provide Azure database host information.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#azure"
+          },
+          {
+            "block": "gcp",
+            "description": "Provide GCP database host information.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#gcp"
+          }
+        ],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      },
+      "database_instance": {
+        "description": "Define one SQL Server instance to monitor. Repeat the block to monitor several instances.",
+        "required": false,
+        "children": {
+          "cloud_provider": {
+            "description": "Provide Cloud Provider information for one instance.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+          },
+          "rule": {
+            "description": "Relabel the metrics and logs of one instance.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "cloud_provider",
+            "description": "Provide Cloud Provider information for one instance.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#cloud_provider"
+          },
+          {
+            "block": "rule",
+            "description": "Relabel the metrics and logs of one instance.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/database_observability/database_observability.sql_server/#rule"
+          }
+        ],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      },
+      "clustering": {
+        "description": "Configure the component for when Alloy is running in clustered mode.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      },
+      "explain_plans": {
+        "description": "Configure the query execution plan collector.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      },
+      "health_check": {
+        "description": "Configure the health check collector.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      },
+      "query_details": {
+        "description": "Configure the Query Store query text collector.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      },
+      "query_metrics": {
+        "description": "Configure the Query Store metrics collector.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      },
+      "query_samples": {
+        "description": "Configure the query samples collector.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      },
+      "schema_details": {
+        "description": "Configure the schema and table details collector.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "database_observability.sql_server \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "database_observability.sql_server \"${1:default}\" {\n  cloud_provider {\n  }\n  database_instance {\n  }\n  clustering {\n    $0\n  }\n  explain_plans {\n    $0\n  }\n  health_check {\n    $0\n  }\n  query_details {\n    $0\n  }\n  query_metrics {\n    $0\n  }\n  query_samples {\n    $0\n  }\n  schema_details {\n    $0\n  }\n}"
+}

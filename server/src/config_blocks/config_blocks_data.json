@@ -1,0 +1,2670 @@
+{
+  "argument": {
+    "name": "argument",
+    "title": "argument",
+    "usage": "argument \"<ARGUMENT_NAME>\" {}",
+    "arguments": [
+      {
+        "name": "comment",
+        "type": "string",
+        "description": "Description for the argument.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "default",
+        "type": "any",
+        "description": "Default value for the argument.",
+        "default": "null",
+        "required": false
+      },
+      {
+        "name": "optional",
+        "type": "bool",
+        "description": "Whether the argument may be omitted.",
+        "default": "false",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "any",
+        "description": "The current value of the argument.",
+        "default": "",
+        "required": false
+      }
+    ],
+    "blocks": [],
+    "examples": [
+      "declare \"self_collect\" {\n  argument \"metrics_output\" {\n    optional = false\n    comment  = \"Where to send collected metrics.\"\n  }\n\n  prometheus.scrape \"selfmonitor\" {\n    targets = [{\n      __address__ = \"127.0.0.1:12345\",\n    }]\n\n    forward_to = [argument.metrics_output.value]\n  }\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "argument",
+      "title": "argument",
+      "arguments": {
+        "comment": {
+          "type": "string",
+          "description": "Description for the argument.",
+          "default": "\"\"",
+          "required": false
+        },
+        "default": {
+          "type": "any",
+          "description": "Default value for the argument.",
+          "default": "null",
+          "required": false
+        },
+        "optional": {
+          "type": "bool",
+          "description": "Whether the argument may be omitted.",
+          "default": "false",
+          "required": false
+        },
+        "value": {
+          "type": "any",
+          "description": "The current value of the argument.",
+          "default": "",
+          "required": false
+        }
+      },
+      "blocks": {},
+      "required_blocks": [],
+      "examples": [
+        "declare \"self_collect\" {\n  argument \"metrics_output\" {\n    optional = false\n    comment  = \"Where to send collected metrics.\"\n  }\n\n  prometheus.scrape \"selfmonitor\" {\n    targets = [{\n      __address__ = \"127.0.0.1:12345\",\n    }]\n\n    forward_to = [argument.metrics_output.value]\n  }\n}"
+      ]
+    },
+    "template": "argument {\n\n  // Optional arguments:\n  // comment = \"\"\n  // default = null\n  // optional = false\n  // value = \n}"
+  },
+  "declare": {
+    "name": "declare",
+    "title": "declare",
+    "usage": "declare \"<COMPONENT_NAME>\" {\n    <COMPONENT_DEFINITION>\n}",
+    "arguments": [],
+    "blocks": [],
+    "examples": [
+      "declare \"<COMPONENT_NAME>\" {\n    <COMPONENT_DEFINITION>\n}",
+      "declare \"self_collect\" {\n  argument \"metrics_output\" {\n    optional = false\n    comment  = \"Where to send collected metrics.\"\n  }\n\n  prometheus.scrape \"selfmonitor\" {\n    targets = [{\n      __address__ = \"127.0.0.1:12345\",\n    }]\n\n    forward_to = [argument.metrics_output.value]\n  }\n}\n\nself_collect \"example\" {\n  metrics_output = prometheus.remote_write.example.receiver\n}\n\nprometheus.remote_write \"example\" {\n  endpoint {\n    url = <REMOTE_WRITE_URL>\n  }\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "declare",
+      "title": "declare",
+      "arguments": {},
+      "blocks": {},
+      "required_blocks": [],
+      "examples": [
+        "declare \"<COMPONENT_NAME>\" {\n    <COMPONENT_DEFINITION>\n}",
+        "declare \"self_collect\" {\n  argument \"metrics_output\" {\n    optional = false\n    comment  = \"Where to send collected metrics.\"\n  }\n\n  prometheus.scrape \"selfmonitor\" {\n    targets = [{\n      __address__ = \"127.0.0.1:12345\",\n    }]\n\n    forward_to = [argument.metrics_output.value]\n  }\n}\n\nself_collect \"example\" {\n  metrics_output = prometheus.remote_write.example.receiver\n}\n\nprometheus.remote_write \"example\" {\n  endpoint {\n    url = <REMOTE_WRITE_URL>\n  }\n}"
+      ]
+    },
+    "template": "declare {\n}"
+  },
+  "export": {
+    "name": "export",
+    "title": "export",
+    "usage": "export \"<ARGUMENT_NAME>\" {\n  value = <ARGUMENT_VALUE>\n}",
+    "arguments": [
+      {
+        "name": "comment",
+        "type": "string",
+        "description": "Description for the export.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "default",
+        "type": "any",
+        "description": "Default value for the export.",
+        "default": "null",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "any",
+        "description": "Value to export.",
+        "default": "",
+        "required": true
+      }
+    ],
+    "blocks": [],
+    "examples": [
+      "export \"<ARGUMENT_NAME>\" {\n  value = <ARGUMENT_VALUE>\n}",
+      "declare \"pods_and_nodes\" {\n  discovery.kubernetes \"pods\" {\n    role = \"pod\"\n  }\n\n  discovery.kubernetes \"nodes\" {\n    role = \"node\"\n  }\n\n  export \"kubernetes_resources\" {\n    value = array.concat(\n      discovery.kubernetes.pods.targets,\n      discovery.kubernetes.nodes.targets,\n    )\n  }\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "export",
+      "title": "export",
+      "arguments": {
+        "comment": {
+          "type": "string",
+          "description": "Description for the export.",
+          "default": "\"\"",
+          "required": false
+        },
+        "default": {
+          "type": "any",
+          "description": "Default value for the export.",
+          "default": "null",
+          "required": false
+        },
+        "value": {
+          "type": "any",
+          "description": "Value to export.",
+          "default": "",
+          "required": true
+        }
+      },
+      "blocks": {},
+      "required_blocks": [],
+      "examples": [
+        "export \"<ARGUMENT_NAME>\" {\n  value = <ARGUMENT_VALUE>\n}",
+        "declare \"pods_and_nodes\" {\n  discovery.kubernetes \"pods\" {\n    role = \"pod\"\n  }\n\n  discovery.kubernetes \"nodes\" {\n    role = \"node\"\n  }\n\n  export \"kubernetes_resources\" {\n    value = array.concat(\n      discovery.kubernetes.pods.targets,\n      discovery.kubernetes.nodes.targets,\n    )\n  }\n}"
+      ]
+    },
+    "template": "export {\n  value = \"${1}\"\n}"
+  },
+  "foreach": {
+    "name": "foreach",
+    "title": "foreach",
+    "usage": "foreach \"<LABEL>\" {\n  collection = [...]\n  var        = \"<VAR_NAME>\"\n  template {\n    ...\n  }\n}",
+    "arguments": [
+      {
+        "name": "collection",
+        "type": "list(any)",
+        "description": "A list of items to loop over.",
+        "default": "",
+        "required": true
+      },
+      {
+        "name": "var",
+        "type": "string",
+        "description": "Name of the variable referring to the current item in the collection.",
+        "default": "",
+        "required": true
+      },
+      {
+        "name": "enable_metrics",
+        "type": "bool",
+        "description": "Whether to expose debug metrics in the Alloy /metrics endpoint.",
+        "default": "false",
+        "required": false
+      },
+      {
+        "name": "hash_string_id",
+        "type": "bool",
+        "description": "Whether to hash the string representation of the id of the collection items.",
+        "default": "false",
+        "required": false
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "description": "Name of the field to use from collection items for child component’s identification.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "template",
+        "type": "A component pipeline to run.",
+        "description": "A component pipeline to run.",
+        "default": "",
+        "required": true
+      }
+    ],
+    "blocks": [
+      {
+        "block": "template",
+        "description": "A component pipeline to run.",
+        "required": true,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#template"
+      }
+    ],
+    "examples": [
+      "foreach \"<LABEL>\" {\n  collection = [...]\n  var        = \"<VAR_NAME>\"\n  template {\n    ...\n  }\n}",
+      "foreach \"pods\" {\n    collection = [\n        { namespace = \"prod\", name = \"app-1\" },\n        { namespace = \"dev\", name = \"app-1\" },\n        { namespace = \"prod\", name = \"app-2\" }\n    ]\n    var = \"each\"\n    id = \"name\"\n    enable_metrics = true\n    template { ... }\n}",
+      "[\n    {\n    __address__                                          = \"10.42.0.16:5432\",\n    __meta_kubernetes_namespace                          = \"ns1\",\n    __meta_kubernetes_pod_container_id                   = \"containerd://96b77d035d0bbe27bb173d8fc0c56d21965892a50e4e6eab9f6cffdb90b275fb\",\n    __meta_kubernetes_pod_container_image                = \"postgres:bullseye\",\n    __meta_kubernetes_pod_container_init                 = \"false\",\n    __meta_kubernetes_pod_container_name                 = \"pgcont\",\n    __meta_kubernetes_pod_container_port_name            = \"pg-db\",\n    __meta_kubernetes_pod_container_port_number          = \"5432\",\n    __meta_kubernetes_pod_container_port_protocol        = \"TCP\",\n    __meta_kubernetes_pod_controller_kind                = \"ReplicaSet\",\n    __meta_kubernetes_pod_controller_name                = \"postgres-db-cd54547b9\",\n    __meta_kubernetes_pod_host_ip                        = \"172.25.0.2\",\n    __meta_kubernetes_pod_ip                             = \"10.42.0.16\",\n    __meta_kubernetes_pod_label_name                     = \"postgres-db\",\n    __meta_kubernetes_pod_label_pod_template_hash        = \"cd54547b9\",\n    __meta_kubernetes_pod_labelpresent_name              = \"true\",\n    __meta_kubernetes_pod_labelpresent_pod_template_hash = \"true\",\n    __meta_kubernetes_pod_name                           = \"postgres-db-cd54547b9-4zpds\",\n    __meta_kubernetes_pod_node_name                      = \"k3d-asserts-test-server-0\",\n    __meta_kubernetes_pod_phase                          = \"Running\",\n    __meta_kubernetes_pod_ready                          = \"true\",\n    __meta_kubernetes_pod_uid                            = \"7cdcacdc-4a2d-460a-b1fb-6340700c4cac\",\n    },\n    {\n    __address__                                          = \"10.42.0.20:6379\",\n    __meta_kubernetes_namespace                          = \"ns1\",\n    __meta_kubernetes_pod_container_id                   = \"containerd://68f2f0eacd880eb4a141d833aafc1f297f7d9bdf00f4c787f9fcc964a039d278\",\n    __meta_kubernetes_pod_container_image                = \"redis:latest\",\n    __meta_kubernetes_pod_container_init                 = \"false\",\n    __meta_kubernetes_pod_container_name                 = \"redis-cont\",\n    __meta_kubernetes_pod_container_port_name            = \"redis-db\",\n    __meta_kubernetes_pod_container_port_number          = \"6379\",\n    __meta_kubernetes_pod_container_port_protocol        = \"TCP\",\n    __meta_kubernetes_pod_controller_kind                = \"ReplicaSet\",\n    __meta_kubernetes_pod_controller_name                = \"redis-db-778b66cb7d\",\n    __meta_kubernetes_pod_host_ip                        = \"172.25.0.2\",\n    __meta_kubernetes_pod_ip                             = \"10.42.0.20\",\n    __meta_kubernetes_pod_label_name                     = \"redis-db\",\n    __meta_kubernetes_pod_label_pod_template_hash        = \"778b66cb7d\",\n    __meta_kubernetes_pod_labelpresent_name              = \"true\",\n    __meta_kubernetes_pod_labelpresent_pod_template_hash = \"true\",\n    __meta_kubernetes_pod_name                           = \"redis-db-778b66cb7d-wxmf6\",\n    __meta_kubernetes_pod_node_name                      = \"k3d-asserts-test-server-0\",\n    __meta_kubernetes_pod_phase                          = \"Running\",\n    __meta_kubernetes_pod_ready                          = \"true\",\n    __meta_kubernetes_pod_uid                            = \"ae74e400-8eda-4b02-b4c8-669473fb001b\",\n    }\n]",
+      "discovery.kubernetes \"default\" {\n    role = \"pod\"\n}\n\ndiscovery.relabel \"redis\" {\n    targets = discovery.kubernetes.default.targets\n\n    // Remove all targets except the Redis ones.\n    rule {\n        source_labels = [\"__meta_kubernetes_pod_container_name\"]\n        regex         = \"redis-cont\"\n        action        = \"keep\"\n    }\n}\n\n// Collect metrics for each Redis instance.\nforeach \"redis\" {\n    collection = discovery.relabel.redis.output\n    var        = \"each\"\n\n    template {\n        prometheus.exporter.redis \"default\" {\n            // This is the \"__address__\" label from discovery.kubernetes.\n            redis_addr = each[\"__address__\"]\n        }\n\n        prometheus.scrape \"default\" {\n            targets    = prometheus.exporter.redis.default.targets\n            forward_to = [prometheus.relabel.default.receiver]\n        }\n\n        // Add labels from discovery.kubernetes.\n        prometheus.relabel \"default\" {\n            rule {\n                replacement  = each[\"__meta_kubernetes_namespace\"]\n                target_label = \"k8s_namespace\"\n                action       = \"replace\"\n            }\n\n            rule {\n                replacement  = each[\"__meta_kubernetes_pod_container_name\"]\n                target_label = \"k8s_pod_container_name\"\n                action       = \"replace\"\n            }\n\n            forward_to = [prometheus.remote_write.mimir.receiver]\n        }\n    }\n}\n\nprometheus.remote_write \"mimir\" {\n    endpoint {\n        url = \"https://prometheus-xxx.grafana.net/api/prom/push\"\n\n        basic_auth {\n            username = sys.env(\"<PROMETHEUS_USERNAME>\")\n            password = sys.env(\"<GRAFANA_CLOUD_API_KEY>\")\n        }\n    }\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "foreach",
+      "title": "foreach",
+      "arguments": {
+        "collection": {
+          "type": "list(any)",
+          "description": "A list of items to loop over.",
+          "default": "",
+          "required": true
+        },
+        "var": {
+          "type": "string",
+          "description": "Name of the variable referring to the current item in the collection.",
+          "default": "",
+          "required": true
+        },
+        "enable_metrics": {
+          "type": "bool",
+          "description": "Whether to expose debug metrics in the Alloy /metrics endpoint.",
+          "default": "false",
+          "required": false
+        },
+        "hash_string_id": {
+          "type": "bool",
+          "description": "Whether to hash the string representation of the id of the collection items.",
+          "default": "false",
+          "required": false
+        },
+        "id": {
+          "type": "string",
+          "description": "Name of the field to use from collection items for child component’s identification.",
+          "default": "\"\"",
+          "required": false
+        },
+        "template": {
+          "type": "A component pipeline to run.",
+          "description": "A component pipeline to run.",
+          "default": "",
+          "required": true
+        }
+      },
+      "blocks": {
+        "template": {
+          "description": "A component pipeline to run.",
+          "required": true,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#template"
+        }
+      },
+      "required_blocks": [
+        "template"
+      ],
+      "examples": [
+        "foreach \"<LABEL>\" {\n  collection = [...]\n  var        = \"<VAR_NAME>\"\n  template {\n    ...\n  }\n}",
+        "foreach \"pods\" {\n    collection = [\n        { namespace = \"prod\", name = \"app-1\" },\n        { namespace = \"dev\", name = \"app-1\" },\n        { namespace = \"prod\", name = \"app-2\" }\n    ]\n    var = \"each\"\n    id = \"name\"\n    enable_metrics = true\n    template { ... }\n}",
+        "[\n    {\n    __address__                                          = \"10.42.0.16:5432\",\n    __meta_kubernetes_namespace                          = \"ns1\",\n    __meta_kubernetes_pod_container_id                   = \"containerd://96b77d035d0bbe27bb173d8fc0c56d21965892a50e4e6eab9f6cffdb90b275fb\",\n    __meta_kubernetes_pod_container_image                = \"postgres:bullseye\",\n    __meta_kubernetes_pod_container_init                 = \"false\",\n    __meta_kubernetes_pod_container_name                 = \"pgcont\",\n    __meta_kubernetes_pod_container_port_name            = \"pg-db\",\n    __meta_kubernetes_pod_container_port_number          = \"5432\",\n    __meta_kubernetes_pod_container_port_protocol        = \"TCP\",\n    __meta_kubernetes_pod_controller_kind                = \"ReplicaSet\",\n    __meta_kubernetes_pod_controller_name                = \"postgres-db-cd54547b9\",\n    __meta_kubernetes_pod_host_ip                        = \"172.25.0.2\",\n    __meta_kubernetes_pod_ip                             = \"10.42.0.16\",\n    __meta_kubernetes_pod_label_name                     = \"postgres-db\",\n    __meta_kubernetes_pod_label_pod_template_hash        = \"cd54547b9\",\n    __meta_kubernetes_pod_labelpresent_name              = \"true\",\n    __meta_kubernetes_pod_labelpresent_pod_template_hash = \"true\",\n    __meta_kubernetes_pod_name                           = \"postgres-db-cd54547b9-4zpds\",\n    __meta_kubernetes_pod_node_name                      = \"k3d-asserts-test-server-0\",\n    __meta_kubernetes_pod_phase                          = \"Running\",\n    __meta_kubernetes_pod_ready                          = \"true\",\n    __meta_kubernetes_pod_uid                            = \"7cdcacdc-4a2d-460a-b1fb-6340700c4cac\",\n    },\n    {\n    __address__                                          = \"10.42.0.20:6379\",\n    __meta_kubernetes_namespace                          = \"ns1\",\n    __meta_kubernetes_pod_container_id                   = \"containerd://68f2f0eacd880eb4a141d833aafc1f297f7d9bdf00f4c787f9fcc964a039d278\",\n    __meta_kubernetes_pod_container_image                = \"redis:latest\",\n    __meta_kubernetes_pod_container_init                 = \"false\",\n    __meta_kubernetes_pod_container_name                 = \"redis-cont\",\n    __meta_kubernetes_pod_container_port_name            = \"redis-db\",\n    __meta_kubernetes_pod_container_port_number          = \"6379\",\n    __meta_kubernetes_pod_container_port_protocol        = \"TCP\",\n    __meta_kubernetes_pod_controller_kind                = \"ReplicaSet\",\n    __meta_kubernetes_pod_controller_name                = \"redis-db-778b66cb7d\",\n    __meta_kubernetes_pod_host_ip                        = \"172.25.0.2\",\n    __meta_kubernetes_pod_ip                             = \"10.42.0.20\",\n    __meta_kubernetes_pod_label_name                     = \"redis-db\",\n    __meta_kubernetes_pod_label_pod_template_hash        = \"778b66cb7d\",\n    __meta_kubernetes_pod_labelpresent_name              = \"true\",\n    __meta_kubernetes_pod_labelpresent_pod_template_hash = \"true\",\n    __meta_kubernetes_pod_name                           = \"redis-db-778b66cb7d-wxmf6\",\n    __meta_kubernetes_pod_node_name                      = \"k3d-asserts-test-server-0\",\n    __meta_kubernetes_pod_phase                          = \"Running\",\n    __meta_kubernetes_pod_ready                          = \"true\",\n    __meta_kubernetes_pod_uid                            = \"ae74e400-8eda-4b02-b4c8-669473fb001b\",\n    }\n]",
+        "discovery.kubernetes \"default\" {\n    role = \"pod\"\n}\n\ndiscovery.relabel \"redis\" {\n    targets = discovery.kubernetes.default.targets\n\n    // Remove all targets except the Redis ones.\n    rule {\n        source_labels = [\"__meta_kubernetes_pod_container_name\"]\n        regex         = \"redis-cont\"\n        action        = \"keep\"\n    }\n}\n\n// Collect metrics for each Redis instance.\nforeach \"redis\" {\n    collection = discovery.relabel.redis.output\n    var        = \"each\"\n\n    template {\n        prometheus.exporter.redis \"default\" {\n            // This is the \"__address__\" label from discovery.kubernetes.\n            redis_addr = each[\"__address__\"]\n        }\n\n        prometheus.scrape \"default\" {\n            targets    = prometheus.exporter.redis.default.targets\n            forward_to = [prometheus.relabel.default.receiver]\n        }\n\n        // Add labels from discovery.kubernetes.\n        prometheus.relabel \"default\" {\n            rule {\n                replacement  = each[\"__meta_kubernetes_namespace\"]\n                target_label = \"k8s_namespace\"\n                action       = \"replace\"\n            }\n\n            rule {\n                replacement  = each[\"__meta_kubernetes_pod_container_name\"]\n                target_label = \"k8s_pod_container_name\"\n                action       = \"replace\"\n            }\n\n            forward_to = [prometheus.remote_write.mimir.receiver]\n        }\n    }\n}\n\nprometheus.remote_write \"mimir\" {\n    endpoint {\n        url = \"https://prometheus-xxx.grafana.net/api/prom/push\"\n\n        basic_auth {\n            username = sys.env(\"<PROMETHEUS_USERNAME>\")\n            password = sys.env(\"<GRAFANA_CLOUD_API_KEY>\")\n        }\n    }\n}"
+      ]
+    },
+    "template": "foreach {\n  collection = \"${1}\"\n  var = \"${2}\"\n  template = \"${3}\"\n  template {\n    ${4}\n  }\n\n  // Optional arguments:\n  // enable_metrics = false\n  // hash_string_id = false\n  // id = \"\"\n}"
+  },
+  "http": {
+    "name": "http",
+    "title": "http",
+    "usage": "http {\n\n}",
+    "arguments": [
+      {
+        "name": "auth",
+        "type": "Configure server authentication.",
+        "description": "Configure server authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "auth > basic",
+        "type": "Configure basic authentication.",
+        "description": "Configure basic authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "auth > filter",
+        "type": "Configure authentication filter.",
+        "description": "Configure authentication filter.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "tls",
+        "type": "Define TLS settings for the HTTP server.",
+        "description": "Define TLS settings for the HTTP server.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "tls > windows_certificate_filter",
+        "type": "Configure Windows certificate store for all certificates.",
+        "description": "Configure Windows certificate store for all certificates.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "tls > windows_certificate_filter > client",
+        "type": "Configure client certificates for Windows certificate filter.",
+        "description": "Configure client certificates for Windows certificate filter.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "tls > windows_certificate_filter > server",
+        "type": "Configure server certificates for Windows certificate filter.",
+        "description": "Configure server certificates for Windows certificate filter.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "password",
+        "type": "secret",
+        "description": "The password to use for basic authentication.",
+        "default": "",
+        "required": true
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "description": "The username to use for basic authentication.",
+        "default": "",
+        "required": true
+      },
+      {
+        "name": "authenticate_matching_paths",
+        "type": "bool",
+        "description": "If true, authentication is required for all matching paths. If false, authentication is excluded for these paths.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "paths",
+        "type": "list(string)",
+        "description": "List of API paths to be protected by authentication. The paths are matched using prefix matching.",
+        "default": "[]",
+        "required": false
+      },
+      {
+        "name": "cert_file",
+        "type": "string",
+        "description": "Path to the server TLS certificate on disk.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "cert_pem",
+        "type": "string",
+        "description": "PEM data of the server TLS certificate.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "key_file",
+        "type": "string",
+        "description": "Path to the server TLS key on disk.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "key_pem",
+        "type": "string",
+        "description": "PEM data of the server TLS key.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "cipher_suites",
+        "type": "list(string)",
+        "description": "Set of cipher suites to use.",
+        "default": "[]",
+        "required": false
+      },
+      {
+        "name": "client_auth_type",
+        "type": "string",
+        "description": "Client authentication to use.",
+        "default": "\"NoClientCert\"",
+        "required": false
+      },
+      {
+        "name": "client_ca_file",
+        "type": "string",
+        "description": "Path to the client CA file on disk to validate requests against.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "client_ca_pem",
+        "type": "string",
+        "description": "PEM data of the client CA to validate requests against.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "curve_preferences",
+        "type": "list(string)",
+        "description": "Set of elliptic curves to use in a handshake.",
+        "default": "[]",
+        "required": false
+      },
+      {
+        "name": "max_version",
+        "type": "string",
+        "description": "Newest TLS version to accept from clients.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "min_version",
+        "type": "string",
+        "description": "Oldest TLS version to accept from clients.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "issuer_common_names",
+        "type": "list(string)",
+        "description": "Issuer common names to check against.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "subject_regex",
+        "type": "string",
+        "description": "Regular expression to match Subject name.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "template_id",
+        "type": "string",
+        "description": "Client Template ID to match in ASN1 format, for example, “1.2.3”.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "store",
+        "type": "string",
+        "description": "Name of the store to look for the server Certificate. For example, MY or CA.",
+        "default": "\"\"",
+        "required": true
+      },
+      {
+        "name": "system_store",
+        "type": "string",
+        "description": "Name of the system store to look for the server Certificate. For example, LocalMachine or CurrentUser.",
+        "default": "\"\"",
+        "required": true
+      },
+      {
+        "name": "issuer_common_names",
+        "type": "list(string)",
+        "description": "Issuer common names to check against.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "refresh_interval",
+        "type": "string",
+        "description": "How often to check for a new server certificate.",
+        "default": "\"5m\"",
+        "required": false
+      },
+      {
+        "name": "template_id",
+        "type": "string",
+        "description": "Server Template ID to match in ASN1 format, for example, “1.2.3”.",
+        "default": "\"\"",
+        "required": false
+      }
+    ],
+    "blocks": [
+      {
+        "block": "auth",
+        "description": "Configure server authentication.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#auth"
+      },
+      {
+        "block": "auth > basic",
+        "description": "Configure basic authentication.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#basic"
+      },
+      {
+        "block": "auth > filter",
+        "description": "Configure authentication filter.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#filter"
+      },
+      {
+        "block": "tls",
+        "description": "Define TLS settings for the HTTP server.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls"
+      },
+      {
+        "block": "tls > windows_certificate_filter",
+        "description": "Configure Windows certificate store for all certificates.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#windows-certificate-filter"
+      },
+      {
+        "block": "tls > windows_certificate_filter > client",
+        "description": "Configure client certificates for Windows certificate filter.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#client"
+      },
+      {
+        "block": "tls > windows_certificate_filter > server",
+        "description": "Configure server certificates for Windows certificate filter.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#server"
+      }
+    ],
+    "examples": [
+      "http {\n\n}",
+      "http {\n  auth {\n    basic {\n      username = sys.env(\"BASIC_AUTH_USERNAME\")\n      password = sys.env(\"BASIC_AUTH_PASSWORD\")\n    }\n\n    filter {\n      paths                       = [\"/metrics\", \"/v1\"]\n      authenticate_matching_paths = true\n    }\n  }\n}",
+      "http {\n  auth {\n    basic {\n      username = sys.env(\"BASIC_AUTH_USERNAME\")\n      password = sys.env(\"BASIC_AUTH_PASSWORD\")\n    }\n\n    filter {\n      paths                       = [\"/metrics\"]\n      authenticate_matching_paths = false\n    }\n  }\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "http",
+      "title": "http",
+      "arguments": {
+        "auth": {
+          "type": "Configure server authentication.",
+          "description": "Configure server authentication.",
+          "default": "",
+          "required": false
+        },
+        "auth > basic": {
+          "type": "Configure basic authentication.",
+          "description": "Configure basic authentication.",
+          "default": "",
+          "required": false
+        },
+        "auth > filter": {
+          "type": "Configure authentication filter.",
+          "description": "Configure authentication filter.",
+          "default": "",
+          "required": false
+        },
+        "tls": {
+          "type": "Define TLS settings for the HTTP server.",
+          "description": "Define TLS settings for the HTTP server.",
+          "default": "",
+          "required": false
+        },
+        "tls > windows_certificate_filter": {
+          "type": "Configure Windows certificate store for all certificates.",
+          "description": "Configure Windows certificate store for all certificates.",
+          "default": "",
+          "required": false
+        },
+        "tls > windows_certificate_filter > client": {
+          "type": "Configure client certificates for Windows certificate filter.",
+          "description": "Configure client certificates for Windows certificate filter.",
+          "default": "",
+          "required": false
+        },
+        "tls > windows_certificate_filter > server": {
+          "type": "Configure server certificates for Windows certificate filter.",
+          "description": "Configure server certificates for Windows certificate filter.",
+          "default": "",
+          "required": false
+        },
+        "password": {
+          "type": "secret",
+          "description": "The password to use for basic authentication.",
+          "default": "",
+          "required": true
+        },
+        "username": {
+          "type": "string",
+          "description": "The username to use for basic authentication.",
+          "default": "",
+          "required": true
+        },
+        "authenticate_matching_paths": {
+          "type": "bool",
+          "description": "If true, authentication is required for all matching paths. If false, authentication is excluded for these paths.",
+          "default": "true",
+          "required": false
+        },
+        "paths": {
+          "type": "list(string)",
+          "description": "List of API paths to be protected by authentication. The paths are matched using prefix matching.",
+          "default": "[]",
+          "required": false
+        },
+        "cert_file": {
+          "type": "string",
+          "description": "Path to the server TLS certificate on disk.",
+          "default": "\"\"",
+          "required": false
+        },
+        "cert_pem": {
+          "type": "string",
+          "description": "PEM data of the server TLS certificate.",
+          "default": "\"\"",
+          "required": false
+        },
+        "key_file": {
+          "type": "string",
+          "description": "Path to the server TLS key on disk.",
+          "default": "\"\"",
+          "required": false
+        },
+        "key_pem": {
+          "type": "string",
+          "description": "PEM data of the server TLS key.",
+          "default": "\"\"",
+          "required": false
+        },
+        "cipher_suites": {
+          "type": "list(string)",
+          "description": "Set of cipher suites to use.",
+          "default": "[]",
+          "required": false
+        },
+        "client_auth_type": {
+          "type": "string",
+          "description": "Client authentication to use.",
+          "default": "\"NoClientCert\"",
+          "required": false
+        },
+        "client_ca_file": {
+          "type": "string",
+          "description": "Path to the client CA file on disk to validate requests against.",
+          "default": "\"\"",
+          "required": false
+        },
+        "client_ca_pem": {
+          "type": "string",
+          "description": "PEM data of the client CA to validate requests against.",
+          "default": "\"\"",
+          "required": false
+        },
+        "curve_preferences": {
+          "type": "list(string)",
+          "description": "Set of elliptic curves to use in a handshake.",
+          "default": "[]",
+          "required": false
+        },
+        "max_version": {
+          "type": "string",
+          "description": "Newest TLS version to accept from clients.",
+          "default": "\"\"",
+          "required": false
+        },
+        "min_version": {
+          "type": "string",
+          "description": "Oldest TLS version to accept from clients.",
+          "default": "\"\"",
+          "required": false
+        },
+        "issuer_common_names": {
+          "type": "list(string)",
+          "description": "Issuer common names to check against.",
+          "default": "",
+          "required": false
+        },
+        "subject_regex": {
+          "type": "string",
+          "description": "Regular expression to match Subject name.",
+          "default": "\"\"",
+          "required": false
+        },
+        "template_id": {
+          "type": "string",
+          "description": "Server Template ID to match in ASN1 format, for example, “1.2.3”.",
+          "default": "\"\"",
+          "required": false
+        },
+        "store": {
+          "type": "string",
+          "description": "Name of the store to look for the server Certificate. For example, MY or CA.",
+          "default": "\"\"",
+          "required": true
+        },
+        "system_store": {
+          "type": "string",
+          "description": "Name of the system store to look for the server Certificate. For example, LocalMachine or CurrentUser.",
+          "default": "\"\"",
+          "required": true
+        },
+        "refresh_interval": {
+          "type": "string",
+          "description": "How often to check for a new server certificate.",
+          "default": "\"5m\"",
+          "required": false
+        }
+      },
+      "blocks": {
+        "auth": {
+          "description": "Configure server authentication.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#auth"
+        },
+        "auth > basic": {
+          "description": "Configure basic authentication.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#basic"
+        },
+        "auth > filter": {
+          "description": "Configure authentication filter.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#filter"
+        },
+        "tls": {
+          "description": "Define TLS settings for the HTTP server.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls"
+        },
+        "tls > windows_certificate_filter": {
+          "description": "Configure Windows certificate store for all certificates.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#windows-certificate-filter"
+        },
+        "tls > windows_certificate_filter > client": {
+          "description": "Configure client certificates for Windows certificate filter.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#client"
+        },
+        "tls > windows_certificate_filter > server": {
+          "description": "Configure server certificates for Windows certificate filter.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#server"
+        }
+      },
+      "required_blocks": [],
+      "examples": [
+        "http {\n\n}",
+        "http {\n  auth {\n    basic {\n      username = sys.env(\"BASIC_AUTH_USERNAME\")\n      password = sys.env(\"BASIC_AUTH_PASSWORD\")\n    }\n\n    filter {\n      paths                       = [\"/metrics\", \"/v1\"]\n      authenticate_matching_paths = true\n    }\n  }\n}",
+        "http {\n  auth {\n    basic {\n      username = sys.env(\"BASIC_AUTH_USERNAME\")\n      password = sys.env(\"BASIC_AUTH_PASSWORD\")\n    }\n\n    filter {\n      paths                       = [\"/metrics\"]\n      authenticate_matching_paths = false\n    }\n  }\n}"
+      ]
+    },
+    "template": "http {\n  password = \"${1}\"\n  username = \"${2}\"\n  store = \"\"\n  system_store = \"\"\n\n  // Optional arguments:\n  // auth = \n  // auth > basic = \n  // auth > filter = \n  // tls = \n  // tls > windows_certificate_filter = \n  // tls > windows_certificate_filter > client = \n  // tls > windows_certificate_filter > server = \n  // authenticate_matching_paths = true\n  // paths = []\n  // cert_file = \"\"\n  // cert_pem = \"\"\n  // key_file = \"\"\n  // key_pem = \"\"\n  // cipher_suites = []\n  // client_auth_type = \"NoClientCert\"\n  // client_ca_file = \"\"\n  // client_ca_pem = \"\"\n  // curve_preferences = []\n  // max_version = \"\"\n  // min_version = \"\"\n  // issuer_common_names = \n  // subject_regex = \"\"\n  // template_id = \"\"\n  // refresh_interval = \"5m\"\n\n  // Optional blocks:\n  // auth {\n  //   ...\n  // }\n  // auth > basic {\n  //   ...\n  // }\n  // auth > filter {\n  //   ...\n  // }\n  // tls {\n  //   ...\n  // }\n  // tls > windows_certificate_filter {\n  //   ...\n  // }\n  // tls > windows_certificate_filter > client {\n  //   ...\n  // }\n  // tls > windows_certificate_filter > server {\n  //   ...\n  // }\n}"
+  },
+  "import.file": {
+    "name": "import.file",
+    "title": "import.file",
+    "usage": "import.file \"<NAMESPACE>\" {\n  filename = <PATH_NAME>\n}",
+    "arguments": [
+      {
+        "name": "filename",
+        "type": "string",
+        "description": "Path of the file or directory on disk to watch.",
+        "default": "",
+        "required": true
+      },
+      {
+        "name": "detector",
+        "type": "string",
+        "description": "Which file change detector to use, fsnotify or poll.",
+        "default": "\"fsnotify\"",
+        "required": false
+      },
+      {
+        "name": "poll_frequency",
+        "type": "duration",
+        "description": "How often to poll for file changes.",
+        "default": "\"1m\"",
+        "required": false
+      }
+    ],
+    "blocks": [],
+    "examples": [
+      "import.file \"<NAMESPACE>\" {\n  filename = <PATH_NAME>\n}",
+      "import.file \"math\" {\n  filename = \"module.alloy\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}",
+      "declare \"add\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  export \"sum\" {\n    value = argument.a.value + argument.b.value\n  }\n}",
+      "import.git \"math\" {\n  repository = \"https://github.com/wildum/module.git\"\n  path       = \"relative_math.alloy\"\n  revision   = \"master\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}",
+      "import.file \"lib\" {\n  filename = file.path_join(module_path, \"lib.alloy\")\n}\n\ndeclare \"add\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  lib.plus \"default\" {\n    a = argument.a.value\n    b = argument.b.value\n  }\n\n  export \"output\" {\n    value = lib.plus.default.sum\n  }\n}",
+      "declare \"plus\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  export \"sum\" {\n    value = argument.a.value + argument.b.value\n  }\n}",
+      "import.file \"math\" {\n  filename = \"path/to/module/relative_math.alloy\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}",
+      "import.file \"lib\" {\n  filename = file.path_join(module_path, \"lib.alloy\")\n}\n\ndeclare \"add\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  lib.plus \"default\" {\n    a = argument.a.value\n    b = argument.b.value\n  }\n\n  export \"output\" {\n    value = lib.plus.default.sum\n  }\n}",
+      "declare \"plus\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  export \"sum\" {\n    value = argument.a.value + argument.b.value\n  }\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "import.file",
+      "title": "import.file",
+      "arguments": {
+        "filename": {
+          "type": "string",
+          "description": "Path of the file or directory on disk to watch.",
+          "default": "",
+          "required": true
+        },
+        "detector": {
+          "type": "string",
+          "description": "Which file change detector to use, fsnotify or poll.",
+          "default": "\"fsnotify\"",
+          "required": false
+        },
+        "poll_frequency": {
+          "type": "duration",
+          "description": "How often to poll for file changes.",
+          "default": "\"1m\"",
+          "required": false
+        }
+      },
+      "blocks": {},
+      "required_blocks": [],
+      "examples": [
+        "import.file \"<NAMESPACE>\" {\n  filename = <PATH_NAME>\n}",
+        "import.file \"math\" {\n  filename = \"module.alloy\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}",
+        "declare \"add\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  export \"sum\" {\n    value = argument.a.value + argument.b.value\n  }\n}",
+        "import.git \"math\" {\n  repository = \"https://github.com/wildum/module.git\"\n  path       = \"relative_math.alloy\"\n  revision   = \"master\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}",
+        "import.file \"lib\" {\n  filename = file.path_join(module_path, \"lib.alloy\")\n}\n\ndeclare \"add\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  lib.plus \"default\" {\n    a = argument.a.value\n    b = argument.b.value\n  }\n\n  export \"output\" {\n    value = lib.plus.default.sum\n  }\n}",
+        "declare \"plus\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  export \"sum\" {\n    value = argument.a.value + argument.b.value\n  }\n}",
+        "import.file \"math\" {\n  filename = \"path/to/module/relative_math.alloy\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}",
+        "import.file \"lib\" {\n  filename = file.path_join(module_path, \"lib.alloy\")\n}\n\ndeclare \"add\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  lib.plus \"default\" {\n    a = argument.a.value\n    b = argument.b.value\n  }\n\n  export \"output\" {\n    value = lib.plus.default.sum\n  }\n}",
+        "declare \"plus\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  export \"sum\" {\n    value = argument.a.value + argument.b.value\n  }\n}"
+      ]
+    },
+    "template": "import.file {\n  filename = \"${1}\"\n\n  // Optional arguments:\n  // detector = \"fsnotify\"\n  // poll_frequency = \"1m\"\n}"
+  },
+  "import.git": {
+    "name": "import.git",
+    "title": "import.git",
+    "usage": "import.git \"<NAMESPACE>\" {\n  repository = \"<GIT_REPOSTORY>\"\n  path       = \"<PATH_TO_MODULE>\"\n}",
+    "arguments": [
+      {
+        "name": "path",
+        "type": "string",
+        "description": "The path in the repository where the module is stored.",
+        "default": "",
+        "required": true
+      },
+      {
+        "name": "repository",
+        "type": "string",
+        "description": "The Git repository address to retrieve the module from.",
+        "default": "",
+        "required": true
+      },
+      {
+        "name": "pull_frequency",
+        "type": "duration",
+        "description": "The frequency to pull the repository for updates.",
+        "default": "\"60s\"",
+        "required": false
+      },
+      {
+        "name": "revision",
+        "type": "string",
+        "description": "The Git revision to retrieve the module from.",
+        "default": "\"HEAD\"",
+        "required": false
+      },
+      {
+        "name": "basic_auth",
+        "type": "Configure basic_auth for authenticating to the repository.",
+        "description": "Configure basic_auth for authenticating to the repository.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "ssh_key",
+        "type": "Configure an SSH Key for authenticating to the repository.",
+        "description": "Configure an SSH Key for authenticating to the repository.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "password",
+        "type": "secret",
+        "description": "Basic auth password.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "description": "Basic auth username.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "description": "SSH username.",
+        "default": "\"\"",
+        "required": true
+      },
+      {
+        "name": "key_file",
+        "type": "string",
+        "description": "SSH private key path.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "key",
+        "type": "secret",
+        "description": "SSH private key.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "passphrase",
+        "type": "secret",
+        "description": "Passphrase for SSH key if needed.",
+        "default": "",
+        "required": false
+      }
+    ],
+    "blocks": [
+      {
+        "block": "basic_auth",
+        "description": "Configure basic_auth for authenticating to the repository.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#basic_auth"
+      },
+      {
+        "block": "ssh_key",
+        "description": "Configure an SSH Key for authenticating to the repository.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#ssh_key"
+      }
+    ],
+    "examples": [
+      "import.git \"<NAMESPACE>\" {\n  repository = \"<GIT_REPOSTORY>\"\n  path       = \"<PATH_TO_MODULE>\"\n}",
+      "import.git \"math\" {\n  repository = \"https://github.com/wildum/module.git\"\n  revision   = \"master\"\n  path       = \"math.alloy\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}",
+      "import.git \"math\" {\n  repository = \"https://github.com/wildum/module.git\"\n  revision   = \"master\"\n  path       = \"modules\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "import.git",
+      "title": "import.git",
+      "arguments": {
+        "path": {
+          "type": "string",
+          "description": "The path in the repository where the module is stored.",
+          "default": "",
+          "required": true
+        },
+        "repository": {
+          "type": "string",
+          "description": "The Git repository address to retrieve the module from.",
+          "default": "",
+          "required": true
+        },
+        "pull_frequency": {
+          "type": "duration",
+          "description": "The frequency to pull the repository for updates.",
+          "default": "\"60s\"",
+          "required": false
+        },
+        "revision": {
+          "type": "string",
+          "description": "The Git revision to retrieve the module from.",
+          "default": "\"HEAD\"",
+          "required": false
+        },
+        "basic_auth": {
+          "type": "Configure basic_auth for authenticating to the repository.",
+          "description": "Configure basic_auth for authenticating to the repository.",
+          "default": "",
+          "required": false
+        },
+        "ssh_key": {
+          "type": "Configure an SSH Key for authenticating to the repository.",
+          "description": "Configure an SSH Key for authenticating to the repository.",
+          "default": "",
+          "required": false
+        },
+        "password": {
+          "type": "secret",
+          "description": "Basic auth password.",
+          "default": "",
+          "required": false
+        },
+        "username": {
+          "type": "string",
+          "description": "SSH username.",
+          "default": "\"\"",
+          "required": true
+        },
+        "key_file": {
+          "type": "string",
+          "description": "SSH private key path.",
+          "default": "\"\"",
+          "required": false
+        },
+        "key": {
+          "type": "secret",
+          "description": "SSH private key.",
+          "default": "",
+          "required": false
+        },
+        "passphrase": {
+          "type": "secret",
+          "description": "Passphrase for SSH key if needed.",
+          "default": "",
+          "required": false
+        }
+      },
+      "blocks": {
+        "basic_auth": {
+          "description": "Configure basic_auth for authenticating to the repository.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#basic_auth"
+        },
+        "ssh_key": {
+          "description": "Configure an SSH Key for authenticating to the repository.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#ssh_key"
+        }
+      },
+      "required_blocks": [],
+      "examples": [
+        "import.git \"<NAMESPACE>\" {\n  repository = \"<GIT_REPOSTORY>\"\n  path       = \"<PATH_TO_MODULE>\"\n}",
+        "import.git \"math\" {\n  repository = \"https://github.com/wildum/module.git\"\n  revision   = \"master\"\n  path       = \"math.alloy\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}",
+        "import.git \"math\" {\n  repository = \"https://github.com/wildum/module.git\"\n  revision   = \"master\"\n  path       = \"modules\"\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}"
+      ]
+    },
+    "template": "import.git {\n  path = \"${1}\"\n  repository = \"${2}\"\n  username = \"\"\n\n  // Optional arguments:\n  // pull_frequency = \"60s\"\n  // revision = \"HEAD\"\n  // basic_auth = \n  // ssh_key = \n  // password = \n  // key_file = \"\"\n  // key = \n  // passphrase = \n\n  // Optional blocks:\n  // basic_auth {\n  //   ...\n  // }\n  // ssh_key {\n  //   ...\n  // }\n}"
+  },
+  "import.http": {
+    "name": "import.http",
+    "title": "import.http",
+    "usage": "import.http \"<LABEL>\" {\n  url = <URL>\n}",
+    "arguments": [
+      {
+        "name": "url",
+        "type": "string",
+        "description": "URL to poll.",
+        "default": "",
+        "required": true
+      },
+      {
+        "name": "headers",
+        "type": "map(string)",
+        "description": "Custom headers for the request.",
+        "default": "{}",
+        "required": false
+      },
+      {
+        "name": "method",
+        "type": "string",
+        "description": "Define the HTTP method for the request.",
+        "default": "\"GET\"",
+        "required": false
+      },
+      {
+        "name": "poll_frequency",
+        "type": "duration",
+        "description": "Frequency to poll the URL.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      {
+        "name": "poll_timeout",
+        "type": "duration",
+        "description": "Timeout when polling the URL.",
+        "default": "\"10s\"",
+        "required": false
+      },
+      {
+        "name": "client",
+        "type": "HTTP client settings when connecting to the endpoint.",
+        "description": "HTTP client settings when connecting to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client > authorization",
+        "type": "Configure generic authorization to the endpoint.",
+        "description": "Configure generic authorization to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client > basic_auth",
+        "type": "Configure basic_auth for authenticating to the endpoint.",
+        "description": "Configure basic_auth for authenticating to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client > oauth2",
+        "type": "Configure OAuth 2.0 for authenticating to the endpoint.",
+        "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client > oauth2 > tls_config",
+        "type": "Configure TLS settings for connecting to the endpoint.",
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client >tls_config",
+        "type": "Configure TLS settings for connecting to the endpoint.",
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "bearer_token_file",
+        "type": "string",
+        "description": "File containing a bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "bearer_token",
+        "type": "secret",
+        "description": "Bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "enable_http2",
+        "type": "bool",
+        "description": "Whether HTTP2 is supported for requests.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "follow_redirects",
+        "type": "bool",
+        "description": "Whether redirects returned by the server should be followed.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "http_headers",
+        "type": "map(list(secret))",
+        "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "proxy_url",
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "no_proxy",
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "proxy_from_environment",
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      {
+        "name": "proxy_connect_header",
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "credentials_file",
+        "type": "string",
+        "description": "File containing the secret value.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "credentials",
+        "type": "secret",
+        "description": "Secret value.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "description": "Authorization type, for example, “Bearer”.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "password_file",
+        "type": "string",
+        "description": "File containing the basic auth password.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "password",
+        "type": "secret",
+        "description": "Basic auth password.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "description": "Basic auth username.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client_id",
+        "type": "string",
+        "description": "OAuth2 client ID.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client_secret_file",
+        "type": "string",
+        "description": "File containing the OAuth2 client secret.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client_secret",
+        "type": "secret",
+        "description": "OAuth2 client secret.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "endpoint_params",
+        "type": "map(string)",
+        "description": "Optional parameters to append to the token URL.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "no_proxy",
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "proxy_connect_header",
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "proxy_from_environment",
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      {
+        "name": "proxy_url",
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "scopes",
+        "type": "list(string)",
+        "description": "List of scopes to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "token_url",
+        "type": "string",
+        "description": "URL to fetch the token from.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "ca_pem",
+        "type": "string",
+        "description": "CA PEM-encoded text to validate the server with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "ca_file",
+        "type": "string",
+        "description": "CA certificate to validate the server with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "cert_pem",
+        "type": "string",
+        "description": "Certificate PEM-encoded text for client authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "cert_file",
+        "type": "string",
+        "description": "Certificate file for client authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "insecure_skip_verify",
+        "type": "bool",
+        "description": "Disables validation of the server certificate.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "key_file",
+        "type": "string",
+        "description": "Key file for client authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "key_pem",
+        "type": "secret",
+        "description": "Key PEM-encoded text for client authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "min_version",
+        "type": "string",
+        "description": "Minimum acceptable TLS version.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "server_name",
+        "type": "string",
+        "description": "ServerName extension to indicate the name of the server.",
+        "default": "",
+        "required": false
+      }
+    ],
+    "blocks": [
+      {
+        "block": "client",
+        "description": "HTTP client settings when connecting to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#client"
+      },
+      {
+        "block": "client > authorization",
+        "description": "Configure generic authorization to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#authorization"
+      },
+      {
+        "block": "client > basic_auth",
+        "description": "Configure basic_auth for authenticating to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#basic_auth"
+      },
+      {
+        "block": "client > oauth2",
+        "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#oauth2"
+      },
+      {
+        "block": "client > oauth2 > tls_config",
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls_config"
+      },
+      {
+        "block": "client >tls_config",
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls_config"
+      }
+    ],
+    "examples": [
+      "import.http \"<LABEL>\" {\n  url = <URL>\n}",
+      "declare \"add\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  export \"sum\" {\n    value = argument.a.value + argument.b.value\n  }\n}",
+      "import.http \"math\" {\n  url = <SERVER_URL>\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "import.http",
+      "title": "import.http",
+      "arguments": {
+        "url": {
+          "type": "string",
+          "description": "URL to poll.",
+          "default": "",
+          "required": true
+        },
+        "headers": {
+          "type": "map(string)",
+          "description": "Custom headers for the request.",
+          "default": "{}",
+          "required": false
+        },
+        "method": {
+          "type": "string",
+          "description": "Define the HTTP method for the request.",
+          "default": "\"GET\"",
+          "required": false
+        },
+        "poll_frequency": {
+          "type": "duration",
+          "description": "Frequency to poll the URL.",
+          "default": "\"1m\"",
+          "required": false
+        },
+        "poll_timeout": {
+          "type": "duration",
+          "description": "Timeout when polling the URL.",
+          "default": "\"10s\"",
+          "required": false
+        },
+        "client": {
+          "type": "HTTP client settings when connecting to the endpoint.",
+          "description": "HTTP client settings when connecting to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "client > authorization": {
+          "type": "Configure generic authorization to the endpoint.",
+          "description": "Configure generic authorization to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "client > basic_auth": {
+          "type": "Configure basic_auth for authenticating to the endpoint.",
+          "description": "Configure basic_auth for authenticating to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "client > oauth2": {
+          "type": "Configure OAuth 2.0 for authenticating to the endpoint.",
+          "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "client > oauth2 > tls_config": {
+          "type": "Configure TLS settings for connecting to the endpoint.",
+          "description": "Configure TLS settings for connecting to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "client >tls_config": {
+          "type": "Configure TLS settings for connecting to the endpoint.",
+          "description": "Configure TLS settings for connecting to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "bearer_token_file": {
+          "type": "string",
+          "description": "File containing a bearer token to authenticate with.",
+          "default": "",
+          "required": false
+        },
+        "bearer_token": {
+          "type": "secret",
+          "description": "Bearer token to authenticate with.",
+          "default": "",
+          "required": false
+        },
+        "enable_http2": {
+          "type": "bool",
+          "description": "Whether HTTP2 is supported for requests.",
+          "default": "true",
+          "required": false
+        },
+        "follow_redirects": {
+          "type": "bool",
+          "description": "Whether redirects returned by the server should be followed.",
+          "default": "true",
+          "required": false
+        },
+        "http_headers": {
+          "type": "map(list(secret))",
+          "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+          "default": "",
+          "required": false
+        },
+        "proxy_url": {
+          "type": "string",
+          "description": "HTTP proxy to send requests through.",
+          "default": "",
+          "required": false
+        },
+        "no_proxy": {
+          "type": "string",
+          "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+          "default": "",
+          "required": false
+        },
+        "proxy_from_environment": {
+          "type": "bool",
+          "description": "Use the proxy URL indicated by environment variables.",
+          "default": "false",
+          "required": false
+        },
+        "proxy_connect_header": {
+          "type": "map(list(secret))",
+          "description": "Specifies headers to send to proxies during CONNECT requests.",
+          "default": "",
+          "required": false
+        },
+        "credentials_file": {
+          "type": "string",
+          "description": "File containing the secret value.",
+          "default": "",
+          "required": false
+        },
+        "credentials": {
+          "type": "secret",
+          "description": "Secret value.",
+          "default": "",
+          "required": false
+        },
+        "type": {
+          "type": "string",
+          "description": "Authorization type, for example, “Bearer”.",
+          "default": "",
+          "required": false
+        },
+        "password_file": {
+          "type": "string",
+          "description": "File containing the basic auth password.",
+          "default": "",
+          "required": false
+        },
+        "password": {
+          "type": "secret",
+          "description": "Basic auth password.",
+          "default": "",
+          "required": false
+        },
+        "username": {
+          "type": "string",
+          "description": "Basic auth username.",
+          "default": "",
+          "required": false
+        },
+        "client_id": {
+          "type": "string",
+          "description": "OAuth2 client ID.",
+          "default": "",
+          "required": false
+        },
+        "client_secret_file": {
+          "type": "string",
+          "description": "File containing the OAuth2 client secret.",
+          "default": "",
+          "required": false
+        },
+        "client_secret": {
+          "type": "secret",
+          "description": "OAuth2 client secret.",
+          "default": "",
+          "required": false
+        },
+        "endpoint_params": {
+          "type": "map(string)",
+          "description": "Optional parameters to append to the token URL.",
+          "default": "",
+          "required": false
+        },
+        "scopes": {
+          "type": "list(string)",
+          "description": "List of scopes to authenticate with.",
+          "default": "",
+          "required": false
+        },
+        "token_url": {
+          "type": "string",
+          "description": "URL to fetch the token from.",
+          "default": "",
+          "required": false
+        },
+        "ca_pem": {
+          "type": "string",
+          "description": "CA PEM-encoded text to validate the server with.",
+          "default": "",
+          "required": false
+        },
+        "ca_file": {
+          "type": "string",
+          "description": "CA certificate to validate the server with.",
+          "default": "",
+          "required": false
+        },
+        "cert_pem": {
+          "type": "string",
+          "description": "Certificate PEM-encoded text for client authentication.",
+          "default": "",
+          "required": false
+        },
+        "cert_file": {
+          "type": "string",
+          "description": "Certificate file for client authentication.",
+          "default": "",
+          "required": false
+        },
+        "insecure_skip_verify": {
+          "type": "bool",
+          "description": "Disables validation of the server certificate.",
+          "default": "",
+          "required": false
+        },
+        "key_file": {
+          "type": "string",
+          "description": "Key file for client authentication.",
+          "default": "",
+          "required": false
+        },
+        "key_pem": {
+          "type": "secret",
+          "description": "Key PEM-encoded text for client authentication.",
+          "default": "",
+          "required": false
+        },
+        "min_version": {
+          "type": "string",
+          "description": "Minimum acceptable TLS version.",
+          "default": "",
+          "required": false
+        },
+        "server_name": {
+          "type": "string",
+          "description": "ServerName extension to indicate the name of the server.",
+          "default": "",
+          "required": false
+        }
+      },
+      "blocks": {
+        "client": {
+          "description": "HTTP client settings when connecting to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#client"
+        },
+        "client > authorization": {
+          "description": "Configure generic authorization to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#authorization"
+        },
+        "client > basic_auth": {
+          "description": "Configure basic_auth for authenticating to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#basic_auth"
+        },
+        "client > oauth2": {
+          "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#oauth2"
+        },
+        "client > oauth2 > tls_config": {
+          "description": "Configure TLS settings for connecting to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls_config"
+        },
+        "client >tls_config": {
+          "description": "Configure TLS settings for connecting to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls_config"
+        }
+      },
+      "required_blocks": [],
+      "examples": [
+        "import.http \"<LABEL>\" {\n  url = <URL>\n}",
+        "declare \"add\" {\n  argument \"a\" {}\n  argument \"b\" {}\n\n  export \"sum\" {\n    value = argument.a.value + argument.b.value\n  }\n}",
+        "import.http \"math\" {\n  url = <SERVER_URL>\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}"
+      ]
+    },
+    "template": "import.http {\n  url = \"${1}\"\n\n  // Optional arguments:\n  // headers = {}\n  // method = \"GET\"\n  // poll_frequency = \"1m\"\n  // poll_timeout = \"10s\"\n  // client = \n  // client > authorization = \n  // client > basic_auth = \n  // client > oauth2 = \n  // client > oauth2 > tls_config = \n  // client >tls_config = \n  // bearer_token_file = \n  // bearer_token = \n  // enable_http2 = true\n  // follow_redirects = true\n  // http_headers = \n  // proxy_url = \n  // no_proxy = \n  // proxy_from_environment = false\n  // proxy_connect_header = \n  // credentials_file = \n  // credentials = \n  // type = \n  // password_file = \n  // password = \n  // username = \n  // client_id = \n  // client_secret_file = \n  // client_secret = \n  // endpoint_params = \n  // scopes = \n  // token_url = \n  // ca_pem = \n  // ca_file = \n  // cert_pem = \n  // cert_file = \n  // insecure_skip_verify = \n  // key_file = \n  // key_pem = \n  // min_version = \n  // server_name = \n\n  // Optional blocks:\n  // client {\n  //   ...\n  // }\n  // client > authorization {\n  //   ...\n  // }\n  // client > basic_auth {\n  //   ...\n  // }\n  // client > oauth2 {\n  //   ...\n  // }\n  // client > oauth2 > tls_config {\n  //   ...\n  // }\n  // client >tls_config {\n  //   ...\n  // }\n}"
+  },
+  "import.string": {
+    "name": "import.string",
+    "title": "import.string",
+    "usage": "import.string \"<NAMESPACE>\" {\n  content = <CONTENT>\n}",
+    "arguments": [
+      {
+        "name": "content",
+        "type": "secret or string",
+        "description": "The contents of the module to import as a secret or string.",
+        "default": "",
+        "required": true
+      }
+    ],
+    "blocks": [],
+    "examples": [
+      "import.string \"<NAMESPACE>\" {\n  content = <CONTENT>\n}",
+      "remote.s3 \"module\" {\n  path = \"s3://test-bucket/module.alloy\"\n}\n\nimport.string \"math\" {\n  content = remote.s3.module.content\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "import.string",
+      "title": "import.string",
+      "arguments": {
+        "content": {
+          "type": "secret or string",
+          "description": "The contents of the module to import as a secret or string.",
+          "default": "",
+          "required": true
+        }
+      },
+      "blocks": {},
+      "required_blocks": [],
+      "examples": [
+        "import.string \"<NAMESPACE>\" {\n  content = <CONTENT>\n}",
+        "remote.s3 \"module\" {\n  path = \"s3://test-bucket/module.alloy\"\n}\n\nimport.string \"math\" {\n  content = remote.s3.module.content\n}\n\nmath.add \"default\" {\n  a = 15\n  b = 45\n}"
+      ]
+    },
+    "template": "import.string {\n  content = \"${1}\"\n}"
+  },
+  "livedebugging": {
+    "name": "livedebugging",
+    "title": "livedebugging",
+    "usage": "livedebugging {\n\n}",
+    "arguments": [
+      {
+        "name": "enabled",
+        "type": "bool",
+        "description": "Enables the live debugging feature.",
+        "default": "false",
+        "required": false
+      }
+    ],
+    "blocks": [],
+    "examples": [
+      "livedebugging {\n\n}",
+      "livedebugging {\n  enabled = true\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "livedebugging",
+      "title": "livedebugging",
+      "arguments": {
+        "enabled": {
+          "type": "bool",
+          "description": "Enables the live debugging feature.",
+          "default": "false",
+          "required": false
+        }
+      },
+      "blocks": {},
+      "required_blocks": [],
+      "examples": [
+        "livedebugging {\n\n}",
+        "livedebugging {\n  enabled = true\n}"
+      ]
+    },
+    "template": "livedebugging {\n\n  // Optional arguments:\n  // enabled = false\n}"
+  },
+  "livelogging": {
+    "name": "livelogging",
+    "title": "livelogging",
+    "usage": "livelogging {\n\n}",
+    "arguments": [
+      {
+        "name": "enabled",
+        "type": "bool",
+        "description": "Enables the live logging feature.",
+        "default": "false",
+        "required": false
+      }
+    ],
+    "blocks": [],
+    "examples": [
+      "livelogging {\n\n}",
+      "livelogging {\n  enabled = true\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "livelogging",
+      "title": "livelogging",
+      "arguments": {
+        "enabled": {
+          "type": "bool",
+          "description": "Enables the live logging feature.",
+          "default": "false",
+          "required": false
+        }
+      },
+      "blocks": {},
+      "required_blocks": [],
+      "examples": [
+        "livelogging {\n\n}",
+        "livelogging {\n  enabled = true\n}"
+      ]
+    },
+    "template": "livelogging {\n\n  // Optional arguments:\n  // enabled = false\n}"
+  },
+  "logging": {
+    "name": "logging",
+    "title": "logging",
+    "usage": "logging {\n\n}",
+    "arguments": [
+      {
+        "name": "format",
+        "type": "string",
+        "description": "Format to use for writing log lines",
+        "default": "\"logfmt\"",
+        "required": false
+      },
+      {
+        "name": "level",
+        "type": "string",
+        "description": "Level at which log lines should be written",
+        "default": "\"info\"",
+        "required": false
+      },
+      {
+        "name": "write_to",
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to",
+        "default": "[]",
+        "required": false
+      }
+    ],
+    "blocks": [],
+    "examples": [
+      "logging {\n\n}",
+      "logging {\n  level  = \"info\"\n  format = \"logfmt\"\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "logging",
+      "title": "logging",
+      "arguments": {
+        "format": {
+          "type": "string",
+          "description": "Format to use for writing log lines",
+          "default": "\"logfmt\"",
+          "required": false
+        },
+        "level": {
+          "type": "string",
+          "description": "Level at which log lines should be written",
+          "default": "\"info\"",
+          "required": false
+        },
+        "write_to": {
+          "type": "list(LogsReceiver)",
+          "description": "List of receivers to send log entries to",
+          "default": "[]",
+          "required": false
+        }
+      },
+      "blocks": {},
+      "required_blocks": [],
+      "examples": [
+        "logging {\n\n}",
+        "logging {\n  level  = \"info\"\n  format = \"logfmt\"\n}"
+      ]
+    },
+    "template": "logging {\n\n  // Optional arguments:\n  // format = \"logfmt\"\n  // level = \"info\"\n  // write_to = []\n}"
+  },
+  "remotecfg": {
+    "name": "remotecfg",
+    "title": "remotecfg",
+    "usage": "remotecfg {\n\n}",
+    "arguments": [
+      {
+        "name": "attributes",
+        "type": "map(string)",
+        "description": "A set of self-reported attributes.",
+        "default": "{}",
+        "required": false
+      },
+      {
+        "name": "bearer_token_file",
+        "type": "string",
+        "description": "File containing a bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "bearer_token",
+        "type": "secret",
+        "description": "Bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "enable_http2",
+        "type": "bool",
+        "description": "Whether HTTP2 is supported for requests.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "follow_redirects",
+        "type": "bool",
+        "description": "Whether redirects returned by the server should be followed.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "http_headers",
+        "type": "map(list(secret))",
+        "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "description": "A self-reported ID.",
+        "default": "see below",
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "A human-readable name for the collector.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "no_proxy",
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "poll_frequency",
+        "type": "duration",
+        "description": "How often to poll the API for new configuration.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      {
+        "name": "proxy_connect_header",
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "proxy_from_environment",
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      {
+        "name": "proxy_url",
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "description": "The address of the API to poll for configuration.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "authorization",
+        "type": "Configure generic authorization to the endpoint.",
+        "description": "Configure generic authorization to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "basic_auth",
+        "type": "Configure basic_auth for authenticating to the endpoint.",
+        "description": "Configure basic_auth for authenticating to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "oauth2",
+        "type": "Configure OAuth 2.0 for authenticating to the endpoint.",
+        "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "oauth2 > tls_config",
+        "type": "Configure TLS settings for connecting to the endpoint.",
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "tls_config",
+        "type": "Configure TLS settings for connecting to the endpoint.",
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "credentials_file",
+        "type": "string",
+        "description": "File containing the secret value.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "credentials",
+        "type": "secret",
+        "description": "Secret value.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "description": "Authorization type, for example, “Bearer”.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "password_file",
+        "type": "string",
+        "description": "File containing the basic auth password.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "password",
+        "type": "secret",
+        "description": "Basic auth password.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "description": "Basic auth username.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client_id",
+        "type": "string",
+        "description": "OAuth2 client ID.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client_secret_file",
+        "type": "string",
+        "description": "File containing the OAuth2 client secret.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "client_secret",
+        "type": "secret",
+        "description": "OAuth2 client secret.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "endpoint_params",
+        "type": "map(string)",
+        "description": "Optional parameters to append to the token URL.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "no_proxy",
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "proxy_connect_header",
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "proxy_from_environment",
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      {
+        "name": "proxy_url",
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "scopes",
+        "type": "list(string)",
+        "description": "List of scopes to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "token_url",
+        "type": "string",
+        "description": "URL to fetch the token from.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "ca_pem",
+        "type": "string",
+        "description": "CA PEM-encoded text to validate the server with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "ca_file",
+        "type": "string",
+        "description": "CA certificate to validate the server with.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "cert_pem",
+        "type": "string",
+        "description": "Certificate PEM-encoded text for client authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "cert_file",
+        "type": "string",
+        "description": "Certificate file for client authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "insecure_skip_verify",
+        "type": "bool",
+        "description": "Disables validation of the server certificate.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "key_file",
+        "type": "string",
+        "description": "Key file for client authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "key_pem",
+        "type": "secret",
+        "description": "Key PEM-encoded text for client authentication.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "min_version",
+        "type": "string",
+        "description": "Minimum acceptable TLS version.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "server_name",
+        "type": "string",
+        "description": "ServerName extension to indicate the name of the server.",
+        "default": "",
+        "required": false
+      }
+    ],
+    "blocks": [
+      {
+        "block": "authorization",
+        "description": "Configure generic authorization to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#authorization"
+      },
+      {
+        "block": "basic_auth",
+        "description": "Configure basic_auth for authenticating to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#basic_auth"
+      },
+      {
+        "block": "oauth2",
+        "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#oauth2"
+      },
+      {
+        "block": "oauth2 > tls_config",
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls_config"
+      },
+      {
+        "block": "tls_config",
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls_config"
+      }
+    ],
+    "examples": [
+      "remotecfg {\n\n}",
+      "remotecfg {\n    url = \"<SERVICE_URL>\"\n    basic_auth {\n        username      = \"<USERNAME>\"\n        password_file = \"<PASSWORD_FILE>\"\n    }\n\n    id             = constants.hostname\n    attributes     = {\"cluster\" = \"dev\", \"namespace\" = \"otlp-dev\"}\n    poll_frequency = \"5m\"\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "remotecfg",
+      "title": "remotecfg",
+      "arguments": {
+        "attributes": {
+          "type": "map(string)",
+          "description": "A set of self-reported attributes.",
+          "default": "{}",
+          "required": false
+        },
+        "bearer_token_file": {
+          "type": "string",
+          "description": "File containing a bearer token to authenticate with.",
+          "default": "",
+          "required": false
+        },
+        "bearer_token": {
+          "type": "secret",
+          "description": "Bearer token to authenticate with.",
+          "default": "",
+          "required": false
+        },
+        "enable_http2": {
+          "type": "bool",
+          "description": "Whether HTTP2 is supported for requests.",
+          "default": "true",
+          "required": false
+        },
+        "follow_redirects": {
+          "type": "bool",
+          "description": "Whether redirects returned by the server should be followed.",
+          "default": "true",
+          "required": false
+        },
+        "http_headers": {
+          "type": "map(list(secret))",
+          "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+          "default": "",
+          "required": false
+        },
+        "id": {
+          "type": "string",
+          "description": "A self-reported ID.",
+          "default": "see below",
+          "required": false
+        },
+        "name": {
+          "type": "string",
+          "description": "A human-readable name for the collector.",
+          "default": "\"\"",
+          "required": false
+        },
+        "no_proxy": {
+          "type": "string",
+          "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+          "default": "",
+          "required": false
+        },
+        "poll_frequency": {
+          "type": "duration",
+          "description": "How often to poll the API for new configuration.",
+          "default": "\"1m\"",
+          "required": false
+        },
+        "proxy_connect_header": {
+          "type": "map(list(secret))",
+          "description": "Specifies headers to send to proxies during CONNECT requests.",
+          "default": "",
+          "required": false
+        },
+        "proxy_from_environment": {
+          "type": "bool",
+          "description": "Use the proxy URL indicated by environment variables.",
+          "default": "false",
+          "required": false
+        },
+        "proxy_url": {
+          "type": "string",
+          "description": "HTTP proxy to send requests through.",
+          "default": "",
+          "required": false
+        },
+        "url": {
+          "type": "string",
+          "description": "The address of the API to poll for configuration.",
+          "default": "\"\"",
+          "required": false
+        },
+        "authorization": {
+          "type": "Configure generic authorization to the endpoint.",
+          "description": "Configure generic authorization to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "basic_auth": {
+          "type": "Configure basic_auth for authenticating to the endpoint.",
+          "description": "Configure basic_auth for authenticating to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "oauth2": {
+          "type": "Configure OAuth 2.0 for authenticating to the endpoint.",
+          "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "oauth2 > tls_config": {
+          "type": "Configure TLS settings for connecting to the endpoint.",
+          "description": "Configure TLS settings for connecting to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "tls_config": {
+          "type": "Configure TLS settings for connecting to the endpoint.",
+          "description": "Configure TLS settings for connecting to the endpoint.",
+          "default": "",
+          "required": false
+        },
+        "credentials_file": {
+          "type": "string",
+          "description": "File containing the secret value.",
+          "default": "",
+          "required": false
+        },
+        "credentials": {
+          "type": "secret",
+          "description": "Secret value.",
+          "default": "",
+          "required": false
+        },
+        "type": {
+          "type": "string",
+          "description": "Authorization type, for example, “Bearer”.",
+          "default": "",
+          "required": false
+        },
+        "password_file": {
+          "type": "string",
+          "description": "File containing the basic auth password.",
+          "default": "",
+          "required": false
+        },
+        "password": {
+          "type": "secret",
+          "description": "Basic auth password.",
+          "default": "",
+          "required": false
+        },
+        "username": {
+          "type": "string",
+          "description": "Basic auth username.",
+          "default": "",
+          "required": false
+        },
+        "client_id": {
+          "type": "string",
+          "description": "OAuth2 client ID.",
+          "default": "",
+          "required": false
+        },
+        "client_secret_file": {
+          "type": "string",
+          "description": "File containing the OAuth2 client secret.",
+          "default": "",
+          "required": false
+        },
+        "client_secret": {
+          "type": "secret",
+          "description": "OAuth2 client secret.",
+          "default": "",
+          "required": false
+        },
+        "endpoint_params": {
+          "type": "map(string)",
+          "description": "Optional parameters to append to the token URL.",
+          "default": "",
+          "required": false
+        },
+        "scopes": {
+          "type": "list(string)",
+          "description": "List of scopes to authenticate with.",
+          "default": "",
+          "required": false
+        },
+        "token_url": {
+          "type": "string",
+          "description": "URL to fetch the token from.",
+          "default": "",
+          "required": false
+        },
+        "ca_pem": {
+          "type": "string",
+          "description": "CA PEM-encoded text to validate the server with.",
+          "default": "",
+          "required": false
+        },
+        "ca_file": {
+          "type": "string",
+          "description": "CA certificate to validate the server with.",
+          "default": "",
+          "required": false
+        },
+        "cert_pem": {
+          "type": "string",
+          "description": "Certificate PEM-encoded text for client authentication.",
+          "default": "",
+          "required": false
+        },
+        "cert_file": {
+          "type": "string",
+          "description": "Certificate file for client authentication.",
+          "default": "",
+          "required": false
+        },
+        "insecure_skip_verify": {
+          "type": "bool",
+          "description": "Disables validation of the server certificate.",
+          "default": "",
+          "required": false
+        },
+        "key_file": {
+          "type": "string",
+          "description": "Key file for client authentication.",
+          "default": "",
+          "required": false
+        },
+        "key_pem": {
+          "type": "secret",
+          "description": "Key PEM-encoded text for client authentication.",
+          "default": "",
+          "required": false
+        },
+        "min_version": {
+          "type": "string",
+          "description": "Minimum acceptable TLS version.",
+          "default": "",
+          "required": false
+        },
+        "server_name": {
+          "type": "string",
+          "description": "ServerName extension to indicate the name of the server.",
+          "default": "",
+          "required": false
+        }
+      },
+      "blocks": {
+        "authorization": {
+          "description": "Configure generic authorization to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#authorization"
+        },
+        "basic_auth": {
+          "description": "Configure basic_auth for authenticating to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#basic_auth"
+        },
+        "oauth2": {
+          "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#oauth2"
+        },
+        "oauth2 > tls_config": {
+          "description": "Configure TLS settings for connecting to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls_config"
+        },
+        "tls_config": {
+          "description": "Configure TLS settings for connecting to the endpoint.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#tls_config"
+        }
+      },
+      "required_blocks": [],
+      "examples": [
+        "remotecfg {\n\n}",
+        "remotecfg {\n    url = \"<SERVICE_URL>\"\n    basic_auth {\n        username      = \"<USERNAME>\"\n        password_file = \"<PASSWORD_FILE>\"\n    }\n\n    id             = constants.hostname\n    attributes     = {\"cluster\" = \"dev\", \"namespace\" = \"otlp-dev\"}\n    poll_frequency = \"5m\"\n}"
+      ]
+    },
+    "template": "remotecfg {\n\n  // Optional arguments:\n  // attributes = {}\n  // bearer_token_file = \n  // bearer_token = \n  // enable_http2 = true\n  // follow_redirects = true\n  // http_headers = \n  // id = see below\n  // name = \"\"\n  // no_proxy = \n  // poll_frequency = \"1m\"\n  // proxy_connect_header = \n  // proxy_from_environment = false\n  // proxy_url = \n  // url = \"\"\n  // authorization = \n  // basic_auth = \n  // oauth2 = \n  // oauth2 > tls_config = \n  // tls_config = \n  // credentials_file = \n  // credentials = \n  // type = \n  // password_file = \n  // password = \n  // username = \n  // client_id = \n  // client_secret_file = \n  // client_secret = \n  // endpoint_params = \n  // scopes = \n  // token_url = \n  // ca_pem = \n  // ca_file = \n  // cert_pem = \n  // cert_file = \n  // insecure_skip_verify = \n  // key_file = \n  // key_pem = \n  // min_version = \n  // server_name = \n\n  // Optional blocks:\n  // authorization {\n  //   ...\n  // }\n  // basic_auth {\n  //   ...\n  // }\n  // oauth2 {\n  //   ...\n  // }\n  // oauth2 > tls_config {\n  //   ...\n  // }\n  // tls_config {\n  //   ...\n  // }\n}"
+  },
+  "tracing": {
+    "name": "tracing",
+    "title": "tracing",
+    "usage": "tracing {\n\n}",
+    "arguments": [
+      {
+        "name": "sampling_fraction",
+        "type": "number",
+        "description": "Fraction of traces to keep.",
+        "default": "0.1",
+        "required": false
+      },
+      {
+        "name": "write_to",
+        "type": "list(otelcol.Consumer)",
+        "description": "Inputs from otelcol components to send traces to.",
+        "default": "[]",
+        "required": false
+      },
+      {
+        "name": "sampler",
+        "type": "Define custom sampling on top of the base sampling fraction.",
+        "description": "Define custom sampling on top of the base sampling fraction.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "sampler > jaeger_remote",
+        "type": "Retrieve sampling information via a Jaeger remote sampler.",
+        "description": "Retrieve sampling information via a Jaeger remote sampler.",
+        "default": "",
+        "required": false
+      },
+      {
+        "name": "max_operations",
+        "type": "number",
+        "description": "Limit number of operations which can have custom sampling.",
+        "default": "256",
+        "required": false
+      },
+      {
+        "name": "refresh_interval",
+        "type": "duration",
+        "description": "Frequency to poll the URL for new sampling strategies.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "description": "URL to retrieve sampling strategies from.",
+        "default": "\"http://127.0.0.1:5778/sampling\"",
+        "required": false
+      }
+    ],
+    "blocks": [
+      {
+        "block": "sampler",
+        "description": "Define custom sampling on top of the base sampling fraction.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#sampler"
+      },
+      {
+        "block": "sampler > jaeger_remote",
+        "description": "Retrieve sampling information via a Jaeger remote sampler.",
+        "required": false,
+        "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#jaeger_remote"
+      }
+    ],
+    "examples": [
+      "tracing {\n\n}",
+      "tracing {\n  sampling_fraction = 0.1\n\n  write_to = [otelcol.exporter.otlp.tempo.input]\n}\n\notelcol.exporter.otlp \"tempo\" {\n  // Send traces to a locally running Tempo without TLS enabled.\n  client {\n    endpoint = sys.env(\"TEMPO_OTLP_ENDPOINT\")\n\n    tls {\n      insecure = true\n    }\n  }\n}"
+    ],
+    "lsp_structure": {
+      "block_name": "tracing",
+      "title": "tracing",
+      "arguments": {
+        "sampling_fraction": {
+          "type": "number",
+          "description": "Fraction of traces to keep.",
+          "default": "0.1",
+          "required": false
+        },
+        "write_to": {
+          "type": "list(otelcol.Consumer)",
+          "description": "Inputs from otelcol components to send traces to.",
+          "default": "[]",
+          "required": false
+        },
+        "sampler": {
+          "type": "Define custom sampling on top of the base sampling fraction.",
+          "description": "Define custom sampling on top of the base sampling fraction.",
+          "default": "",
+          "required": false
+        },
+        "sampler > jaeger_remote": {
+          "type": "Retrieve sampling information via a Jaeger remote sampler.",
+          "description": "Retrieve sampling information via a Jaeger remote sampler.",
+          "default": "",
+          "required": false
+        },
+        "max_operations": {
+          "type": "number",
+          "description": "Limit number of operations which can have custom sampling.",
+          "default": "256",
+          "required": false
+        },
+        "refresh_interval": {
+          "type": "duration",
+          "description": "Frequency to poll the URL for new sampling strategies.",
+          "default": "\"1m\"",
+          "required": false
+        },
+        "url": {
+          "type": "string",
+          "description": "URL to retrieve sampling strategies from.",
+          "default": "\"http://127.0.0.1:5778/sampling\"",
+          "required": false
+        }
+      },
+      "blocks": {
+        "sampler": {
+          "description": "Define custom sampling on top of the base sampling fraction.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#sampler"
+        },
+        "sampler > jaeger_remote": {
+          "description": "Retrieve sampling information via a Jaeger remote sampler.",
+          "required": false,
+          "url": "https://grafana.com/docs/alloy/latest/reference/config-blocks/#jaeger_remote"
+        }
+      },
+      "required_blocks": [],
+      "examples": [
+        "tracing {\n\n}",
+        "tracing {\n  sampling_fraction = 0.1\n\n  write_to = [otelcol.exporter.otlp.tempo.input]\n}\n\notelcol.exporter.otlp \"tempo\" {\n  // Send traces to a locally running Tempo without TLS enabled.\n  client {\n    endpoint = sys.env(\"TEMPO_OTLP_ENDPOINT\")\n\n    tls {\n      insecure = true\n    }\n  }\n}"
+      ]
+    },
+    "template": "tracing {\n\n  // Optional arguments:\n  // sampling_fraction = 0.1\n  // write_to = []\n  // sampler = \n  // sampler > jaeger_remote = \n  // max_operations = 256\n  // refresh_interval = \"1m\"\n  // url = \"http://127.0.0.1:5778/sampling\"\n\n  // Optional blocks:\n  // sampler {\n  //   ...\n  // }\n  // sampler > jaeger_remote {\n  //   ...\n  // }\n}"
+  },
+  "_index.md": {
+    "name": "_index.md",
+    "title": "Sign in to GitHub",
+    "usage": "",
+    "arguments": [],
+    "blocks": [],
+    "examples": [],
+    "lsp_structure": {
+      "block_name": "_index.md",
+      "title": "Sign in to GitHub",
+      "arguments": {},
+      "blocks": {},
+      "required_blocks": [],
+      "examples": []
+    },
+    "template": "_index.md {\n}"
+  }
+}

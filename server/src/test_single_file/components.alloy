@@ -1,0 +1,9 @@
+prometheus.exporter.unix "database" {
+    include_exporter_metrics = true
+    enable_collectors = ["cpu", "memory", "filesystem"]
+}
+
+prometheus.exporter.unix "web" {
+    include_exporter_metrics = true
+    enable_collectors = ["cpu", "memory"]
+}

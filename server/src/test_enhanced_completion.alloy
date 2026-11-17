@@ -1,0 +1,82 @@
+// Enhanced Component Reference Completion Test File
+// This demonstrates the improved completion system
+
+// Existing component instances in workspace:
+prometheus.remote_write "default" {
+  endpoint {
+    url = "http://prometheus:9090/api/v1/write"
+  }
+}
+
+prometheus.remote_write "backup" {
+  endpoint {
+    url = "http://backup:9090/api/v1/write"
+  }
+}
+
+otelcol.receiver.prometheus "default" {
+  output {
+    metrics = [otelcol.processor.transform.metrics.input]
+  }
+}
+
+otelcol.processor.transform "metrics" {
+  error_mode = "ignore"
+  
+  metric_statements {
+    context = "metric"
+    statements = [
+      "set(description, \"test\") where name == \"test_metric\"",
+    ]
+  }
+  
+  output {
+    metrics = [prometheus.remote_write.default.receiver]
+  }
+}
+
+local.file_match "logs" {
+  path_targets = [{"__path__" = "/var/log/*.log"}]
+}
+
+local.file_match "config" {
+  path_targets = [{"__path__" = "/etc/config/*.conf"}]
+}
+
+// Test scenarios:
+prometheus.scrape "test" {
+  targets = [{"__address__" = "localhost:9090"}]
+  forward_to = [
+    // When typing "otel" here, should show:
+    // HIGH PRIORITY (🔗 Variable icon):
+    //   - otelcol.receiver.prometheus.default (existing)
+    //   - otelcol.processor.transform.metrics (existing)
+    // LOWER PRIORITY (📦 Class icon):
+    //   - otelcol.receiver.otlp (component type)
+    //   - otelcol.processor.batch (component type)
+    //   - otelcol.exporter.prometheus (component type)
+    
+    // When typing "prometheus.remote" here, should show:
+    // HIGH PRIORITY:
+    //   - prometheus.remote_write.default.receiver (existing)
+    //   - prometheus.remote_write.backup.receiver (existing)
+    // LOWER PRIORITY:
+    //   - prometheus.remote_write (component type)
+    
+    // When typing "local.file" here, should show:
+    // HIGH PRIORITY:
+    //   - local.file_match.logs.targets (existing)
+    //   - local.file_match.config.targets (existing)
+    // LOWER PRIORITY:
+    //   - local.file_match (component type)
+    //   - local.file (component type)
+  ]
+}
+
+// At top level, typing "otel" should show:
+// HIGHER PRIORITY (📦 Class icon for new component creation):
+//   - otelcol.receiver.otlp "label" { ... } (component template)
+//   - otelcol.processor.batch "label" { ... } (component template)
+// LOWER PRIORITY (🔗 Variable icon for references):
+//   - otelcol.receiver.prometheus.default (existing reference)
+//   - otelcol.processor.transform.metrics (existing reference)

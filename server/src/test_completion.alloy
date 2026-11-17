@@ -1,0 +1,78 @@
+declare "nginx" {
+  argument "nginx_log_path" { }
+  argument "prometheus_remote_write" { }
+  argument "loki_write" { }
+  argument "environment" { }
+  argument "customer" { }
+
+  local.file_match "logs_nginx" {
+    path_targets      = [{"__path__" = argument.nginx_log_path.value}]
+    ignore_older_than = "336h"
+  }
+
+  loki.source.file "logs_scraper_nginx" {
+    targets       = local.file_match.logs_nginx.targets
+    tail_from_end = true
+    forward_to    = [argument.loki_write.value]
+  }
+}
+
+local.file_match "test_component" {
+  path_targets = ["test"]
+}
+
+local.file_match "another_component" {
+  path_targets = ["another"]
+}
+
+prometheus.scrape "test_scrape" {
+  targets = local.file_match.test_component.targets
+  forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.remote_write "default" {
+  endpoint {
+    url = "http://localhost:9090/api/v1/write"
+  }
+}
+
+otelcol.processor.transform "metrics" {
+  error_mode = "ignore"
+  
+  metric_statements {
+    context = "metric"
+    statements = [
+      "set(description, \"test\") where name == \"test_metric\"",
+    ]
+  }
+  
+  output {
+    metrics = [otelcol.exporter.prometheus.default.input]
+  }
+}
+
+// Test cases for completion:
+// 1. Inside declare block, typing "argument." should show:
+//    - argument.nginx_log_path.value
+//    - argument.prometheus_remote_write.value
+//    - argument.loki_write.value
+//    - argument.environment.value  
+//    - argument.customer.value
+
+// 2. In forward_to array, typing "otelc" should show:
+//    HIGH PRIORITY (Variable icon):
+//    - otelcol.processor.transform.metrics (existing instance)
+//    - otelcol.receiver.prometheus.default (existing instance)
+//    LOWER PRIORITY (Class icon):
+//    - otelcol.receiver.otlp (component type for new creation)
+//    - otelcol.processor.batch (component type for new creation)
+
+// 3. Typing "otelcol.proc" should show:
+//    HIGH PRIORITY:
+//    - otelcol.processor.transform.metrics (existing instance)
+//    LOWER PRIORITY:
+//    - otelcol.processor.batch (component type)
+//    - otelcol.processor.transform (component type)
+
+// 4. Typing "otelcol.receiver.prometheus.defa" should show:
+//    - otelcol.receiver.prometheus.default (existing instance)

@@ -1,0 +1,159 @@
+{
+  "name": "prometheus.exporter.snowflake",
+  "usage": "prometheus.exporter.snowflake \"LABEL\" {\n    account_name = \"<SNOWFLAKE_ACCOUNT_NAME>\"\n    username =     \"<USERNAME>\"\n    password =     \"<PASSWORD>\"\n    warehouse =    \"<VIRTUAL_WAREHOUSE>\"\n}",
+  "arguments": [
+    {
+      "name": "account_name",
+      "type": "string",
+      "description": "The account to collect metrics from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "The username for the user used when querying metrics.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "warehouse",
+      "type": "string",
+      "description": "The warehouse to use when querying metrics.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "enable_tracing",
+      "type": "bool",
+      "description": "Whether to have the snowflake database driver provide trace logging.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "exclude_deleted_tables",
+      "type": "bool",
+      "description": "Whether to exclude deleted tables when querying table storage metrics.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "password",
+      "type": "secret",
+      "description": "The password for the user used when querying metrics (required for password authentication).",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "private_key_password",
+      "type": "secret",
+      "description": "The password for the user’s RSA private key (required for encrypted RSA key-pair authentication).",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "private_key_path",
+      "type": "secret",
+      "description": "The path to the user’s RSA private key file (required for RSA key-pair authentication).",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "role",
+      "type": "string",
+      "description": "The role to use when querying metrics.",
+      "default": "\"ACCOUNTADMIN\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.snowflake",
+    "arguments": {
+      "account_name": {
+        "type": "string",
+        "description": "The account to collect metrics from.",
+        "default": "",
+        "required": true
+      },
+      "username": {
+        "type": "string",
+        "description": "The username for the user used when querying metrics.",
+        "default": "",
+        "required": true
+      },
+      "warehouse": {
+        "type": "string",
+        "description": "The warehouse to use when querying metrics.",
+        "default": "",
+        "required": true
+      },
+      "enable_tracing": {
+        "type": "bool",
+        "description": "Whether to have the snowflake database driver provide trace logging.",
+        "default": "false",
+        "required": false
+      },
+      "exclude_deleted_tables": {
+        "type": "bool",
+        "description": "Whether to exclude deleted tables when querying table storage metrics.",
+        "default": "false",
+        "required": false
+      },
+      "password": {
+        "type": "secret",
+        "description": "The password for the user used when querying metrics (required for password authentication).",
+        "default": "",
+        "required": false
+      },
+      "private_key_password": {
+        "type": "secret",
+        "description": "The password for the user’s RSA private key (required for encrypted RSA key-pair authentication).",
+        "default": "",
+        "required": false
+      },
+      "private_key_path": {
+        "type": "secret",
+        "description": "The path to the user’s RSA private key file (required for RSA key-pair authentication).",
+        "default": "",
+        "required": false
+      },
+      "role": {
+        "type": "string",
+        "description": "The role to use when querying metrics.",
+        "default": "\"ACCOUNTADMIN\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.snowflake \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

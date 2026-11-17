@@ -1,0 +1,84 @@
+{
+  "name": "otelcol.auth.bearer",
+  "usage": "otelcol.auth.bearer \"<LABEL>\" {\n  token = \"<TOKEN>\"\n}",
+  "arguments": [
+    {
+      "name": "token",
+      "type": "secret",
+      "description": "Bearer token to use for authenticating requests.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "header",
+      "type": "string",
+      "description": "Specifies the auth header name.",
+      "default": "\"Authorization\"",
+      "required": false
+    },
+    {
+      "name": "scheme",
+      "type": "string",
+      "description": "Authentication scheme name.",
+      "default": "\"Bearer\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.bearer/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A value that other components can use to authenticate requests."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.auth.bearer",
+    "arguments": {
+      "token": {
+        "type": "secret",
+        "description": "Bearer token to use for authenticating requests.",
+        "default": "",
+        "required": true
+      },
+      "header": {
+        "type": "string",
+        "description": "Specifies the auth header name.",
+        "default": "\"Authorization\"",
+        "required": false
+      },
+      "scheme": {
+        "type": "string",
+        "description": "Authentication scheme name.",
+        "default": "\"Bearer\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.auth.bearer \"<LABEL>\" {\n  token = \"<TOKEN>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A value that other components can use to authenticate requests."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.auth.bearer \"${1:default}\" {\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A value that other components can use to authenticate requests.\n}"
+}

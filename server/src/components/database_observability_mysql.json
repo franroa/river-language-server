@@ -1,0 +1,174 @@
+{
+  "name": "database_observability.mysql",
+  "usage": "database_observability.mysql \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}",
+  "arguments": [
+    {
+      "name": "data_source_name",
+      "type": "secret",
+      "description": "Data Source Name for the MySQL server to connect to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "Where to forward log entries after processing.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "collect_interval",
+      "type": "duration",
+      "description": "How frequently to collect information from database.",
+      "default": "\"1m\"",
+      "required": false
+    },
+    {
+      "name": "disable_collectors",
+      "type": "list(string)",
+      "description": "A list of collectors to disable from the default set.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "disable_query_redaction",
+      "type": "bool",
+      "description": "Collect unredacted SQL query text including parameters.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_collectors",
+      "type": "list(string)",
+      "description": "A list of collectors to enable on top of the default set.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "explain_plan_collect_interval",
+      "type": "duration",
+      "description": "How frequently to collect explain plan information from database.",
+      "default": "\"1m\"",
+      "required": false
+    },
+    {
+      "name": "explain_plan_per_collect_ratio",
+      "type": "float",
+      "description": "Ratio of explain plan queries to collect per collect interval.",
+      "default": "1.0",
+      "required": false
+    },
+    {
+      "name": "explain_plan_initial_lookback",
+      "type": "duration",
+      "description": "How far back to look for explain plan queries on the first collection interval.",
+      "default": "\"24h\"",
+      "required": false
+    },
+    {
+      "name": "locks_collect_interval",
+      "type": "duration",
+      "description": "How frequently to collect locks information from database.",
+      "default": "\"30s\"",
+      "required": false
+    },
+    {
+      "name": "locks_threshold",
+      "type": "duration",
+      "description": "Threshold for locks to be considered slow. If a lock exceeds this duration, it will be logged.",
+      "default": "\"1s\"",
+      "required": false
+    },
+    {
+      "name": "setup_consumers_collect_interval",
+      "type": "duration",
+      "description": "How frequently to collect performance_schema.setup_consumers information from the database.",
+      "default": "\"1h\"",
+      "required": false
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "database_observability.mysql",
+    "arguments": {
+      "data_source_name": {
+        "type": "secret",
+        "description": "Data Source Name for the MySQL server to connect to.",
+        "default": "",
+        "required": true
+      },
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "Where to forward log entries after processing.",
+        "default": "",
+        "required": true
+      },
+      "collect_interval": {
+        "type": "duration",
+        "description": "How frequently to collect information from database.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      "disable_collectors": {
+        "type": "list(string)",
+        "description": "A list of collectors to disable from the default set.",
+        "default": "",
+        "required": false
+      },
+      "disable_query_redaction": {
+        "type": "bool",
+        "description": "Collect unredacted SQL query text including parameters.",
+        "default": "false",
+        "required": false
+      },
+      "enable_collectors": {
+        "type": "list(string)",
+        "description": "A list of collectors to enable on top of the default set.",
+        "default": "",
+        "required": false
+      },
+      "explain_plan_collect_interval": {
+        "type": "duration",
+        "description": "How frequently to collect explain plan information from database.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      "explain_plan_per_collect_ratio": {
+        "type": "float",
+        "description": "Ratio of explain plan queries to collect per collect interval.",
+        "default": "1.0",
+        "required": false
+      },
+      "explain_plan_initial_lookback": {
+        "type": "duration",
+        "description": "How far back to look for explain plan queries on the first collection interval.",
+        "default": "\"24h\"",
+        "required": false
+      },
+      "locks_collect_interval": {
+        "type": "duration",
+        "description": "How frequently to collect locks information from database.",
+        "default": "\"30s\"",
+        "required": false
+      },
+      "locks_threshold": {
+        "type": "duration",
+        "description": "Threshold for locks to be considered slow. If a lock exceeds this duration, it will be logged.",
+        "default": "\"1s\"",
+        "required": false
+      },
+      "setup_consumers_collect_interval": {
+        "type": "duration",
+        "description": "How frequently to collect performance_schema.setup_consumers information from the database.",
+        "default": "\"1h\"",
+        "required": false
+      }
+    },
+    "blocks": {},
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "database_observability.mysql \"${1:default}\" {\n}"
+}

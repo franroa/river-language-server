@@ -1,0 +1,274 @@
+{
+  "name": "otelcol.receiver.tcplog",
+  "usage": "otelcol.receiver.tcplog \"<LABEL>\" {\n  listen_address = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "listen_address",
+      "type": "string",
+      "description": "The <HOST:PORT> address to listen to for logs messages.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "add_attributes",
+      "type": "bool",
+      "description": "Add net.* attributes to log messages according to OpenTelemetry semantic conventions.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "encoding",
+      "type": "string",
+      "description": "The encoding of the log messages.",
+      "default": "\"utf-8\"",
+      "required": false
+    },
+    {
+      "name": "max_log_size",
+      "type": "string",
+      "description": "The maximum size of a log entry to read before failing.",
+      "default": "\"1MiB\"",
+      "required": false
+    },
+    {
+      "name": "one_log_per_packet",
+      "type": "bool",
+      "description": "Skip log tokenization, improving performance when messages always contain one log and multiline isn’t used.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.tcplog/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.tcplog/#debug_metrics"
+    },
+    {
+      "block": "multiline",
+      "description": "Configures rules for multiline parsing of incoming messages",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.tcplog/#multiline"
+    },
+    {
+      "block": "retry_on_failure",
+      "description": "Configures the retry behavior when the receiver encounters an error downstream in the pipeline.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.tcplog/#retry_on_failure"
+    },
+    {
+      "block": "tls",
+      "description": "Configures TLS for the TCP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.tcplog/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.tcplog/#tpm"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.tcplog",
+    "arguments": {
+      "listen_address": {
+        "type": "string",
+        "description": "The <HOST:PORT> address to listen to for logs messages.",
+        "default": "",
+        "required": true
+      },
+      "add_attributes": {
+        "type": "bool",
+        "description": "Add net.* attributes to log messages according to OpenTelemetry semantic conventions.",
+        "default": "false",
+        "required": false
+      },
+      "encoding": {
+        "type": "string",
+        "description": "The encoding of the log messages.",
+        "default": "\"utf-8\"",
+        "required": false
+      },
+      "max_log_size": {
+        "type": "string",
+        "description": "The maximum size of a log entry to read before failing.",
+        "default": "\"1MiB\"",
+        "required": false
+      },
+      "one_log_per_packet": {
+        "type": "bool",
+        "description": "Skip log tokenization, improving performance when messages always contain one log and multiline isn’t used.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.tcplog \"<LABEL>\" {\n  listen_address = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.tcplog \"<LABEL>\" {\n  listen_address = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "multiline": {
+        "description": "Configures rules for multiline parsing of incoming messages",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "line_end_pattern",
+            "type": "string",
+            "description": "A regular expression that matches the end of a log entry.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "line_start_pattern",
+            "type": "string",
+            "description": "A regular expression that matches the beginning of a log entry.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "omit_pattern",
+            "type": "bool",
+            "description": "Omit the start/end pattern from the split log entries.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.tcplog \"<LABEL>\" {\n  listen_address = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "retry_on_failure": {
+        "description": "Configures the retry behavior when the receiver encounters an error downstream in the pipeline.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "If set to true and an error occurs, the receiver will pause reading the log files and resend the current batch of logs.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "initial_interval",
+            "type": "duration",
+            "description": "The time to wait after first failure to retry.",
+            "default": "\"1s\"",
+            "required": false
+          },
+          {
+            "name": "max_elapsed_time",
+            "type": "duration",
+            "description": "The maximum age of a message before the data is discarded.",
+            "default": "\"5m\"",
+            "required": false
+          },
+          {
+            "name": "max_interval",
+            "type": "duration",
+            "description": "The maximum time to wait after applying backoff logic.",
+            "default": "\"30s\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.tcplog \"<LABEL>\" {\n  listen_address = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "tls": {
+        "description": "Configures TLS for the TCP server.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "listen_address",
+                "type": "string",
+                "description": "The <HOST:PORT> address to listen to for logs messages.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "add_attributes",
+                "type": "bool",
+                "description": "Add net.* attributes to log messages according to OpenTelemetry semantic conventions.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "The encoding of the log messages.",
+                "default": "\"utf-8\"",
+                "required": false
+              },
+              {
+                "name": "max_log_size",
+                "type": "string",
+                "description": "The maximum size of a log entry to read before failing.",
+                "default": "\"1MiB\"",
+                "required": false
+              },
+              {
+                "name": "one_log_per_packet",
+                "type": "bool",
+                "description": "Skip log tokenization, improving performance when messages always contain one log and multiline isn’t used.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.tcplog \"<LABEL>\" {\n  listen_address = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.tcplog/#tpm"
+          }
+        ],
+        "usage": "otelcol.receiver.tcplog \"<LABEL>\" {\n  listen_address = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.tcplog \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  multiline {\n  }\n  retry_on_failure {\n  }\n  tls {\n  }\n}"
+}

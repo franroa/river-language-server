@@ -1,0 +1,146 @@
+{
+  "name": "prometheus.exporter.oracledb",
+  "usage": "prometheus.exporter.oracledb \"<LABEL>\" {\n    connection_string = \"<CONNECTION_STRING>\"\n}",
+  "arguments": [
+    {
+      "name": "connection_string",
+      "type": "secret",
+      "description": "The connection string used to connect to an Oracle Database.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "The username to use for authentication to the Oracle Database.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "password",
+      "type": "secret",
+      "description": "The password to use for authentication to the Oracle Database.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "max_idle_conns",
+      "type": "int",
+      "description": "Number of maximum idle connections in the connection pool.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "max_open_conns",
+      "type": "int",
+      "description": "Number of maximum open connections in the connection pool.",
+      "default": "10",
+      "required": false
+    },
+    {
+      "name": "query_timeout",
+      "type": "int",
+      "description": "The query timeout in seconds.",
+      "default": "5",
+      "required": false
+    },
+    {
+      "name": "default_metrics",
+      "type": "string",
+      "description": "The path to the default metrics file. (TOML format)",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "custom_metrics",
+      "type": "list(string)",
+      "description": "The paths to the custom metrics files. (TOML format)",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.oracledb",
+    "arguments": {
+      "connection_string": {
+        "type": "secret",
+        "description": "The connection string used to connect to an Oracle Database.",
+        "default": "",
+        "required": true
+      },
+      "username": {
+        "type": "string",
+        "description": "The username to use for authentication to the Oracle Database.",
+        "default": "",
+        "required": false
+      },
+      "password": {
+        "type": "secret",
+        "description": "The password to use for authentication to the Oracle Database.",
+        "default": "",
+        "required": false
+      },
+      "max_idle_conns": {
+        "type": "int",
+        "description": "Number of maximum idle connections in the connection pool.",
+        "default": "0",
+        "required": false
+      },
+      "max_open_conns": {
+        "type": "int",
+        "description": "Number of maximum open connections in the connection pool.",
+        "default": "10",
+        "required": false
+      },
+      "query_timeout": {
+        "type": "int",
+        "description": "The query timeout in seconds.",
+        "default": "5",
+        "required": false
+      },
+      "default_metrics": {
+        "type": "string",
+        "description": "The path to the default metrics file. (TOML format)",
+        "default": "",
+        "required": false
+      },
+      "custom_metrics": {
+        "type": "list(string)",
+        "description": "The paths to the custom metrics files. (TOML format)",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.oracledb \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

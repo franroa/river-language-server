@@ -1,0 +1,1377 @@
+{
+  "name": "otelcol.processor.resourcedetection",
+  "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "detectors",
+      "type": "list(string)",
+      "description": "An ordered list of named detectors used to detect resource information.",
+      "default": "[\"env\"]",
+      "required": false
+    },
+    {
+      "name": "override",
+      "type": "bool",
+      "description": "Configures whether existing resource attributes should be overridden or preserved.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "Timeout by which all specified detectors must complete.",
+      "default": "\"5s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#output"
+    },
+    {
+      "block": "aks",
+      "description": "Adds resource attributes related to Azure AKS.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#aks"
+    },
+    {
+      "block": "azure",
+      "description": "Queries the Azure Instance Metadata Service to retrieve various resource attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#azure"
+    },
+    {
+      "block": "consul",
+      "description": "Queries a Consul agent and reads its configuration endpoint to retrieve values for resource attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#consul"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#debug_metrics"
+    },
+    {
+      "block": "docker",
+      "description": "Queries the Docker daemon to retrieve various resource attributes from the host machine.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#docker"
+    },
+    {
+      "block": "dynatrace",
+      "description": "Loads resource information from the dt_host_metadata.properties file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#dynatrace"
+    },
+    {
+      "block": "ec2",
+      "description": "Reads resource information from the EC2 instance metadata API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#ec2"
+    },
+    {
+      "block": "ecs",
+      "description": "Queries the Task Metadata Endpoint to record information about the current ECS Task.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#ecs"
+    },
+    {
+      "block": "eks",
+      "description": "Adds resource attributes for Amazon EKS.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#eks"
+    },
+    {
+      "block": "elasticbeanstalk",
+      "description": "Reads the AWS X-Ray configuration file available on all Beanstalk instances with X-Ray Enabled.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#elasticbeanstalk"
+    },
+    {
+      "block": "gcp",
+      "description": "Detects resource attributes using the Google Cloud Client Libraries for Go.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#gcp"
+    },
+    {
+      "block": "heroku",
+      "description": "Adds resource attributes derived from Heroku dyno metadata.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#heroku"
+    },
+    {
+      "block": "kubeadm",
+      "description": "Queries the Kubernetes API server to retrieve kubeadm resource attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#kubeadm"
+    },
+    {
+      "block": "kubernetes_node",
+      "description": "Queries the Kubernetes API server to retrieve various node resource attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#kubernetes_node"
+    },
+    {
+      "block": "lambda",
+      "description": "Uses the AWS Lambda runtime environment variables to retrieve various resource attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#lambda"
+    },
+    {
+      "block": "openshift",
+      "description": "Queries the OpenShift and Kubernetes APIs to retrieve various resource attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#openshift"
+    },
+    {
+      "block": "system",
+      "description": "Queries the host machine to retrieve various resource attributes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.resourcedetection/#system"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.resourcedetection",
+    "arguments": {
+      "detectors": {
+        "type": "list(string)",
+        "description": "An ordered list of named detectors used to detect resource information.",
+        "default": "[\"env\"]",
+        "required": false
+      },
+      "override": {
+        "type": "bool",
+        "description": "Configures whether existing resource attributes should be overridden or preserved.",
+        "default": "true",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "Timeout by which all specified detectors must complete.",
+        "default": "\"5s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "aks": {
+        "description": "Adds resource attributes related to Azure AKS.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.platform",
+            "type": "Toggles the cloud.platform resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "k8s.cluster.name",
+            "type": "Toggles the k8s.cluster.name resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "azure": {
+        "description": "Queries the Azure Instance Metadata Service to retrieve various resource attributes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "tags",
+            "type": "list(string)",
+            "description": "A list of regular expressions to match tag keys to add as resource attributes can be specified.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "azure.resourcegroup.name",
+            "type": "Toggles the azure.resourcegroup.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "azure.vm.name",
+            "type": "Toggles the azure.vm.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "azure.vm.scaleset.name",
+            "type": "Toggles the azure.vm.scaleset.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "azure.vm.size",
+            "type": "Toggles the azure.vm.size resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.account.id",
+            "type": "Toggles the cloud.account.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.platform",
+            "type": "Toggles the cloud.platform resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.region",
+            "type": "Toggles the cloud.region resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.id",
+            "type": "Toggles the host.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.name",
+            "type": "Toggles the host.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "consul": {
+        "description": "Queries a Consul agent and reads its configuration endpoint to retrieve values for resource attributes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "address",
+            "type": "string",
+            "description": "The address of the Consul server",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "datacenter",
+            "type": "string",
+            "description": "Data center to use. If not provided, the default agent data center is used.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "meta",
+            "type": "list(string)",
+            "description": "Allowlist of Consul Metadata keys to use as resource attributes.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "namespace",
+            "type": "string",
+            "description": "The name of the namespace to send along for the request.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "token",
+            "type": "secret",
+            "description": "A per-request ACL token which overrides the Consul agent’s default (empty) token.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.region",
+            "type": "Toggles the cloud.region resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.id",
+            "type": "Toggles the host.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.name",
+            "type": "Toggles the host.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "docker": {
+        "description": "Queries the Docker daemon to retrieve various resource attributes from the host machine.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.name",
+            "type": "Toggles the host.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "os.type",
+            "type": "Toggles the os.type resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "dynatrace": {
+        "description": "Loads resource information from the dt_host_metadata.properties file.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.name",
+            "type": "Toggles the host.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "dt.entity.host",
+            "type": "Toggles the dt.entity.host resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "ec2": {
+        "description": "Reads resource information from the EC2 instance metadata API.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "max_attempts",
+            "type": "int",
+            "description": "The maximum number of attempts to retrieve metadata.",
+            "default": "3",
+            "required": false
+          },
+          {
+            "name": "max_backoff",
+            "type": "duration",
+            "description": "The maximum backoff time between retries.",
+            "default": "\"20s\"",
+            "required": false
+          },
+          {
+            "name": "tags",
+            "type": "list(string)",
+            "description": "A list of regular expressions to match against tag keys of an EC2 instance.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "``",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.account.id",
+            "type": "Toggles the cloud.account.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.availability_zone",
+            "type": "Toggles the cloud.availability_zone resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.platform",
+            "type": "Toggles the cloud.platform resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.region",
+            "type": "Toggles the cloud.region resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.id",
+            "type": "Toggles the host.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.image.id",
+            "type": "Toggles the host.image.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.name",
+            "type": "Toggles the host.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.type",
+            "type": "Toggles the host.type resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "ecs": {
+        "description": "Queries the Task Metadata Endpoint to record information about the current ECS Task.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attr`ibutes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.ecs.cluster.arn",
+            "type": "Toggles the aws.ecs.cluster.arn resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.ecs.launchtype",
+            "type": "Toggles the aws.ecs.launchtype resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.ecs.task.arn",
+            "type": "Toggles the aws.ecs.task.arn resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.ecs.task.family",
+            "type": "Toggles the aws.ecs.task.family resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.ecs.task.id",
+            "type": "Toggles the aws.ecs.task.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.ecs.task.revision",
+            "type": "Toggles the aws.ecs.task.revision resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.log.group.arns",
+            "type": "Toggles the aws.log.group.arns resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.log.group.names",
+            "type": "Toggles the aws.log.group.names resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.log.stream.arns",
+            "type": "Toggles the aws.log.stream.arns resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.log.stream.names",
+            "type": "Toggles the aws.log.stream.names resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.account.id",
+            "type": "Toggles the cloud.account.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.availability_zone",
+            "type": "Toggles the cloud.availability_zone resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.platform",
+            "type": "Toggles the cloud.platform resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.region",
+            "type": "Toggles the cloud.region resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "eks": {
+        "description": "Adds resource attributes for Amazon EKS.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.account.id",
+            "type": "Toggles the cloud.account.id resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.platform",
+            "type": "Toggles the cloud.platform resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "k8s.cluster.name",
+            "type": "Toggles the k8s.cluster.name resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "elasticbeanstalk": {
+        "description": "Reads the AWS X-Ray configuration file available on all Beanstalk instances with X-Ray Enabled.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.platform",
+            "type": "Toggles the cloud.platform resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "deployment.envir",
+            "type": "Toggles the deployment.envir resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "service.instance",
+            "type": "Toggles the service.instance resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "service.version",
+            "type": "Toggles the service.version resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "gcp": {
+        "description": "Detects resource attributes using the Google Cloud Client Libraries for Go.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.account.id",
+            "type": "Toggles the cloud.account.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.availability_zone",
+            "type": "Toggles the cloud.availability_zone resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.platform",
+            "type": "Toggles the cloud.platform resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.region",
+            "type": "Toggles the cloud.region resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "faas.id",
+            "type": "Toggles the faas.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "faas.instance",
+            "type": "Toggles the faas.instance resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "faas.name",
+            "type": "Toggles the faas.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "faas.version",
+            "type": "Toggles the faas.version resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "gcp.cloud_run.job.execution",
+            "type": "Toggles the gcp.cloud_run.job.execution resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "gcp.cloud_run.job.task_index",
+            "type": "Toggles the gcp.cloud_run.job.task_index resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "gcp.gce.instance.group_manager.name",
+            "type": "Toggles the gcp.gce.instance.group_manager.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "gcp.gce.instance.group_manager.region",
+            "type": "Toggles the gcp.gce.instance.group_manager.region resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "gcp.gce.instance.group_manager.zone",
+            "type": "Toggles the gcp.gce.instance.group_manager.zone resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "gcp.gce.instance.hostname",
+            "type": "Toggles the gcp.gce.instance.hostname resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "gcp.gce.instance.name",
+            "type": "Toggles the gcp.gce.instance.name resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.id",
+            "type": "Toggles the host.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.name",
+            "type": "Toggles the host.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.type",
+            "type": "Toggles the host.type resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "k8s.cluster.name",
+            "type": "Toggles the k8s.cluster.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "heroku": {
+        "description": "Adds resource attributes derived from Heroku dyno metadata.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "heroku.app.id",
+            "type": "Toggles the heroku.app.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "heroku.dyno.id",
+            "type": "Toggles the heroku.dyno.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "heroku.release.commit",
+            "type": "Toggles the heroku.release.commit resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "heroku.release.creation_timestamp",
+            "type": "Toggles the heroku.release.creation_timestamp resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "service.instance.id",
+            "type": "Toggles the service.instance.id resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "service.name",
+            "type": "Toggles the service.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "service.version",
+            "type": "Toggles the service.version resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "kubeadm": {
+        "description": "Queries the Kubernetes API server to retrieve kubeadm resource attributes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "auth_type",
+            "type": "string",
+            "description": "Configures how to authenticate to the Kubernetes API server.",
+            "default": "\"none\"",
+            "required": false
+          },
+          {
+            "name": "context",
+            "type": "string",
+            "description": "Override the current context when auth_type is set to \"kubeConfig\".",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "k8s.cluster.name",
+            "type": "Toggles the k8s.cluster.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "k8s.cluster.uid",
+            "type": "Toggles the k8s.cluster.uid resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "kubernetes_node": {
+        "description": "Queries the Kubernetes API server to retrieve various node resource attributes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "auth_type",
+            "type": "string",
+            "description": "Configures how to authenticate to the K8s API server.",
+            "default": "\"none\"",
+            "required": false
+          },
+          {
+            "name": "context",
+            "type": "string",
+            "description": "Override the current context when auth_type is set to \"kubeConfig\".",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "node_from_env_var",
+            "type": "string",
+            "description": "The name of an environment variable from which to retrieve the node name.",
+            "default": "\"K8S_NODE_NAME\"",
+            "required": false
+          },
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "k8s.node.name",
+            "type": "Toggles the k8s.node.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "k8s.node.uid",
+            "type": "Toggles the k8s.node.uid resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "lambda": {
+        "description": "Uses the AWS Lambda runtime environment variables to retrieve various resource attributes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "resource_attri`butes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.log.group.names",
+            "type": "Toggles the aws.log.group.names resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "aws.log.stream.names",
+            "type": "Toggles the aws.log.stream.names resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.platform",
+            "type": "Toggles the cloud.platform resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.provider",
+            "type": "Toggles the cloud.provider resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cloud.region",
+            "type": "Toggles the cloud.region resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "faas.instance",
+            "type": "Toggles the faas.instance resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "faas.max_memory",
+            "type": "Toggles the faas.max_memory resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "faas.name",
+            "type": "Toggles the faas.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "faas.version",
+            "type": "Toggles the faas.version resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "openshift": {
+        "description": "Queries the OpenShift and Kubernetes APIs to retrieve various resource attributes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "address",
+            "type": "string",
+            "description": "Address of the OpenShift API server.",
+            "default": "See below",
+            "required": false
+          },
+          {
+            "name": "token",
+            "type": "string",
+            "description": "Token used to identify against the OpenShift API server.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "tls",
+            "type": "TLS settings for the connection with the OpenShift API.",
+            "description": "yes",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "system": {
+        "description": "Queries the host machine to retrieve various resource attributes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "hostname_sources",
+            "type": "list(string)",
+            "description": "A priority list of sources from which the hostname will be fetched.",
+            "default": "[\"dns\", \"os\"]",
+            "required": false
+          },
+          {
+            "name": "resource_attributes",
+            "type": "Configures which resource attributes to add.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.arch",
+            "type": "Toggles the host.arch resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.cpu.cache.l2.size",
+            "type": "Toggles the host.cpu.cache.l2.size resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.cpu.family",
+            "type": "Toggles the host.cpu.family resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.cpu.model.id",
+            "type": "Toggles the host.cpu.model.id resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.cpu.model.name",
+            "type": "Toggles the host.cpu.model.name resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.cpu.stepping",
+            "type": "Toggles the host.cpu.stepping resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.cpu.vendor.id",
+            "type": "Toggles the host.cpu.vendor.id resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.id",
+            "type": "Toggles the host.id resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.interface",
+            "type": "Toggles the host.interface resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.ip",
+            "type": "Toggles the host.ip resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.mac",
+            "type": "Toggles the host.mac resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "host.name",
+            "type": "Toggles the host.name resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "os.build.id",
+            "type": "Toggles the os.build.id resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "os.description",
+            "type": "Toggles the os.description resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "os.name",
+            "type": "Toggles the os.name resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "os.type",
+            "type": "Toggles the os.type resource attribute. Sets enabled to true by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "os.version",
+            "type": "Toggles the os.version resource attribute. Sets enabled to false by default.",
+            "description": "no",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.resourcedetection \"<LABEL>\" {\n  output {\n    logs    = [...]\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.resourcedetection \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  aks {\n  }\n  azure {\n  }\n  consul {\n  }\n  debug_metrics {\n    $0\n  }\n  docker {\n  }\n  dynatrace {\n  }\n  ec2 {\n  }\n  ecs {\n  }\n  eks {\n  }\n  elasticbeanstalk {\n  }\n  gcp {\n  }\n  heroku {\n  }\n  kubeadm {\n  }\n  kubernetes_node {\n  }\n  lambda {\n  }\n  openshift {\n  }\n  system {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

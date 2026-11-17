@@ -1,0 +1,4 @@
+prometheus.scrape "metrics" {
+	forward_to = [argument.prometheus_remote_write.value]
+	targets = [{"__address__" = "basicservice:8080"}]
+}

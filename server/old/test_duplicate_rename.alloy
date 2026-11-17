@@ -1,0 +1,19 @@
+prometheus.scrape "demo" {
+  targets = ["localhost:9090"]
+  forward_to = []
+}
+
+prometheus.scrape "demo" {
+  targets = ["localhost:9091"]
+  forward_to = []
+}
+
+prometheus.scrape "test" {
+  targets = ["localhost:9092"]
+  forward_to = []
+}
+
+prometheus.scrape "test" {
+  targets = ["localhost:9093"]
+  forward_to = []
+}

@@ -1,0 +1,223 @@
+{
+  "name": "otelcol.receiver.awscloudwatch",
+  "usage": "otelcol.receiver.awscloudwatch \"<LABEL>\" {\n  region = \"us-west-2\"\n\n  output {\n    logs = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "region",
+      "type": "string",
+      "description": "AWS region to collect logs from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "imds_endpoint",
+      "type": "string",
+      "description": "Custom EC2 IMDS endpoint to use.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "profile",
+      "type": "string",
+      "description": "AWS credentials profile to use.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "storage",
+      "type": "capsule(otelcol.Handler)",
+      "description": "Handler from an otelcol.storage component to use for persisting state.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.awscloudwatch/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.awscloudwatch/#debug_metrics"
+    },
+    {
+      "block": "logs",
+      "description": "Configures the log collection settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.awscloudwatch/#logs"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.awscloudwatch",
+    "arguments": {
+      "region": {
+        "type": "string",
+        "description": "AWS region to collect logs from.",
+        "default": "",
+        "required": true
+      },
+      "imds_endpoint": {
+        "type": "string",
+        "description": "Custom EC2 IMDS endpoint to use.",
+        "default": "",
+        "required": false
+      },
+      "profile": {
+        "type": "string",
+        "description": "AWS credentials profile to use.",
+        "default": "",
+        "required": false
+      },
+      "storage": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "Handler from an otelcol.storage component to use for persisting state.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "Configures the log collection settings.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.awscloudwatch \"<LABEL>\" {\n  region = \"us-west-2\"\n\n  output {\n    logs = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.awscloudwatch \"<LABEL>\" {\n  region = \"us-west-2\"\n\n  output {\n    logs = [...]\n  }\n}"
+      },
+      "logs": {
+        "description": "Configures the log collection settings.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "max_events_per_request",
+            "type": "int",
+            "description": "Maximum number of events to process per request to CloudWatch.",
+            "default": "1000",
+            "required": false
+          },
+          {
+            "name": "poll_interval",
+            "type": "duration",
+            "description": "How frequently to poll for new log entries.",
+            "default": "\"1m\"",
+            "required": false
+          },
+          {
+            "name": "start_from",
+            "type": "string",
+            "description": "Timestamp in RFC3339 format where to start reading logs.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "groups",
+            "type": "Configures which log groups to collect from.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "autodiscover",
+            "type": "Configures automatic discovery of log groups.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "named",
+            "type": "Configures specific log groups to collect from.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "type": "int",
+            "description": "Maximum number of log groups to discover.",
+            "default": "50",
+            "required": false
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "Prefix to filter log groups by.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "streams",
+            "type": "Configures log streams filtering.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "names",
+            "type": "[]string",
+            "description": "List of exact stream names to collect.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "prefixes",
+            "type": "[]string",
+            "description": "List of prefixes to filter streams by.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.awscloudwatch \"<LABEL>\" {\n  region = \"us-west-2\"\n\n  output {\n    logs = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.awscloudwatch \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  logs {\n  }\n}"
+}

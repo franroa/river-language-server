@@ -1,0 +1,16 @@
+// This file references components from components.alloy in the same directory
+prometheus.scrape "database_scraper" {
+    targets = prometheus.exporter.unix.database.targets
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.scrape "web_scraper" {
+    targets = prometheus.exporter.unix.web.targets
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.remote_write "default" {
+    endpoint {
+        url = "http://prometheus:9090/api/v1/write"
+    }
+}

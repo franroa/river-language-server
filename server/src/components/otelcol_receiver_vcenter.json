@@ -1,0 +1,356 @@
+{
+  "name": "otelcol.receiver.vcenter",
+  "usage": "otelcol.receiver.vcenter \"<LABEL>\" {\n  endpoint = \"<VCENTER_ENDPOINT>\"\n  username = \"<VCENTER_USERNAME>\"\n  password = \"<VCENTER_PASSWORD>\"\n\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "Endpoint to a vCenter Server or ESXi host which has the SDK path enabled.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username to use for authentication.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password to use for authentication.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "collection_interval",
+      "type": "duration",
+      "description": "Defines how often to collect metrics.",
+      "default": "\"1m\"",
+      "required": false
+    },
+    {
+      "name": "initial_delay",
+      "type": "duration",
+      "description": "Defines how long this receiver waits before starting.",
+      "default": "\"1s\"",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "Defines the timeout for the underlying HTTP client.",
+      "default": "\"0s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.vcenter/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.vcenter/#debug_metrics"
+    },
+    {
+      "block": "metrics",
+      "description": "Configures which metrics will be sent to downstream components.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.vcenter/#metrics"
+    },
+    {
+      "block": "resource_attributes",
+      "description": "Configures resource attributes for metrics sent to downstream components.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.vcenter/#resource_attributes"
+    },
+    {
+      "block": "tls",
+      "description": "Configures TLS for the HTTP client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.vcenter/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.vcenter/#tpm"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.vcenter",
+    "arguments": {
+      "endpoint": {
+        "type": "string",
+        "description": "Endpoint to a vCenter Server or ESXi host which has the SDK path enabled.",
+        "default": "",
+        "required": true
+      },
+      "username": {
+        "type": "string",
+        "description": "Username to use for authentication.",
+        "default": "",
+        "required": true
+      },
+      "password": {
+        "type": "string",
+        "description": "Password to use for authentication.",
+        "default": "",
+        "required": true
+      },
+      "collection_interval": {
+        "type": "duration",
+        "description": "Defines how often to collect metrics.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      "initial_delay": {
+        "type": "duration",
+        "description": "Defines how long this receiver waits before starting.",
+        "default": "\"1s\"",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "Defines the timeout for the underlying HTTP client.",
+        "default": "\"0s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "metrics",
+            "type": "Configures which metrics will be sent to downstream components.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.vcenter \"<LABEL>\" {\n  endpoint = \"<VCENTER_ENDPOINT>\"\n  username = \"<VCENTER_USERNAME>\"\n  password = \"<VCENTER_PASSWORD>\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.vcenter \"<LABEL>\" {\n  endpoint = \"<VCENTER_ENDPOINT>\"\n  username = \"<VCENTER_USERNAME>\"\n  password = \"<VCENTER_PASSWORD>\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "metrics": {
+        "description": "Configures which metrics will be sent to downstream components.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.vcenter \"<LABEL>\" {\n  endpoint = \"<VCENTER_ENDPOINT>\"\n  username = \"<VCENTER_USERNAME>\"\n  password = \"<VCENTER_PASSWORD>\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "resource_attributes": {
+        "description": "Configures resource attributes for metrics sent to downstream components.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "vcenter.datacenter.name",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.datacenter.name resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.cluster.name",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.cluster.name resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.datastore.name",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.cluster.resource_pool resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.host.name",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.host.name resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.resource_pool.inventory_path",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.resource_pool.inventory_path resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.resource_pool.name",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.resource_pool.name resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.virtual_app.inventory_path",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.virtual_app.inventory_path resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.virtual_app.name",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.virtual_app.name resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.vm.id",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.vm.id resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.vm.name",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.vm.name resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.vm_template.id",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.vm_template.id resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "vcenter.vm_template.name",
+            "type": "resource_attribute",
+            "description": "Enables the vcenter.vm_template.name resource attribute.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "enabled",
+            "type": "boolean",
+            "description": "Whether to enable the resource attribute.",
+            "default": "true",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.vcenter \"<LABEL>\" {\n  endpoint = \"<VCENTER_ENDPOINT>\"\n  username = \"<VCENTER_USERNAME>\"\n  password = \"<VCENTER_PASSWORD>\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "tls": {
+        "description": "Configures TLS for the HTTP client.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "endpoint",
+                "type": "string",
+                "description": "Endpoint to a vCenter Server or ESXi host which has the SDK path enabled.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "username",
+                "type": "string",
+                "description": "Username to use for authentication.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "description": "Password to use for authentication.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "collection_interval",
+                "type": "duration",
+                "description": "Defines how often to collect metrics.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "initial_delay",
+                "type": "duration",
+                "description": "Defines how long this receiver waits before starting.",
+                "default": "\"1s\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Defines the timeout for the underlying HTTP client.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.vcenter \"<LABEL>\" {\n  endpoint = \"<VCENTER_ENDPOINT>\"\n  username = \"<VCENTER_USERNAME>\"\n  password = \"<VCENTER_PASSWORD>\"\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.vcenter/#tpm"
+          }
+        ],
+        "usage": "otelcol.receiver.vcenter \"<LABEL>\" {\n  endpoint = \"<VCENTER_ENDPOINT>\"\n  username = \"<VCENTER_USERNAME>\"\n  password = \"<VCENTER_PASSWORD>\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.vcenter \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  metrics {\n    $0\n  }\n  resource_attributes {\n  }\n  tls {\n  }\n}"
+}

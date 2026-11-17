@@ -1,0 +1,5 @@
+otelcol.connector.spanmetrics "test" {
+	histogram {
+		// Cursor should be here - should show 'disable' and 'unit' completions
+	}
+}

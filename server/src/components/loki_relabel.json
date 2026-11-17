@@ -1,0 +1,80 @@
+{
+  "name": "loki.relabel",
+  "usage": "loki.relabel \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  rule {\n    ...\n  }\n\n  ...\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(receiver)",
+      "description": "Where to forward log entries after relabeling.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "max_cache_size",
+      "type": "int",
+      "description": "The maximum number of elements to hold in the relabeling cache",
+      "default": "10000",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "rule",
+      "description": "Relabeling rules to apply to received log entries.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.relabel/#rule"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "receiver",
+      "description": "The input receiver where log lines are sent to be relabeled."
+    },
+    {
+      "name": "rules",
+      "type": "RelabelRules",
+      "description": "The currently configured relabeling rules."
+    }
+  ],
+  "lsp_structure": {
+    "component": "loki.relabel",
+    "arguments": {
+      "forward_to": {
+        "type": "list(receiver)",
+        "description": "Where to forward log entries after relabeling.",
+        "default": "",
+        "required": true
+      },
+      "max_cache_size": {
+        "type": "int",
+        "description": "The maximum number of elements to hold in the relabeling cache",
+        "default": "10000",
+        "required": false
+      }
+    },
+    "blocks": {
+      "rule": {
+        "description": "Relabeling rules to apply to received log entries.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.relabel \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  rule {\n    ...\n  }\n\n  ...\n}"
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "receiver",
+        "description": "The input receiver where log lines are sent to be relabeled."
+      },
+      "rules": {
+        "type": "RelabelRules",
+        "description": "The currently configured relabeling rules."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.relabel \"${1:default}\" {\n  rule {\n    $0\n  }\n\n  // Exported fields:\n  // - receiver (receiver): The input receiver where log lines are sent to be relabeled.\n  // - rules (RelabelRules): The currently configured relabeling rules.\n}"
+}

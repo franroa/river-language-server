@@ -1,0 +1,127 @@
+{
+  "name": "otelcol.receiver.awss3",
+  "usage": "otelcol.receiver.awss3 \"<LABEL>\" {\n  start_time = \"...\"\n  end_time = \"...\"\n\n  s3downloader {\n    s3_bucket = \"...\"\n    s3_prefix = \"...\"\n  }\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "start_time",
+      "type": "string",
+      "description": "The time at which to start retrieving data.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "end_time",
+      "type": "string",
+      "description": "The time at which to stop retrieving data.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "s3downloader",
+      "description": "Configures S3 downloader.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.awss3/#s3downloader"
+    },
+    {
+      "block": "sqs",
+      "description": "Configures SQS queue configuration for receiving object change notification.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.awss3/#sqs"
+    },
+    {
+      "block": "encoding",
+      "description": "Configures an encoding extension for S3 objects with matching key suffixes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.awss3/#encoding"
+    },
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.awss3/#output"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.awss3",
+    "arguments": {
+      "start_time": {
+        "type": "string",
+        "description": "The time at which to start retrieving data.",
+        "default": "",
+        "required": false
+      },
+      "end_time": {
+        "type": "string",
+        "description": "The time at which to stop retrieving data.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "s3downloader": {
+        "description": "Configures S3 downloader.",
+        "required": true,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.awss3 \"<LABEL>\" {\n  start_time = \"...\"\n  end_time = \"...\"\n\n  s3downloader {\n    s3_bucket = \"...\"\n    s3_prefix = \"...\"\n  }\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}"
+      },
+      "sqs": {
+        "description": "Configures SQS queue configuration for receiving object change notification.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.awss3 \"<LABEL>\" {\n  start_time = \"...\"\n  end_time = \"...\"\n\n  s3downloader {\n    s3_bucket = \"...\"\n    s3_prefix = \"...\"\n  }\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}"
+      },
+      "encoding": {
+        "description": "Configures an encoding extension for S3 objects with matching key suffixes.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.awss3 \"<LABEL>\" {\n  start_time = \"...\"\n  end_time = \"...\"\n\n  s3downloader {\n    s3_bucket = \"...\"\n    s3_prefix = \"...\"\n  }\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}"
+      },
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.awss3 \"<LABEL>\" {\n  start_time = \"...\"\n  end_time = \"...\"\n\n  s3downloader {\n    s3_bucket = \"...\"\n    s3_prefix = \"...\"\n  }\n\n  output {\n    logs = [...]\n    metrics = [...]\n    trace = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "s3downloader",
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.awss3 \"${1:default}\" {\n  s3downloader {\n    $0\n  }\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  sqs {\n    $0\n  }\n  encoding {\n    $0\n  }\n}"
+}

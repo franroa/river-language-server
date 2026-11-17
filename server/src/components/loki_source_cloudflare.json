@@ -1,0 +1,122 @@
+{
+  "name": "loki.source.cloudflare",
+  "usage": "loki.source.cloudflare \"<LABEL>\" {\n  zone_id   = \"<ZONE_ID>\"\n  api_token = \"<API_TOKEN>\"\n\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "api_token",
+      "type": "secret",
+      "description": "The API token to authenticate with.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "zone_id",
+      "type": "string",
+      "description": "The Cloudflare zone ID to use.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "additional_fields",
+      "type": "list(string)",
+      "description": "The additional list of fields to supplement those provided via fields_type.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "fields_type",
+      "type": "string",
+      "description": "The set of fields to fetch for log entries.",
+      "default": "\"default\"",
+      "required": false
+    },
+    {
+      "name": "labels",
+      "type": "map(string)",
+      "description": "The labels to associate with incoming log entries.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "pull_range",
+      "type": "duration",
+      "description": "The timeframe to fetch for each pull request.",
+      "default": "\"1m\"",
+      "required": false
+    },
+    {
+      "name": "workers",
+      "type": "int",
+      "description": "The number of workers to use for parsing logs.",
+      "default": "3",
+      "required": false
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.cloudflare",
+    "arguments": {
+      "api_token": {
+        "type": "secret",
+        "description": "The API token to authenticate with.",
+        "default": "",
+        "required": true
+      },
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "zone_id": {
+        "type": "string",
+        "description": "The Cloudflare zone ID to use.",
+        "default": "",
+        "required": true
+      },
+      "additional_fields": {
+        "type": "list(string)",
+        "description": "The additional list of fields to supplement those provided via fields_type.",
+        "default": "",
+        "required": false
+      },
+      "fields_type": {
+        "type": "string",
+        "description": "The set of fields to fetch for log entries.",
+        "default": "\"default\"",
+        "required": false
+      },
+      "labels": {
+        "type": "map(string)",
+        "description": "The labels to associate with incoming log entries.",
+        "default": "{}",
+        "required": false
+      },
+      "pull_range": {
+        "type": "duration",
+        "description": "The timeframe to fetch for each pull request.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      "workers": {
+        "type": "int",
+        "description": "The number of workers to use for parsing logs.",
+        "default": "3",
+        "required": false
+      }
+    },
+    "blocks": {},
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.cloudflare \"${1:default}\" {\n}"
+}

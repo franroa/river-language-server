@@ -1,0 +1,111 @@
+{
+  "name": "otelcol.receiver.nginx",
+  "usage": "otelcol.receiver.nginx \"<LABEL>\" {\n  endpoint = \"http://localhost:80/status\"\n\n  collection_interval = \"10s\"\n  initial_delay = \"1s\"\n\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "The URL of the NGINX status endpoint.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "collection_interval",
+      "type": "duration",
+      "description": "Defines how often to collect metrics.",
+      "default": "\"10s\"",
+      "required": false
+    },
+    {
+      "name": "initial_delay",
+      "type": "duration",
+      "description": "Defines how long this receiver waits before it starts.",
+      "default": "\"1s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.nginx/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.nginx/#debug_metrics"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.nginx",
+    "arguments": {
+      "endpoint": {
+        "type": "string",
+        "description": "The URL of the NGINX status endpoint.",
+        "default": "",
+        "required": true
+      },
+      "collection_interval": {
+        "type": "duration",
+        "description": "Defines how often to collect metrics.",
+        "default": "\"10s\"",
+        "required": false
+      },
+      "initial_delay": {
+        "type": "duration",
+        "description": "Defines how long this receiver waits before it starts.",
+        "default": "\"1s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.nginx \"<LABEL>\" {\n  endpoint = \"http://localhost:80/status\"\n\n  collection_interval = \"10s\"\n  initial_delay = \"1s\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.nginx \"<LABEL>\" {\n  endpoint = \"http://localhost:80/status\"\n\n  collection_interval = \"10s\"\n  initial_delay = \"1s\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.nginx \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n}"
+}

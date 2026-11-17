@@ -1,0 +1,67 @@
+{
+  "name": "otelcol.receiver.prometheus",
+  "usage": "otelcol.receiver.prometheus \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.prometheus/#output"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "MetricsReceiver",
+      "description": "A value that other components can use to send Prometheus metrics to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.receiver.prometheus",
+    "arguments": {},
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.prometheus \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "MetricsReceiver",
+        "description": "A value that other components can use to send Prometheus metrics to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.prometheus \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n\n  // Exported fields:\n  // - receiver (MetricsReceiver): A value that other components can use to send Prometheus metrics to.\n}"
+}

@@ -1,0 +1,306 @@
+// Comprehensive LSP Provider Test File
+// This file tests all available LSP providers and features
+
+// =============================================================================
+// DECLARE BLOCKS - Tests: Declaration, Definition, References, Symbol providers
+// =============================================================================
+
+declare "http_config" {
+    argument "port" {
+        comment = "HTTP port to listen on"
+        default = 8080
+    }
+    
+    argument "path" {
+        comment = "HTTP path prefix"
+        default = "/metrics"
+    }
+    
+    // Component inside declare block
+    prometheus.scrape "http_target" {
+        targets = [{"__address__" = "localhost:" + string(argument.port.value)}]
+        metrics_path = argument.path.value
+        forward_to = [prometheus.remote_write.default.receiver]
+    }
+}
+
+declare "database_monitoring" {
+    argument "connection_string" { }
+    
+    // Multiple components for testing
+    prometheus.scrape "db_metrics" {
+        targets = [{"__address__" = "db-server:9187"}]
+        forward_to = [prometheus.remote_write.default.receiver]
+    }
+    
+    loki.source.file "db_logs" {
+        targets = [
+            {
+                __path__     = "/var/log/postgresql/*.log",
+                service_name = "postgresql",
+                job          = "database",
+            }
+        ]
+        forward_to = [loki.write.default.receiver]
+    }
+}
+
+// =============================================================================
+// COMPONENT INSTANCES - Tests: Completion, Hover, CodeLens, Diagnostics
+// =============================================================================
+
+// Prometheus components
+prometheus.remote_write "default" {
+    endpoint {
+        url = "http://prometheus:9090/api/v1/write"
+        basic_auth {
+            username = "admin"
+            password = "secret"
+        }
+    }
+}
+
+prometheus.scrape "node_exporter" {
+    targets = [
+        {"__address__" = "node1:9100", "instance" = "node1"},
+        {"__address__" = "node2:9100", "instance" = "node2"}
+    ]
+    scrape_interval = "15s"
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// Loki components  
+loki.write "default" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+        tenant_id = "tenant-1"
+    }
+}
+
+loki.source.file "application_logs" {
+    targets = [
+        {
+            __path__     = "/var/log/app/*.log"
+            service_name = "myapp"
+            environment  = "production"
+        }
+    ]
+    forward_to = [loki.write.default.receiver]
+}
+
+// OpenTelemetry components
+otelcol.receiver.otlp "grpc_receiver" {
+    grpc {
+        endpoint = "0.0.0.0:4317"
+    }
+    
+    output {
+        metrics = [otelcol.processor.batch.default.input]
+        logs    = [otelcol.processor.batch.default.input]  
+        traces  = [otelcol.processor.batch.default.input]
+    }
+}
+
+otelcol.processor.batch "default" {
+    timeout = "1s"
+    send_batch_size = 1024
+    
+    output {
+        metrics = [otelcol.exporter.prometheus.default.input]
+        logs    = [otelcol.exporter.loki.default.input]
+        traces  = [otelcol.exporter.jaeger.default.input]
+    }
+}
+
+otelcol.exporter.prometheus "default" {
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+otelcol.exporter.loki "default" {
+    forward_to = [loki.write.default.receiver]
+}
+
+otelcol.exporter.jaeger "default" {
+    endpoint = "http://jaeger:14250"
+    tls {
+        insecure = true
+    }
+}
+
+// Discovery components
+discovery.kubernetes "pods" {
+    role = "pod"
+    selectors {
+        role = "pod"
+        field = "spec.nodeName!=<host>"
+    }
+}
+
+discovery.file "static_targets" {
+    files = ["/etc/alloy/targets.json"]
+    refresh_interval = "30s"
+}
+
+// Remote components
+remote.http "config" {
+    url = "https://config-server/alloy.yaml"
+    poll_frequency = "1m"
+    is_secret = false
+}
+
+// Local components  
+local.file "secrets" {
+    filename = "/etc/secrets/database.yaml"
+    is_secret = true
+}
+
+// =============================================================================
+// DECLARE BLOCK USAGE - Tests: References, Definition, Rename
+// =============================================================================
+
+http_config "api_server" {
+    port = 8080
+    path = "/api/metrics"
+}
+
+http_config "web_server" {
+    port = 3000
+    path = "/metrics"
+}
+
+database_monitoring "prod_db" {
+    connection_string = "postgresql://prod-db:5432/myapp"
+}
+
+// =============================================================================
+// COMPLEX EXPRESSIONS - Tests: Hover, Completion, Signature Help
+// =============================================================================
+
+prometheus.scrape "complex_example" {
+    targets = concat(
+        discovery.kubernetes.pods.targets,
+        discovery.file.static_targets.targets
+    )
+    
+    // Test string interpolation and functions
+    job_name = format("alloy-%s", env("HOSTNAME"))
+    scrape_interval = "30s"
+    
+    // Test relabeling for advanced hover/completion
+    relabel_configs {
+        source_labels = ["__meta_kubernetes_pod_label_app"]
+        target_label = "application"
+        action = "replace"
+    }
+    
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// =============================================================================
+// ERROR SCENARIOS - Tests: Diagnostics, Code Actions
+// =============================================================================
+
+// Missing required arguments (should show diagnostic)
+prometheus.scrape "missing_args" {
+    // Missing targets and forward_to - should show errors
+    scrape_interval = "15s"
+}
+
+// Invalid component reference (should show diagnostic)
+prometheus.scrape "invalid_ref" {
+    targets = [{"__address__" = "localhost:9090"}]
+    forward_to = [prometheus.remote_write.nonexistent.receiver] // Invalid reference
+}
+
+// Duplicate component labels (should show diagnostic)
+prometheus.scrape "duplicate_test" {
+    targets = [{"__address__" = "localhost:9090"}]
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.scrape "duplicate_test" { // Duplicate label - should show error
+    targets = [{"__address__" = "localhost:9091"}]
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// =============================================================================
+// NESTED BLOCKS - Tests: Folding, Document Outline, Selection Range
+// =============================================================================
+
+otelcol.receiver.otlp "complex_receiver" {
+    grpc {
+        endpoint = "0.0.0.0:4317"
+        transport = "tcp"
+        
+        tls {
+            cert_file = "/etc/certs/server.crt"
+            key_file = "/etc/certs/server.key"
+            
+            client_ca_file = "/etc/certs/ca.crt"
+            client_auth_type = "RequireAndVerifyClientCert"
+        }
+        
+        keepalive {
+            server_parameters {
+                max_connection_idle = "60s"
+                max_connection_age = "30s"
+                max_connection_age_grace = "5s"
+                time = "5s"
+                timeout = "1s"
+            }
+            
+            enforcement_policy {
+                min_time = "10s"
+                permit_without_stream = true
+            }
+        }
+    }
+    
+    http {
+        endpoint = "0.0.0.0:4318"
+        
+        cors {
+            allowed_origins = ["*"]
+            allowed_headers = ["*"]
+            max_age = 7200
+        }
+    }
+    
+    output {
+        metrics = [otelcol.processor.attributes.default.input]
+        logs = [otelcol.processor.resource.default.input]
+        traces = [
+            otelcol.processor.batch.traces.input,
+            otelcol.processor.tail_sampling.default.input
+        ]
+    }
+}
+
+// =============================================================================
+// COMMENTS AND DOCUMENTATION - Tests: Document Formatting, Semantic Tokens
+// =============================================================================
+
+/*
+ * Multi-line comment block
+ * This should be handled by semantic tokens
+ * and formatting providers
+ */
+
+// Single line comment with TODO: implement better error handling
+// FIXME: this component needs optimization
+// NOTE: remember to update documentation
+
+prometheus.scrape "documented_component" {
+    // This component scrapes metrics from the application
+    targets = [{"__address__" = "app:8080"}] // Application endpoint
+    
+    /* 
+     * Configure scrape settings
+     * - interval: how often to scrape  
+     * - timeout: how long to wait
+     */
+    scrape_interval = "10s" // Every 10 seconds
+    scrape_timeout = "5s"   // 5 second timeout
+    
+    forward_to = [prometheus.remote_write.default.receiver]
+}

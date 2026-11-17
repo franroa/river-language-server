@@ -1,0 +1,47 @@
+{
+  "name": "prometheus.receive_http",
+  "usage": "prometheus.receive_http \"<LABEL?\" {\n  http {\n    listen_address = \"<LISTEN_ADDRESS>\"\n    listen_port = <PORT>\n  }\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(MetricsReceiver)",
+      "description": "List of receivers to send metrics to.",
+      "default": "",
+      "required": true
+    }
+  ],
+  "blocks": [
+    {
+      "block": "http",
+      "description": "Configures the HTTP server that receives requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.receive_http/#http"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "prometheus.receive_http",
+    "arguments": {
+      "forward_to": {
+        "type": "list(MetricsReceiver)",
+        "description": "List of receivers to send metrics to.",
+        "default": "",
+        "required": true
+      }
+    },
+    "blocks": {
+      "http": {
+        "description": "Configures the HTTP server that receives requests.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "prometheus.receive_http \"<LABEL?\" {\n  http {\n    listen_address = \"<LISTEN_ADDRESS>\"\n    listen_port = <PORT>\n  }\n  forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.receive_http \"${1:default}\" {\n  http {\n    $0\n  }\n}"
+}

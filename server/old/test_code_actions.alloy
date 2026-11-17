@@ -1,0 +1,33 @@
+// Test case for code actions - this should show both diagnostic errors and code action suggestions
+
+// This should trigger error and show code action "Add missing comma after map property 'external_labels'"
+prometheus.remote_write "default" {
+	endpoint {
+		url = "http://mimir:9009/api/v1/push"
+	}
+
+	external_labels = {
+		instance = "local"
+	}
+}
+
+// This should trigger error and show code action for single-line map
+prometheus.remote_write "single" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	external_labels = {env = "prod"}
+}
+
+// This should be valid - no errors or code actions
+prometheus.remote_write "valid" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+
+	external_labels = {
+		env = "prod",
+		region = "us-west-2"
+	},
+}

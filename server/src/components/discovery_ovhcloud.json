@@ -1,0 +1,120 @@
+{
+  "name": "discovery.ovhcloud",
+  "usage": "discovery.ovhcloud \"<LABEL>\" {\n    application_key    = \"<APPLICATION_KEY>\"\n    application_secret = \"<APPLICATION_SECRET>\"\n    consumer_key       = \"<CONSUMER_KEY>\"\n    service            = \"<SERVICE>\"\n}",
+  "arguments": [
+    {
+      "name": "application_key",
+      "type": "string",
+      "description": "API application key.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "application_secret",
+      "type": "secret",
+      "description": "API application secret.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "consumer_key",
+      "type": "secret",
+      "description": "API consumer key.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "service",
+      "type": "string",
+      "description": "Service of the targets to retrieve.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "API endpoint.",
+      "default": "\"ovh-eu\"",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Refresh interval to re-read the resources list.",
+      "default": "\"60s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the OVHcloud API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.ovhcloud",
+    "arguments": {
+      "application_key": {
+        "type": "string",
+        "description": "API application key.",
+        "default": "",
+        "required": true
+      },
+      "application_secret": {
+        "type": "secret",
+        "description": "API application secret.",
+        "default": "",
+        "required": true
+      },
+      "consumer_key": {
+        "type": "secret",
+        "description": "API consumer key.",
+        "default": "",
+        "required": true
+      },
+      "service": {
+        "type": "string",
+        "description": "Service of the targets to retrieve.",
+        "default": "",
+        "required": true
+      },
+      "endpoint": {
+        "type": "string",
+        "description": "API endpoint.",
+        "default": "\"ovh-eu\"",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Refresh interval to re-read the resources list.",
+        "default": "\"60s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the OVHcloud API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.ovhcloud \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the OVHcloud API.\n}"
+}

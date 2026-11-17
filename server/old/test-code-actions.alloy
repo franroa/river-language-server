@@ -1,0 +1,12 @@
+// Test file for code actions
+prometheus.scrape "test" {
+  // Missing required "targets" attribute
+}
+
+prometheus.remote_write "test" {
+  // Missing required "endpoint" attribute  
+}
+
+basic_auth "test" {
+  // Missing required "username" and "password" attributes
+}

@@ -1,0 +1,569 @@
+{
+  "name": "otelcol.exporter.datadog",
+  "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}",
+  "arguments": [
+    {
+      "name": "hostname",
+      "type": "string",
+      "description": "The fallback hostname used for payloads without hostname-identifying attributes.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "hostname_detection_timeout",
+      "type": "duration",
+      "description": "The timeout for hostname detection.",
+      "default": "25s",
+      "required": false
+    },
+    {
+      "name": "only_metadata",
+      "type": "bool",
+      "description": "Whether to send only metadata.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "api",
+      "description": "Configures authentication with Datadog",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#api"
+    },
+    {
+      "block": "client",
+      "description": "Configures the HTTP client used to send telemetry data.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#client"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#debug_metrics"
+    },
+    {
+      "block": "host_metadata",
+      "description": "Host metadata specific configuration.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#host_metadata"
+    },
+    {
+      "block": "logs",
+      "description": "Logs exporter specific configuration.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#logs"
+    },
+    {
+      "block": "metrics",
+      "description": "Metric exporter specific configuration.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#metrics"
+    },
+    {
+      "block": "metrics > exporter",
+      "description": "Metric Exporter specific configuration.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#exporter"
+    },
+    {
+      "block": "metrics > histograms",
+      "description": "Histograms specific configuration.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#histograms"
+    },
+    {
+      "block": "metrics > summaries",
+      "description": "Summaries specific configuration",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#summaries"
+    },
+    {
+      "block": "metrics > sums",
+      "description": "Sums specific configuration",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#sums"
+    },
+    {
+      "block": "retry_on_failure",
+      "description": "Configures retry mechanism for failed requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#retry_on_failure"
+    },
+    {
+      "block": "sending_queue",
+      "description": "Configures batching of data before sending.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#sending_queue"
+    },
+    {
+      "block": "traces",
+      "description": "Trace exporter specific configuration.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#traces"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.exporter.datadog",
+    "arguments": {
+      "hostname": {
+        "type": "string",
+        "description": "The fallback hostname used for payloads without hostname-identifying attributes.",
+        "default": "",
+        "required": false
+      },
+      "hostname_detection_timeout": {
+        "type": "duration",
+        "description": "The timeout for hostname detection.",
+        "default": "25s",
+        "required": false
+      },
+      "only_metadata": {
+        "type": "bool",
+        "description": "Whether to send only metadata.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "api": {
+        "description": "Configures authentication with Datadog",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "api_key",
+            "type": "secret",
+            "description": "API Key for Datadog",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "fail_on_invalid_key",
+            "type": "bool",
+            "description": "Whether to exit at startup on an invalid API key",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "site",
+            "type": "string",
+            "description": "The site of the Datadog intake to send Agent data to.",
+            "default": "\"datadoghq.com\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      },
+      "client": {
+        "description": "Configures the HTTP client used to send telemetry data.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "disable_keep_alives",
+            "type": "bool",
+            "description": "Disable HTTP keep-alive.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "idle_conn_timeout",
+            "type": "duration",
+            "description": "Time to wait before an idle connection closes itself.",
+            "default": "\"45s\"",
+            "required": false
+          },
+          {
+            "name": "insecure_skip_verify",
+            "type": "bool",
+            "description": "Ignores insecure server TLS certificates.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "max_conns_per_host",
+            "type": "int",
+            "description": "Limits the total (dialing,active, and idle) number of connections per host.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "max_idle_conns_per_host",
+            "type": "int",
+            "description": "Limits the number of idle HTTP connections the host can keep open.",
+            "default": "5",
+            "required": false
+          },
+          {
+            "name": "max_idle_conns",
+            "type": "int",
+            "description": "Limits the number of idle HTTP connections the client can keep open.",
+            "default": "100",
+            "required": false
+          },
+          {
+            "name": "read_buffer_size",
+            "type": "string",
+            "description": "Size of the read buffer the HTTP client uses for reading server responses.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "timeout",
+            "type": "duration",
+            "description": "Time to wait before marking a request as failed.",
+            "default": "\"15s\"",
+            "required": false
+          },
+          {
+            "name": "write_buffer_size",
+            "type": "string",
+            "description": "Size of the write buffer the HTTP client uses for writing requests.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      },
+      "host_metadata": {
+        "description": "Host metadata specific configuration.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Enable the host metadata functionality",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "hostname_source",
+            "type": "string",
+            "description": "Source for the hostname of host metadata.",
+            "default": "\"config_or_system\"",
+            "required": false
+          },
+          {
+            "name": "tags",
+            "type": "list(string)",
+            "description": "List of host tags to be sent as part of the host metadata.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      },
+      "logs": {
+        "description": "Logs exporter specific configuration.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "batch_wait",
+            "type": "int",
+            "description": "The maximum time in seconds the logs agent waits to fill each batch of logs before sending.",
+            "default": "5",
+            "required": false
+          },
+          {
+            "name": "compression_level",
+            "type": "int",
+            "description": "Accepts values from 0 (no compression) to 9 (maximum compression but higher resource usage). Only used if use_compression is set to true.",
+            "default": "6",
+            "required": false
+          },
+          {
+            "name": "endpoint",
+            "type": "string",
+            "description": "The host of the Datadog intake server to send logs to.",
+            "default": "\"https://http-intake.logs.datadoghq.com\"",
+            "required": false
+          },
+          {
+            "name": "use_compression",
+            "type": "bool",
+            "description": "Available when sending logs via HTTPS. Compresses logs if enabled.",
+            "default": "true",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      },
+      "metrics": {
+        "description": "Metric exporter specific configuration.",
+        "required": false,
+        "children": {
+          "exporter": {
+            "description": "Metric Exporter specific configuration.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "hostname",
+                "type": "string",
+                "description": "The fallback hostname used for payloads without hostname-identifying attributes.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "hostname_detection_timeout",
+                "type": "duration",
+                "description": "The timeout for hostname detection.",
+                "default": "25s",
+                "required": false
+              },
+              {
+                "name": "only_metadata",
+                "type": "bool",
+                "description": "Whether to send only metadata.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+          },
+          "histograms": {
+            "description": "Histograms specific configuration.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "hostname",
+                "type": "string",
+                "description": "The fallback hostname used for payloads without hostname-identifying attributes.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "hostname_detection_timeout",
+                "type": "duration",
+                "description": "The timeout for hostname detection.",
+                "default": "25s",
+                "required": false
+              },
+              {
+                "name": "only_metadata",
+                "type": "bool",
+                "description": "Whether to send only metadata.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+          },
+          "summaries": {
+            "description": "Summaries specific configuration",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "hostname",
+                "type": "string",
+                "description": "The fallback hostname used for payloads without hostname-identifying attributes.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "hostname_detection_timeout",
+                "type": "duration",
+                "description": "The timeout for hostname detection.",
+                "default": "25s",
+                "required": false
+              },
+              {
+                "name": "only_metadata",
+                "type": "bool",
+                "description": "Whether to send only metadata.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+          },
+          "sums": {
+            "description": "Sums specific configuration",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "hostname",
+                "type": "string",
+                "description": "The fallback hostname used for payloads without hostname-identifying attributes.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "hostname_detection_timeout",
+                "type": "duration",
+                "description": "The timeout for hostname detection.",
+                "default": "25s",
+                "required": false
+              },
+              {
+                "name": "only_metadata",
+                "type": "bool",
+                "description": "Whether to send only metadata.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "exporter",
+            "description": "Metric Exporter specific configuration.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#exporter"
+          },
+          {
+            "block": "histograms",
+            "description": "Histograms specific configuration.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#histograms"
+          },
+          {
+            "block": "summaries",
+            "description": "Summaries specific configuration",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#summaries"
+          },
+          {
+            "block": "sums",
+            "description": "Sums specific configuration",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.datadog/#sums"
+          }
+        ],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      },
+      "retry_on_failure": {
+        "description": "Configures retry mechanism for failed requests.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      },
+      "sending_queue": {
+        "description": "Configures batching of data before sending.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      },
+      "traces": {
+        "description": "Trace exporter specific configuration.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "compute_stats_by_span_kind",
+            "type": "bool",
+            "description": "Enables APM stats computation based on span.kind",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "compute_top_level_by_span_kind",
+            "type": "bool",
+            "description": "Enables top-level span identification based on span.kind",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "endpoint",
+            "type": "string",
+            "description": "The host of the Datadog intake server to send traces to.",
+            "default": "\"https://trace.agent.datadoghq.com\"",
+            "required": false
+          },
+          {
+            "name": "ignore_resources",
+            "type": "list(string)",
+            "description": "A blocklist of regular expressions can be provided to disable traces based on their resource name.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "peer_tags_aggregation",
+            "type": "bool",
+            "description": "Enables aggregation of peer related tags in Datadog exporter",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "peer_tags",
+            "type": "list(string)",
+            "description": "List of supplementary peer tags that go beyond the defaults.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "span_name_as_resource_name",
+            "type": "bool",
+            "description": "Use OpenTelemetry semantic convention for span naming",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "span_name_remappings",
+            "type": "map(string)",
+            "description": "A map of Datadog span operation name keys and preferred name values to update those names to.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "trace_buffer",
+            "type": "number",
+            "description": "Specifies the number of outgoing trace payloads to buffer before dropping",
+            "default": "10",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.datadog \"<LABEL>\" {\n    api {\n        api_key = \"<YOUR_API_KEY_HERE>\"\n    }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "api"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.exporter.datadog \"${1:default}\" {\n  api {\n    api_key = \"${2}\"\n  }\n  client {\n  }\n  debug_metrics {\n    $0\n  }\n  host_metadata {\n  }\n  logs {\n  }\n  metrics {\n  }\n  retry_on_failure {\n    $0\n  }\n  sending_queue {\n    $0\n  }\n  traces {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value other components can use to send telemetry data to.\n}"
+}

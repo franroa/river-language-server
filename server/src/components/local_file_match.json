@@ -1,0 +1,81 @@
+{
+  "name": "local.file_match",
+  "usage": "local.file_match \"LABEL\" {\n  path_targets = [{\"__path__\" = DOUBLESTAR_PATH}]\n}",
+  "arguments": [
+    {
+      "name": "path_targets",
+      "type": "list(map(string))",
+      "description": "Targets to expand; looks for glob patterns on the __path__ and __path_exclude__ keys.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "ignore_older_than",
+      "type": "duration",
+      "description": "Ignores files with modification times before this duration.",
+      "default": "\"0s\"",
+      "required": false
+    },
+    {
+      "name": "sync_period",
+      "type": "duration",
+      "description": "How often to sync filesystem and targets.",
+      "default": "\"10s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the filesystem."
+    }
+  ],
+  "lsp_structure": {
+    "component": "local.file_match",
+    "arguments": {
+      "path_targets": {
+        "type": "list(map(string))",
+        "description": "Targets to expand; looks for glob patterns on the __path__ and __path_exclude__ keys.",
+        "default": "",
+        "required": true
+      },
+      "ignore_older_than": {
+        "type": "duration",
+        "description": "Ignores files with modification times before this duration.",
+        "default": "\"0s\"",
+        "required": false
+      },
+      "sync_period": {
+        "type": "duration",
+        "description": "How often to sync filesystem and targets.",
+        "default": "\"10s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the filesystem."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "local.file_match \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the filesystem.\n}"
+}

@@ -1,0 +1,211 @@
+{
+  "name": "prometheus.exporter.consul",
+  "usage": "prometheus.exporter.consul \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "allow_stale",
+      "type": "bool",
+      "description": "Allows any Consul server (non-leader) to service a read.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "ca_file",
+      "type": "string",
+      "description": "File path to a PEM-encoded certificate authority used to validate the authenticity of a server certificate.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "cert_file",
+      "type": "string",
+      "description": "File path to a PEM-encoded certificate used with the private key to verify the exporter’s authenticity.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "concurrent_request_limit",
+      "type": "string",
+      "description": "Limit the maximum number of concurrent requests to consul, 0 means no limit.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "generate_health_summary",
+      "type": "bool",
+      "description": "Collects information about each registered service and exports consul_catalog_service_node_healthy.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "insecure_skip_verify",
+      "type": "bool",
+      "description": "Disable TLS host verification.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "key_file",
+      "type": "string",
+      "description": "File path to a PEM-encoded private key used with the certificate to verify the exporter’s authenticity.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "kv_filter",
+      "type": "string",
+      "description": "Only store keys that match this regular expression pattern.",
+      "default": "\".*\"",
+      "required": false
+    },
+    {
+      "name": "kv_prefix",
+      "type": "string",
+      "description": "Prefix under which to look for KV pairs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "require_consistent",
+      "type": "bool",
+      "description": "Forces the read to be fully consistent.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "server_name",
+      "type": "string",
+      "description": "When provided, this overrides the hostname for the TLS certificate. It can be used to ensure that the certificate name matches the hostname you declare.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "server",
+      "type": "string",
+      "description": "Address (host and port) of the Consul instance to connect to. This could be a local Alloy (localhost:8500), or the address of a Consul server.",
+      "default": "\"http://localhost:8500\"",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "Timeout on HTTP requests to consul.",
+      "default": "\"500ms\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.consul",
+    "arguments": {
+      "allow_stale": {
+        "type": "bool",
+        "description": "Allows any Consul server (non-leader) to service a read.",
+        "default": "true",
+        "required": false
+      },
+      "ca_file": {
+        "type": "string",
+        "description": "File path to a PEM-encoded certificate authority used to validate the authenticity of a server certificate.",
+        "default": "",
+        "required": false
+      },
+      "cert_file": {
+        "type": "string",
+        "description": "File path to a PEM-encoded certificate used with the private key to verify the exporter’s authenticity.",
+        "default": "",
+        "required": false
+      },
+      "concurrent_request_limit": {
+        "type": "string",
+        "description": "Limit the maximum number of concurrent requests to consul, 0 means no limit.",
+        "default": "",
+        "required": false
+      },
+      "generate_health_summary": {
+        "type": "bool",
+        "description": "Collects information about each registered service and exports consul_catalog_service_node_healthy.",
+        "default": "true",
+        "required": false
+      },
+      "insecure_skip_verify": {
+        "type": "bool",
+        "description": "Disable TLS host verification.",
+        "default": "false",
+        "required": false
+      },
+      "key_file": {
+        "type": "string",
+        "description": "File path to a PEM-encoded private key used with the certificate to verify the exporter’s authenticity.",
+        "default": "",
+        "required": false
+      },
+      "kv_filter": {
+        "type": "string",
+        "description": "Only store keys that match this regular expression pattern.",
+        "default": "\".*\"",
+        "required": false
+      },
+      "kv_prefix": {
+        "type": "string",
+        "description": "Prefix under which to look for KV pairs.",
+        "default": "",
+        "required": false
+      },
+      "require_consistent": {
+        "type": "bool",
+        "description": "Forces the read to be fully consistent.",
+        "default": "",
+        "required": false
+      },
+      "server_name": {
+        "type": "string",
+        "description": "When provided, this overrides the hostname for the TLS certificate. It can be used to ensure that the certificate name matches the hostname you declare.",
+        "default": "",
+        "required": false
+      },
+      "server": {
+        "type": "string",
+        "description": "Address (host and port) of the Consul instance to connect to. This could be a local Alloy (localhost:8500), or the address of a Consul server.",
+        "default": "\"http://localhost:8500\"",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "Timeout on HTTP requests to consul.",
+        "default": "\"500ms\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.consul \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

@@ -1,0 +1,126 @@
+{
+  "name": "prometheus.exporter.blackbox",
+  "usage": "prometheus.exporter.blackbox \"<LABEL>\" {\n  target {\n    name    = \"<NAME>\"\n    address = \"<EXAMPLE_ADDRESS>\"\n  }\n}",
+  "arguments": [
+    {
+      "name": "config_file",
+      "type": "string",
+      "description": "blackbox_exporter configuration file path.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "config",
+      "type": "string or secret",
+      "description": "blackbox_exporter configuration as inline string.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "probe_timeout_offset",
+      "type": "duration",
+      "description": "Offset in seconds to subtract from timeout when probing targets.",
+      "default": "\"0.5s\"",
+      "required": false
+    },
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "Blackbox targets.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "target",
+      "description": "Configures a blackbox target.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.blackbox/#target"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.blackbox",
+    "arguments": {
+      "config_file": {
+        "type": "string",
+        "description": "blackbox_exporter configuration file path.",
+        "default": "",
+        "required": false
+      },
+      "config": {
+        "type": "string or secret",
+        "description": "blackbox_exporter configuration as inline string.",
+        "default": "",
+        "required": false
+      },
+      "probe_timeout_offset": {
+        "type": "duration",
+        "description": "Offset in seconds to subtract from timeout when probing targets.",
+        "default": "\"0.5s\"",
+        "required": false
+      },
+      "targets": {
+        "type": "list(map(string))",
+        "description": "Blackbox targets.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "target": {
+        "description": "Configures a blackbox target.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "address",
+            "type": "string",
+            "description": "The address of the target to probe.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The name of the target to probe.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "labels",
+            "type": "map(string)",
+            "description": "Labels to add to the target.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "module",
+            "type": "string",
+            "description": "Blackbox module to use to probe.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.blackbox \"<LABEL>\" {\n  target {\n    name    = \"<NAME>\"\n    address = \"<EXAMPLE_ADDRESS>\"\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.blackbox \"${1:default}\" {\n  target {\n    address = \"${2}\"\n    name = \"${3}\"\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

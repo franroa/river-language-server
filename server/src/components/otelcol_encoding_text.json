@@ -1,0 +1,81 @@
+{
+  "name": "otelcol.encoding.text",
+  "usage": "otelcol.encoding.text \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "encoding",
+      "type": "string",
+      "description": "Character encoding to use when unmarshaling logs.",
+      "default": "\"utf8\"",
+      "required": false
+    },
+    {
+      "name": "marshaling_separator",
+      "type": "string",
+      "description": "Separator to insert between marshaled log record bodies.",
+      "default": "\"\\n\"",
+      "required": false
+    },
+    {
+      "name": "unmarshaling_separator",
+      "type": "string",
+      "description": "Regular expression that separates unmarshaled log records.",
+      "default": "\"\\r?\\n\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "handler",
+      "description": "capsule(otelcol.Handler)",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A handler that compatible otelcol components can use to encode and decode logs."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.encoding.text",
+    "arguments": {
+      "encoding": {
+        "type": "string",
+        "description": "Character encoding to use when unmarshaling logs.",
+        "default": "\"utf8\"",
+        "required": false
+      },
+      "marshaling_separator": {
+        "type": "string",
+        "description": "Separator to insert between marshaled log record bodies.",
+        "default": "\"\\n\"",
+        "required": false
+      },
+      "unmarshaling_separator": {
+        "type": "string",
+        "description": "Regular expression that separates unmarshaled log records.",
+        "default": "\"\\r?\\n\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "handler": {
+        "description": "capsule(otelcol.Handler)",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A handler that compatible otelcol components can use to encode and decode logs."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.encoding.text \"${1:default}\" {\n  handler {\n    $0\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A handler that compatible otelcol components can use to encode and decode logs.\n}"
+}

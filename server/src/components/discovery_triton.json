@@ -1,0 +1,149 @@
+{
+  "name": "discovery.triton",
+  "usage": "discovery.triton \"<LABEL>\" {\n    account    = \"<ACCOUNT>\"\n    dns_suffix = \"<DNS_SUFFIX>\"\n    endpoint   = \"<ENDPOINT>\"\n}",
+  "arguments": [
+    {
+      "name": "account",
+      "type": "string",
+      "description": "The account to use for discovering new targets.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "dns_suffix",
+      "type": "string",
+      "description": "The DNS suffix that’s applied to the target.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "The Triton discovery endpoint.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "groups",
+      "type": "list(string)",
+      "description": "A list of groups to retrieve targets from.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "port",
+      "type": "int",
+      "description": "The port to use for discovery and metrics scraping.",
+      "default": "9163",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "The refresh interval for the list of targets.",
+      "default": "\"60s\"",
+      "required": false
+    },
+    {
+      "name": "role",
+      "type": "string",
+      "description": "The type of targets to discover.",
+      "default": "\"container\"",
+      "required": false
+    },
+    {
+      "name": "version",
+      "type": "int",
+      "description": "The Triton discovery API version.",
+      "default": "1",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "tls_config",
+      "description": "TLS configuration for requests to the Triton API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.triton/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the Triton API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.triton",
+    "arguments": {
+      "account": {
+        "type": "string",
+        "description": "The account to use for discovering new targets.",
+        "default": "",
+        "required": true
+      },
+      "dns_suffix": {
+        "type": "string",
+        "description": "The DNS suffix that’s applied to the target.",
+        "default": "",
+        "required": true
+      },
+      "endpoint": {
+        "type": "string",
+        "description": "The Triton discovery endpoint.",
+        "default": "",
+        "required": true
+      },
+      "groups": {
+        "type": "list(string)",
+        "description": "A list of groups to retrieve targets from.",
+        "default": "",
+        "required": false
+      },
+      "port": {
+        "type": "int",
+        "description": "The port to use for discovery and metrics scraping.",
+        "default": "9163",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "The refresh interval for the list of targets.",
+        "default": "\"60s\"",
+        "required": false
+      },
+      "role": {
+        "type": "string",
+        "description": "The type of targets to discover.",
+        "default": "\"container\"",
+        "required": false
+      },
+      "version": {
+        "type": "int",
+        "description": "The Triton discovery API version.",
+        "default": "1",
+        "required": false
+      }
+    },
+    "blocks": {
+      "tls_config": {
+        "description": "TLS configuration for requests to the Triton API.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.triton \"<LABEL>\" {\n    account    = \"<ACCOUNT>\"\n    dns_suffix = \"<DNS_SUFFIX>\"\n    endpoint   = \"<ENDPOINT>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the Triton API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.triton \"${1:default}\" {\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the Triton API.\n}"
+}

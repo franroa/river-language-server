@@ -1,0 +1,71 @@
+{
+  "name": "otelcol.auth.basic",
+  "usage": "otelcol.auth.basic \"<LABEL>\" {\n  username = \"<USERNAME>\"\n  password = \"<PASSWORD>\"\n}",
+  "arguments": [
+    {
+      "name": "password",
+      "type": "secret",
+      "description": "Password to use for basic authentication requests.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username to use for basic authentication requests.",
+      "default": "",
+      "required": true
+    }
+  ],
+  "blocks": [
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.basic/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A value that other components can use to authenticate requests."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.auth.basic",
+    "arguments": {
+      "password": {
+        "type": "secret",
+        "description": "Password to use for basic authentication requests.",
+        "default": "",
+        "required": true
+      },
+      "username": {
+        "type": "string",
+        "description": "Username to use for basic authentication requests.",
+        "default": "",
+        "required": true
+      }
+    },
+    "blocks": {
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.auth.basic \"<LABEL>\" {\n  username = \"<USERNAME>\"\n  password = \"<PASSWORD>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A value that other components can use to authenticate requests."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.auth.basic \"${1:default}\" {\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A value that other components can use to authenticate requests.\n}"
+}

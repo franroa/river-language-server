@@ -1,0 +1,113 @@
+{
+  "name": "loki.source.heroku",
+  "usage": "loki.source.heroku \"<LABEL>\" {\n    http {\n        listen_address = \"<LISTEN_ADDRESS>\"\n        listen_port    = \"<LISTEN_PORT>\"\n    }\n    forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "graceful_shutdown_timeout",
+      "type": "duration",
+      "description": "Timeout for servers graceful shutdown. If configured, should be greater than zero.",
+      "default": "\"30s\"",
+      "required": false
+    },
+    {
+      "name": "labels",
+      "type": "map(string)",
+      "description": "The labels to associate with each received Heroku record.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "relabel_rules",
+      "type": "RelabelRules",
+      "description": "Relabeling rules to apply on log entries.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "use_incoming_timestamp",
+      "type": "bool",
+      "description": "Whether to use the timestamp received from Heroku.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "grpc",
+      "description": "Configures the gRPC server that receives requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.heroku/#grpc"
+    },
+    {
+      "block": "http",
+      "description": "Configures the HTTP server that receives requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.heroku/#http"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.heroku",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "graceful_shutdown_timeout": {
+        "type": "duration",
+        "description": "Timeout for servers graceful shutdown. If configured, should be greater than zero.",
+        "default": "\"30s\"",
+        "required": false
+      },
+      "labels": {
+        "type": "map(string)",
+        "description": "The labels to associate with each received Heroku record.",
+        "default": "{}",
+        "required": false
+      },
+      "relabel_rules": {
+        "type": "RelabelRules",
+        "description": "Relabeling rules to apply on log entries.",
+        "default": "{}",
+        "required": false
+      },
+      "use_incoming_timestamp": {
+        "type": "bool",
+        "description": "Whether to use the timestamp received from Heroku.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "grpc": {
+        "description": "Configures the gRPC server that receives requests.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.source.heroku \"<LABEL>\" {\n    http {\n        listen_address = \"<LISTEN_ADDRESS>\"\n        listen_port    = \"<LISTEN_PORT>\"\n    }\n    forward_to = <RECEIVER_LIST>\n}"
+      },
+      "http": {
+        "description": "Configures the HTTP server that receives requests.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.source.heroku \"<LABEL>\" {\n    http {\n        listen_address = \"<LISTEN_ADDRESS>\"\n        listen_port    = \"<LISTEN_PORT>\"\n    }\n    forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.heroku \"${1:default}\" {\n  grpc {\n    $0\n  }\n  http {\n    $0\n  }\n}"
+}

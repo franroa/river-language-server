@@ -1,0 +1,242 @@
+{
+  "name": "otelcol.auth.oauth2",
+  "usage": "otelcol.auth.oauth2 \"<LABEL>\" {\n    client_id     = \"<CLIENT_ID>\"\n    client_secret = \"<CLIENT_SECRET>\"\n    token_url     = \"<TOKEN_URL>\"\n}",
+  "arguments": [
+    {
+      "name": "token_url",
+      "type": "string",
+      "description": "The server endpoint URL from which to get tokens.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "client_id_file",
+      "type": "string",
+      "description": "The file path to retrieve the client identifier issued to the client.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "client_id",
+      "type": "string",
+      "description": "The client identifier issued to the client.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "client_secret_file",
+      "type": "string",
+      "description": "The file path to retrieve the secret string associated with the client identifier.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "client_secret",
+      "type": "secret",
+      "description": "The secret string associated with the client identifier.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "endpoint_params",
+      "type": "map(list(string))",
+      "description": "Additional parameters that are sent to the token endpoint.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "scopes",
+      "type": "list(string)",
+      "description": "Requested permissions associated for the client.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "The timeout on the client connecting to token_url.",
+      "default": "\"0s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.oauth2/#debug_metrics"
+    },
+    {
+      "block": "tls",
+      "description": "TLS settings for the token client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.oauth2/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.oauth2/#tpm"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A value that other components can use to authenticate requests."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.auth.oauth2",
+    "arguments": {
+      "token_url": {
+        "type": "string",
+        "description": "The server endpoint URL from which to get tokens.",
+        "default": "",
+        "required": true
+      },
+      "client_id_file": {
+        "type": "string",
+        "description": "The file path to retrieve the client identifier issued to the client.",
+        "default": "",
+        "required": false
+      },
+      "client_id": {
+        "type": "string",
+        "description": "The client identifier issued to the client.",
+        "default": "",
+        "required": false
+      },
+      "client_secret_file": {
+        "type": "string",
+        "description": "The file path to retrieve the secret string associated with the client identifier.",
+        "default": "",
+        "required": false
+      },
+      "client_secret": {
+        "type": "secret",
+        "description": "The secret string associated with the client identifier.",
+        "default": "",
+        "required": false
+      },
+      "endpoint_params": {
+        "type": "map(list(string))",
+        "description": "Additional parameters that are sent to the token endpoint.",
+        "default": "{}",
+        "required": false
+      },
+      "scopes": {
+        "type": "list(string)",
+        "description": "Requested permissions associated for the client.",
+        "default": "[]",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "The timeout on the client connecting to token_url.",
+        "default": "\"0s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.auth.oauth2 \"<LABEL>\" {\n    client_id     = \"<CLIENT_ID>\"\n    client_secret = \"<CLIENT_SECRET>\"\n    token_url     = \"<TOKEN_URL>\"\n}"
+      },
+      "tls": {
+        "description": "TLS settings for the token client.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "token_url",
+                "type": "string",
+                "description": "The server endpoint URL from which to get tokens.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "client_id_file",
+                "type": "string",
+                "description": "The file path to retrieve the client identifier issued to the client.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "The client identifier issued to the client.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "client_secret_file",
+                "type": "string",
+                "description": "The file path to retrieve the secret string associated with the client identifier.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "client_secret",
+                "type": "secret",
+                "description": "The secret string associated with the client identifier.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "endpoint_params",
+                "type": "map(list(string))",
+                "description": "Additional parameters that are sent to the token endpoint.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "scopes",
+                "type": "list(string)",
+                "description": "Requested permissions associated for the client.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "The timeout on the client connecting to token_url.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.auth.oauth2 \"<LABEL>\" {\n    client_id     = \"<CLIENT_ID>\"\n    client_secret = \"<CLIENT_SECRET>\"\n    token_url     = \"<TOKEN_URL>\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.oauth2/#tpm"
+          }
+        ],
+        "usage": "otelcol.auth.oauth2 \"<LABEL>\" {\n    client_id     = \"<CLIENT_ID>\"\n    client_secret = \"<CLIENT_SECRET>\"\n    token_url     = \"<TOKEN_URL>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A value that other components can use to authenticate requests."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.auth.oauth2 \"${1:default}\" {\n  debug_metrics {\n    $0\n  }\n  tls {\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A value that other components can use to authenticate requests.\n}"
+}

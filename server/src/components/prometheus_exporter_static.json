@@ -1,0 +1,42 @@
+{
+  "name": "prometheus.exporter.static",
+  "usage": "prometheus.exporter.static \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "text",
+      "type": "string",
+      "description": "Text in Prometheus exposition format.",
+      "default": "\"\"",
+      "required": false
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.static",
+    "arguments": {
+      "text": {
+        "type": "string",
+        "description": "Text in Prometheus exposition format.",
+        "default": "\"\"",
+        "required": false
+      }
+    },
+    "blocks": {},
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.static \"${1:default}\" {\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

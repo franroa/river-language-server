@@ -1,0 +1,15 @@
+prometheus.scrape "test_scrape" {
+    targets = []
+    endpoint {
+        // url is missing - should show a warning
+    }
+}
+
+loki.write "test_write" {
+    endpoint {
+        // url is missing - should show a warning
+        basic_auth {
+            // username and password missing - should show warnings
+        }
+    }
+}

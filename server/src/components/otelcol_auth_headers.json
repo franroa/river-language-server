@@ -1,0 +1,95 @@
+{
+  "name": "otelcol.auth.headers",
+  "usage": "otelcol.auth.headers \"<LABEL>\" {\n  header {\n    key   = \"<HEADER_NAME>\"\n    value = \"<HEADER_VALUE>\"\n  }\n}",
+  "arguments": [],
+  "blocks": [
+    {
+      "block": "header",
+      "description": "Custom header to attach to requests.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.headers/#header"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.headers/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A value that other components can use to authenticate requests."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.auth.headers",
+    "arguments": {},
+    "blocks": {
+      "header": {
+        "description": "Custom header to attach to requests.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "Name of the header to set.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "action",
+            "type": "string",
+            "description": "An action to perform on the header.",
+            "default": "\"upsert\"",
+            "required": false
+          },
+          {
+            "name": "from_attribute",
+            "type": "string",
+            "description": "Authentication attribute name used to retrieve header value.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "from_context",
+            "type": "string",
+            "description": "Metadata name used to retrieve header value.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "value",
+            "type": "string or secret",
+            "description": "Value of the header.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.auth.headers \"<LABEL>\" {\n  header {\n    key   = \"<HEADER_NAME>\"\n    value = \"<HEADER_VALUE>\"\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.auth.headers \"<LABEL>\" {\n  header {\n    key   = \"<HEADER_NAME>\"\n    value = \"<HEADER_VALUE>\"\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A value that other components can use to authenticate requests."
+      }
+    },
+    "required_blocks": [
+      "header"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.auth.headers \"${1:default}\" {\n  header {\n    key = \"${2}\"\n  }\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A value that other components can use to authenticate requests.\n}"
+}

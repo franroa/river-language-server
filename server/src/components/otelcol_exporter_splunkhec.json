@@ -1,0 +1,452 @@
+{
+  "name": "otelcol.exporter.splunkhec",
+  "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}",
+  "arguments": [],
+  "blocks": [
+    {
+      "block": "splunk",
+      "description": "Configures the Splunk HEC exporter.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#splunk"
+    },
+    {
+      "block": "splunk > batcher",
+      "description": "Configures batching requests based on a timeout and a minimum number of items.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#batcher"
+    },
+    {
+      "block": "splunk > heartbeat",
+      "description": "Configures the exporters heartbeat settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#heartbeat"
+    },
+    {
+      "block": "splunk > otel_to_hec_fields",
+      "description": "Configures mapping of OpenTelemetry to HEC Fields.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#otel_to_hec_fields"
+    },
+    {
+      "block": "splunk > telemetry",
+      "description": "Configures the exporters telemetry.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#telemetry"
+    },
+    {
+      "block": "client",
+      "description": "Configures the HTTP client used to send data to Splunk HEC.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#client"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#debug_metrics"
+    },
+    {
+      "block": "queue",
+      "description": "Configures batching of data before sending.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#queue"
+    },
+    {
+      "block": "retry_on_failure",
+      "description": "Configures retry mechanism for failed requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#retry_on_failure"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.exporter.splunkhec",
+    "arguments": {},
+    "blocks": {
+      "splunk": {
+        "description": "Configures the Splunk HEC exporter.",
+        "required": true,
+        "children": {
+          "batcher": {
+            "description": "Configures batching requests based on a timeout and a minimum number of items.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+          },
+          "heartbeat": {
+            "description": "Configures the exporters heartbeat settings.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+          },
+          "otel_to_hec_fields": {
+            "description": "Configures mapping of OpenTelemetry to HEC Fields.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+          },
+          "telemetry": {
+            "description": "Configures the exporters telemetry.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "token",
+            "type": "secret",
+            "description": "Splunk HEC Token.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "disable_compression",
+            "type": "bool",
+            "description": "Disable Gzip compression.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "export_raw",
+            "type": "bool",
+            "description": "Send only the logs body when targeting HEC raw endpoint.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "health_check_enabled",
+            "type": "bool",
+            "description": "Used to verify Splunk HEC health on exporter startup.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "health_path",
+            "type": "string",
+            "description": "Path for the health API.",
+            "default": "\"/services/collector/health\"",
+            "required": false
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "Splunk index name.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "log_data_enabled",
+            "type": "bool",
+            "description": "Enable sending logs from the exporter. One of log_data_enabled or profiling_data_enabled must be true.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "max_content_length_logs",
+            "type": "uint",
+            "description": "Maximum log payload size in bytes. Must be less than 838860800 (~800MB).",
+            "default": "2097152",
+            "required": false
+          },
+          {
+            "name": "max_content_length_metrics",
+            "type": "uint",
+            "description": "Maximum metric payload size in bytes. Must be less than 838860800 (~800MB).",
+            "default": "2097152",
+            "required": false
+          },
+          {
+            "name": "max_content_length_traces",
+            "type": "uint",
+            "description": "Maximum trace payload size in bytes. Must be less than 838860800 (~800MB).",
+            "default": "2097152",
+            "required": false
+          },
+          {
+            "name": "max_event_size",
+            "type": "uint",
+            "description": "Maximum event payload size in bytes. Must be less than 838860800 (~800MB).",
+            "default": "5242880",
+            "required": false
+          },
+          {
+            "name": "profiling_data_enabled",
+            "type": "bool",
+            "description": "Enable sending profiling data from the exporter. One of log_data_enabled or profiling_data_enabled must be true.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "source_type",
+            "type": "string",
+            "description": "Splunk source type.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Splunk source.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "splunk_app_name",
+            "type": "string",
+            "description": "Used to track telemetry for Splunk Apps by name.",
+            "default": "\"Alloy\"",
+            "required": false
+          },
+          {
+            "name": "splunk_app_version",
+            "type": "string",
+            "description": "Used to track telemetry by App version.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "use_multi_metrics_format",
+            "type": "bool",
+            "description": "Use multi-metrics format to save space during ingestion.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Whether to not enqueue batches before sending to the consumerSender.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "flush_timeout",
+            "type": "duration",
+            "description": "The time after which a batch will be sent regardless of its size.",
+            "default": "\"200ms\"",
+            "required": false
+          },
+          {
+            "name": "max_size",
+            "type": "uint",
+            "description": "The maximum size of a batch. If the batch exceeds this value, it’s broken up into smaller batches. Must be greater than or equal to min_size. Set this value to zero to disable the maximum size limit.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "min_size",
+            "type": "uint",
+            "description": "The minimum size of a batch.",
+            "default": "8192",
+            "required": false
+          },
+          {
+            "name": "sizer",
+            "type": "string",
+            "description": "The unit of measure for the batch size. Must be one of items, bytes, or requests.",
+            "default": "\"items\"",
+            "required": false
+          },
+          {
+            "name": "interval",
+            "type": "duration",
+            "description": "Time interval for the heartbeat interval, in seconds.",
+            "default": "\"0s\"",
+            "required": false
+          },
+          {
+            "name": "startup",
+            "type": "bool",
+            "description": "Send heartbeat events on exporter startup.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "severity_number",
+            "type": "string",
+            "description": "Maps severity number field to a specific HEC field.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "severity_text",
+            "type": "string",
+            "description": "Maps severity text field to a specific HEC field.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Enable telemetry inside the exporter.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "override_metrics_names",
+            "type": "map(string)",
+            "description": "Override metrics for internal metrics in the exporter.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "batcher",
+            "description": "Configures batching requests based on a timeout and a minimum number of items.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#batcher"
+          },
+          {
+            "block": "heartbeat",
+            "description": "Configures the exporters heartbeat settings.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#heartbeat"
+          },
+          {
+            "block": "otel_to_hec_fields",
+            "description": "Configures mapping of OpenTelemetry to HEC Fields.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#otel_to_hec_fields"
+          },
+          {
+            "block": "telemetry",
+            "description": "Configures the exporters telemetry.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.splunkhec/#telemetry"
+          }
+        ],
+        "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+      },
+      "client": {
+        "description": "Configures the HTTP client used to send data to Splunk HEC.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "endpoint",
+            "type": "string",
+            "description": "The Splunk HEC endpoint to use.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "disable_keep_alives",
+            "type": "bool",
+            "description": "Disable HTTP keep-alive.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "idle_conn_timeout",
+            "type": "duration",
+            "description": "Time to wait before an idle connection closes itself.",
+            "default": "\"45s\"",
+            "required": false
+          },
+          {
+            "name": "insecure_skip_verify",
+            "type": "bool",
+            "description": "Ignores insecure server TLS certificates.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "max_conns_per_host",
+            "type": "int",
+            "description": "Limits the total (dialing,active, and idle) number of connections per host. Zero means no limit",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "max_idle_conns_per_host",
+            "type": "int",
+            "description": "Limits the number of idle HTTP connections the host can keep open.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "max_idle_conns",
+            "type": "int",
+            "description": "Limits the number of idle HTTP connections the client can keep open.",
+            "default": "100",
+            "required": false
+          },
+          {
+            "name": "read_buffer_size",
+            "type": "int",
+            "description": "Size of the read buffer the HTTP client uses for reading server responses.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "timeout",
+            "type": "duration",
+            "description": "Time to wait before marking a request as failed.",
+            "default": "\"15s\"",
+            "required": false
+          },
+          {
+            "name": "write_buffer_size",
+            "type": "int",
+            "description": "Size of the write buffer the HTTP client uses for writing requests.",
+            "default": "0",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+      },
+      "queue": {
+        "description": "Configures batching of data before sending.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+      },
+      "retry_on_failure": {
+        "description": "Configures retry mechanism for failed requests.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.splunkhec \"<LABEL>\" {\n    splunk {\n        token = \"<YOUR_SPLUNK_TOKEN>\"\n    }\n    client {\n        endpoint = \"http://splunk.yourdomain.com:8088\"\n    }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "splunk",
+      "client"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.exporter.splunkhec \"${1:default}\" {\n  splunk {\n    token = \"${2}\"\n  }\n  client {\n    endpoint = \"${2}\"\n  }\n  debug_metrics {\n    $0\n  }\n  queue {\n    $0\n  }\n  retry_on_failure {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value other components can use to send telemetry data to.\n}"
+}

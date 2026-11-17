@@ -1,0 +1,13 @@
+prometheus.scrape "test" {
+    // targets is required - missing should show ERROR
+    forward_to = [prometheus.remote_write.default.receiver]
+    
+    endpoint {
+        // url is required per documentation - missing should show ERROR
+    }
+    
+    basic_auth {
+        // username and password might be recommended if they appear in usage examples
+        // but are not marked as required in the documentation tables
+    }
+}

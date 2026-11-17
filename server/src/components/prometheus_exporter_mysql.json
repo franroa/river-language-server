@@ -1,0 +1,312 @@
+{
+  "name": "prometheus.exporter.mysql",
+  "usage": "prometheus.exporter.mysql \"<LABEL>\" {\n    data_source_name = \"<DATA_SOURCE_NAME>\"\n}",
+  "arguments": [
+    {
+      "name": "data_source_name",
+      "type": "secret",
+      "description": "Data Source Name for the MySQL server to connect to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "disable_collectors",
+      "type": "list(string)",
+      "description": "A list of collectors to disable from the default set.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "enable_collectors",
+      "type": "list(string)",
+      "description": "A list of collectors to enable on top of the default set.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "lock_wait_timeout",
+      "type": "int",
+      "description": "Timeout, in seconds, to acquire a metadata lock.",
+      "default": "2",
+      "required": false
+    },
+    {
+      "name": "log_slow_filter",
+      "type": "bool",
+      "description": "Used to avoid queries from scrapes being logged in the slow query log.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "set_collectors",
+      "type": "list(string)",
+      "description": "A list of collectors to run. Fully overrides the default set.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "heartbeat",
+      "description": "Configures the heartbeat collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.mysql/#heartbeat"
+    },
+    {
+      "block": "info_schema.processlist",
+      "description": "Configures the info_schema.processlist collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.mysql/#info_schemaprocesslist"
+    },
+    {
+      "block": "info_schema.tables",
+      "description": "Configures the info_schema.tables collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.mysql/#info_schematables"
+    },
+    {
+      "block": "mysql.user",
+      "description": "Configures the mysql.user collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.mysql/#mysqluser"
+    },
+    {
+      "block": "perf_schema.eventsstatements",
+      "description": "Configures the perf_schema.eventsstatements collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.mysql/#perf_schemaeventsstatements"
+    },
+    {
+      "block": "perf_schema.file_instances",
+      "description": "Configures the perf_schema.file_instances collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.mysql/#perf_schemafile_instances"
+    },
+    {
+      "block": "perf_schema.memory_events",
+      "description": "Configures the perf_schema.memory_events collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.mysql/#perf_schemamemory_events"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.mysql",
+    "arguments": {
+      "data_source_name": {
+        "type": "secret",
+        "description": "Data Source Name for the MySQL server to connect to.",
+        "default": "",
+        "required": true
+      },
+      "disable_collectors": {
+        "type": "list(string)",
+        "description": "A list of collectors to disable from the default set.",
+        "default": "",
+        "required": false
+      },
+      "enable_collectors": {
+        "type": "list(string)",
+        "description": "A list of collectors to enable on top of the default set.",
+        "default": "",
+        "required": false
+      },
+      "lock_wait_timeout": {
+        "type": "int",
+        "description": "Timeout, in seconds, to acquire a metadata lock.",
+        "default": "2",
+        "required": false
+      },
+      "log_slow_filter": {
+        "type": "bool",
+        "description": "Used to avoid queries from scrapes being logged in the slow query log.",
+        "default": "false",
+        "required": false
+      },
+      "set_collectors": {
+        "type": "list(string)",
+        "description": "A list of collectors to run. Fully overrides the default set.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "heartbeat": {
+        "description": "Configures the heartbeat collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "database",
+            "type": "string",
+            "description": "Database to collect heartbeat data from.",
+            "default": "\"heartbeat\"",
+            "required": false
+          },
+          {
+            "name": "table",
+            "type": "string",
+            "description": "Table to collect heartbeat data from.",
+            "default": "\"heartbeat\"",
+            "required": false
+          },
+          {
+            "name": "utc",
+            "type": "bool",
+            "description": "Use UTC for timestamps of the current server. pt-heartbeat is called with --utc.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.mysql \"<LABEL>\" {\n    data_source_name = \"<DATA_SOURCE_NAME>\"\n}"
+      },
+      "info_schema.processlist": {
+        "description": "Configures the info_schema.processlist collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "min_time",
+            "type": "int",
+            "description": "Minimum time a thread must be in each state to be counted.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "processes_by_host",
+            "type": "bool",
+            "description": "Enable collecting the number of processes by host.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "processes_by_user",
+            "type": "bool",
+            "description": "Enable collecting the number of processes by user.",
+            "default": "true",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.mysql \"<LABEL>\" {\n    data_source_name = \"<DATA_SOURCE_NAME>\"\n}"
+      },
+      "info_schema.tables": {
+        "description": "Configures the info_schema.tables collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "info_schema_tables_databases",
+            "type": "string",
+            "description": "Regular expression to match databases to collect table stats for.",
+            "default": "\"*\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.mysql \"<LABEL>\" {\n    data_source_name = \"<DATA_SOURCE_NAME>\"\n}"
+      },
+      "mysql.user": {
+        "description": "Configures the mysql.user collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "privileges",
+            "type": "bool",
+            "description": "Enable collecting user privileges from mysql.user.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.mysql \"<LABEL>\" {\n    data_source_name = \"<DATA_SOURCE_NAME>\"\n}"
+      },
+      "perf_schema.eventsstatements": {
+        "description": "Configures the perf_schema.eventsstatements collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "limit",
+            "type": "int",
+            "description": "Limit the number of events statements digests, in descending order by last_seen.",
+            "default": "250",
+            "required": false
+          },
+          {
+            "name": "text_limit",
+            "type": "int",
+            "description": "Maximum length of the normalized statement text.",
+            "default": "120",
+            "required": false
+          },
+          {
+            "name": "time_limit",
+            "type": "int",
+            "description": "Limit how old, in seconds, the last_seen events statements can be.",
+            "default": "86400",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.mysql \"<LABEL>\" {\n    data_source_name = \"<DATA_SOURCE_NAME>\"\n}"
+      },
+      "perf_schema.file_instances": {
+        "description": "Configures the perf_schema.file_instances collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "filter",
+            "type": "string",
+            "description": "Regular expression to select rows in performance_schema.file_summary_by_instance.",
+            "default": "\".*\"",
+            "required": false
+          },
+          {
+            "name": "remove_prefix",
+            "type": "string",
+            "description": "Prefix to trim away from file_name.",
+            "default": "\"/var/lib/mysql\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.mysql \"<LABEL>\" {\n    data_source_name = \"<DATA_SOURCE_NAME>\"\n}"
+      },
+      "perf_schema.memory_events": {
+        "description": "Configures the perf_schema.memory_events collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "remove_prefix",
+            "type": "string",
+            "description": "Prefix to trim away from performance_schema.memory_summary_global_by_event_name.",
+            "default": "\"memory/\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.mysql \"<LABEL>\" {\n    data_source_name = \"<DATA_SOURCE_NAME>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.mysql \"${1:default}\" {\n  heartbeat {\n  }\n  info_schema.processlist {\n  }\n  info_schema.tables {\n  }\n  mysql.user {\n  }\n  perf_schema.eventsstatements {\n  }\n  perf_schema.file_instances {\n  }\n  perf_schema.memory_events {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

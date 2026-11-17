@@ -1,0 +1,134 @@
+{
+  "name": "remote.s3",
+  "usage": "remote.s3 \"<LABEL>\" {\n  path = \"<S3_FILE_PATH>\"\n}",
+  "arguments": [
+    {
+      "name": "path",
+      "type": "string",
+      "description": "Path in the format of \"s3://bucket/file\".",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "is_secret",
+      "type": "bool",
+      "description": "Marks the file as containing a secret.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "poll_frequency",
+      "type": "duration",
+      "description": "How often to poll the file for changes. Must be greater than 30 seconds.",
+      "default": "\"10m\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "client",
+      "description": "Additional options for configuring the S3 client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.s3/#client"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "content",
+      "type": "string or secret",
+      "description": "The contents of the file."
+    }
+  ],
+  "lsp_structure": {
+    "component": "remote.s3",
+    "arguments": {
+      "path": {
+        "type": "string",
+        "description": "Path in the format of \"s3://bucket/file\".",
+        "default": "",
+        "required": true
+      },
+      "is_secret": {
+        "type": "bool",
+        "description": "Marks the file as containing a secret.",
+        "default": "false",
+        "required": false
+      },
+      "poll_frequency": {
+        "type": "duration",
+        "description": "How often to poll the file for changes. Must be greater than 30 seconds.",
+        "default": "\"10m\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "client": {
+        "description": "Additional options for configuring the S3 client.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "Used to override default access key.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "secret",
+            "type": "secret",
+            "description": "Used to override default secret value.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "endpoint",
+            "type": "string",
+            "description": "Specifies a custom URL to access, used generally for S3-compatible systems.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "disable_ssl",
+            "type": "bool",
+            "description": "Used to disable SSL, generally used for testing.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "use_path_style",
+            "type": "bool",
+            "description": "Path style is a deprecated setting that’s generally enabled for S3 compatible systems.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "region",
+            "type": "string",
+            "description": "Used to override default region.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "signing_region",
+            "type": "string",
+            "description": "Used to override the signing region when using a custom endpoint.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.s3 \"<LABEL>\" {\n  path = \"<S3_FILE_PATH>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "content": {
+        "type": "string or secret",
+        "description": "The contents of the file."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "remote.s3 \"${1:default}\" {\n  client {\n  }\n\n  // Exported fields:\n  // - content (string or secret): The contents of the file.\n}"
+}

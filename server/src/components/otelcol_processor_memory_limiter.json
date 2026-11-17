@@ -1,0 +1,148 @@
+{
+  "name": "otelcol.processor.memory_limiter",
+  "usage": "otelcol.processor.memory_limiter \"<LABEL>\" {\n  check_interval = \"1s\"\n\n  limit = \"50MiB\" // alternatively, set `limit_percentage` and `spike_limit_percentage`\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "check_interval",
+      "type": "duration",
+      "description": "How often to check memory usage.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "limit_percentage",
+      "type": "int",
+      "description": "Maximum amount of total available memory targeted to be allocated by the process heap.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "limit",
+      "type": "string",
+      "description": "Maximum amount of memory targeted to be allocated by the process heap.",
+      "default": "\"0MiB\"",
+      "required": false
+    },
+    {
+      "name": "spike_limit_percentage",
+      "type": "int",
+      "description": "Maximum spike expected between the measurements of memory usage.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "spike_limit",
+      "type": "string",
+      "description": "Maximum spike expected between the measurements of memory usage.",
+      "default": "20% of limit",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.memory_limiter/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.memory_limiter/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.memory_limiter",
+    "arguments": {
+      "check_interval": {
+        "type": "duration",
+        "description": "How often to check memory usage.",
+        "default": "",
+        "required": true
+      },
+      "limit_percentage": {
+        "type": "int",
+        "description": "Maximum amount of total available memory targeted to be allocated by the process heap.",
+        "default": "0",
+        "required": false
+      },
+      "limit": {
+        "type": "string",
+        "description": "Maximum amount of memory targeted to be allocated by the process heap.",
+        "default": "\"0MiB\"",
+        "required": false
+      },
+      "spike_limit_percentage": {
+        "type": "int",
+        "description": "Maximum spike expected between the measurements of memory usage.",
+        "default": "0",
+        "required": false
+      },
+      "spike_limit": {
+        "type": "string",
+        "description": "Maximum spike expected between the measurements of memory usage.",
+        "default": "20% of limit",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.memory_limiter \"<LABEL>\" {\n  check_interval = \"1s\"\n\n  limit = \"50MiB\" // alternatively, set `limit_percentage` and `spike_limit_percentage`\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.memory_limiter \"<LABEL>\" {\n  check_interval = \"1s\"\n\n  limit = \"50MiB\" // alternatively, set `limit_percentage` and `spike_limit_percentage`\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.memory_limiter \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

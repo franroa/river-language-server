@@ -1,0 +1,511 @@
+{
+  "name": "otelcol.connector.signaltometrics",
+  "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "error_mode",
+      "type": "string",
+      "description": "How the connector reacts to errors when it evaluates OTTL expressions.",
+      "default": "\"ignore\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#output"
+    },
+    {
+      "block": "datapoints",
+      "description": "Configures a metric generated from metric data points.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#datapoints"
+    },
+    {
+      "block": "datapoints > attributes",
+      "description": "Configures the attributes to group the generated metric by.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#attributes"
+    },
+    {
+      "block": "datapoints > exponential_histogram",
+      "description": "Generates an exponential histogram metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#exponential_histogram"
+    },
+    {
+      "block": "datapoints > gauge",
+      "description": "Generates a gauge metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#gauge"
+    },
+    {
+      "block": "datapoints > histogram",
+      "description": "Generates an explicit bucket histogram metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#histogram"
+    },
+    {
+      "block": "datapoints > include_resource_attributes",
+      "description": "Configures the resource attributes to include in the generated metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#include_resource_attributes"
+    },
+    {
+      "block": "datapoints > sum",
+      "description": "Generates a sum metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#sum"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#debug_metrics"
+    },
+    {
+      "block": "logs",
+      "description": "Configures a metric generated from log records.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#logs"
+    },
+    {
+      "block": "logs > attributes",
+      "description": "Configures the attributes to group the generated metric by.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#attributes"
+    },
+    {
+      "block": "logs > exponential_histogram",
+      "description": "Generates an exponential histogram metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#exponential_histogram"
+    },
+    {
+      "block": "logs > gauge",
+      "description": "Generates a gauge metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#gauge"
+    },
+    {
+      "block": "logs > histogram",
+      "description": "Generates an explicit bucket histogram metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#histogram"
+    },
+    {
+      "block": "logs > include_resource_attributes",
+      "description": "Configures the resource attributes to include in the generated metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#include_resource_attributes"
+    },
+    {
+      "block": "logs > sum",
+      "description": "Generates a sum metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#sum"
+    },
+    {
+      "block": "spans",
+      "description": "Configures a metric generated from spans.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#spans"
+    },
+    {
+      "block": "spans > attributes",
+      "description": "Configures the attributes to group the generated metric by.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#attributes"
+    },
+    {
+      "block": "spans > exponential_histogram",
+      "description": "Generates an exponential histogram metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#exponential_histogram"
+    },
+    {
+      "block": "spans > gauge",
+      "description": "Generates a gauge metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#gauge"
+    },
+    {
+      "block": "spans > histogram",
+      "description": "Generates an explicit bucket histogram metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#histogram"
+    },
+    {
+      "block": "spans > include_resource_attributes",
+      "description": "Configures the resource attributes to include in the generated metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#include_resource_attributes"
+    },
+    {
+      "block": "spans > sum",
+      "description": "Generates a sum metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#sum"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.connector.signaltometrics",
+    "arguments": {
+      "error_mode": {
+        "type": "string",
+        "description": "How the connector reacts to errors when it evaluates OTTL expressions.",
+        "default": "\"ignore\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "Configures a metric generated from log records.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "datapoints": {
+        "description": "Configures a metric generated from metric data points.",
+        "required": false,
+        "children": {
+          "attributes": {
+            "description": "Configures the attributes to group the generated metric by.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "exponential_histogram": {
+            "description": "Generates an exponential histogram metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "gauge": {
+            "description": "Generates a gauge metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "histogram": {
+            "description": "Generates an explicit bucket histogram metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "include_resource_attributes": {
+            "description": "Configures the resource attributes to include in the generated metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "sum": {
+            "description": "Generates a sum metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "attributes",
+            "description": "Configures the attributes to group the generated metric by.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#attributes"
+          },
+          {
+            "block": "exponential_histogram",
+            "description": "Generates an exponential histogram metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#exponential_histogram"
+          },
+          {
+            "block": "gauge",
+            "description": "Generates a gauge metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#gauge"
+          },
+          {
+            "block": "histogram",
+            "description": "Generates an explicit bucket histogram metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#histogram"
+          },
+          {
+            "block": "include_resource_attributes",
+            "description": "Configures the resource attributes to include in the generated metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#include_resource_attributes"
+          },
+          {
+            "block": "sum",
+            "description": "Generates a sum metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#sum"
+          }
+        ],
+        "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "logs": {
+        "description": "Configures a metric generated from log records.",
+        "required": false,
+        "children": {
+          "attributes": {
+            "description": "Configures the attributes to group the generated metric by.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "exponential_histogram": {
+            "description": "Generates an exponential histogram metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "gauge": {
+            "description": "Generates a gauge metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "histogram": {
+            "description": "Generates an explicit bucket histogram metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "include_resource_attributes": {
+            "description": "Configures the resource attributes to include in the generated metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "sum": {
+            "description": "Generates a sum metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "attributes",
+            "description": "Configures the attributes to group the generated metric by.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#attributes"
+          },
+          {
+            "block": "exponential_histogram",
+            "description": "Generates an exponential histogram metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#exponential_histogram"
+          },
+          {
+            "block": "gauge",
+            "description": "Generates a gauge metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#gauge"
+          },
+          {
+            "block": "histogram",
+            "description": "Generates an explicit bucket histogram metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#histogram"
+          },
+          {
+            "block": "include_resource_attributes",
+            "description": "Configures the resource attributes to include in the generated metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#include_resource_attributes"
+          },
+          {
+            "block": "sum",
+            "description": "Generates a sum metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#sum"
+          }
+        ],
+        "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "spans": {
+        "description": "Configures a metric generated from spans.",
+        "required": false,
+        "children": {
+          "attributes": {
+            "description": "Configures the attributes to group the generated metric by.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "exponential_histogram": {
+            "description": "Generates an exponential histogram metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "gauge": {
+            "description": "Generates a gauge metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "histogram": {
+            "description": "Generates an explicit bucket histogram metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "include_resource_attributes": {
+            "description": "Configures the resource attributes to include in the generated metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "sum": {
+            "description": "Generates a sum metric.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "attributes",
+            "description": "Configures the attributes to group the generated metric by.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#attributes"
+          },
+          {
+            "block": "exponential_histogram",
+            "description": "Generates an exponential histogram metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#exponential_histogram"
+          },
+          {
+            "block": "gauge",
+            "description": "Generates a gauge metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#gauge"
+          },
+          {
+            "block": "histogram",
+            "description": "Generates an explicit bucket histogram metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#histogram"
+          },
+          {
+            "block": "include_resource_attributes",
+            "description": "Configures the resource attributes to include in the generated metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#include_resource_attributes"
+          },
+          {
+            "block": "sum",
+            "description": "Generates a sum metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.signaltometrics/#sum"
+          }
+        ],
+        "usage": "otelcol.connector.signaltometrics \"<LABEL>\" {\n  // One or more of spans, datapoints, or logs blocks.\n  spans {\n    name = \"<METRIC_NAME>\"\n    // One of histogram, exponential_histogram, sum, or gauge.\n    sum {\n      value = \"<OTTL_VALUE_EXPRESSION>\"\n    }\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.connector.signaltometrics \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  datapoints {\n  }\n  debug_metrics {\n    $0\n  }\n  logs {\n  }\n  spans {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

@@ -1,0 +1,250 @@
+{
+  "name": "prometheus.exporter.statsd",
+  "usage": "prometheus.exporter.statsd \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "cache_size",
+      "type": "int",
+      "description": "Maximum size of your metric mapping cache. Relies on least recently used replacement policy if max size is reached.",
+      "default": "1000",
+      "required": false
+    },
+    {
+      "name": "cache_type",
+      "type": "string",
+      "description": "Metric mapping cache type. Valid options are “lru” and “random”.",
+      "default": "\"lru\"",
+      "required": false
+    },
+    {
+      "name": "event_flush_interval",
+      "type": "string",
+      "description": "Maximum time between event queue flushes.",
+      "default": "\"200ms\"",
+      "required": false
+    },
+    {
+      "name": "event_flush_threshold",
+      "type": "int",
+      "description": "Number of events to hold in queue before flushing.",
+      "default": "1000",
+      "required": false
+    },
+    {
+      "name": "event_queue_size",
+      "type": "int",
+      "description": "Size of internal queue for processing events.",
+      "default": "10000",
+      "required": false
+    },
+    {
+      "name": "listen_tcp",
+      "type": "string",
+      "description": "The TCP address on which to receive statsd metric lines. Use \"\" to disable it.",
+      "default": "\":9125\"",
+      "required": false
+    },
+    {
+      "name": "listen_udp",
+      "type": "string",
+      "description": "The UDP address on which to receive statsd metric lines. Use \"\" to disable it.",
+      "default": "\":9125\"",
+      "required": false
+    },
+    {
+      "name": "listen_unixgram",
+      "type": "string",
+      "description": "The Unixgram socket path to receive statsd metric lines in datagram. Use \"\" to disable it.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "mapping_config_path",
+      "type": "string",
+      "description": "The path to a YAML mapping file used to translate specific dot-separated StatsD metrics into labeled Prometheus metrics.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "parse_dogstatsd_tags",
+      "type": "bool",
+      "description": "Parse DogStatsd style tags.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "parse_influxdb_tags",
+      "type": "bool",
+      "description": "Parse InfluxDB style tags.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "parse_librato_tags",
+      "type": "bool",
+      "description": "Parse Librato style tags.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "parse_signalfx_tags",
+      "type": "bool",
+      "description": "Parse SignalFX style tags.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "read_buffer",
+      "type": "int",
+      "description": "Size (in bytes) of the operating system’s transmit read buffer associated with the UDP or Unixgram connection.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "relay_addr",
+      "type": "string",
+      "description": "Relay address configuration (UDP endpoint in the format ‘host:port’).",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "relay_packet_length",
+      "type": "int",
+      "description": "Maximum relay output packet length to avoid fragmentation.",
+      "default": "1400",
+      "required": false
+    },
+    {
+      "name": "unix_socket_mode",
+      "type": "string",
+      "description": "The permission mode of the Unix socket.",
+      "default": "\"755\"",
+      "required": false
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.statsd",
+    "arguments": {
+      "cache_size": {
+        "type": "int",
+        "description": "Maximum size of your metric mapping cache. Relies on least recently used replacement policy if max size is reached.",
+        "default": "1000",
+        "required": false
+      },
+      "cache_type": {
+        "type": "string",
+        "description": "Metric mapping cache type. Valid options are “lru” and “random”.",
+        "default": "\"lru\"",
+        "required": false
+      },
+      "event_flush_interval": {
+        "type": "string",
+        "description": "Maximum time between event queue flushes.",
+        "default": "\"200ms\"",
+        "required": false
+      },
+      "event_flush_threshold": {
+        "type": "int",
+        "description": "Number of events to hold in queue before flushing.",
+        "default": "1000",
+        "required": false
+      },
+      "event_queue_size": {
+        "type": "int",
+        "description": "Size of internal queue for processing events.",
+        "default": "10000",
+        "required": false
+      },
+      "listen_tcp": {
+        "type": "string",
+        "description": "The TCP address on which to receive statsd metric lines. Use \"\" to disable it.",
+        "default": "\":9125\"",
+        "required": false
+      },
+      "listen_udp": {
+        "type": "string",
+        "description": "The UDP address on which to receive statsd metric lines. Use \"\" to disable it.",
+        "default": "\":9125\"",
+        "required": false
+      },
+      "listen_unixgram": {
+        "type": "string",
+        "description": "The Unixgram socket path to receive statsd metric lines in datagram. Use \"\" to disable it.",
+        "default": "",
+        "required": false
+      },
+      "mapping_config_path": {
+        "type": "string",
+        "description": "The path to a YAML mapping file used to translate specific dot-separated StatsD metrics into labeled Prometheus metrics.",
+        "default": "",
+        "required": false
+      },
+      "parse_dogstatsd_tags": {
+        "type": "bool",
+        "description": "Parse DogStatsd style tags.",
+        "default": "true",
+        "required": false
+      },
+      "parse_influxdb_tags": {
+        "type": "bool",
+        "description": "Parse InfluxDB style tags.",
+        "default": "true",
+        "required": false
+      },
+      "parse_librato_tags": {
+        "type": "bool",
+        "description": "Parse Librato style tags.",
+        "default": "true",
+        "required": false
+      },
+      "parse_signalfx_tags": {
+        "type": "bool",
+        "description": "Parse SignalFX style tags.",
+        "default": "true",
+        "required": false
+      },
+      "read_buffer": {
+        "type": "int",
+        "description": "Size (in bytes) of the operating system’s transmit read buffer associated with the UDP or Unixgram connection.",
+        "default": "",
+        "required": false
+      },
+      "relay_addr": {
+        "type": "string",
+        "description": "Relay address configuration (UDP endpoint in the format ‘host:port’).",
+        "default": "",
+        "required": false
+      },
+      "relay_packet_length": {
+        "type": "int",
+        "description": "Maximum relay output packet length to avoid fragmentation.",
+        "default": "1400",
+        "required": false
+      },
+      "unix_socket_mode": {
+        "type": "string",
+        "description": "The permission mode of the Unix socket.",
+        "default": "\"755\"",
+        "required": false
+      }
+    },
+    "blocks": {},
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.statsd \"${1:default}\" {\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

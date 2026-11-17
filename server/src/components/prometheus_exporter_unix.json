@@ -1,0 +1,778 @@
+{
+  "name": "prometheus.exporter.unix",
+  "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "disable_collectors",
+      "type": "list(string)",
+      "description": "Collectors to disable.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "enable_collectors",
+      "type": "list(string)",
+      "description": "Collectors to enable.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "include_exporter_metrics",
+      "type": "bool",
+      "description": "Whether metrics about the exporter itself should be reported.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "procfs_path",
+      "type": "string",
+      "description": "The procfs mount point.",
+      "default": "\"/proc\"",
+      "required": false
+    },
+    {
+      "name": "rootfs_path",
+      "type": "string",
+      "description": "Specify a prefix for accessing the host filesystem.",
+      "default": "\"/\"",
+      "required": false
+    },
+    {
+      "name": "set_collectors",
+      "type": "list(string)",
+      "description": "Overrides the default set of enabled collectors with the collectors listed.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "sysfs_path",
+      "type": "string",
+      "description": "The sysfs mount point.",
+      "default": "\"/sys\"",
+      "required": false
+    },
+    {
+      "name": "udev_data_path",
+      "type": "string",
+      "description": "The udev data path.",
+      "default": "\"/run/udev/data\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "bcache",
+      "description": "Configures the bcache collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#bcache"
+    },
+    {
+      "block": "cpu",
+      "description": "Configures the cpu collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#cpu"
+    },
+    {
+      "block": "disk",
+      "description": "Configures the diskstats collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#disk"
+    },
+    {
+      "block": "ethtool",
+      "description": "Configures the ethtool collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#ethtool"
+    },
+    {
+      "block": "filesystem",
+      "description": "Configures the filesystem collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#filesystem"
+    },
+    {
+      "block": "hwmon",
+      "description": "Configures the hwmon collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#hwmon"
+    },
+    {
+      "block": "ipvs",
+      "description": "Configures the ipvs collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#ipvs"
+    },
+    {
+      "block": "ntp",
+      "description": "Configures the ntp collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#ntp"
+    },
+    {
+      "block": "netclass",
+      "description": "Configures the netclass collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#netclass"
+    },
+    {
+      "block": "netdev",
+      "description": "Configures the netdev collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#netdev"
+    },
+    {
+      "block": "netstat",
+      "description": "Configures the netstat collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#netstat"
+    },
+    {
+      "block": "perf",
+      "description": "Configures the perf collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#perf"
+    },
+    {
+      "block": "powersupply",
+      "description": "Configures the powersupply collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#powersupply"
+    },
+    {
+      "block": "runit",
+      "description": "Configures the runit collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#runit"
+    },
+    {
+      "block": "supervisord",
+      "description": "Configures the supervisord collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#supervisord"
+    },
+    {
+      "block": "sysctl",
+      "description": "Configures the sysctl collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#sysctl"
+    },
+    {
+      "block": "systemd",
+      "description": "Configures the systemd collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#systemd"
+    },
+    {
+      "block": "tapestats",
+      "description": "Configures the tapestats collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#tapestats"
+    },
+    {
+      "block": "textfile",
+      "description": "Configures the textfile collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#textfile"
+    },
+    {
+      "block": "vmstat",
+      "description": "Configures the vmstat collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.unix/#vmstat"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.unix",
+    "arguments": {
+      "disable_collectors": {
+        "type": "list(string)",
+        "description": "Collectors to disable.",
+        "default": "[]",
+        "required": false
+      },
+      "enable_collectors": {
+        "type": "list(string)",
+        "description": "Collectors to enable.",
+        "default": "[]",
+        "required": false
+      },
+      "include_exporter_metrics": {
+        "type": "bool",
+        "description": "Whether metrics about the exporter itself should be reported.",
+        "default": "false",
+        "required": false
+      },
+      "procfs_path": {
+        "type": "string",
+        "description": "The procfs mount point.",
+        "default": "\"/proc\"",
+        "required": false
+      },
+      "rootfs_path": {
+        "type": "string",
+        "description": "Specify a prefix for accessing the host filesystem.",
+        "default": "\"/\"",
+        "required": false
+      },
+      "set_collectors": {
+        "type": "list(string)",
+        "description": "Overrides the default set of enabled collectors with the collectors listed.",
+        "default": "",
+        "required": false
+      },
+      "sysfs_path": {
+        "type": "string",
+        "description": "The sysfs mount point.",
+        "default": "\"/sys\"",
+        "required": false
+      },
+      "udev_data_path": {
+        "type": "string",
+        "description": "The udev data path.",
+        "default": "\"/run/udev/data\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "bcache": {
+        "description": "Configures the bcache collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "priority_stats",
+            "type": "boolean",
+            "description": "Enable exposing of expensive bcache priority stats.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "cpu": {
+        "description": "Configures the cpu collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "bugs_include",
+            "type": "string",
+            "description": "Regular expression of bugs field in cpu info to filter.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "flags_include",
+            "type": "string",
+            "description": "Regular expression of flags field in cpu info to filter.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "guest",
+            "type": "boolean",
+            "description": "Enable the node_cpu_guest_seconds_total metric.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "info",
+            "type": "boolean",
+            "description": "Enable the cpu_info metric for the cpu collector.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "disk": {
+        "description": "Configures the diskstats collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "device_exclude",
+            "type": "string",
+            "description": "Regular expression of devices to exclude for diskstats.",
+            "default": "\"^(ram|loop|fd|(h|s|v|xv)d[a-z]|nvme\\\\d+n\\\\d+p)\\\\d+$\"",
+            "required": false
+          },
+          {
+            "name": "device_include",
+            "type": "string",
+            "description": "Regular expression of devices to include for diskstats. If set, device_exclude is ignored.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "ethtool": {
+        "description": "Configures the ethtool collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "device_exclude",
+            "type": "string",
+            "description": "Regular expression of ethtool devices to exclude. Mutually exclusive with device_include.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "device_include",
+            "type": "string",
+            "description": "Regular expression of ethtool devices to include. Mutually exclusive with device_exclude.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metrics_include",
+            "type": "string",
+            "description": "Regular expression of ethtool stats to include.",
+            "default": ".*",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "filesystem": {
+        "description": "Configures the filesystem collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "fs_types_exclude",
+            "type": "string",
+            "description": "Regular expression of filesystem types to ignore for filesystem collector.",
+            "default": "see below",
+            "required": false
+          },
+          {
+            "name": "mount_points_exclude",
+            "type": "string",
+            "description": "Regular expression of mount points to ignore for filesystem collector.",
+            "default": "see below",
+            "required": false
+          },
+          {
+            "name": "mount_timeout",
+            "type": "duration",
+            "description": "How long to wait for a mount to respond before marking it as stale.",
+            "default": "\"5s\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "hwmon": {
+        "description": "Configures the hwmon collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "chip_include",
+            "type": "string",
+            "description": "Regular expression of hwmon chip to include. Mutually exclusive to chip-exclude.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "chip_exclude",
+            "type": "string",
+            "description": "Regular expression of hwmon chip to exclude. Mutually exclusive to chip-include.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "ipvs": {
+        "description": "Configures the ipvs collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "backend_labels",
+            "type": "list(string)",
+            "description": "Array of IPVS backend stats labels.",
+            "default": "[local_address, local_port, remote_address, remote_port, proto, local_mark]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "ntp": {
+        "description": "Configures the ntp collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "ip_ttl",
+            "type": "int",
+            "description": "TTL to use while sending NTP query.",
+            "default": "1",
+            "required": false
+          },
+          {
+            "name": "local_offset_tolerance",
+            "type": "duration",
+            "description": "Offset between local clock and local NTPD time to tolerate.",
+            "default": "\"1ms\"",
+            "required": false
+          },
+          {
+            "name": "max_distance",
+            "type": "duration",
+            "description": "Max accumulated distance to the root.",
+            "default": "\"3466080us\"",
+            "required": false
+          },
+          {
+            "name": "protocol_version",
+            "type": "int",
+            "description": "NTP protocol version.",
+            "default": "4",
+            "required": false
+          },
+          {
+            "name": "server_is_local",
+            "type": "boolean",
+            "description": "Certifies that the server address isn’t a public NTP server.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "server",
+            "type": "string",
+            "description": "NTP server to use for the collector.",
+            "default": "\"127.0.0.1\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "netclass": {
+        "description": "Configures the netclass collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "ignore_invalid_speed_device",
+            "type": "boolean",
+            "description": "Ignore net devices with invalid speed values.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "ignored_devices",
+            "type": "string",
+            "description": "Regular expression of net devices to ignore for netclass collector.",
+            "default": "\"^$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "netdev": {
+        "description": "Configures the netdev collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "address_info",
+            "type": "boolean",
+            "description": "Enable collecting address-info for every device.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "device_exclude",
+            "type": "string",
+            "description": "Regular expression of net devices to exclude. Mutually exclusive with device_include.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "device_include",
+            "type": "string",
+            "description": "Regular expression of net devices to include. Mutually exclusive with device_exclude.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "netstat": {
+        "description": "Configures the netstat collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "fields",
+            "type": "string",
+            "description": "Regular expression of fields to return for netstat collector.",
+            "default": "see below",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "perf": {
+        "description": "Configures the perf collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "cache_profilers",
+            "type": "list(string)",
+            "description": "Perf cache profilers that should be collected.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "cpus",
+            "type": "string",
+            "description": "List of CPUs from which perf metrics should be collected.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "disable_cache_profilers",
+            "type": "boolean",
+            "description": "Disable perf cache profilers.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "disable_hardware_profilers",
+            "type": "boolean",
+            "description": "Disable perf hardware profilers.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "disable_software_profilers",
+            "type": "boolean",
+            "description": "Disable perf software profilers.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "hardware_profilers",
+            "type": "list(string)",
+            "description": "Perf hardware profilers that should be collected.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "software_profilers",
+            "type": "list(string)",
+            "description": "Perf software profilers that should be collected.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "tracepoint",
+            "type": "list(string)",
+            "description": "Array of perf tracepoints that should be collected.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "powersupply": {
+        "description": "Configures the powersupply collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "ignored_supplies",
+            "type": "string",
+            "description": "Regular expression of power supplies to ignore for the powersupplyclass collector.",
+            "default": "\"^$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "runit": {
+        "description": "Configures the runit collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "service_dir",
+            "type": "string",
+            "description": "Path to runit service directory.",
+            "default": "\"/etc/service\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "supervisord": {
+        "description": "Configures the supervisord collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "url",
+            "type": "string",
+            "description": "XML RPC endpoint for the supervisord collector.",
+            "default": "\"http://localhost:9001/RPC2\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "sysctl": {
+        "description": "Configures the sysctl collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "include",
+            "type": "list(string)",
+            "description": "Numeric sysctl values to expose.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "include_info",
+            "type": "list(string)",
+            "description": "String sysctl values to expose.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "systemd": {
+        "description": "Configures the systemd collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enable_restarts",
+            "type": "boolean",
+            "description": "Enables service unit metric service_restart_total",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "start_time",
+            "type": "boolean",
+            "description": "Enables service unit metric unit_start_time_seconds",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "task_metrics",
+            "type": "boolean",
+            "description": "Enables service unit task metrics unit_tasks_current and unit_tasks_max.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "unit_exclude",
+            "type": "string",
+            "description": "Regular expression of systemd units to exclude. Units must both match include and not match exclude to be collected.",
+            "default": "\".+\\\\.(automount|device|mount|scope|slice)\"",
+            "required": false
+          },
+          {
+            "name": "unit_include",
+            "type": "string",
+            "description": "Regular expression of systemd units to include. Units must both match include and not match exclude to be collected.",
+            "default": "\".+\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "tapestats": {
+        "description": "Configures the tapestats collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "ignored_devices",
+            "type": "string",
+            "description": "Regular expression of tapestats devices to ignore.",
+            "default": "\"^$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "textfile": {
+        "description": "Configures the textfile collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "directory",
+            "type": "string",
+            "description": "Directory to read *.prom files from for the textfile collector.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      },
+      "vmstat": {
+        "description": "Configures the vmstat collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "fields",
+            "type": "string",
+            "description": "Regular expression of fields to return for the vmstat collector.",
+            "default": "\"^(oom_kill|pgpg|pswp|pg.*fault).*\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.unix \"<LABEL>\" {\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.unix \"${1:default}\" {\n  bcache {\n  }\n  cpu {\n  }\n  disk {\n  }\n  ethtool {\n  }\n  filesystem {\n  }\n  hwmon {\n  }\n  ipvs {\n  }\n  ntp {\n  }\n  netclass {\n  }\n  netdev {\n  }\n  netstat {\n  }\n  perf {\n  }\n  powersupply {\n  }\n  runit {\n  }\n  supervisord {\n  }\n  sysctl {\n  }\n  systemd {\n  }\n  tapestats {\n  }\n  textfile {\n  }\n  vmstat {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

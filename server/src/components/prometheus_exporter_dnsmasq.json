@@ -1,0 +1,81 @@
+{
+  "name": "prometheus.exporter.dnsmasq",
+  "usage": "prometheus.exporter.dnsmasq \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "address",
+      "type": "string",
+      "description": "The address of the dnsmasq server.",
+      "default": "\"localhost:53\"",
+      "required": false
+    },
+    {
+      "name": "expose_leases",
+      "type": "bool",
+      "description": "Expose dnsmasq leases as metrics (high cardinality).",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "leases_file",
+      "type": "string",
+      "description": "The path to the dnsmasq leases file.",
+      "default": "\"/var/lib/misc/dnsmasq.leases\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.dnsmasq",
+    "arguments": {
+      "address": {
+        "type": "string",
+        "description": "The address of the dnsmasq server.",
+        "default": "\"localhost:53\"",
+        "required": false
+      },
+      "expose_leases": {
+        "type": "bool",
+        "description": "Expose dnsmasq leases as metrics (high cardinality).",
+        "default": "false",
+        "required": false
+      },
+      "leases_file": {
+        "type": "string",
+        "description": "The path to the dnsmasq leases file.",
+        "default": "\"/var/lib/misc/dnsmasq.leases\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.dnsmasq \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

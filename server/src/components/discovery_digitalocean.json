@@ -1,0 +1,185 @@
+{
+  "name": "discovery.digitalocean",
+  "usage": "discovery.digitalocean \"<LABEL>\" {\n    // Use one of:\n    // bearer_token      = \"<BEARER_TOKEN>\"\n    // bearer_token_file = \"<PATH_TO_BEARER_TOKEN_FILE>\"\n}",
+  "arguments": [
+    {
+      "name": "bearer_token_file",
+      "type": "string",
+      "description": "File containing a bearer token to authenticate with.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "bearer_token",
+      "type": "secret",
+      "description": "Bearer token to authenticate with.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "enable_http2",
+      "type": "bool",
+      "description": "Whether HTTP2 is supported for requests.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "follow_redirects",
+      "type": "bool",
+      "description": "Whether redirects returned by the server should be followed.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "http_headers",
+      "type": "map(list(secret))",
+      "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "no_proxy",
+      "type": "string",
+      "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "port",
+      "type": "number",
+      "description": "Port to be appended to the __address__ label for each Droplet.",
+      "default": "80",
+      "required": false
+    },
+    {
+      "name": "proxy_connect_header",
+      "type": "map(list(secret))",
+      "description": "Specifies headers to send to proxies during CONNECT requests.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "proxy_from_environment",
+      "type": "bool",
+      "description": "Use the proxy URL indicated by environment variables.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "proxy_url",
+      "type": "string",
+      "description": "HTTP proxy to send requests through.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Frequency to refresh list of Droplets.",
+      "default": "\"1m\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the DigitalOcean API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.digitalocean",
+    "arguments": {
+      "bearer_token_file": {
+        "type": "string",
+        "description": "File containing a bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      "bearer_token": {
+        "type": "secret",
+        "description": "Bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      "enable_http2": {
+        "type": "bool",
+        "description": "Whether HTTP2 is supported for requests.",
+        "default": "true",
+        "required": false
+      },
+      "follow_redirects": {
+        "type": "bool",
+        "description": "Whether redirects returned by the server should be followed.",
+        "default": "true",
+        "required": false
+      },
+      "http_headers": {
+        "type": "map(list(secret))",
+        "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+        "default": "",
+        "required": false
+      },
+      "no_proxy": {
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "",
+        "required": false
+      },
+      "port": {
+        "type": "number",
+        "description": "Port to be appended to the __address__ label for each Droplet.",
+        "default": "80",
+        "required": false
+      },
+      "proxy_connect_header": {
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      "proxy_from_environment": {
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      "proxy_url": {
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Frequency to refresh list of Droplets.",
+        "default": "\"1m\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the DigitalOcean API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.digitalocean \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the DigitalOcean API.\n}"
+}

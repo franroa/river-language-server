@@ -1,0 +1,1771 @@
+{
+  "name": "otelcol.receiver.kafka",
+  "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "brokers",
+      "type": "array(string)",
+      "description": "Kafka brokers to connect to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "protocol_version",
+      "type": "string",
+      "description": "Kafka protocol version to use.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "client_id",
+      "type": "string",
+      "description": "Consumer client ID to use.",
+      "default": "\"otel-collector\"",
+      "required": false
+    },
+    {
+      "name": "default_fetch_size",
+      "type": "int",
+      "description": "The default number of message bytes to fetch in a request.",
+      "default": "1048576",
+      "required": false
+    },
+    {
+      "name": "encoding",
+      "type": "string",
+      "description": "(Deprecated) Encoding of payload read from Kafka.",
+      "default": "\"otlp_proto\"",
+      "required": false
+    },
+    {
+      "name": "group_id",
+      "type": "string",
+      "description": "Consumer group to consume messages from.",
+      "default": "\"otel-collector\"",
+      "required": false
+    },
+    {
+      "name": "group_instance_id",
+      "type": "string",
+      "description": "A unique identifier for the consumer instance within a consumer group.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "group_rebalance_strategy",
+      "type": "string",
+      "description": "The strategy used to assign partitions to consumers within a consumer group.",
+      "default": "\"range\"",
+      "required": false
+    },
+    {
+      "name": "heartbeat_interval",
+      "type": "duration",
+      "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+      "default": "\"3s\"",
+      "required": false
+    },
+    {
+      "name": "initial_offset",
+      "type": "string",
+      "description": "Initial offset to use if no offset was previously committed.",
+      "default": "\"latest\"",
+      "required": false
+    },
+    {
+      "name": "max_fetch_size",
+      "type": "int",
+      "description": "The maximum number of message bytes to fetch in a request.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "max_fetch_wait",
+      "type": "duration",
+      "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+      "default": "\"250ms\"",
+      "required": false
+    },
+    {
+      "name": "min_fetch_size",
+      "type": "int",
+      "description": "The minimum number of message bytes to fetch in a request.",
+      "default": "1",
+      "required": false
+    },
+    {
+      "name": "resolve_canonical_bootstrap_servers_only",
+      "type": "bool",
+      "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "session_timeout",
+      "type": "duration",
+      "description": "The request timeout for detecting client failures when using Kafka group management.",
+      "default": "\"10s\"",
+      "required": false
+    },
+    {
+      "name": "topic",
+      "type": "string",
+      "description": "(Deprecated) Kafka topic to read from.",
+      "default": "See below",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#output"
+    },
+    {
+      "block": "authentication",
+      "description": "Configures authentication for connecting to Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#authentication"
+    },
+    {
+      "block": "authentication > kerberos",
+      "description": "Authenticates against Kafka brokers with Kerberos.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#kerberos"
+    },
+    {
+      "block": "authentication > plaintext",
+      "description": "(Deprecated) Authenticates against Kafka brokers with plaintext.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#plaintext"
+    },
+    {
+      "block": "authentication > sasl",
+      "description": "Authenticates against Kafka brokers with SASL.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#sasl"
+    },
+    {
+      "block": "authentication > sasl > aws_msk",
+      "description": "Additional SASL parameters when using AWS_MSK_IAM.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#aws_msk"
+    },
+    {
+      "block": "authentication > tls",
+      "description": "(Deprecated) Configures TLS for connecting to the Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#tls"
+    },
+    {
+      "block": "authentication > tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#tpm"
+    },
+    {
+      "block": "autocommit",
+      "description": "Configures how to automatically commit updated topic offsets to back to the Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#autocommit"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics which this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#debug_metrics"
+    },
+    {
+      "block": "logs",
+      "description": "Configures how to send logs to Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#logs"
+    },
+    {
+      "block": "error_backoff",
+      "description": "Configures how to handle errors when receiving messages from Kafka.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#error_backoff"
+    },
+    {
+      "block": "header_extraction",
+      "description": "Extract headers from Kafka records.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#header_extraction"
+    },
+    {
+      "block": "message_marking",
+      "description": "Configures when Kafka messages are marked as read.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#message_marking"
+    },
+    {
+      "block": "metadata",
+      "description": "Configures how to retrieve metadata from Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#metadata"
+    },
+    {
+      "block": "metadata > retry",
+      "description": "Configures how to retry metadata retrieval.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#retry"
+    },
+    {
+      "block": "metrics",
+      "description": "Configures how to send metrics to Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#metrics"
+    },
+    {
+      "block": "traces",
+      "description": "Configures how to send traces to Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#traces"
+    },
+    {
+      "block": "tls[]",
+      "description": "Configures TLS for connecting to the Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#tpm"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.kafka",
+    "arguments": {
+      "brokers": {
+        "type": "array(string)",
+        "description": "Kafka brokers to connect to.",
+        "default": "",
+        "required": true
+      },
+      "protocol_version": {
+        "type": "string",
+        "description": "Kafka protocol version to use.",
+        "default": "",
+        "required": true
+      },
+      "client_id": {
+        "type": "string",
+        "description": "Consumer client ID to use.",
+        "default": "\"otel-collector\"",
+        "required": false
+      },
+      "default_fetch_size": {
+        "type": "int",
+        "description": "The default number of message bytes to fetch in a request.",
+        "default": "1048576",
+        "required": false
+      },
+      "encoding": {
+        "type": "string",
+        "description": "(Deprecated) Encoding of payload read from Kafka.",
+        "default": "\"otlp_proto\"",
+        "required": false
+      },
+      "group_id": {
+        "type": "string",
+        "description": "Consumer group to consume messages from.",
+        "default": "\"otel-collector\"",
+        "required": false
+      },
+      "group_instance_id": {
+        "type": "string",
+        "description": "A unique identifier for the consumer instance within a consumer group.",
+        "default": "\"\"",
+        "required": false
+      },
+      "group_rebalance_strategy": {
+        "type": "string",
+        "description": "The strategy used to assign partitions to consumers within a consumer group.",
+        "default": "\"range\"",
+        "required": false
+      },
+      "heartbeat_interval": {
+        "type": "duration",
+        "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+        "default": "\"3s\"",
+        "required": false
+      },
+      "initial_offset": {
+        "type": "string",
+        "description": "Initial offset to use if no offset was previously committed.",
+        "default": "\"latest\"",
+        "required": false
+      },
+      "max_fetch_size": {
+        "type": "int",
+        "description": "The maximum number of message bytes to fetch in a request.",
+        "default": "0",
+        "required": false
+      },
+      "max_fetch_wait": {
+        "type": "duration",
+        "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+        "default": "\"250ms\"",
+        "required": false
+      },
+      "min_fetch_size": {
+        "type": "int",
+        "description": "The minimum number of message bytes to fetch in a request.",
+        "default": "1",
+        "required": false
+      },
+      "resolve_canonical_bootstrap_servers_only": {
+        "type": "bool",
+        "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+        "default": "false",
+        "required": false
+      },
+      "session_timeout": {
+        "type": "duration",
+        "description": "The request timeout for detecting client failures when using Kafka group management.",
+        "default": "\"10s\"",
+        "required": false
+      },
+      "topic": {
+        "type": "string",
+        "description": "(Deprecated) Kafka topic to read from.",
+        "default": "See below",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "Configures how to send logs to Kafka brokers.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "Configures how to send metrics to Kafka brokers.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "Configures how to send traces to Kafka brokers.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "authentication": {
+        "description": "Configures authentication for connecting to Kafka brokers.",
+        "required": false,
+        "children": {
+          "kerberos": {
+            "description": "Authenticates against Kafka brokers with Kerberos.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "brokers",
+                "type": "array(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "default_fetch_size",
+                "type": "int",
+                "description": "The default number of message bytes to fetch in a request.",
+                "default": "1048576",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "group_id",
+                "type": "string",
+                "description": "Consumer group to consume messages from.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "group_instance_id",
+                "type": "string",
+                "description": "A unique identifier for the consumer instance within a consumer group.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "group_rebalance_strategy",
+                "type": "string",
+                "description": "The strategy used to assign partitions to consumers within a consumer group.",
+                "default": "\"range\"",
+                "required": false
+              },
+              {
+                "name": "heartbeat_interval",
+                "type": "duration",
+                "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+                "default": "\"3s\"",
+                "required": false
+              },
+              {
+                "name": "initial_offset",
+                "type": "string",
+                "description": "Initial offset to use if no offset was previously committed.",
+                "default": "\"latest\"",
+                "required": false
+              },
+              {
+                "name": "max_fetch_size",
+                "type": "int",
+                "description": "The maximum number of message bytes to fetch in a request.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "max_fetch_wait",
+                "type": "duration",
+                "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+                "default": "\"250ms\"",
+                "required": false
+              },
+              {
+                "name": "min_fetch_size",
+                "type": "int",
+                "description": "The minimum number of message bytes to fetch in a request.",
+                "default": "1",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "session_timeout",
+                "type": "duration",
+                "description": "The request timeout for detecting client failures when using Kafka group management.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to read from.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "plaintext": {
+            "description": "(Deprecated) Authenticates against Kafka brokers with plaintext.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "brokers",
+                "type": "array(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "default_fetch_size",
+                "type": "int",
+                "description": "The default number of message bytes to fetch in a request.",
+                "default": "1048576",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "group_id",
+                "type": "string",
+                "description": "Consumer group to consume messages from.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "group_instance_id",
+                "type": "string",
+                "description": "A unique identifier for the consumer instance within a consumer group.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "group_rebalance_strategy",
+                "type": "string",
+                "description": "The strategy used to assign partitions to consumers within a consumer group.",
+                "default": "\"range\"",
+                "required": false
+              },
+              {
+                "name": "heartbeat_interval",
+                "type": "duration",
+                "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+                "default": "\"3s\"",
+                "required": false
+              },
+              {
+                "name": "initial_offset",
+                "type": "string",
+                "description": "Initial offset to use if no offset was previously committed.",
+                "default": "\"latest\"",
+                "required": false
+              },
+              {
+                "name": "max_fetch_size",
+                "type": "int",
+                "description": "The maximum number of message bytes to fetch in a request.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "max_fetch_wait",
+                "type": "duration",
+                "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+                "default": "\"250ms\"",
+                "required": false
+              },
+              {
+                "name": "min_fetch_size",
+                "type": "int",
+                "description": "The minimum number of message bytes to fetch in a request.",
+                "default": "1",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "session_timeout",
+                "type": "duration",
+                "description": "The request timeout for detecting client failures when using Kafka group management.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to read from.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "sasl": {
+            "description": "Authenticates against Kafka brokers with SASL.",
+            "required": false,
+            "children": {
+              "aws_msk": {
+                "description": "Additional SASL parameters when using AWS_MSK_IAM.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "brokers",
+                    "type": "array(string)",
+                    "description": "Kafka brokers to connect to.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "protocol_version",
+                    "type": "string",
+                    "description": "Kafka protocol version to use.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "client_id",
+                    "type": "string",
+                    "description": "Consumer client ID to use.",
+                    "default": "\"otel-collector\"",
+                    "required": false
+                  },
+                  {
+                    "name": "default_fetch_size",
+                    "type": "int",
+                    "description": "The default number of message bytes to fetch in a request.",
+                    "default": "1048576",
+                    "required": false
+                  },
+                  {
+                    "name": "encoding",
+                    "type": "string",
+                    "description": "(Deprecated) Encoding of payload read from Kafka.",
+                    "default": "\"otlp_proto\"",
+                    "required": false
+                  },
+                  {
+                    "name": "group_id",
+                    "type": "string",
+                    "description": "Consumer group to consume messages from.",
+                    "default": "\"otel-collector\"",
+                    "required": false
+                  },
+                  {
+                    "name": "group_instance_id",
+                    "type": "string",
+                    "description": "A unique identifier for the consumer instance within a consumer group.",
+                    "default": "\"\"",
+                    "required": false
+                  },
+                  {
+                    "name": "group_rebalance_strategy",
+                    "type": "string",
+                    "description": "The strategy used to assign partitions to consumers within a consumer group.",
+                    "default": "\"range\"",
+                    "required": false
+                  },
+                  {
+                    "name": "heartbeat_interval",
+                    "type": "duration",
+                    "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+                    "default": "\"3s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "initial_offset",
+                    "type": "string",
+                    "description": "Initial offset to use if no offset was previously committed.",
+                    "default": "\"latest\"",
+                    "required": false
+                  },
+                  {
+                    "name": "max_fetch_size",
+                    "type": "int",
+                    "description": "The maximum number of message bytes to fetch in a request.",
+                    "default": "0",
+                    "required": false
+                  },
+                  {
+                    "name": "max_fetch_wait",
+                    "type": "duration",
+                    "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+                    "default": "\"250ms\"",
+                    "required": false
+                  },
+                  {
+                    "name": "min_fetch_size",
+                    "type": "int",
+                    "description": "The minimum number of message bytes to fetch in a request.",
+                    "default": "1",
+                    "required": false
+                  },
+                  {
+                    "name": "resolve_canonical_bootstrap_servers_only",
+                    "type": "bool",
+                    "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "session_timeout",
+                    "type": "duration",
+                    "description": "The request timeout for detecting client failures when using Kafka group management.",
+                    "default": "\"10s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "topic",
+                    "type": "string",
+                    "description": "(Deprecated) Kafka topic to read from.",
+                    "default": "See below",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "brokers",
+                "type": "array(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "default_fetch_size",
+                "type": "int",
+                "description": "The default number of message bytes to fetch in a request.",
+                "default": "1048576",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "group_id",
+                "type": "string",
+                "description": "Consumer group to consume messages from.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "group_instance_id",
+                "type": "string",
+                "description": "A unique identifier for the consumer instance within a consumer group.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "group_rebalance_strategy",
+                "type": "string",
+                "description": "The strategy used to assign partitions to consumers within a consumer group.",
+                "default": "\"range\"",
+                "required": false
+              },
+              {
+                "name": "heartbeat_interval",
+                "type": "duration",
+                "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+                "default": "\"3s\"",
+                "required": false
+              },
+              {
+                "name": "initial_offset",
+                "type": "string",
+                "description": "Initial offset to use if no offset was previously committed.",
+                "default": "\"latest\"",
+                "required": false
+              },
+              {
+                "name": "max_fetch_size",
+                "type": "int",
+                "description": "The maximum number of message bytes to fetch in a request.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "max_fetch_wait",
+                "type": "duration",
+                "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+                "default": "\"250ms\"",
+                "required": false
+              },
+              {
+                "name": "min_fetch_size",
+                "type": "int",
+                "description": "The minimum number of message bytes to fetch in a request.",
+                "default": "1",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "session_timeout",
+                "type": "duration",
+                "description": "The request timeout for detecting client failures when using Kafka group management.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to read from.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "aws_msk",
+                "description": "Additional SASL parameters when using AWS_MSK_IAM.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#aws_msk"
+              }
+            ],
+            "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "tls": {
+            "description": "(Deprecated) Configures TLS for connecting to the Kafka brokers.",
+            "required": false,
+            "children": {
+              "tpm": {
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "brokers",
+                    "type": "array(string)",
+                    "description": "Kafka brokers to connect to.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "protocol_version",
+                    "type": "string",
+                    "description": "Kafka protocol version to use.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "client_id",
+                    "type": "string",
+                    "description": "Consumer client ID to use.",
+                    "default": "\"otel-collector\"",
+                    "required": false
+                  },
+                  {
+                    "name": "default_fetch_size",
+                    "type": "int",
+                    "description": "The default number of message bytes to fetch in a request.",
+                    "default": "1048576",
+                    "required": false
+                  },
+                  {
+                    "name": "encoding",
+                    "type": "string",
+                    "description": "(Deprecated) Encoding of payload read from Kafka.",
+                    "default": "\"otlp_proto\"",
+                    "required": false
+                  },
+                  {
+                    "name": "group_id",
+                    "type": "string",
+                    "description": "Consumer group to consume messages from.",
+                    "default": "\"otel-collector\"",
+                    "required": false
+                  },
+                  {
+                    "name": "group_instance_id",
+                    "type": "string",
+                    "description": "A unique identifier for the consumer instance within a consumer group.",
+                    "default": "\"\"",
+                    "required": false
+                  },
+                  {
+                    "name": "group_rebalance_strategy",
+                    "type": "string",
+                    "description": "The strategy used to assign partitions to consumers within a consumer group.",
+                    "default": "\"range\"",
+                    "required": false
+                  },
+                  {
+                    "name": "heartbeat_interval",
+                    "type": "duration",
+                    "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+                    "default": "\"3s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "initial_offset",
+                    "type": "string",
+                    "description": "Initial offset to use if no offset was previously committed.",
+                    "default": "\"latest\"",
+                    "required": false
+                  },
+                  {
+                    "name": "max_fetch_size",
+                    "type": "int",
+                    "description": "The maximum number of message bytes to fetch in a request.",
+                    "default": "0",
+                    "required": false
+                  },
+                  {
+                    "name": "max_fetch_wait",
+                    "type": "duration",
+                    "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+                    "default": "\"250ms\"",
+                    "required": false
+                  },
+                  {
+                    "name": "min_fetch_size",
+                    "type": "int",
+                    "description": "The minimum number of message bytes to fetch in a request.",
+                    "default": "1",
+                    "required": false
+                  },
+                  {
+                    "name": "resolve_canonical_bootstrap_servers_only",
+                    "type": "bool",
+                    "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "session_timeout",
+                    "type": "duration",
+                    "description": "The request timeout for detecting client failures when using Kafka group management.",
+                    "default": "\"10s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "topic",
+                    "type": "string",
+                    "description": "(Deprecated) Kafka topic to read from.",
+                    "default": "See below",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "brokers",
+                "type": "array(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "default_fetch_size",
+                "type": "int",
+                "description": "The default number of message bytes to fetch in a request.",
+                "default": "1048576",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "group_id",
+                "type": "string",
+                "description": "Consumer group to consume messages from.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "group_instance_id",
+                "type": "string",
+                "description": "A unique identifier for the consumer instance within a consumer group.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "group_rebalance_strategy",
+                "type": "string",
+                "description": "The strategy used to assign partitions to consumers within a consumer group.",
+                "default": "\"range\"",
+                "required": false
+              },
+              {
+                "name": "heartbeat_interval",
+                "type": "duration",
+                "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+                "default": "\"3s\"",
+                "required": false
+              },
+              {
+                "name": "initial_offset",
+                "type": "string",
+                "description": "Initial offset to use if no offset was previously committed.",
+                "default": "\"latest\"",
+                "required": false
+              },
+              {
+                "name": "max_fetch_size",
+                "type": "int",
+                "description": "The maximum number of message bytes to fetch in a request.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "max_fetch_wait",
+                "type": "duration",
+                "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+                "default": "\"250ms\"",
+                "required": false
+              },
+              {
+                "name": "min_fetch_size",
+                "type": "int",
+                "description": "The minimum number of message bytes to fetch in a request.",
+                "default": "1",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "session_timeout",
+                "type": "duration",
+                "description": "The request timeout for detecting client failures when using Kafka group management.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to read from.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "tpm",
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#tpm"
+              }
+            ],
+            "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "kerberos",
+            "description": "Authenticates against Kafka brokers with Kerberos.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#kerberos"
+          },
+          {
+            "block": "plaintext",
+            "description": "(Deprecated) Authenticates against Kafka brokers with plaintext.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#plaintext"
+          },
+          {
+            "block": "sasl",
+            "description": "Authenticates against Kafka brokers with SASL.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#sasl"
+          },
+          {
+            "block": "sasl > aws_msk",
+            "description": "Additional SASL parameters when using AWS_MSK_IAM.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#aws_msk"
+          },
+          {
+            "block": "tls",
+            "description": "(Deprecated) Configures TLS for connecting to the Kafka brokers.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#tls"
+          },
+          {
+            "block": "tls > tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#tpm"
+          }
+        ],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "autocommit": {
+        "description": "Configures how to automatically commit updated topic offsets to back to the Kafka brokers.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enable",
+            "type": "bool",
+            "description": "Enable autocommitting updated topic offsets.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "interval",
+            "type": "duration",
+            "description": "How frequently to autocommit.",
+            "default": "\"1s\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics which this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "logs": {
+        "description": "Configures how to send logs to Kafka brokers.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "encoding",
+            "type": "string",
+            "description": "The encoding for logs. Refer to Supported encodings.",
+            "default": "\"otlp_proto\"",
+            "required": false
+          },
+          {
+            "name": "topic",
+            "type": "string",
+            "description": "The name of the Kafka topic on which logs will be received.",
+            "default": "\"otlp_logs\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "error_backoff": {
+        "description": "Configures how to handle errors when receiving messages from Kafka.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "boolean",
+            "description": "Enables retrying failed requests.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "initial_interval",
+            "type": "duration",
+            "description": "Initial time to wait before retrying a failed request.",
+            "default": "\"0s\"",
+            "required": false
+          },
+          {
+            "name": "max_elapsed_time",
+            "type": "duration",
+            "description": "Maximum time to wait before discarding a failed batch.",
+            "default": "\"0s\"",
+            "required": false
+          },
+          {
+            "name": "max_interval",
+            "type": "duration",
+            "description": "Maximum time to wait between retries.",
+            "default": "\"0s\"",
+            "required": false
+          },
+          {
+            "name": "multiplier",
+            "type": "number",
+            "description": "Factor to grow wait time before retrying.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "randomization_factor",
+            "type": "number",
+            "description": "Factor to randomize wait time before retrying.",
+            "default": "0",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "header_extraction": {
+        "description": "Extract headers from Kafka records.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "extract_headers",
+            "type": "bool",
+            "description": "Enables attaching header fields to resource attributes.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "headers",
+            "type": "list(string)",
+            "description": "A list of headers to extract from the Kafka record.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "message_marking": {
+        "description": "Configures when Kafka messages are marked as read.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "after_execution",
+            "type": "bool",
+            "description": "Mark messages after forwarding telemetry data to other components.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "include_unsuccessful",
+            "type": "bool",
+            "description": "Whether failed forwards should be marked as read.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "metadata": {
+        "description": "Configures how to retrieve metadata from Kafka brokers.",
+        "required": false,
+        "children": {
+          "retry": {
+            "description": "Configures how to retry metadata retrieval.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "brokers",
+                "type": "array(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "default_fetch_size",
+                "type": "int",
+                "description": "The default number of message bytes to fetch in a request.",
+                "default": "1048576",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "group_id",
+                "type": "string",
+                "description": "Consumer group to consume messages from.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "group_instance_id",
+                "type": "string",
+                "description": "A unique identifier for the consumer instance within a consumer group.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "group_rebalance_strategy",
+                "type": "string",
+                "description": "The strategy used to assign partitions to consumers within a consumer group.",
+                "default": "\"range\"",
+                "required": false
+              },
+              {
+                "name": "heartbeat_interval",
+                "type": "duration",
+                "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+                "default": "\"3s\"",
+                "required": false
+              },
+              {
+                "name": "initial_offset",
+                "type": "string",
+                "description": "Initial offset to use if no offset was previously committed.",
+                "default": "\"latest\"",
+                "required": false
+              },
+              {
+                "name": "max_fetch_size",
+                "type": "int",
+                "description": "The maximum number of message bytes to fetch in a request.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "max_fetch_wait",
+                "type": "duration",
+                "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+                "default": "\"250ms\"",
+                "required": false
+              },
+              {
+                "name": "min_fetch_size",
+                "type": "int",
+                "description": "The minimum number of message bytes to fetch in a request.",
+                "default": "1",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "session_timeout",
+                "type": "duration",
+                "description": "The request timeout for detecting client failures when using Kafka group management.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to read from.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "retry",
+            "description": "Configures how to retry metadata retrieval.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.kafka/#retry"
+          }
+        ],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "metrics": {
+        "description": "Configures how to send metrics to Kafka brokers.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "encoding",
+            "type": "string",
+            "description": "The encoding for logs. Refer to Supported encodings.",
+            "default": "\"otlp_proto\"",
+            "required": false
+          },
+          {
+            "name": "topic",
+            "type": "string",
+            "description": "The name of the Kafka topic on which metrics will be received.",
+            "default": "\"otlp_metrics\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "traces": {
+        "description": "Configures how to send traces to Kafka brokers.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "encoding",
+            "type": "string",
+            "description": "The encoding for logs. Refer to Supported encodings.",
+            "default": "\"otlp_proto\"",
+            "required": false
+          },
+          {
+            "name": "topic",
+            "type": "string",
+            "description": "The name of the Kafka topic on which traces will be received.",
+            "default": "\"otlp_spans\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "tls[]": {
+        "description": "Configures TLS for connecting to the Kafka brokers.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "brokers",
+            "type": "array(string)",
+            "description": "Kafka brokers to connect to.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "protocol_version",
+            "type": "string",
+            "description": "Kafka protocol version to use.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "client_id",
+            "type": "string",
+            "description": "Consumer client ID to use.",
+            "default": "\"otel-collector\"",
+            "required": false
+          },
+          {
+            "name": "default_fetch_size",
+            "type": "int",
+            "description": "The default number of message bytes to fetch in a request.",
+            "default": "1048576",
+            "required": false
+          },
+          {
+            "name": "encoding",
+            "type": "string",
+            "description": "(Deprecated) Encoding of payload read from Kafka.",
+            "default": "\"otlp_proto\"",
+            "required": false
+          },
+          {
+            "name": "group_id",
+            "type": "string",
+            "description": "Consumer group to consume messages from.",
+            "default": "\"otel-collector\"",
+            "required": false
+          },
+          {
+            "name": "group_instance_id",
+            "type": "string",
+            "description": "A unique identifier for the consumer instance within a consumer group.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "group_rebalance_strategy",
+            "type": "string",
+            "description": "The strategy used to assign partitions to consumers within a consumer group.",
+            "default": "\"range\"",
+            "required": false
+          },
+          {
+            "name": "heartbeat_interval",
+            "type": "duration",
+            "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+            "default": "\"3s\"",
+            "required": false
+          },
+          {
+            "name": "initial_offset",
+            "type": "string",
+            "description": "Initial offset to use if no offset was previously committed.",
+            "default": "\"latest\"",
+            "required": false
+          },
+          {
+            "name": "max_fetch_size",
+            "type": "int",
+            "description": "The maximum number of message bytes to fetch in a request.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "max_fetch_wait",
+            "type": "duration",
+            "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+            "default": "\"250ms\"",
+            "required": false
+          },
+          {
+            "name": "min_fetch_size",
+            "type": "int",
+            "description": "The minimum number of message bytes to fetch in a request.",
+            "default": "1",
+            "required": false
+          },
+          {
+            "name": "resolve_canonical_bootstrap_servers_only",
+            "type": "bool",
+            "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "session_timeout",
+            "type": "duration",
+            "description": "The request timeout for detecting client failures when using Kafka group management.",
+            "default": "\"10s\"",
+            "required": false
+          },
+          {
+            "name": "topic",
+            "type": "string",
+            "description": "(Deprecated) Kafka topic to read from.",
+            "default": "See below",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "tls": {
+        "description": "",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "brokers",
+                "type": "array(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "default_fetch_size",
+                "type": "int",
+                "description": "The default number of message bytes to fetch in a request.",
+                "default": "1048576",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "group_id",
+                "type": "string",
+                "description": "Consumer group to consume messages from.",
+                "default": "\"otel-collector\"",
+                "required": false
+              },
+              {
+                "name": "group_instance_id",
+                "type": "string",
+                "description": "A unique identifier for the consumer instance within a consumer group.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "group_rebalance_strategy",
+                "type": "string",
+                "description": "The strategy used to assign partitions to consumers within a consumer group.",
+                "default": "\"range\"",
+                "required": false
+              },
+              {
+                "name": "heartbeat_interval",
+                "type": "duration",
+                "description": "The expected time between heartbeats to the consumer coordinator when using Kafka group management.",
+                "default": "\"3s\"",
+                "required": false
+              },
+              {
+                "name": "initial_offset",
+                "type": "string",
+                "description": "Initial offset to use if no offset was previously committed.",
+                "default": "\"latest\"",
+                "required": false
+              },
+              {
+                "name": "max_fetch_size",
+                "type": "int",
+                "description": "The maximum number of message bytes to fetch in a request.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "max_fetch_wait",
+                "type": "duration",
+                "description": "The maximum amount of time the broker should wait for min_fetch_size bytes to be available before returning anyway.",
+                "default": "\"250ms\"",
+                "required": false
+              },
+              {
+                "name": "min_fetch_size",
+                "type": "int",
+                "description": "The minimum number of message bytes to fetch in a request.",
+                "default": "1",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "session_timeout",
+                "type": "duration",
+                "description": "The request timeout for detecting client failures when using Kafka group management.",
+                "default": "\"10s\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to read from.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.kafka \"<LABEL>\" {\n  brokers          = [\"<BROKER_ADDR>\"]\n  protocol_version = \"<PROTOCOL_VERSION>\"\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        }
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.kafka \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  authentication {\n  }\n  autocommit {\n  }\n  debug_metrics {\n    $0\n  }\n  logs {\n  }\n  error_backoff {\n  }\n  header_extraction {\n  }\n  message_marking {\n  }\n  metadata {\n  }\n  metrics {\n  }\n  traces {\n  }\n  tls[] {\n    brokers = \"${2}\"\n    protocol_version = \"${3}\"\n  }\n  tls {\n  }\n}"
+}

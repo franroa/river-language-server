@@ -1,0 +1,40 @@
+{
+  "name": "loki.echo",
+  "usage": "loki.echo \"<LABEL>\" {}",
+  "arguments": [],
+  "blocks": [
+    {
+      "block": "receiver",
+      "description": "LogsReceiver",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "LogsReceiver",
+      "description": "A value that other components can use to send log entries to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "loki.echo",
+    "arguments": {},
+    "blocks": {
+      "receiver": {
+        "description": "LogsReceiver",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "LogsReceiver",
+        "description": "A value that other components can use to send log entries to."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.echo \"${1:default}\" {\n  receiver {\n    $0\n  }\n\n  // Exported fields:\n  // - receiver (LogsReceiver): A value that other components can use to send log entries to.\n}"
+}

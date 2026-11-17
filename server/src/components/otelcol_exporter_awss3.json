@@ -1,0 +1,238 @@
+{
+  "name": "otelcol.exporter.awss3",
+  "usage": "otelcol.exporter.awss3 \"<LABEL>\" {\n  s3_uploader {\n    region = \"<AWS_REGION>\"\n    s3_bucket = \"<S3_BUCKET_NAME>\"\n    s3_prefix = \"<PREFIX_FOR_S3_KEY>\"\n  }\n}",
+  "arguments": [
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "Time to wait before marking a request as failed.",
+      "default": "\"5s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "s3_uploader",
+      "description": "Configures the AWS S3 bucket details to send telemetry data to.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.awss3/#s3_uploader"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.awss3/#debug_metrics"
+    },
+    {
+      "block": "marshaler",
+      "description": "Marshaler used to produce output data.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.awss3/#marshaler"
+    },
+    {
+      "block": "resource_attrs_to_s3",
+      "description": "Configures the mapping of S3 configuration values to resource attribute values for uploading operations.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.awss3/#resource_attrs_to_s3-block"
+    },
+    {
+      "block": "sending_queue",
+      "description": "Configures batching of data before sending.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.awss3/#sending_queue"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.exporter.awss3",
+    "arguments": {
+      "timeout": {
+        "type": "duration",
+        "description": "Time to wait before marking a request as failed.",
+        "default": "\"5s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "s3_uploader": {
+        "description": "Configures the AWS S3 bucket details to send telemetry data to.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "s3_bucket",
+            "type": "string",
+            "description": "The S3 bucket.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "s3_prefix",
+            "type": "string",
+            "description": "Prefix for the S3 key (root directory inside the bucket).",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "acl",
+            "type": "string",
+            "description": "The canned ACL to use when uploading objects.",
+            "default": "\"private\"",
+            "required": false
+          },
+          {
+            "name": "compression",
+            "type": "string",
+            "description": "File compression method, none or gzip",
+            "default": "\"none\"",
+            "required": false
+          },
+          {
+            "name": "disable_ssl",
+            "type": "boolean",
+            "description": "Set this to true to disable SSL when sending requests.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "endpoint",
+            "type": "string",
+            "description": "Overrides the endpoint used by the exporter instead of constructing it from region and s3_bucket.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "file_prefix",
+            "type": "string",
+            "description": "The file prefix defined by the user.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "region",
+            "type": "string",
+            "description": "The AWS region.",
+            "default": "\"us-east-1\"",
+            "required": false
+          },
+          {
+            "name": "retry_max_attempts",
+            "type": "int",
+            "description": "The max number of attempts for retrying a request.",
+            "default": "3",
+            "required": false
+          },
+          {
+            "name": "retry_max_backoff",
+            "type": "duration",
+            "description": "The max backoff delay that can occur before retrying a request.",
+            "default": "20s",
+            "required": false
+          },
+          {
+            "name": "retry_mode",
+            "type": "string",
+            "description": "The retryer implementation.",
+            "default": "\"standard\"",
+            "required": false
+          },
+          {
+            "name": "role_arn",
+            "type": "string",
+            "description": "The Role ARN to be assumed.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "s3_force_path_style",
+            "type": "boolean",
+            "description": "Set this to true to force the request to use path-style requests",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "s3_partition_format",
+            "type": "string",
+            "description": "Filepath formatting for the partition; Refer to strftime for format specification.",
+            "default": "\"year=%Y/month=%m/day=%d/hour=%H/minute=%M\"",
+            "required": false
+          },
+          {
+            "name": "storage_class",
+            "type": "string",
+            "description": "The storage class to use when uploading objects.",
+            "default": "\"STANDARD\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.awss3 \"<LABEL>\" {\n  s3_uploader {\n    region = \"<AWS_REGION>\"\n    s3_bucket = \"<S3_BUCKET_NAME>\"\n    s3_prefix = \"<PREFIX_FOR_S3_KEY>\"\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.awss3 \"<LABEL>\" {\n  s3_uploader {\n    region = \"<AWS_REGION>\"\n    s3_bucket = \"<S3_BUCKET_NAME>\"\n    s3_prefix = \"<PREFIX_FOR_S3_KEY>\"\n  }\n}"
+      },
+      "marshaler": {
+        "description": "Marshaler used to produce output data.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "type",
+            "type": "string",
+            "description": "Marshaler used to produce output data.",
+            "default": "\"otlp_json\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.awss3 \"<LABEL>\" {\n  s3_uploader {\n    region = \"<AWS_REGION>\"\n    s3_bucket = \"<S3_BUCKET_NAME>\"\n    s3_prefix = \"<PREFIX_FOR_S3_KEY>\"\n  }\n}"
+      },
+      "resource_attrs_to_s3": {
+        "description": "Configures the mapping of S3 configuration values to resource attribute values for uploading operations.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "s3_prefix",
+            "type": "string",
+            "description": "Configures which resource attribute’s value should be used as the S3 prefix.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.awss3 \"<LABEL>\" {\n  s3_uploader {\n    region = \"<AWS_REGION>\"\n    s3_bucket = \"<S3_BUCKET_NAME>\"\n    s3_prefix = \"<PREFIX_FOR_S3_KEY>\"\n  }\n}"
+      },
+      "sending_queue": {
+        "description": "Configures batching of data before sending.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.awss3 \"<LABEL>\" {\n  s3_uploader {\n    region = \"<AWS_REGION>\"\n    s3_bucket = \"<S3_BUCKET_NAME>\"\n    s3_prefix = \"<PREFIX_FOR_S3_KEY>\"\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "s3_uploader"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.exporter.awss3 \"${1:default}\" {\n  s3_uploader {\n    s3_bucket = \"${2}\"\n    s3_prefix = \"${3}\"\n  }\n  debug_metrics {\n    $0\n  }\n  marshaler {\n  }\n  resource_attrs_to_s3 {\n    s3_prefix = \"${2}\"\n  }\n  sending_queue {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

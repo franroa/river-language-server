@@ -1,0 +1,55 @@
+{
+  "name": "prometheus.echo",
+  "usage": "prometheus.echo \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "format",
+      "type": "string",
+      "description": "The output format for metrics. Must be text or openmetrics.",
+      "default": "text",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "receiver",
+      "description": "MetricsReceiver",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "MetricsReceiver",
+      "description": "A value that other components can use to send metrics to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.echo",
+    "arguments": {
+      "format": {
+        "type": "string",
+        "description": "The output format for metrics. Must be text or openmetrics.",
+        "default": "text",
+        "required": false
+      }
+    },
+    "blocks": {
+      "receiver": {
+        "description": "MetricsReceiver",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "MetricsReceiver",
+        "description": "A value that other components can use to send metrics to."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.echo \"${1:default}\" {\n  receiver {\n    $0\n  }\n\n  // Exported fields:\n  // - receiver (MetricsReceiver): A value that other components can use to send metrics to.\n}"
+}

@@ -1,0 +1,94 @@
+{
+  "name": "local.file",
+  "usage": "local.file \"<LABEL>\" {\n  filename = \"<FILE_NAME>\"\n}",
+  "arguments": [
+    {
+      "name": "filename",
+      "type": "string",
+      "description": "Path of the file on disk to watch.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "detector",
+      "type": "string",
+      "description": "Which file change detector to use, fsnotify or poll.",
+      "default": "\"fsnotify\"",
+      "required": false
+    },
+    {
+      "name": "is_secret",
+      "type": "bool",
+      "description": "Marks the file as containing a secret.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "poll_frequency",
+      "type": "duration",
+      "description": "How often to poll for file changes.",
+      "default": "\"1m\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "content",
+      "description": "string or secret",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "content",
+      "type": "string or secret",
+      "description": "The contents of the file from the most recent read."
+    }
+  ],
+  "lsp_structure": {
+    "component": "local.file",
+    "arguments": {
+      "filename": {
+        "type": "string",
+        "description": "Path of the file on disk to watch.",
+        "default": "",
+        "required": true
+      },
+      "detector": {
+        "type": "string",
+        "description": "Which file change detector to use, fsnotify or poll.",
+        "default": "\"fsnotify\"",
+        "required": false
+      },
+      "is_secret": {
+        "type": "bool",
+        "description": "Marks the file as containing a secret.",
+        "default": "false",
+        "required": false
+      },
+      "poll_frequency": {
+        "type": "duration",
+        "description": "How often to poll for file changes.",
+        "default": "\"1m\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "content": {
+        "description": "string or secret",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "content": {
+        "type": "string or secret",
+        "description": "The contents of the file from the most recent read."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "local.file \"${1:default}\" {\n  content {\n    $0\n  }\n\n  // Exported fields:\n  // - content (string or secret): The contents of the file from the most recent read.\n}"
+}

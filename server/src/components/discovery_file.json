@@ -1,0 +1,68 @@
+{
+  "name": "discovery.file",
+  "usage": "discovery.file \"<LABEL>\" {\n  files = [\"<FILE_PATH_1>\", \"<FILE_PATH_2>\", ...]\n}",
+  "arguments": [
+    {
+      "name": "files",
+      "type": "list(string)",
+      "description": "Files to read and discover targets from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "How often to sync targets.",
+      "default": "\"5m\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the filesystem."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.file",
+    "arguments": {
+      "files": {
+        "type": "list(string)",
+        "description": "Files to read and discover targets from.",
+        "default": "",
+        "required": true
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "How often to sync targets.",
+        "default": "\"5m\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the filesystem."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.file \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the filesystem.\n}"
+}

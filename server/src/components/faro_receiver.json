@@ -1,0 +1,279 @@
+{
+  "name": "faro.receiver",
+  "usage": "faro.receiver \"<LABEL>\" {\n    output {\n        logs   = [<LOKI_RECEIVERS>]\n        traces = [<OTELCOL_COMPONENTS>]\n    }\n}",
+  "arguments": [
+    {
+      "name": "extra_log_labels",
+      "type": "map(string)",
+      "description": "Extra labels to attach to emitted log lines.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "log_format",
+      "type": "string",
+      "description": "Export format for the logs.",
+      "default": "\"logfmt\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send collected telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/faro/faro.receiver/#output"
+    },
+    {
+      "block": "server",
+      "description": "Configures the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/faro/faro.receiver/#server"
+    },
+    {
+      "block": "server > rate_limiting",
+      "description": "Configures rate limiting for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/faro/faro.receiver/#rate_limiting"
+    },
+    {
+      "block": "sourcemaps",
+      "description": "Configures sourcemap retrieval.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/faro/faro.receiver/#sourcemaps"
+    },
+    {
+      "block": "sourcemaps > location",
+      "description": "Configures on-disk location for sourcemap retrieval.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/faro/faro.receiver/#location"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "faro.receiver",
+    "arguments": {
+      "extra_log_labels": {
+        "type": "map(string)",
+        "description": "Extra labels to attach to emitted log lines.",
+        "default": "{}",
+        "required": false
+      },
+      "log_format": {
+        "type": "string",
+        "description": "Export format for the logs.",
+        "default": "\"logfmt\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send collected telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(LogsReceiver)",
+            "description": "A list of loki components to forward logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "A list of otelcol components to forward traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "faro.receiver \"<LABEL>\" {\n    output {\n        logs   = [<LOKI_RECEIVERS>]\n        traces = [<OTELCOL_COMPONENTS>]\n    }\n}"
+      },
+      "server": {
+        "description": "Configures the HTTP server.",
+        "required": false,
+        "children": {
+          "rate_limiting": {
+            "description": "Configures rate limiting for the HTTP server.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "extra_log_labels",
+                "type": "map(string)",
+                "description": "Extra labels to attach to emitted log lines.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "log_format",
+                "type": "string",
+                "description": "Export format for the logs.",
+                "default": "\"logfmt\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "faro.receiver \"<LABEL>\" {\n    output {\n        logs   = [<LOKI_RECEIVERS>]\n        traces = [<OTELCOL_COMPONENTS>]\n    }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "listen_address",
+            "type": "string",
+            "description": "Address to listen for HTTP traffic on.",
+            "default": "\"127.0.0.1\"",
+            "required": false
+          },
+          {
+            "name": "listen_port",
+            "type": "number",
+            "description": "Port to listen for HTTP traffic on.",
+            "default": "12347",
+            "required": false
+          },
+          {
+            "name": "cors_allowed_origins",
+            "type": "list(string)",
+            "description": "Origins for which cross-origin requests are permitted.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "api_key",
+            "type": "secret",
+            "description": "Optional API key to validate client requests with.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "max_allowed_payload_size",
+            "type": "string",
+            "description": "Maximum size (in bytes) for client requests.",
+            "default": "\"5MiB\"",
+            "required": false
+          },
+          {
+            "name": "include_metadata",
+            "type": "bool",
+            "description": "Propagate incoming connection metadata to downstream consumers.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Whether to enable rate limiting.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "rate",
+            "type": "number",
+            "description": "Rate of allowed requests per second.",
+            "default": "50",
+            "required": false
+          },
+          {
+            "name": "burst_size",
+            "type": "number",
+            "description": "Allowed burst size of requests.",
+            "default": "100",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "rate_limiting",
+            "description": "Configures rate limiting for the HTTP server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/faro/faro.receiver/#rate_limiting"
+          }
+        ],
+        "usage": "faro.receiver \"<LABEL>\" {\n    output {\n        logs   = [<LOKI_RECEIVERS>]\n        traces = [<OTELCOL_COMPONENTS>]\n    }\n}"
+      },
+      "sourcemaps": {
+        "description": "Configures sourcemap retrieval.",
+        "required": false,
+        "children": {
+          "location": {
+            "description": "Configures on-disk location for sourcemap retrieval.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "extra_log_labels",
+                "type": "map(string)",
+                "description": "Extra labels to attach to emitted log lines.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "log_format",
+                "type": "string",
+                "description": "Export format for the logs.",
+                "default": "\"logfmt\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "faro.receiver \"<LABEL>\" {\n    output {\n        logs   = [<LOKI_RECEIVERS>]\n        traces = [<OTELCOL_COMPONENTS>]\n    }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "download",
+            "type": "bool",
+            "description": "Whether to download sourcemaps.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "download_from_origins",
+            "type": "list(string)",
+            "description": "Which origins to download sourcemaps from.",
+            "default": "[\"*\"]",
+            "required": false
+          },
+          {
+            "name": "download_timeout",
+            "type": "duration",
+            "description": "Timeout when downloading sourcemaps.",
+            "default": "\"1s\"",
+            "required": false
+          },
+          {
+            "name": "minified_path_prefix",
+            "type": "string",
+            "description": "The prefix of the minified path sent from browsers.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": "The path on disk where sourcemaps are stored.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "location",
+            "description": "Configures on-disk location for sourcemap retrieval.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/faro/faro.receiver/#location"
+          }
+        ],
+        "usage": "faro.receiver \"<LABEL>\" {\n    output {\n        logs   = [<LOKI_RECEIVERS>]\n        traces = [<OTELCOL_COMPONENTS>]\n    }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "faro.receiver \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  server {\n  }\n  sourcemaps {\n    minified_path_prefix = \"${5}\"\n    path = \"${6}\"\n  }\n}"
+}

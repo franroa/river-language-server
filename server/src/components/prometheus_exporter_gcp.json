@@ -1,0 +1,146 @@
+{
+  "name": "prometheus.exporter.gcp",
+  "usage": "prometheus.exporter.gcp \"pubsub\" {\n        project_ids = [\n                \"<PROJECT_ID_1>\",\n                \"<PROJECT_ID_2>\",\n        ]\n\n        metrics_prefixes = [\n                \"pubsub.googleapis.com/snapshot\",\n                \"pubsub.googleapis.com/subscription/num_undelivered_messages\",\n                \"pubsub.googleapis.com/subscription/oldest_unacked_message_age\",\n        ]\n}",
+  "arguments": [
+    {
+      "name": "metrics_prefixes",
+      "type": "list(string)",
+      "description": "One or more values from the supported GCP Metrics. These can be as targeted or loose as needed.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "project_ids",
+      "type": "list(string)",
+      "description": "Configure the GCP Projects to scrape for metrics.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "drop_delegated_projects",
+      "type": "bool",
+      "description": "When enabled drops metrics from attached projects and only fetches metrics from the explicitly configured project_ids.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "extra_filters",
+      "type": "list(string)",
+      "description": "Used to refine the resources you would like to collect metrics from. Any string value within a filter string must be enclosed in escaped double-quotes. The structure for these filters is <targeted_metric_prefix>:<filter_query>.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "gcp_client_timeout",
+      "type": "duration",
+      "description": "Sets a timeout on the client used to make API calls to GCP. A single scrape can initiate numerous calls to GCP, so be mindful if you choose to override this value.",
+      "default": "\"15s\"",
+      "required": false
+    },
+    {
+      "name": "ingest_delay",
+      "type": "bool",
+      "description": "When enabled, this automatically adjusts the time range used when querying for metrics backwards based on the metadata GCP has published for how long the data can take to be ingested.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "request_interval",
+      "type": "duration",
+      "description": "The time range used when querying for metrics.",
+      "default": "\"5m\"",
+      "required": false
+    },
+    {
+      "name": "request_offset",
+      "type": "duration",
+      "description": "When enabled this offsets the time range used when querying for metrics by a set amount.",
+      "default": "\"0s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.gcp",
+    "arguments": {
+      "metrics_prefixes": {
+        "type": "list(string)",
+        "description": "One or more values from the supported GCP Metrics. These can be as targeted or loose as needed.",
+        "default": "",
+        "required": true
+      },
+      "project_ids": {
+        "type": "list(string)",
+        "description": "Configure the GCP Projects to scrape for metrics.",
+        "default": "",
+        "required": true
+      },
+      "drop_delegated_projects": {
+        "type": "bool",
+        "description": "When enabled drops metrics from attached projects and only fetches metrics from the explicitly configured project_ids.",
+        "default": "false",
+        "required": false
+      },
+      "extra_filters": {
+        "type": "list(string)",
+        "description": "Used to refine the resources you would like to collect metrics from. Any string value within a filter string must be enclosed in escaped double-quotes. The structure for these filters is <targeted_metric_prefix>:<filter_query>.",
+        "default": "[]",
+        "required": false
+      },
+      "gcp_client_timeout": {
+        "type": "duration",
+        "description": "Sets a timeout on the client used to make API calls to GCP. A single scrape can initiate numerous calls to GCP, so be mindful if you choose to override this value.",
+        "default": "\"15s\"",
+        "required": false
+      },
+      "ingest_delay": {
+        "type": "bool",
+        "description": "When enabled, this automatically adjusts the time range used when querying for metrics backwards based on the metadata GCP has published for how long the data can take to be ingested.",
+        "default": "false",
+        "required": false
+      },
+      "request_interval": {
+        "type": "duration",
+        "description": "The time range used when querying for metrics.",
+        "default": "\"5m\"",
+        "required": false
+      },
+      "request_offset": {
+        "type": "duration",
+        "description": "When enabled this offsets the time range used when querying for metrics by a set amount.",
+        "default": "\"0s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.gcp \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

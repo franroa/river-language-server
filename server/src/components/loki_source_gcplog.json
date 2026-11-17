@@ -1,0 +1,218 @@
+{
+  "name": "loki.source.gcplog",
+  "usage": "loki.source.gcplog \"<LABEL>\" {\n  pull {\n    project_id   = \"<PROJECT_ID>\"\n    subscription = \"<SUB_ID>\"\n  }\n\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "relabel_rules",
+      "type": "RelabelRules",
+      "description": "Relabeling rules to apply on log entries.",
+      "default": "{}",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "pull",
+      "description": "Configures a target to pull logs from a GCP Pub/Sub subscription.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.gcplog/#pull"
+    },
+    {
+      "block": "push",
+      "description": "Configures a server to receive logs as GCP Pub/Sub push requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.gcplog/#push"
+    },
+    {
+      "block": "push > grpc",
+      "description": "Configures the gRPC server that receives requests when using the push mode.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.gcplog/#grpc"
+    },
+    {
+      "block": "push > http",
+      "description": "Configures the HTTP server that receives requests when using the push mode.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.gcplog/#http"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.gcplog",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "relabel_rules": {
+        "type": "RelabelRules",
+        "description": "Relabeling rules to apply on log entries.",
+        "default": "{}",
+        "required": false
+      }
+    },
+    "blocks": {
+      "pull": {
+        "description": "Configures a target to pull logs from a GCP Pub/Sub subscription.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "project_id",
+            "type": "string",
+            "description": "The GCP project id the subscription belongs to.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "subscription",
+            "type": "string",
+            "description": "The subscription to pull logs from.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "labels",
+            "type": "map(string)",
+            "description": "Additional labels to associate with incoming logs.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "use_full_line",
+            "type": "bool",
+            "description": "Send the full line from Cloud Logging even if textPayload is available.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "use_incoming_timestamp",
+            "type": "bool",
+            "description": "Whether to use the incoming log timestamp.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.source.gcplog \"<LABEL>\" {\n  pull {\n    project_id   = \"<PROJECT_ID>\"\n    subscription = \"<SUB_ID>\"\n  }\n\n  forward_to = <RECEIVER_LIST>\n}"
+      },
+      "push": {
+        "description": "Configures a server to receive logs as GCP Pub/Sub push requests.",
+        "required": false,
+        "children": {
+          "grpc": {
+            "description": "Configures the gRPC server that receives requests when using the push mode.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "forward_to",
+                "type": "list(LogsReceiver)",
+                "description": "List of receivers to send log entries to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "relabel_rules",
+                "type": "RelabelRules",
+                "description": "Relabeling rules to apply on log entries.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "loki.source.gcplog \"<LABEL>\" {\n  pull {\n    project_id   = \"<PROJECT_ID>\"\n    subscription = \"<SUB_ID>\"\n  }\n\n  forward_to = <RECEIVER_LIST>\n}"
+          },
+          "http": {
+            "description": "Configures the HTTP server that receives requests when using the push mode.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "forward_to",
+                "type": "list(LogsReceiver)",
+                "description": "List of receivers to send log entries to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "relabel_rules",
+                "type": "RelabelRules",
+                "description": "Relabeling rules to apply on log entries.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "loki.source.gcplog \"<LABEL>\" {\n  pull {\n    project_id   = \"<PROJECT_ID>\"\n    subscription = \"<SUB_ID>\"\n  }\n\n  forward_to = <RECEIVER_LIST>\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "graceful_shutdown_timeout",
+            "type": "duration",
+            "description": "Timeout for servers graceful shutdown. If configured, should be greater than zero.",
+            "default": "\"30s\"",
+            "required": false
+          },
+          {
+            "name": "labels",
+            "type": "map(string)",
+            "description": "Additional labels to associate with incoming entries.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "push_timeout",
+            "type": "duration",
+            "description": "Sets a maximum processing time for each incoming GCP log entry.",
+            "default": "\"0s\"",
+            "required": false
+          },
+          {
+            "name": "use_full_line",
+            "type": "bool",
+            "description": "Send the full line from Cloud Logging even if textPayload is available. If textPayload is present in the line, it’s used as log line.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "use_incoming_timestamp",
+            "type": "bool",
+            "description": "Whether to use the incoming entry timestamp.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "grpc",
+            "description": "Configures the gRPC server that receives requests when using the push mode.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.gcplog/#grpc"
+          },
+          {
+            "block": "http",
+            "description": "Configures the HTTP server that receives requests when using the push mode.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.gcplog/#http"
+          }
+        ],
+        "usage": "loki.source.gcplog \"<LABEL>\" {\n  pull {\n    project_id   = \"<PROJECT_ID>\"\n    subscription = \"<SUB_ID>\"\n  }\n\n  forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.gcplog \"${1:default}\" {\n  pull {\n    project_id = \"${2}\"\n    subscription = \"${3}\"\n  }\n  push {\n  }\n}"
+}

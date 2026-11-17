@@ -1,0 +1,41 @@
+// Test cases for unknown block validation
+
+// This should be valid - endpoint and wal are defined blocks for prometheus.remote_write
+prometheus.remote_write "valid" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	wal {
+		retention = "1h"
+	}
+	
+	external_labels = {
+		env = "test"
+	},
+}
+
+// This should trigger errors for unknown blocks
+prometheus.remote_write "invalid" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	// These blocks don't exist in prometheus.remote_write definition
+	invalid_block {
+		some_prop = "value"
+	}
+	
+	another_fake_block {
+		test = "data"
+	}
+	
+	basic_auth {
+		username = "user"
+		password = "pass"
+	}
+	
+	tls_config {
+		cert_file = "/path/to/cert.pem"
+	}
+}

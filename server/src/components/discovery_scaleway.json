@@ -1,0 +1,279 @@
+{
+  "name": "discovery.scaleway",
+  "usage": "discovery.scaleway \"<LABEL>\" {\n    project_id = \"<SCALEWAY_PROJECT_ID>\"\n    role       = \"<SCALEWAY_PROJECT_ROLE>\"\n    access_key = \"<SCALEWAY_ACCESS_KEY>\"\n    secret_key = \"<SCALEWAY_SECRET_KEY>\"\n}",
+  "arguments": [
+    {
+      "name": "access_key",
+      "type": "string",
+      "description": "Access key for the Scaleway API.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "project_id",
+      "type": "string",
+      "description": "Scaleway project ID of targets.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "role",
+      "type": "string",
+      "description": "Role of targets to retrieve.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "secret_key_file",
+      "type": "string",
+      "description": "Path to file containing secret key for the Scaleway API.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "secret_key",
+      "type": "secret",
+      "description": "Secret key for the Scaleway API.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "api_url",
+      "type": "string",
+      "description": "Scaleway API URL.",
+      "default": "\"https://api.scaleway.com\"",
+      "required": false
+    },
+    {
+      "name": "enable_http2",
+      "type": "bool",
+      "description": "Whether HTTP2 is supported for requests.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "follow_redirects",
+      "type": "bool",
+      "description": "Whether redirects returned by the server should be followed.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "http_headers",
+      "type": "map(list(secret))",
+      "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "name_filter",
+      "type": "string",
+      "description": "Name filter to apply against the listing request.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "no_proxy",
+      "type": "string",
+      "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "port",
+      "type": "number",
+      "description": "Default port on servers to associate with generated targets.",
+      "default": "80",
+      "required": false
+    },
+    {
+      "name": "proxy_connect_header",
+      "type": "map(list(secret))",
+      "description": "Specifies headers to send to proxies during CONNECT requests.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "proxy_from_environment",
+      "type": "bool",
+      "description": "Use the proxy URL indicated by environment variables.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "proxy_url",
+      "type": "string",
+      "description": "HTTP proxy to send requests through.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Frequency to rediscover targets.",
+      "default": "\"60s\"",
+      "required": false
+    },
+    {
+      "name": "tags_filter",
+      "type": "list(string)",
+      "description": "List of tags to search for.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "zone",
+      "type": "string",
+      "description": "Availability zone of targets.",
+      "default": "\"fr-par-1\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.scaleway/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the Consul catalog API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.scaleway",
+    "arguments": {
+      "access_key": {
+        "type": "string",
+        "description": "Access key for the Scaleway API.",
+        "default": "",
+        "required": true
+      },
+      "project_id": {
+        "type": "string",
+        "description": "Scaleway project ID of targets.",
+        "default": "",
+        "required": true
+      },
+      "role": {
+        "type": "string",
+        "description": "Role of targets to retrieve.",
+        "default": "",
+        "required": true
+      },
+      "secret_key_file": {
+        "type": "string",
+        "description": "Path to file containing secret key for the Scaleway API.",
+        "default": "",
+        "required": false
+      },
+      "secret_key": {
+        "type": "secret",
+        "description": "Secret key for the Scaleway API.",
+        "default": "",
+        "required": false
+      },
+      "api_url": {
+        "type": "string",
+        "description": "Scaleway API URL.",
+        "default": "\"https://api.scaleway.com\"",
+        "required": false
+      },
+      "enable_http2": {
+        "type": "bool",
+        "description": "Whether HTTP2 is supported for requests.",
+        "default": "true",
+        "required": false
+      },
+      "follow_redirects": {
+        "type": "bool",
+        "description": "Whether redirects returned by the server should be followed.",
+        "default": "true",
+        "required": false
+      },
+      "http_headers": {
+        "type": "map(list(secret))",
+        "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+        "default": "",
+        "required": false
+      },
+      "name_filter": {
+        "type": "string",
+        "description": "Name filter to apply against the listing request.",
+        "default": "",
+        "required": false
+      },
+      "no_proxy": {
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "",
+        "required": false
+      },
+      "port": {
+        "type": "number",
+        "description": "Default port on servers to associate with generated targets.",
+        "default": "80",
+        "required": false
+      },
+      "proxy_connect_header": {
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      "proxy_from_environment": {
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      "proxy_url": {
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Frequency to rediscover targets.",
+        "default": "\"60s\"",
+        "required": false
+      },
+      "tags_filter": {
+        "type": "list(string)",
+        "description": "List of tags to search for.",
+        "default": "",
+        "required": false
+      },
+      "zone": {
+        "type": "string",
+        "description": "Availability zone of targets.",
+        "default": "\"fr-par-1\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "tls_config": {
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.scaleway \"<LABEL>\" {\n    project_id = \"<SCALEWAY_PROJECT_ID>\"\n    role       = \"<SCALEWAY_PROJECT_ROLE>\"\n    access_key = \"<SCALEWAY_ACCESS_KEY>\"\n    secret_key = \"<SCALEWAY_SECRET_KEY>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the Consul catalog API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.scaleway \"${1:default}\" {\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the Consul catalog API.\n}"
+}

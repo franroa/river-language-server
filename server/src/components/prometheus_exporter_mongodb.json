@@ -1,0 +1,276 @@
+{
+  "name": "prometheus.exporter.mongodb",
+  "usage": "prometheus.exporter.mongodb \"<LABEL>\" {\n    mongodb_uri = \"<MONGODB_URI>\"\n}",
+  "arguments": [
+    {
+      "name": "mongodb_uri",
+      "type": "secret",
+      "description": "MongoDB node connection URI.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "collect_all",
+      "type": "bool",
+      "description": "Enables all collectors.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "compatible_mode",
+      "type": "bool",
+      "description": "Enables metric names compatible with mongodb_exporter <v0.20.0.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "direct_connect",
+      "type": "bool",
+      "description": "Whether or not a direct connect should be made. Direct connections aren’t valid if multiple hosts are specified or an SRV URI is used.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "discovering_mode",
+      "type": "bool",
+      "description": "Whether or not to enable autodiscover collections.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_coll_stats",
+      "type": "bool",
+      "description": "Enables collecting collection statistics.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_currentop_metrics",
+      "type": "bool",
+      "description": "Enables collecting current operation metrics.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_db_stats_free_storage",
+      "type": "bool",
+      "description": "Enables collecting free storage statistics from dbStats.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_db_stats",
+      "type": "bool",
+      "description": "Enables collecting database statistics.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_diagnostic_data",
+      "type": "bool",
+      "description": "Enables collecting diagnostic data.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_fcv",
+      "type": "bool",
+      "description": "Enables collecting Feature Compatibility Version (FCV) metrics.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_index_stats",
+      "type": "bool",
+      "description": "Enables collecting index statistics.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_pbm_metrics",
+      "type": "bool",
+      "description": "Enables collecting Percona Backup for MongoDB (PBM) metrics.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_profile",
+      "type": "bool",
+      "description": "Enables collecting profile metrics.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_replicaset_config",
+      "type": "bool",
+      "description": "Enables collecting replica set configuration.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_replicaset_status",
+      "type": "bool",
+      "description": "Enables collecting replica set status.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_shards",
+      "type": "bool",
+      "description": "Enables collecting sharding information.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enable_top_metrics",
+      "type": "bool",
+      "description": "Enables collecting top metrics.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.mongodb",
+    "arguments": {
+      "mongodb_uri": {
+        "type": "secret",
+        "description": "MongoDB node connection URI.",
+        "default": "",
+        "required": true
+      },
+      "collect_all": {
+        "type": "bool",
+        "description": "Enables all collectors.",
+        "default": "true",
+        "required": false
+      },
+      "compatible_mode": {
+        "type": "bool",
+        "description": "Enables metric names compatible with mongodb_exporter <v0.20.0.",
+        "default": "true",
+        "required": false
+      },
+      "direct_connect": {
+        "type": "bool",
+        "description": "Whether or not a direct connect should be made. Direct connections aren’t valid if multiple hosts are specified or an SRV URI is used.",
+        "default": "false",
+        "required": false
+      },
+      "discovering_mode": {
+        "type": "bool",
+        "description": "Whether or not to enable autodiscover collections.",
+        "default": "false",
+        "required": false
+      },
+      "enable_coll_stats": {
+        "type": "bool",
+        "description": "Enables collecting collection statistics.",
+        "default": "false",
+        "required": false
+      },
+      "enable_currentop_metrics": {
+        "type": "bool",
+        "description": "Enables collecting current operation metrics.",
+        "default": "false",
+        "required": false
+      },
+      "enable_db_stats_free_storage": {
+        "type": "bool",
+        "description": "Enables collecting free storage statistics from dbStats.",
+        "default": "false",
+        "required": false
+      },
+      "enable_db_stats": {
+        "type": "bool",
+        "description": "Enables collecting database statistics.",
+        "default": "false",
+        "required": false
+      },
+      "enable_diagnostic_data": {
+        "type": "bool",
+        "description": "Enables collecting diagnostic data.",
+        "default": "false",
+        "required": false
+      },
+      "enable_fcv": {
+        "type": "bool",
+        "description": "Enables collecting Feature Compatibility Version (FCV) metrics.",
+        "default": "false",
+        "required": false
+      },
+      "enable_index_stats": {
+        "type": "bool",
+        "description": "Enables collecting index statistics.",
+        "default": "false",
+        "required": false
+      },
+      "enable_pbm_metrics": {
+        "type": "bool",
+        "description": "Enables collecting Percona Backup for MongoDB (PBM) metrics.",
+        "default": "false",
+        "required": false
+      },
+      "enable_profile": {
+        "type": "bool",
+        "description": "Enables collecting profile metrics.",
+        "default": "false",
+        "required": false
+      },
+      "enable_replicaset_config": {
+        "type": "bool",
+        "description": "Enables collecting replica set configuration.",
+        "default": "false",
+        "required": false
+      },
+      "enable_replicaset_status": {
+        "type": "bool",
+        "description": "Enables collecting replica set status.",
+        "default": "false",
+        "required": false
+      },
+      "enable_shards": {
+        "type": "bool",
+        "description": "Enables collecting sharding information.",
+        "default": "false",
+        "required": false
+      },
+      "enable_top_metrics": {
+        "type": "bool",
+        "description": "Enables collecting top metrics.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.mongodb \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

@@ -1,0 +1,120 @@
+{
+  "name": "prometheus.exporter.github",
+  "usage": "prometheus.exporter.github \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "api_token_file",
+      "type": "string",
+      "description": "File containing API token to use to authenticate against GitHub.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "api_token",
+      "type": "secret",
+      "description": "API token to use to authenticate against GitHub.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "api_url",
+      "type": "string",
+      "description": "The full URI of the GitHub API.",
+      "default": "\"https://api.github.com\"",
+      "required": false
+    },
+    {
+      "name": "organizations",
+      "type": "list(string)",
+      "description": "GitHub organizations for which to collect metrics.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "repositories",
+      "type": "list(string)",
+      "description": "GitHub repositories for which to collect metrics.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "users",
+      "type": "list(string)",
+      "description": "A list of GitHub users for which to collect metrics.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.github",
+    "arguments": {
+      "api_token_file": {
+        "type": "string",
+        "description": "File containing API token to use to authenticate against GitHub.",
+        "default": "",
+        "required": false
+      },
+      "api_token": {
+        "type": "secret",
+        "description": "API token to use to authenticate against GitHub.",
+        "default": "",
+        "required": false
+      },
+      "api_url": {
+        "type": "string",
+        "description": "The full URI of the GitHub API.",
+        "default": "\"https://api.github.com\"",
+        "required": false
+      },
+      "organizations": {
+        "type": "list(string)",
+        "description": "GitHub organizations for which to collect metrics.",
+        "default": "",
+        "required": false
+      },
+      "repositories": {
+        "type": "list(string)",
+        "description": "GitHub repositories for which to collect metrics.",
+        "default": "",
+        "required": false
+      },
+      "users": {
+        "type": "list(string)",
+        "description": "A list of GitHub users for which to collect metrics.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.github \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

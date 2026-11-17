@@ -1,0 +1,724 @@
+{
+  "name": "loki.rules.kubernetes",
+  "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}",
+  "arguments": [
+    {
+      "name": "address",
+      "type": "string",
+      "description": "URL of the Loki ruler.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "bearer_token_file",
+      "type": "string",
+      "description": "File containing a bearer token to authenticate with.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "bearer_token",
+      "type": "secret",
+      "description": "Bearer token to authenticate with.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "enable_http2",
+      "type": "bool",
+      "description": "Whether HTTP2 is supported for requests.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "follow_redirects",
+      "type": "bool",
+      "description": "Whether redirects returned by the server should be followed.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "http_headers",
+      "type": "map(list(secret))",
+      "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "loki_namespace_prefix",
+      "type": "string",
+      "description": "Prefix used to differentiate multiple Alloy deployments.",
+      "default": "\"alloy\"",
+      "required": false
+    },
+    {
+      "name": "proxy_url",
+      "type": "string",
+      "description": "HTTP proxy to proxy requests through.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "sync_interval",
+      "type": "duration",
+      "description": "Amount of time between reconciliations with Loki.",
+      "default": "\"30s\"",
+      "required": false
+    },
+    {
+      "name": "tenant_id",
+      "type": "string",
+      "description": "Loki tenant ID.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "use_legacy_routes",
+      "type": "bool",
+      "description": "Whether to use deprecated ruler API endpoints.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "authorization",
+      "description": "Configure generic authorization to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#authorization"
+    },
+    {
+      "block": "basic_auth",
+      "description": "Configure basic_auth for authenticating to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#basic_auth"
+    },
+    {
+      "block": "extra_query_matchers",
+      "description": "Additional label matchers to add to each query.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#extra_query_matchers"
+    },
+    {
+      "block": "extra_query_matchers > matcher",
+      "description": "A label matcher to add to each query.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#matcher"
+    },
+    {
+      "block": "rule_namespace_selector",
+      "description": "Label selector for Namespace resources.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#rule_selector-and-rule_namespace_selector"
+    },
+    {
+      "block": "rule_namespace_selector > match_expression",
+      "description": "Label match expression for Namespace resources.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#match_expression"
+    },
+    {
+      "block": "rule_selector",
+      "description": "Label selector for PrometheusRule resources.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#rule_selector-and-rule_namespace_selector"
+    },
+    {
+      "block": "rule_selector > match_expression",
+      "description": "Label match expression for PrometheusRule resources.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#match_expression"
+    },
+    {
+      "block": "oauth2",
+      "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#oauth2"
+    },
+    {
+      "block": "oauth2 > tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#tls_config"
+    },
+    {
+      "block": "tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "loki_rules_config_updates_total",
+      "type": "counter",
+      "description": "Number of times the configuration has been updated."
+    },
+    {
+      "name": "loki_rules_events_total",
+      "type": "counter",
+      "description": "Number of events processed, partitioned by event type."
+    },
+    {
+      "name": "loki_rules_events_failed_total",
+      "type": "counter",
+      "description": "Number of events that failed to be processed, partitioned by event type."
+    },
+    {
+      "name": "loki_rules_events_retried_total",
+      "type": "counter",
+      "description": "Number of events that were retried, partitioned by event type."
+    },
+    {
+      "name": "loki_rules_client_request_duration_seconds",
+      "type": "histogram",
+      "description": "Duration of requests to the Loki API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "loki.rules.kubernetes",
+    "arguments": {
+      "address": {
+        "type": "string",
+        "description": "URL of the Loki ruler.",
+        "default": "",
+        "required": true
+      },
+      "bearer_token_file": {
+        "type": "string",
+        "description": "File containing a bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      "bearer_token": {
+        "type": "secret",
+        "description": "Bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      "enable_http2": {
+        "type": "bool",
+        "description": "Whether HTTP2 is supported for requests.",
+        "default": "true",
+        "required": false
+      },
+      "follow_redirects": {
+        "type": "bool",
+        "description": "Whether redirects returned by the server should be followed.",
+        "default": "true",
+        "required": false
+      },
+      "http_headers": {
+        "type": "map(list(secret))",
+        "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+        "default": "",
+        "required": false
+      },
+      "loki_namespace_prefix": {
+        "type": "string",
+        "description": "Prefix used to differentiate multiple Alloy deployments.",
+        "default": "\"alloy\"",
+        "required": false
+      },
+      "proxy_url": {
+        "type": "string",
+        "description": "HTTP proxy to proxy requests through.",
+        "default": "",
+        "required": false
+      },
+      "sync_interval": {
+        "type": "duration",
+        "description": "Amount of time between reconciliations with Loki.",
+        "default": "\"30s\"",
+        "required": false
+      },
+      "tenant_id": {
+        "type": "string",
+        "description": "Loki tenant ID.",
+        "default": "",
+        "required": false
+      },
+      "use_legacy_routes": {
+        "type": "bool",
+        "description": "Whether to use deprecated ruler API endpoints.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "authorization": {
+        "description": "Configure generic authorization to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+      },
+      "basic_auth": {
+        "description": "Configure basic_auth for authenticating to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+      },
+      "extra_query_matchers": {
+        "description": "Additional label matchers to add to each query.",
+        "required": false,
+        "children": {
+          "matcher": {
+            "description": "A label matcher to add to each query.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "address",
+                "type": "string",
+                "description": "URL of the Loki ruler.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "bearer_token_file",
+                "type": "string",
+                "description": "File containing a bearer token to authenticate with.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "bearer_token",
+                "type": "secret",
+                "description": "Bearer token to authenticate with.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "enable_http2",
+                "type": "bool",
+                "description": "Whether HTTP2 is supported for requests.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "follow_redirects",
+                "type": "bool",
+                "description": "Whether redirects returned by the server should be followed.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "http_headers",
+                "type": "map(list(secret))",
+                "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "loki_namespace_prefix",
+                "type": "string",
+                "description": "Prefix used to differentiate multiple Alloy deployments.",
+                "default": "\"alloy\"",
+                "required": false
+              },
+              {
+                "name": "proxy_url",
+                "type": "string",
+                "description": "HTTP proxy to proxy requests through.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "sync_interval",
+                "type": "duration",
+                "description": "Amount of time between reconciliations with Loki.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "tenant_id",
+                "type": "string",
+                "description": "Loki tenant ID.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "use_legacy_routes",
+                "type": "bool",
+                "description": "Whether to use deprecated ruler API endpoints.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "matcher",
+            "description": "A label matcher to add to each query.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#matcher"
+          }
+        ],
+        "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+      },
+      "rule_namespace_selector": {
+        "description": "Label selector for Namespace resources.",
+        "required": false,
+        "children": {
+          "match_expression": {
+            "description": "Label match expression for Namespace resources.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "address",
+                "type": "string",
+                "description": "URL of the Loki ruler.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "bearer_token_file",
+                "type": "string",
+                "description": "File containing a bearer token to authenticate with.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "bearer_token",
+                "type": "secret",
+                "description": "Bearer token to authenticate with.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "enable_http2",
+                "type": "bool",
+                "description": "Whether HTTP2 is supported for requests.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "follow_redirects",
+                "type": "bool",
+                "description": "Whether redirects returned by the server should be followed.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "http_headers",
+                "type": "map(list(secret))",
+                "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "loki_namespace_prefix",
+                "type": "string",
+                "description": "Prefix used to differentiate multiple Alloy deployments.",
+                "default": "\"alloy\"",
+                "required": false
+              },
+              {
+                "name": "proxy_url",
+                "type": "string",
+                "description": "HTTP proxy to proxy requests through.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "sync_interval",
+                "type": "duration",
+                "description": "Amount of time between reconciliations with Loki.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "tenant_id",
+                "type": "string",
+                "description": "Loki tenant ID.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "use_legacy_routes",
+                "type": "bool",
+                "description": "Whether to use deprecated ruler API endpoints.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "match_labels",
+            "type": "map(string)",
+            "description": "Label keys and values used to discover resources.",
+            "default": "{}",
+            "required": true
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "match_expression",
+            "description": "Label match expression for Namespace resources.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#match_expression"
+          }
+        ],
+        "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+      },
+      "rule_selector": {
+        "description": "Label selector for PrometheusRule resources.",
+        "required": false,
+        "children": {
+          "match_expression": {
+            "description": "Label match expression for PrometheusRule resources.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "address",
+                "type": "string",
+                "description": "URL of the Loki ruler.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "bearer_token_file",
+                "type": "string",
+                "description": "File containing a bearer token to authenticate with.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "bearer_token",
+                "type": "secret",
+                "description": "Bearer token to authenticate with.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "enable_http2",
+                "type": "bool",
+                "description": "Whether HTTP2 is supported for requests.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "follow_redirects",
+                "type": "bool",
+                "description": "Whether redirects returned by the server should be followed.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "http_headers",
+                "type": "map(list(secret))",
+                "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "loki_namespace_prefix",
+                "type": "string",
+                "description": "Prefix used to differentiate multiple Alloy deployments.",
+                "default": "\"alloy\"",
+                "required": false
+              },
+              {
+                "name": "proxy_url",
+                "type": "string",
+                "description": "HTTP proxy to proxy requests through.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "sync_interval",
+                "type": "duration",
+                "description": "Amount of time between reconciliations with Loki.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "tenant_id",
+                "type": "string",
+                "description": "Loki tenant ID.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "use_legacy_routes",
+                "type": "bool",
+                "description": "Whether to use deprecated ruler API endpoints.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "match_labels",
+            "type": "map(string)",
+            "description": "Label keys and values used to discover resources.",
+            "default": "{}",
+            "required": true
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "match_expression",
+            "description": "Label match expression for PrometheusRule resources.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#match_expression"
+          }
+        ],
+        "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+      },
+      "oauth2": {
+        "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+        "required": false,
+        "children": {
+          "tls_config": {
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "address",
+                "type": "string",
+                "description": "URL of the Loki ruler.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "bearer_token_file",
+                "type": "string",
+                "description": "File containing a bearer token to authenticate with.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "bearer_token",
+                "type": "secret",
+                "description": "Bearer token to authenticate with.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "enable_http2",
+                "type": "bool",
+                "description": "Whether HTTP2 is supported for requests.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "follow_redirects",
+                "type": "bool",
+                "description": "Whether redirects returned by the server should be followed.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "http_headers",
+                "type": "map(list(secret))",
+                "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "loki_namespace_prefix",
+                "type": "string",
+                "description": "Prefix used to differentiate multiple Alloy deployments.",
+                "default": "\"alloy\"",
+                "required": false
+              },
+              {
+                "name": "proxy_url",
+                "type": "string",
+                "description": "HTTP proxy to proxy requests through.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "sync_interval",
+                "type": "duration",
+                "description": "Amount of time between reconciliations with Loki.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "tenant_id",
+                "type": "string",
+                "description": "Loki tenant ID.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "use_legacy_routes",
+                "type": "bool",
+                "description": "Whether to use deprecated ruler API endpoints.",
+                "default": "false",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tls_config",
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.rules.kubernetes/#tls_config"
+          }
+        ],
+        "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+      },
+      "tls_config": {
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.rules.kubernetes \"<LABEL>\" {\n  address = \"<LOKI_RULER_URL>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "loki_rules_config_updates_total": {
+        "type": "counter",
+        "description": "Number of times the configuration has been updated."
+      },
+      "loki_rules_events_total": {
+        "type": "counter",
+        "description": "Number of events processed, partitioned by event type."
+      },
+      "loki_rules_events_failed_total": {
+        "type": "counter",
+        "description": "Number of events that failed to be processed, partitioned by event type."
+      },
+      "loki_rules_events_retried_total": {
+        "type": "counter",
+        "description": "Number of events that were retried, partitioned by event type."
+      },
+      "loki_rules_client_request_duration_seconds": {
+        "type": "histogram",
+        "description": "Duration of requests to the Loki API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.rules.kubernetes \"${1:default}\" {\n  authorization {\n    $0\n  }\n  basic_auth {\n    $0\n  }\n  extra_query_matchers {\n  }\n  rule_namespace_selector {\n    match_labels = {}\n  }\n  rule_selector {\n    match_labels = {}\n  }\n  oauth2 {\n  }\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - loki_rules_config_updates_total (counter): Number of times the configuration has been updated.\n  // - loki_rules_events_total (counter): Number of events processed, partitioned by event type.\n  // - loki_rules_events_failed_total (counter): Number of events that failed to be processed, partitioned by event type.\n  // - loki_rules_events_retried_total (counter): Number of events that were retried, partitioned by event type.\n  // - loki_rules_client_request_duration_seconds (histogram): Duration of requests to the Loki API.\n}"
+}

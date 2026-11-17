@@ -1,0 +1,73 @@
+{
+  "name": "pyroscope.java",
+  "usage": "pyroscope.java \"<LABEL>\" {\n  targets    = <TARGET_LIST>\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(ProfilesReceiver)",
+      "description": "List of receivers to send collected profiles to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "List of java process targets to profile.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "tmp_dir",
+      "type": "string",
+      "description": "Temporary directory to store async-profiler.",
+      "default": "\"/tmp\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "profiling_config`",
+      "description": "Describes java profiling configuration.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/pyroscope/pyroscope.java/#profiling_config"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "pyroscope.java",
+    "arguments": {
+      "forward_to": {
+        "type": "list(ProfilesReceiver)",
+        "description": "List of receivers to send collected profiles to.",
+        "default": "",
+        "required": true
+      },
+      "targets": {
+        "type": "list(map(string))",
+        "description": "List of java process targets to profile.",
+        "default": "",
+        "required": true
+      },
+      "tmp_dir": {
+        "type": "string",
+        "description": "Temporary directory to store async-profiler.",
+        "default": "\"/tmp\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "profiling_config`": {
+        "description": "Describes java profiling configuration.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "pyroscope.java \"<LABEL>\" {\n  targets    = <TARGET_LIST>\n  forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "pyroscope.java \"${1:default}\" {\n  profiling_config` {\n    $0\n  }\n}"
+}

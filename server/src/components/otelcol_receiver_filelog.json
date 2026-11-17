@@ -1,0 +1,787 @@
+{
+  "name": "otelcol.receiver.filelog",
+  "usage": "otelcol.receiver.filelog \"<LABEL>\" {\n  include = [...]\n  output {\n    logs    = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "include",
+      "type": "list(string)",
+      "description": "A list of glob patterns to include files.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "acquire_fs_lock",
+      "type": "bool",
+      "description": "Whether to acquire a file system lock while reading the file (Unix only).",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "attributes",
+      "type": "map(string)",
+      "description": "A map of attributes to add to each log entry.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "compression",
+      "type": "string",
+      "description": "The compression type used for the log file.",
+      "default": "``",
+      "required": false
+    },
+    {
+      "name": "delete_after_read",
+      "type": "bool",
+      "description": "Whether to delete the file after reading.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "encoding",
+      "type": "string",
+      "description": "The encoding of the log file.",
+      "default": "\"utf-8\"",
+      "required": false
+    },
+    {
+      "name": "exclude_older_than",
+      "type": "duration",
+      "description": "Exclude files with a modification time older than the specified duration.",
+      "default": "\"0s\"",
+      "required": false
+    },
+    {
+      "name": "exclude",
+      "type": "list(string)",
+      "description": "A list of glob patterns to exclude files that would be included by the include patterns.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "fingerprint_size",
+      "type": "units.Base2Bytes",
+      "description": "The size of the fingerprint used to detect file changes.",
+      "default": "1KiB",
+      "required": false
+    },
+    {
+      "name": "force_flush_period",
+      "type": "duration",
+      "description": "The period after which logs are flushed even if the buffer isn’t full.",
+      "default": "\"500ms\"",
+      "required": false
+    },
+    {
+      "name": "include_file_name_resolved",
+      "type": "bool",
+      "description": "Whether to include the resolved filename in the log entry.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "include_file_name",
+      "type": "bool",
+      "description": "Whether to include the filename in the log entry.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "include_file_owner_group_name",
+      "type": "bool",
+      "description": "Whether to include the file owner’s group name in the log entry.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "include_file_owner_name",
+      "type": "bool",
+      "description": "Whether to include the file owner’s name in the log entry.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "include_file_path_resolved",
+      "type": "bool",
+      "description": "Whether to include the resolved file path in the log entry.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "include_file_path",
+      "type": "bool",
+      "description": "Whether to include the file path in the log entry.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "include_file_record_number",
+      "type": "bool",
+      "description": "Whether to include the file record number in the log entry.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "max_batches",
+      "type": "int",
+      "description": "The maximum number of batches to process concurrently.",
+      "default": "10",
+      "required": false
+    },
+    {
+      "name": "max_concurrent_files",
+      "type": "int",
+      "description": "The maximum number of files to read concurrently.",
+      "default": "10",
+      "required": false
+    },
+    {
+      "name": "max_log_size",
+      "type": "units.Base2Bytes",
+      "description": "The maximum size of a log entry.",
+      "default": "1MiB",
+      "required": false
+    },
+    {
+      "name": "operators",
+      "type": "list(map(string))",
+      "description": "A list of operators used to parse the log entries.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "poll_interval",
+      "type": "duration",
+      "description": "The interval at which the file is polled for new entries.",
+      "default": "\"200ms\"",
+      "required": false
+    },
+    {
+      "name": "preserve_leading_whitespaces",
+      "type": "bool",
+      "description": "Preserves leading whitespace in messages when set to true.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "preserve_trailing_whitespaces",
+      "type": "bool",
+      "description": "Preserves trailing whitespace in messages when set to true.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "resource",
+      "type": "map(string)",
+      "description": "A map of resource attributes to associate with each log entry.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "start_at",
+      "type": "string",
+      "description": "The position to start reading the file from.",
+      "default": "\"end\"",
+      "required": false
+    },
+    {
+      "name": "storage",
+      "type": "capsule(otelcol.Handler)",
+      "description": "Handler from an otelcol.storage component to use for persisting state.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.filelog/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.filelog/#debug_metrics"
+    },
+    {
+      "block": "header",
+      "description": "Configures rules for parsing a log header line",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.filelog/#header"
+    },
+    {
+      "block": "multiline",
+      "description": "Configures rules for multiline parsing of log messages",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.filelog/#multiline"
+    },
+    {
+      "block": "ordering_criteria",
+      "description": "Configures the order in which log files are processed.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.filelog/#ordering_criteria"
+    },
+    {
+      "block": "ordering_criteria > sort_by",
+      "description": "Configures the fields to sort by within the ordering criteria.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.filelog/#sort_by"
+    },
+    {
+      "block": "retry_on_failure",
+      "description": "Configures the retry behavior when the receiver encounters an error downstream in the pipeline.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.filelog/#retry_on_failure"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.filelog",
+    "arguments": {
+      "include": {
+        "type": "list(string)",
+        "description": "A list of glob patterns to include files.",
+        "default": "",
+        "required": true
+      },
+      "acquire_fs_lock": {
+        "type": "bool",
+        "description": "Whether to acquire a file system lock while reading the file (Unix only).",
+        "default": "false",
+        "required": false
+      },
+      "attributes": {
+        "type": "map(string)",
+        "description": "A map of attributes to add to each log entry.",
+        "default": "{}",
+        "required": false
+      },
+      "compression": {
+        "type": "string",
+        "description": "The compression type used for the log file.",
+        "default": "``",
+        "required": false
+      },
+      "delete_after_read": {
+        "type": "bool",
+        "description": "Whether to delete the file after reading.",
+        "default": "false",
+        "required": false
+      },
+      "encoding": {
+        "type": "string",
+        "description": "The encoding of the log file.",
+        "default": "\"utf-8\"",
+        "required": false
+      },
+      "exclude_older_than": {
+        "type": "duration",
+        "description": "Exclude files with a modification time older than the specified duration.",
+        "default": "\"0s\"",
+        "required": false
+      },
+      "exclude": {
+        "type": "list(string)",
+        "description": "A list of glob patterns to exclude files that would be included by the include patterns.",
+        "default": "[]",
+        "required": false
+      },
+      "fingerprint_size": {
+        "type": "units.Base2Bytes",
+        "description": "The size of the fingerprint used to detect file changes.",
+        "default": "1KiB",
+        "required": false
+      },
+      "force_flush_period": {
+        "type": "duration",
+        "description": "The period after which logs are flushed even if the buffer isn’t full.",
+        "default": "\"500ms\"",
+        "required": false
+      },
+      "include_file_name_resolved": {
+        "type": "bool",
+        "description": "Whether to include the resolved filename in the log entry.",
+        "default": "false",
+        "required": false
+      },
+      "include_file_name": {
+        "type": "bool",
+        "description": "Whether to include the filename in the log entry.",
+        "default": "true",
+        "required": false
+      },
+      "include_file_owner_group_name": {
+        "type": "bool",
+        "description": "Whether to include the file owner’s group name in the log entry.",
+        "default": "false",
+        "required": false
+      },
+      "include_file_owner_name": {
+        "type": "bool",
+        "description": "Whether to include the file owner’s name in the log entry.",
+        "default": "false",
+        "required": false
+      },
+      "include_file_path_resolved": {
+        "type": "bool",
+        "description": "Whether to include the resolved file path in the log entry.",
+        "default": "false",
+        "required": false
+      },
+      "include_file_path": {
+        "type": "bool",
+        "description": "Whether to include the file path in the log entry.",
+        "default": "false",
+        "required": false
+      },
+      "include_file_record_number": {
+        "type": "bool",
+        "description": "Whether to include the file record number in the log entry.",
+        "default": "false",
+        "required": false
+      },
+      "max_batches": {
+        "type": "int",
+        "description": "The maximum number of batches to process concurrently.",
+        "default": "10",
+        "required": false
+      },
+      "max_concurrent_files": {
+        "type": "int",
+        "description": "The maximum number of files to read concurrently.",
+        "default": "10",
+        "required": false
+      },
+      "max_log_size": {
+        "type": "units.Base2Bytes",
+        "description": "The maximum size of a log entry.",
+        "default": "1MiB",
+        "required": false
+      },
+      "operators": {
+        "type": "list(map(string))",
+        "description": "A list of operators used to parse the log entries.",
+        "default": "[]",
+        "required": false
+      },
+      "poll_interval": {
+        "type": "duration",
+        "description": "The interval at which the file is polled for new entries.",
+        "default": "\"200ms\"",
+        "required": false
+      },
+      "preserve_leading_whitespaces": {
+        "type": "bool",
+        "description": "Preserves leading whitespace in messages when set to true.",
+        "default": "false",
+        "required": false
+      },
+      "preserve_trailing_whitespaces": {
+        "type": "bool",
+        "description": "Preserves trailing whitespace in messages when set to true.",
+        "default": "false",
+        "required": false
+      },
+      "resource": {
+        "type": "map(string)",
+        "description": "A map of resource attributes to associate with each log entry.",
+        "default": "{}",
+        "required": false
+      },
+      "start_at": {
+        "type": "string",
+        "description": "The position to start reading the file from.",
+        "default": "\"end\"",
+        "required": false
+      },
+      "storage": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "Handler from an otelcol.storage component to use for persisting state.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.filelog \"<LABEL>\" {\n  include = [...]\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.filelog \"<LABEL>\" {\n  include = [...]\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "header": {
+        "description": "Configures rules for parsing a log header line",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "metadata_operators",
+            "type": "lists(map(string)",
+            "description": "A list of operators used to parse metadata from the header.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": "A regular expression that matches the header line.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.filelog \"<LABEL>\" {\n  include = [...]\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "multiline": {
+        "description": "Configures rules for multiline parsing of log messages",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "line_end_pattern",
+            "type": "string",
+            "description": "A regular expression that matches the end of a log entry.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "line_start_pattern",
+            "type": "string",
+            "description": "A regular expression that matches the beginning of a log entry.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "omit_pattern",
+            "type": "bool",
+            "description": "Omit the start/end pattern from the split log entries.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.filelog \"<LABEL>\" {\n  include = [...]\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "ordering_criteria": {
+        "description": "Configures the order in which log files are processed.",
+        "required": false,
+        "children": {
+          "sort_by": {
+            "description": "Configures the fields to sort by within the ordering criteria.",
+            "required": true,
+            "children": {},
+            "arguments": [
+              {
+                "name": "include",
+                "type": "list(string)",
+                "description": "A list of glob patterns to include files.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "acquire_fs_lock",
+                "type": "bool",
+                "description": "Whether to acquire a file system lock while reading the file (Unix only).",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "attributes",
+                "type": "map(string)",
+                "description": "A map of attributes to add to each log entry.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "compression",
+                "type": "string",
+                "description": "The compression type used for the log file.",
+                "default": "``",
+                "required": false
+              },
+              {
+                "name": "delete_after_read",
+                "type": "bool",
+                "description": "Whether to delete the file after reading.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "The encoding of the log file.",
+                "default": "\"utf-8\"",
+                "required": false
+              },
+              {
+                "name": "exclude_older_than",
+                "type": "duration",
+                "description": "Exclude files with a modification time older than the specified duration.",
+                "default": "\"0s\"",
+                "required": false
+              },
+              {
+                "name": "exclude",
+                "type": "list(string)",
+                "description": "A list of glob patterns to exclude files that would be included by the include patterns.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "fingerprint_size",
+                "type": "units.Base2Bytes",
+                "description": "The size of the fingerprint used to detect file changes.",
+                "default": "1KiB",
+                "required": false
+              },
+              {
+                "name": "force_flush_period",
+                "type": "duration",
+                "description": "The period after which logs are flushed even if the buffer isn’t full.",
+                "default": "\"500ms\"",
+                "required": false
+              },
+              {
+                "name": "include_file_name_resolved",
+                "type": "bool",
+                "description": "Whether to include the resolved filename in the log entry.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "include_file_name",
+                "type": "bool",
+                "description": "Whether to include the filename in the log entry.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "include_file_owner_group_name",
+                "type": "bool",
+                "description": "Whether to include the file owner’s group name in the log entry.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "include_file_owner_name",
+                "type": "bool",
+                "description": "Whether to include the file owner’s name in the log entry.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "include_file_path_resolved",
+                "type": "bool",
+                "description": "Whether to include the resolved file path in the log entry.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "include_file_path",
+                "type": "bool",
+                "description": "Whether to include the file path in the log entry.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "include_file_record_number",
+                "type": "bool",
+                "description": "Whether to include the file record number in the log entry.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "max_batches",
+                "type": "int",
+                "description": "The maximum number of batches to process concurrently.",
+                "default": "10",
+                "required": false
+              },
+              {
+                "name": "max_concurrent_files",
+                "type": "int",
+                "description": "The maximum number of files to read concurrently.",
+                "default": "10",
+                "required": false
+              },
+              {
+                "name": "max_log_size",
+                "type": "units.Base2Bytes",
+                "description": "The maximum size of a log entry.",
+                "default": "1MiB",
+                "required": false
+              },
+              {
+                "name": "operators",
+                "type": "list(map(string))",
+                "description": "A list of operators used to parse the log entries.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "poll_interval",
+                "type": "duration",
+                "description": "The interval at which the file is polled for new entries.",
+                "default": "\"200ms\"",
+                "required": false
+              },
+              {
+                "name": "preserve_leading_whitespaces",
+                "type": "bool",
+                "description": "Preserves leading whitespace in messages when set to true.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "preserve_trailing_whitespaces",
+                "type": "bool",
+                "description": "Preserves trailing whitespace in messages when set to true.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "resource",
+                "type": "map(string)",
+                "description": "A map of resource attributes to associate with each log entry.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "start_at",
+                "type": "string",
+                "description": "The position to start reading the file from.",
+                "default": "\"end\"",
+                "required": false
+              },
+              {
+                "name": "storage",
+                "type": "capsule(otelcol.Handler)",
+                "description": "Handler from an otelcol.storage component to use for persisting state.",
+                "default": "",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.filelog \"<LABEL>\" {\n  include = [...]\n  output {\n    logs    = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "group_by",
+            "type": "string",
+            "description": "A named capture group from the regex attribute used for grouping pre-sort.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "regex",
+            "type": "string",
+            "description": "A regular expression to capture elements of log files to use in ordering calculations.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "top_n",
+            "type": "int",
+            "description": "The number of top log files to track when using file ordering.",
+            "default": "1",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "sort_by",
+            "description": "Configures the fields to sort by within the ordering criteria.",
+            "required": true,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.filelog/#sort_by"
+          }
+        ],
+        "usage": "otelcol.receiver.filelog \"<LABEL>\" {\n  include = [...]\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "retry_on_failure": {
+        "description": "Configures the retry behavior when the receiver encounters an error downstream in the pipeline.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "If set to true and an error occurs, the receiver will pause reading the log files and resend the current batch of logs.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "initial_interval",
+            "type": "duration",
+            "description": "The time to wait after first failure to retry.",
+            "default": "\"1s\"",
+            "required": false
+          },
+          {
+            "name": "max_elapsed_time",
+            "type": "duration",
+            "description": "The maximum age of a message before the data is discarded.",
+            "default": "\"5m\"",
+            "required": false
+          },
+          {
+            "name": "max_interval",
+            "type": "duration",
+            "description": "The maximum time to wait after applying backoff logic.",
+            "default": "\"30s\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.filelog \"<LABEL>\" {\n  include = [...]\n  output {\n    logs    = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output",
+      "ordering_criteria > sort_by"
+    ],
+    "conditional_blocks": {
+      "ordering_criteria": {
+        "condition": "when ordering_criteria block is present",
+        "required_children": [
+          "sort_by"
+        ]
+      }
+    }
+  },
+  "template": "otelcol.receiver.filelog \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  header {\n    metadata_operators = \"${2}\"\n    pattern = \"${3}\"\n  }\n  multiline {\n    line_end_pattern = \"${2}\"\n    line_start_pattern = \"${3}\"\n  }\n  ordering_criteria {\n    sort_by {\n      $0\n    }\n  }\n  retry_on_failure {\n  }\n}"
+}

@@ -1,0 +1,107 @@
+{
+  "name": "pyroscope.enrich",
+  "usage": "pyroscope.enrich \"<LABEL>\" {\n  targets = <DISCOVERY_COMPONENT>.targets\n  target_match_label = \"<LABEL>\"\n  forward_to = [<RECEIVER_LIST>]\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(ProfilesReceiver)",
+      "description": "List of receivers to send enriched profiles to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "target_match_label",
+      "type": "string",
+      "description": "The label from discovered targets to match against.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "List of targets from a discovery component.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "labels_to_copy",
+      "type": "list(string)",
+      "description": "List of labels to copy from discovered targets to profiles. If empty, pyroscope.enrich copies all labels.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "profiles_match_label",
+      "type": "string",
+      "description": "The label from incoming profiles to match against discovered targets.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "receiver",
+      "description": "ProfilesReceiver",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "ProfilesReceiver",
+      "description": "The receiver for profiles."
+    }
+  ],
+  "lsp_structure": {
+    "component": "pyroscope.enrich",
+    "arguments": {
+      "forward_to": {
+        "type": "list(ProfilesReceiver)",
+        "description": "List of receivers to send enriched profiles to.",
+        "default": "",
+        "required": true
+      },
+      "target_match_label": {
+        "type": "string",
+        "description": "The label from discovered targets to match against.",
+        "default": "",
+        "required": true
+      },
+      "targets": {
+        "type": "list(map(string))",
+        "description": "List of targets from a discovery component.",
+        "default": "",
+        "required": true
+      },
+      "labels_to_copy": {
+        "type": "list(string)",
+        "description": "List of labels to copy from discovered targets to profiles. If empty, pyroscope.enrich copies all labels.",
+        "default": "",
+        "required": false
+      },
+      "profiles_match_label": {
+        "type": "string",
+        "description": "The label from incoming profiles to match against discovered targets.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "receiver": {
+        "description": "ProfilesReceiver",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "ProfilesReceiver",
+        "description": "The receiver for profiles."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "pyroscope.enrich \"${1:default}\" {\n  receiver {\n    $0\n  }\n\n  // Exported fields:\n  // - receiver (ProfilesReceiver): The receiver for profiles.\n}"
+}

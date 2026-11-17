@@ -1,0 +1,132 @@
+{
+  "name": "prometheus.exporter.postgres",
+  "usage": "prometheus.exporter.postgres \"<LABEL>\" {\n    data_source_names = \"<DATA_SOURCE_NAMES_LIST>\"\n}",
+  "arguments": [
+    {
+      "name": "data_source_names",
+      "type": "list(secret)",
+      "description": "Specifies the PostgreSQL servers to connect to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "custom_queries_config_path",
+      "type": "string",
+      "description": "Path to YAML file containing custom queries to expose as metrics.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "disable_default_metrics",
+      "type": "bool",
+      "description": "When true, only exposes metrics supplied from custom_queries_config_path.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "disable_settings_metrics",
+      "type": "bool",
+      "description": "Disables collection of metrics from pg_settings.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "enabled_collectors",
+      "type": "list(string)",
+      "description": "List of collectors to enable. Refer to the information below for more detail.",
+      "default": "[]",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "autodiscovery",
+      "description": "Database discovery settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.postgres/#autodiscovery"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.postgres",
+    "arguments": {
+      "data_source_names": {
+        "type": "list(secret)",
+        "description": "Specifies the PostgreSQL servers to connect to.",
+        "default": "",
+        "required": true
+      },
+      "custom_queries_config_path": {
+        "type": "string",
+        "description": "Path to YAML file containing custom queries to expose as metrics.",
+        "default": "\"\"",
+        "required": false
+      },
+      "disable_default_metrics": {
+        "type": "bool",
+        "description": "When true, only exposes metrics supplied from custom_queries_config_path.",
+        "default": "false",
+        "required": false
+      },
+      "disable_settings_metrics": {
+        "type": "bool",
+        "description": "Disables collection of metrics from pg_settings.",
+        "default": "false",
+        "required": false
+      },
+      "enabled_collectors": {
+        "type": "list(string)",
+        "description": "List of collectors to enable. Refer to the information below for more detail.",
+        "default": "[]",
+        "required": false
+      }
+    },
+    "blocks": {
+      "autodiscovery": {
+        "description": "Database discovery settings.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "database_allowlist",
+            "type": "list(string)",
+            "description": "List of databases to filter for, meaning only these databases will be scraped.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "database_denylist",
+            "type": "list(string)",
+            "description": "List of databases to filter out, meaning all other databases will be scraped.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Whether to automatically discover other databases.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.postgres \"<LABEL>\" {\n    data_source_names = \"<DATA_SOURCE_NAMES_LIST>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.postgres \"${1:default}\" {\n  autodiscovery {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

@@ -1,0 +1,107 @@
+{
+  "name": "otelcol.auth.sigv4",
+  "usage": "otelcol.auth.sigv4 \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "region",
+      "type": "string",
+      "description": "The AWS region to sign with.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "service",
+      "type": "string",
+      "description": "The AWS service to sign with.",
+      "default": "\"\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "assume_role",
+      "description": "Configuration for assuming a role.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.sigv4/#assume_role"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.sigv4/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A value that other components can use to authenticate requests."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.auth.sigv4",
+    "arguments": {
+      "region": {
+        "type": "string",
+        "description": "The AWS region to sign with.",
+        "default": "\"\"",
+        "required": false
+      },
+      "service": {
+        "type": "string",
+        "description": "The AWS service to sign with.",
+        "default": "\"\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "assume_role": {
+        "description": "Configuration for assuming a role.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "arn",
+            "type": "string",
+            "description": "The Amazon Resource Name (ARN) of a role to assume.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "session_name",
+            "type": "string",
+            "description": "The name of a role session.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "sts_region",
+            "type": "string",
+            "description": "The AWS region where STS is used to assume the configured role.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.auth.sigv4 \"<LABEL>\" {\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.auth.sigv4 \"<LABEL>\" {\n}"
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A value that other components can use to authenticate requests."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.auth.sigv4 \"${1:default}\" {\n  assume_role {\n  }\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A value that other components can use to authenticate requests.\n}"
+}

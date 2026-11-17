@@ -1,0 +1,75 @@
+// Type-aware completion test file
+
+// Components with different export types:
+otelcol.receiver.prometheus "metrics_receiver" {
+  output {
+    metrics = [otelcol.processor.transform.metrics_processor.input]
+  }
+}
+// Exports: receiver (MetricsReceiver)
+
+otelcol.processor.transform "metrics_processor" {
+  error_mode = "ignore"
+  
+  metric_statements {
+    context = "metric"
+    statements = [
+      "set(description, \"test\") where name == \"test_metric\"",
+    ]
+  }
+  
+  output {
+    metrics = [prometheus.remote_write.prom_write.receiver]
+  }
+}
+// Exports: input (otelcol.Consumer), output (otelcol.Consumer)
+
+prometheus.remote_write "prom_write" {
+  endpoint {
+    url = "http://prometheus:9090/api/v1/write"
+  }
+}
+// Exports: receiver (MetricsReceiver)
+
+local.file_match "log_files" {
+  path_targets = [{"__path__" = "/var/log/*.log"}]
+}
+// Exports: targets (list(map(string)))
+
+// Test cases for type-aware completion:
+
+prometheus.scrape "test_scrape" {
+  targets = local.file_match.log_files.
+  // When typing after "targets = local.file_match.log_files."
+  // Expected type: list(map(string))
+  // Should ONLY show: .targets (which exports list(map(string)))
+  // Should NOT show other exports that don't match the type
+  
+  forward_to = [
+    // When typing here, expected type: list(MetricsReceiver)
+    // Should show:
+    // - otelcol.receiver.prometheus.metrics_receiver.receiver (MetricsReceiver)
+    // - prometheus.remote_write.prom_write.receiver (MetricsReceiver)
+    // Should NOT show:
+    // - otelcol.processor.transform.metrics_processor.input (otelcol.Consumer - wrong type)
+    // - local.file_match.log_files.targets (list(map(string)) - wrong type)
+  ]
+}
+
+otelcol.processor.transform "another_processor" {
+  metric_statements {
+    context = "metric"
+    statements = ["set(description, \"test\")"]
+  }
+  
+  output {
+    metrics = [
+      // When typing here, expected type: list(otelcol.Consumer)
+      // Should show:
+      // - otelcol.processor.transform.metrics_processor.input (otelcol.Consumer)
+      // Should NOT show:
+      // - otelcol.receiver.prometheus.metrics_receiver.receiver (MetricsReceiver - wrong type)
+      // - prometheus.remote_write.prom_write.receiver (MetricsReceiver - wrong type)
+    ]
+  }
+}

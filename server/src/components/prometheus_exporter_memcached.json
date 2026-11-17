@@ -1,0 +1,71 @@
+{
+  "name": "prometheus.exporter.memcached",
+  "usage": "prometheus.exporter.memcached \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "address",
+      "type": "string",
+      "description": "The Memcached server address.",
+      "default": "\"localhost:11211\"",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "The timeout for connecting to the Memcached server.",
+      "default": "\"1s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "tls_config",
+      "description": "TLS configuration for requests to the Memcached server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.memcached/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.memcached",
+    "arguments": {
+      "address": {
+        "type": "string",
+        "description": "The Memcached server address.",
+        "default": "\"localhost:11211\"",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "The timeout for connecting to the Memcached server.",
+        "default": "\"1s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "tls_config": {
+        "description": "TLS configuration for requests to the Memcached server.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.memcached \"<LABEL>\" {\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.memcached \"${1:default}\" {\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

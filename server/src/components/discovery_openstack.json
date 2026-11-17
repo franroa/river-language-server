@@ -1,0 +1,266 @@
+{
+  "name": "discovery.openstack",
+  "usage": "discovery.openstack \"<LABEL>\" {\n  role   = \"<OPENSTACK_ROLE>\"\n  region = \"<OPENSTACK_REGION>\"\n}",
+  "arguments": [
+    {
+      "name": "region",
+      "type": "string",
+      "description": "OpenStack region.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "role",
+      "type": "string",
+      "description": "Role of the discovered targets.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "all_tenants",
+      "type": "bool",
+      "description": "Whether the service discovery should list all instances for all projects.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "application_credential_id",
+      "type": "string",
+      "description": "OpenStack application credential ID for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "application_credential_name",
+      "type": "string",
+      "description": "OpenStack application credential name for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "application_credential_secret",
+      "type": "secret",
+      "description": "OpenStack application credential secret for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "availability",
+      "type": "string",
+      "description": "The availability of the endpoint to connect to.",
+      "default": "public",
+      "required": false
+    },
+    {
+      "name": "domain_id",
+      "type": "string",
+      "description": "OpenStack domain ID for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "domain_name",
+      "type": "string",
+      "description": "OpenStack domain name for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "identity_endpoint",
+      "type": "string",
+      "description": "Specifies the HTTP endpoint that’s required to work with the Identity API of the appropriate version",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "password",
+      "type": "secret",
+      "description": "Password for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "port",
+      "type": "int",
+      "description": "The port to scrape metrics from.",
+      "default": "80",
+      "required": false
+    },
+    {
+      "name": "project_id",
+      "type": "string",
+      "description": "OpenStack project ID for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "project_name",
+      "type": "string",
+      "description": "OpenStack project name for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Refresh interval to re-read the instance list.",
+      "default": "\"60s\"",
+      "required": false
+    },
+    {
+      "name": "userid",
+      "type": "string",
+      "description": "OpenStack user ID for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "OpenStack username for the Identity V2 and V3 APIs.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "tls_config",
+      "description": "TLS configuration for requests to the OpenStack API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.openstack/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the OpenStack API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.openstack",
+    "arguments": {
+      "region": {
+        "type": "string",
+        "description": "OpenStack region.",
+        "default": "",
+        "required": true
+      },
+      "role": {
+        "type": "string",
+        "description": "Role of the discovered targets.",
+        "default": "",
+        "required": true
+      },
+      "all_tenants": {
+        "type": "bool",
+        "description": "Whether the service discovery should list all instances for all projects.",
+        "default": "false",
+        "required": false
+      },
+      "application_credential_id": {
+        "type": "string",
+        "description": "OpenStack application credential ID for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "application_credential_name": {
+        "type": "string",
+        "description": "OpenStack application credential name for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "application_credential_secret": {
+        "type": "secret",
+        "description": "OpenStack application credential secret for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "availability": {
+        "type": "string",
+        "description": "The availability of the endpoint to connect to.",
+        "default": "public",
+        "required": false
+      },
+      "domain_id": {
+        "type": "string",
+        "description": "OpenStack domain ID for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "domain_name": {
+        "type": "string",
+        "description": "OpenStack domain name for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "identity_endpoint": {
+        "type": "string",
+        "description": "Specifies the HTTP endpoint that’s required to work with the Identity API of the appropriate version",
+        "default": "",
+        "required": false
+      },
+      "password": {
+        "type": "secret",
+        "description": "Password for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "port": {
+        "type": "int",
+        "description": "The port to scrape metrics from.",
+        "default": "80",
+        "required": false
+      },
+      "project_id": {
+        "type": "string",
+        "description": "OpenStack project ID for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "project_name": {
+        "type": "string",
+        "description": "OpenStack project name for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Refresh interval to re-read the instance list.",
+        "default": "\"60s\"",
+        "required": false
+      },
+      "userid": {
+        "type": "string",
+        "description": "OpenStack user ID for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      },
+      "username": {
+        "type": "string",
+        "description": "OpenStack username for the Identity V2 and V3 APIs.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "tls_config": {
+        "description": "TLS configuration for requests to the OpenStack API.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.openstack \"<LABEL>\" {\n  role   = \"<OPENSTACK_ROLE>\"\n  region = \"<OPENSTACK_REGION>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the OpenStack API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.openstack \"${1:default}\" {\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the OpenStack API.\n}"
+}

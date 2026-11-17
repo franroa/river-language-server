@@ -1,0 +1,396 @@
+{
+  "name": "discovery.aws",
+  "usage": "discovery.aws \"<LABEL>\" {\n  role = \"<ROLE>\"\n}",
+  "arguments": [
+    {
+      "name": "role",
+      "type": "string",
+      "description": "The AWS service to discover. One of ec2, ecs, elasticache, lightsail, msk, rds.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "access_key",
+      "type": "string",
+      "description": "The AWS API key ID. If blank, the environment variable AWS_ACCESS_KEY_ID is used.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "bearer_token_file",
+      "type": "string",
+      "description": "File containing a bearer token to authenticate with.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "bearer_token",
+      "type": "secret",
+      "description": "Bearer token to authenticate with.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "clusters",
+      "type": "list(string)",
+      "description": "Restrict discovery to these clusters. Only used with the ecs, elasticache, msk, and rds roles.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "enable_http2",
+      "type": "bool",
+      "description": "Whether HTTP2 is supported for requests.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "Custom endpoint to be used.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "external_id",
+      "type": "string",
+      "description": "AWS External ID used when assuming role_arn.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "follow_redirects",
+      "type": "bool",
+      "description": "Whether redirects returned by the server should be followed.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "http_headers",
+      "type": "map(list(secret))",
+      "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "no_proxy",
+      "type": "string",
+      "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "port",
+      "type": "int",
+      "description": "The port to scrape metrics from. If using the public IP address, this must instead be specified in the relabeling rule.",
+      "default": "80",
+      "required": false
+    },
+    {
+      "name": "profile",
+      "type": "string",
+      "description": "Named AWS profile used to connect to the API.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "proxy_connect_header",
+      "type": "map(list(secret))",
+      "description": "Specifies headers to send to proxies during CONNECT requests.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "proxy_from_environment",
+      "type": "bool",
+      "description": "Use the proxy URL indicated by environment variables.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "proxy_url",
+      "type": "string",
+      "description": "HTTP proxy to send requests through.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Refresh interval to re-read the resource list.",
+      "default": "\"60s\"",
+      "required": false
+    },
+    {
+      "name": "region",
+      "type": "string",
+      "description": "The AWS region. If blank, the region from the instance metadata is used.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "request_concurrency",
+      "type": "int",
+      "description": "Maximum number of concurrent AWS API requests. Only used with the ecs, elasticache, msk, and rds roles.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "role_arn",
+      "type": "string",
+      "description": "AWS Role Amazon Resource Name (ARN), an alternative to using AWS API keys.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "secret_key",
+      "type": "string",
+      "description": "The AWS API key secret. If blank, the environment variable AWS_SECRET_ACCESS_KEY is used.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "authorization",
+      "description": "Configure generic authorization to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.aws/#authorization"
+    },
+    {
+      "block": "basic_auth",
+      "description": "Configure basic_auth for authenticating to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.aws/#basic_auth"
+    },
+    {
+      "block": "filter",
+      "description": "Filters discoverable resources. Only used with the ec2 and rds roles.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.aws/#filter"
+    },
+    {
+      "block": "oauth2",
+      "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.aws/#oauth2"
+    },
+    {
+      "block": "oauth2 > tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.aws/#tls_config"
+    },
+    {
+      "block": "tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.aws/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of discovered AWS targets."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.aws",
+    "arguments": {
+      "role": {
+        "type": "string",
+        "description": "The AWS service to discover. One of ec2, ecs, elasticache, lightsail, msk, rds.",
+        "default": "",
+        "required": true
+      },
+      "access_key": {
+        "type": "string",
+        "description": "The AWS API key ID. If blank, the environment variable AWS_ACCESS_KEY_ID is used.",
+        "default": "",
+        "required": false
+      },
+      "bearer_token_file": {
+        "type": "string",
+        "description": "File containing a bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      "bearer_token": {
+        "type": "secret",
+        "description": "Bearer token to authenticate with.",
+        "default": "",
+        "required": false
+      },
+      "clusters": {
+        "type": "list(string)",
+        "description": "Restrict discovery to these clusters. Only used with the ecs, elasticache, msk, and rds roles.",
+        "default": "",
+        "required": false
+      },
+      "enable_http2": {
+        "type": "bool",
+        "description": "Whether HTTP2 is supported for requests.",
+        "default": "true",
+        "required": false
+      },
+      "endpoint": {
+        "type": "string",
+        "description": "Custom endpoint to be used.",
+        "default": "",
+        "required": false
+      },
+      "external_id": {
+        "type": "string",
+        "description": "AWS External ID used when assuming role_arn.",
+        "default": "",
+        "required": false
+      },
+      "follow_redirects": {
+        "type": "bool",
+        "description": "Whether redirects returned by the server should be followed.",
+        "default": "true",
+        "required": false
+      },
+      "http_headers": {
+        "type": "map(list(secret))",
+        "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+        "default": "",
+        "required": false
+      },
+      "no_proxy": {
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "",
+        "required": false
+      },
+      "port": {
+        "type": "int",
+        "description": "The port to scrape metrics from. If using the public IP address, this must instead be specified in the relabeling rule.",
+        "default": "80",
+        "required": false
+      },
+      "profile": {
+        "type": "string",
+        "description": "Named AWS profile used to connect to the API.",
+        "default": "",
+        "required": false
+      },
+      "proxy_connect_header": {
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      "proxy_from_environment": {
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      "proxy_url": {
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Refresh interval to re-read the resource list.",
+        "default": "\"60s\"",
+        "required": false
+      },
+      "region": {
+        "type": "string",
+        "description": "The AWS region. If blank, the region from the instance metadata is used.",
+        "default": "",
+        "required": false
+      },
+      "request_concurrency": {
+        "type": "int",
+        "description": "Maximum number of concurrent AWS API requests. Only used with the ecs, elasticache, msk, and rds roles.",
+        "default": "",
+        "required": false
+      },
+      "role_arn": {
+        "type": "string",
+        "description": "AWS Role Amazon Resource Name (ARN), an alternative to using AWS API keys.",
+        "default": "",
+        "required": false
+      },
+      "secret_key": {
+        "type": "string",
+        "description": "The AWS API key secret. If blank, the environment variable AWS_SECRET_ACCESS_KEY is used.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "authorization": {
+        "description": "Configure generic authorization to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.aws \"<LABEL>\" {\n  role = \"<ROLE>\"\n}"
+      },
+      "basic_auth": {
+        "description": "Configure basic_auth for authenticating to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.aws \"<LABEL>\" {\n  role = \"<ROLE>\"\n}"
+      },
+      "filter": {
+        "description": "Filters discoverable resources. Only used with the ec2 and rds roles.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.aws \"<LABEL>\" {\n  role = \"<ROLE>\"\n}"
+      },
+      "oauth2": {
+        "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+        "required": false,
+        "children": {
+          "tls_config": {
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "discovery.aws \"<LABEL>\" {\n  role = \"<ROLE>\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tls_config",
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.aws/#tls_config"
+          }
+        ],
+        "usage": "discovery.aws \"<LABEL>\" {\n  role = \"<ROLE>\"\n}"
+      },
+      "tls_config": {
+        "description": "Configure TLS settings for connecting to the endpoint.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.aws \"<LABEL>\" {\n  role = \"<ROLE>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of discovered AWS targets."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.aws \"${1:default}\" {\n  authorization {\n    $0\n  }\n  basic_auth {\n    $0\n  }\n  filter {\n    $0\n  }\n  oauth2 {\n  }\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of discovered AWS targets.\n}"
+}

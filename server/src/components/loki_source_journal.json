@@ -1,0 +1,109 @@
+{
+  "name": "loki.source.journal",
+  "usage": "loki.source.journal \"<LABEL>\" {\n  forward_to    = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "format_as_json",
+      "type": "bool",
+      "description": "Whether to forward the original journal entry as JSON.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "labels",
+      "type": "map(string)",
+      "description": "The labels to apply to every log coming out of the journal.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "matches",
+      "type": "string",
+      "description": "Journal field matches to filter entries using systemd journal match syntax.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "max_age",
+      "type": "duration",
+      "description": "The oldest relative time from process start that Alloy reads.",
+      "default": "\"7h\"",
+      "required": false
+    },
+    {
+      "name": "path",
+      "type": "string",
+      "description": "Path to a directory to read entries from.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "relabel_rules",
+      "type": "RelabelRules",
+      "description": "Relabeling rules to apply on log entries.",
+      "default": "{}",
+      "required": false
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.journal",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "format_as_json": {
+        "type": "bool",
+        "description": "Whether to forward the original journal entry as JSON.",
+        "default": "false",
+        "required": false
+      },
+      "labels": {
+        "type": "map(string)",
+        "description": "The labels to apply to every log coming out of the journal.",
+        "default": "{}",
+        "required": false
+      },
+      "matches": {
+        "type": "string",
+        "description": "Journal field matches to filter entries using systemd journal match syntax.",
+        "default": "\"\"",
+        "required": false
+      },
+      "max_age": {
+        "type": "duration",
+        "description": "The oldest relative time from process start that Alloy reads.",
+        "default": "\"7h\"",
+        "required": false
+      },
+      "path": {
+        "type": "string",
+        "description": "Path to a directory to read entries from.",
+        "default": "\"\"",
+        "required": false
+      },
+      "relabel_rules": {
+        "type": "RelabelRules",
+        "description": "Relabeling rules to apply on log entries.",
+        "default": "{}",
+        "required": false
+      }
+    },
+    "blocks": {},
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.journal \"${1:default}\" {\n}"
+}

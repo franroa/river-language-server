@@ -1,0 +1,214 @@
+{
+  "name": "discovery.uyuni",
+  "usage": "discovery.uyuni \"<LABEL>\" {\n    server   = \"<SERVER>\"\n    username = \"<USERNAME>\"\n    password = \"<PASSWORD>\"\n}",
+  "arguments": [
+    {
+      "name": "password",
+      "type": "secret",
+      "description": "The password to use for authentication to the Uyuni API.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "server",
+      "type": "string",
+      "description": "The primary Uyuni Server.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "The username to use for authentication to the Uyuni API.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "enable_http2",
+      "type": "bool",
+      "description": "Whether HTTP2 is supported for requests.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "entitlement",
+      "type": "string",
+      "description": "The entitlement to filter on when listing targets.",
+      "default": "\"monitoring_entitled\"",
+      "required": false
+    },
+    {
+      "name": "follow_redirects",
+      "type": "bool",
+      "description": "Whether redirects returned by the server should be followed.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "http_headers",
+      "type": "map(list(secret))",
+      "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "no_proxy",
+      "type": "string",
+      "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "proxy_connect_header",
+      "type": "map(list(secret))",
+      "description": "Specifies headers to send to proxies during CONNECT requests.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "proxy_from_environment",
+      "type": "bool",
+      "description": "Use the proxy URL indicated by environment variables.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "proxy_url",
+      "type": "string",
+      "description": "HTTP proxy to send requests through.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Interval at which to refresh the list of targets.",
+      "default": "\"1m\"",
+      "required": false
+    },
+    {
+      "name": "separator",
+      "type": "string",
+      "description": "The separator to use when building the __meta_uyuni_groups label.",
+      "default": "\",\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "tls_config",
+      "description": "TLS configuration for requests to the Uyuni API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.uyuni/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the Uyuni API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.uyuni",
+    "arguments": {
+      "password": {
+        "type": "secret",
+        "description": "The password to use for authentication to the Uyuni API.",
+        "default": "",
+        "required": true
+      },
+      "server": {
+        "type": "string",
+        "description": "The primary Uyuni Server.",
+        "default": "",
+        "required": true
+      },
+      "username": {
+        "type": "string",
+        "description": "The username to use for authentication to the Uyuni API.",
+        "default": "",
+        "required": true
+      },
+      "enable_http2": {
+        "type": "bool",
+        "description": "Whether HTTP2 is supported for requests.",
+        "default": "true",
+        "required": false
+      },
+      "entitlement": {
+        "type": "string",
+        "description": "The entitlement to filter on when listing targets.",
+        "default": "\"monitoring_entitled\"",
+        "required": false
+      },
+      "follow_redirects": {
+        "type": "bool",
+        "description": "Whether redirects returned by the server should be followed.",
+        "default": "true",
+        "required": false
+      },
+      "http_headers": {
+        "type": "map(list(secret))",
+        "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+        "default": "",
+        "required": false
+      },
+      "no_proxy": {
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "",
+        "required": false
+      },
+      "proxy_connect_header": {
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      "proxy_from_environment": {
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      "proxy_url": {
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Interval at which to refresh the list of targets.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      "separator": {
+        "type": "string",
+        "description": "The separator to use when building the __meta_uyuni_groups label.",
+        "default": "\",\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "tls_config": {
+        "description": "TLS configuration for requests to the Uyuni API.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.uyuni \"<LABEL>\" {\n    server   = \"<SERVER>\"\n    username = \"<USERNAME>\"\n    password = \"<PASSWORD>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the Uyuni API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.uyuni \"${1:default}\" {\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the Uyuni API.\n}"
+}

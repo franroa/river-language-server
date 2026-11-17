@@ -1,0 +1,59 @@
+// Test Case 1: Top level - should show PARENT components + declare
+// Cursor here should show: prometheus.scrape, prometheus.remote_write, loki.write, declare, etc.
+
+declare "custom_component" {
+    // Test Case 2: Inside declare block (but not in a component) 
+    // Cursor here should show: PARENT components + argument + export
+    // Should show: prometheus.scrape, prometheus.remote_write, loki.write, argument, export
+    
+    argument "endpoint_url" {
+        // Test Case 5: Inside argument block
+        // Cursor here should show: optional, comment, default, value (argument properties)
+        optional = false
+    }
+    
+    export "output" {
+        // Test Case 5: Inside export block  
+        // Cursor here should show: value (export properties)
+        value = prometheus.remote_write.default.receiver
+    }
+    
+    prometheus.remote_write "default" {
+        // Test Case 3: Inside parent component within declare
+        // Cursor here should show: CHILD blocks and arguments of prometheus.remote_write
+        // Should show: endpoint, basic_auth, oauth2, etc. (NOT other parent components!)
+        
+        endpoint {
+            // Test Case 4: Inside child block of parent component
+            // Cursor here should show: url, basic_auth, etc. (endpoint-specific properties)
+            url = argument.endpoint_url.value
+        }
+    }
+    
+    prometheus.scrape "scraper" {
+        // Test Case 3 again: Inside different parent component within declare
+        // Cursor here should show: CHILD blocks and arguments of prometheus.scrape
+        // Should show: targets, forward_to, job_name, etc. (NOT prometheus.remote_write!)
+        targets = []
+        forward_to = [prometheus.remote_write.default.receiver]
+    }
+}
+
+// Usage of custom component (this creates a new parent component type)
+custom_component "instance1" {
+    endpoint_url = "https://metrics.example.com/write"
+}
+
+// Test Case 6: Regular parent component outside declare
+prometheus.remote_write "standalone" {
+    // Cursor here should show: CHILD blocks and arguments of prometheus.remote_write
+    // Should show: endpoint, basic_auth, oauth2, etc. (NO declare, argument, export)
+    // This should be identical to Test Case 3
+    
+    endpoint {
+        // Test Case 7: Inside child block of regular parent component
+        // Cursor here should show: url, basic_auth, etc. (endpoint-specific properties)
+        // This should be identical to Test Case 4
+        url = "https://direct.example.com/write"
+    }
+}

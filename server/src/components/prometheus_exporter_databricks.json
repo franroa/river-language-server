@@ -1,0 +1,185 @@
+{
+  "name": "prometheus.exporter.databricks",
+  "usage": "prometheus.exporter.databricks \"<LABEL>\" {\n  server_hostname     = \"<DATABRICKS_SERVER_HOSTNAME>\"\n  warehouse_http_path = \"<DATABRICKS_WAREHOUSE_HTTP_PATH>\"\n  client_id           = \"<DATABRICKS_CLIENT_ID>\"\n  client_secret       = \"<DATABRICKS_CLIENT_SECRET>\"\n}",
+  "arguments": [
+    {
+      "name": "client_id",
+      "type": "string",
+      "description": "The OAuth2 Application ID or Client ID of your Service Principal.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "client_secret",
+      "type": "secret",
+      "description": "The OAuth2 Client Secret of your Service Principal.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "server_hostname",
+      "type": "string",
+      "description": "The Databricks workspace hostname, for example, dbc-xxx.cloud.databricks.com.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "warehouse_http_path",
+      "type": "string",
+      "description": "The HTTP path of the SQL Warehouse for example, /sql/1.0/warehouses/abc123.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "billing_lookback",
+      "type": "duration",
+      "description": "How far back to look for billing data.",
+      "default": "\"24h\"",
+      "required": false
+    },
+    {
+      "name": "collect_task_retries",
+      "type": "bool",
+      "description": "Collect task retry metrics. Can cause high cardinality due to the task_key label.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "jobs_lookback",
+      "type": "duration",
+      "description": "How far back to look for job runs.",
+      "default": "\"3h\"",
+      "required": false
+    },
+    {
+      "name": "pipelines_lookback",
+      "type": "duration",
+      "description": "How far back to look for pipeline runs.",
+      "default": "\"3h\"",
+      "required": false
+    },
+    {
+      "name": "queries_lookback",
+      "type": "duration",
+      "description": "How far back to look for SQL warehouse queries.",
+      "default": "\"2h\"",
+      "required": false
+    },
+    {
+      "name": "query_timeout",
+      "type": "duration",
+      "description": "Timeout for individual SQL queries.",
+      "default": "\"5m\"",
+      "required": false
+    },
+    {
+      "name": "sla_threshold_seconds",
+      "type": "int",
+      "description": "Duration threshold in seconds for job SLA miss detection.",
+      "default": "3600",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.databricks",
+    "arguments": {
+      "client_id": {
+        "type": "string",
+        "description": "The OAuth2 Application ID or Client ID of your Service Principal.",
+        "default": "",
+        "required": true
+      },
+      "client_secret": {
+        "type": "secret",
+        "description": "The OAuth2 Client Secret of your Service Principal.",
+        "default": "",
+        "required": true
+      },
+      "server_hostname": {
+        "type": "string",
+        "description": "The Databricks workspace hostname, for example, dbc-xxx.cloud.databricks.com.",
+        "default": "",
+        "required": true
+      },
+      "warehouse_http_path": {
+        "type": "string",
+        "description": "The HTTP path of the SQL Warehouse for example, /sql/1.0/warehouses/abc123.",
+        "default": "",
+        "required": true
+      },
+      "billing_lookback": {
+        "type": "duration",
+        "description": "How far back to look for billing data.",
+        "default": "\"24h\"",
+        "required": false
+      },
+      "collect_task_retries": {
+        "type": "bool",
+        "description": "Collect task retry metrics. Can cause high cardinality due to the task_key label.",
+        "default": "false",
+        "required": false
+      },
+      "jobs_lookback": {
+        "type": "duration",
+        "description": "How far back to look for job runs.",
+        "default": "\"3h\"",
+        "required": false
+      },
+      "pipelines_lookback": {
+        "type": "duration",
+        "description": "How far back to look for pipeline runs.",
+        "default": "\"3h\"",
+        "required": false
+      },
+      "queries_lookback": {
+        "type": "duration",
+        "description": "How far back to look for SQL warehouse queries.",
+        "default": "\"2h\"",
+        "required": false
+      },
+      "query_timeout": {
+        "type": "duration",
+        "description": "Timeout for individual SQL queries.",
+        "default": "\"5m\"",
+        "required": false
+      },
+      "sla_threshold_seconds": {
+        "type": "int",
+        "description": "Duration threshold in seconds for job SLA miss detection.",
+        "default": "3600",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.databricks \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

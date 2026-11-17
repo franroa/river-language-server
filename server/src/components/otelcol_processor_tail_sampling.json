@@ -1,0 +1,2093 @@
+{
+  "name": "otelcol.processor.tail_sampling",
+  "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "decision_wait",
+      "type": "duration",
+      "description": "Wait time since the first span of a trace before making a sampling decision.",
+      "default": "\"30s\"",
+      "required": false
+    },
+    {
+      "name": "num_traces",
+      "type": "int",
+      "description": "Number of traces kept in memory.",
+      "default": "50000",
+      "required": false
+    },
+    {
+      "name": "expected_new_traces_per_sec",
+      "type": "int",
+      "description": "Expected number of new traces (helps in allocating data structures).",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "decision_cache",
+      "type": "object",
+      "description": "Configures caches for sampling decisions.",
+      "default": "{}",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#output"
+    },
+    {
+      "block": "policy",
+      "description": "Policies used to make a sampling decision.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#policy"
+    },
+    {
+      "block": "policy > boolean_attribute",
+      "description": "The policy samples based on a boolean attribute (resource and record).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+    },
+    {
+      "block": "policy > latency",
+      "description": "The policy samples based on the duration of the trace.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+    },
+    {
+      "block": "policy > numeric_attribute",
+      "description": "The policy samples based on the number attributes (resource and record).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+    },
+    {
+      "block": "policy > ottl_condition",
+      "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+    },
+    {
+      "block": "policy > probabilistic",
+      "description": "The policy samples a percentage of traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+    },
+    {
+      "block": "policy > rate_limiting",
+      "description": "The policy samples based on rate.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+    },
+    {
+      "block": "policy > span_count",
+      "description": "The policy samples based on the minimum number of spans within a batch.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+    },
+    {
+      "block": "policy > status_code",
+      "description": "The policy samples based upon the status code.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+    },
+    {
+      "block": "policy > string_attribute",
+      "description": "The policy samples based on string attributes (resource and record) value matches.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+    },
+    {
+      "block": "policy > trace_state",
+      "description": "The policy samples based on TraceState value matches.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+    },
+    {
+      "block": "policy > and",
+      "description": "The policy samples based on multiple policies, creates an and policy.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#and"
+    },
+    {
+      "block": "policy > and > and_sub_policy",
+      "description": "A set of policies underneath an and policy type.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#and_sub_policy"
+    },
+    {
+      "block": "policy > and > and_sub_policy > boolean_attribute",
+      "description": "The policy samples based on a boolean attribute (resource and record).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+    },
+    {
+      "block": "policy > and > and_sub_policy > latency",
+      "description": "The policy samples based on the duration of the trace.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+    },
+    {
+      "block": "policy > and > and_sub_policy > numeric_attribute",
+      "description": "The policy samples based on number attributes (resource and record).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+    },
+    {
+      "block": "policy > and > and_sub_policy > ottl_condition",
+      "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+    },
+    {
+      "block": "policy > and > and_sub_policy > probabilistic",
+      "description": "The policy samples a percentage of traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+    },
+    {
+      "block": "policy > and > and_sub_policy > rate_limiting",
+      "description": "The policy samples based on rate.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+    },
+    {
+      "block": "policy > and > and_sub_policy > span_count",
+      "description": "The policy samples based on the minimum number of spans within a batch.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+    },
+    {
+      "block": "policy > and > and_sub_policy > status_code",
+      "description": "The policy samples based upon the status code.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+    },
+    {
+      "block": "policy > and > and_sub_policy > string_attribute",
+      "description": "The policy samples based on string attributes (resource and record) value matches.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+    },
+    {
+      "block": "policy > and > and_sub_policy > trace_state",
+      "description": "The policy samples based on TraceState value matches.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+    },
+    {
+      "block": "policy > composite",
+      "description": "The policy samples based on a combination of above samplers, with ordering and rate allocation per sampler.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#composite"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy",
+      "description": "A set of policies underneath a composite policy type.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#composite_sub_policy"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > boolean_attribute",
+      "description": "The policy samples based on a boolean attribute (resource and record).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > latency",
+      "description": "The policy samples based on the duration of the trace.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > numeric_attribute",
+      "description": "The policy samples based on number attributes (resource and record).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > ottl_condition",
+      "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > probabilistic",
+      "description": "The policy samples a percentage of traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > rate_limiting",
+      "description": "The policy samples based on rate.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > span_count",
+      "description": "The policy samples based on the minimum number of spans within a batch.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > status_code",
+      "description": "The policy samples based upon the status code.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > string_attribute",
+      "description": "The policy samples based on string attributes (resource and record) value matches.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+    },
+    {
+      "block": "policy > composite > composite_sub_policy > trace_state",
+      "description": "The policy samples based on TraceState value matches.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.tail_sampling",
+    "arguments": {
+      "decision_wait": {
+        "type": "duration",
+        "description": "Wait time since the first span of a trace before making a sampling decision.",
+        "default": "\"30s\"",
+        "required": false
+      },
+      "num_traces": {
+        "type": "int",
+        "description": "Number of traces kept in memory.",
+        "default": "50000",
+        "required": false
+      },
+      "expected_new_traces_per_sec": {
+        "type": "int",
+        "description": "Expected number of new traces (helps in allocating data structures).",
+        "default": "0",
+        "required": false
+      },
+      "decision_cache": {
+        "type": "object",
+        "description": "Configures caches for sampling decisions.",
+        "default": "{}",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "policy": {
+        "description": "Policies used to make a sampling decision.",
+        "required": true,
+        "children": {
+          "boolean_attribute": {
+            "description": "The policy samples based on a boolean attribute (resource and record).",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "latency": {
+            "description": "The policy samples based on the duration of the trace.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "numeric_attribute": {
+            "description": "The policy samples based on the number attributes (resource and record).",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "ottl_condition": {
+            "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "probabilistic": {
+            "description": "The policy samples a percentage of traces.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "rate_limiting": {
+            "description": "The policy samples based on rate.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "span_count": {
+            "description": "The policy samples based on the minimum number of spans within a batch.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "status_code": {
+            "description": "The policy samples based upon the status code.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "string_attribute": {
+            "description": "The policy samples based on string attributes (resource and record) value matches.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "trace_state": {
+            "description": "The policy samples based on TraceState value matches.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "and": {
+            "description": "The policy samples based on multiple policies, creates an and policy.",
+            "required": false,
+            "children": {
+              "and_sub_policy": {
+                "description": "A set of policies underneath an and policy type.",
+                "required": false,
+                "children": {
+                  "boolean_attribute": {
+                    "description": "The policy samples based on a boolean attribute (resource and record).",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "latency": {
+                    "description": "The policy samples based on the duration of the trace.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "numeric_attribute": {
+                    "description": "The policy samples based on number attributes (resource and record).",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "ottl_condition": {
+                    "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "probabilistic": {
+                    "description": "The policy samples a percentage of traces.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "rate_limiting": {
+                    "description": "The policy samples based on rate.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "span_count": {
+                    "description": "The policy samples based on the minimum number of spans within a batch.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "status_code": {
+                    "description": "The policy samples based upon the status code.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "string_attribute": {
+                    "description": "The policy samples based on string attributes (resource and record) value matches.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "trace_state": {
+                    "description": "The policy samples based on TraceState value matches.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  }
+                },
+                "arguments": [
+                  {
+                    "name": "decision_wait",
+                    "type": "duration",
+                    "description": "Wait time since the first span of a trace before making a sampling decision.",
+                    "default": "\"30s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "num_traces",
+                    "type": "int",
+                    "description": "Number of traces kept in memory.",
+                    "default": "50000",
+                    "required": false
+                  },
+                  {
+                    "name": "expected_new_traces_per_sec",
+                    "type": "int",
+                    "description": "Expected number of new traces (helps in allocating data structures).",
+                    "default": "0",
+                    "required": false
+                  },
+                  {
+                    "name": "decision_cache",
+                    "type": "object",
+                    "description": "Configures caches for sampling decisions.",
+                    "default": "{}",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [
+                  {
+                    "block": "boolean_attribute",
+                    "description": "The policy samples based on a boolean attribute (resource and record).",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+                  },
+                  {
+                    "block": "latency",
+                    "description": "The policy samples based on the duration of the trace.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+                  },
+                  {
+                    "block": "numeric_attribute",
+                    "description": "The policy samples based on number attributes (resource and record).",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+                  },
+                  {
+                    "block": "ottl_condition",
+                    "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+                  },
+                  {
+                    "block": "probabilistic",
+                    "description": "The policy samples a percentage of traces.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+                  },
+                  {
+                    "block": "rate_limiting",
+                    "description": "The policy samples based on rate.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+                  },
+                  {
+                    "block": "span_count",
+                    "description": "The policy samples based on the minimum number of spans within a batch.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+                  },
+                  {
+                    "block": "status_code",
+                    "description": "The policy samples based upon the status code.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+                  },
+                  {
+                    "block": "string_attribute",
+                    "description": "The policy samples based on string attributes (resource and record) value matches.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+                  },
+                  {
+                    "block": "trace_state",
+                    "description": "The policy samples based on TraceState value matches.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+                  }
+                ],
+                "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "and_sub_policy",
+                "description": "A set of policies underneath an and policy type.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#and_sub_policy"
+              },
+              {
+                "block": "and_sub_policy > boolean_attribute",
+                "description": "The policy samples based on a boolean attribute (resource and record).",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+              },
+              {
+                "block": "and_sub_policy > latency",
+                "description": "The policy samples based on the duration of the trace.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+              },
+              {
+                "block": "and_sub_policy > numeric_attribute",
+                "description": "The policy samples based on number attributes (resource and record).",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+              },
+              {
+                "block": "and_sub_policy > ottl_condition",
+                "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+              },
+              {
+                "block": "and_sub_policy > probabilistic",
+                "description": "The policy samples a percentage of traces.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+              },
+              {
+                "block": "and_sub_policy > rate_limiting",
+                "description": "The policy samples based on rate.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+              },
+              {
+                "block": "and_sub_policy > span_count",
+                "description": "The policy samples based on the minimum number of spans within a batch.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+              },
+              {
+                "block": "and_sub_policy > status_code",
+                "description": "The policy samples based upon the status code.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+              },
+              {
+                "block": "and_sub_policy > string_attribute",
+                "description": "The policy samples based on string attributes (resource and record) value matches.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+              },
+              {
+                "block": "and_sub_policy > trace_state",
+                "description": "The policy samples based on TraceState value matches.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+              }
+            ],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "composite": {
+            "description": "The policy samples based on a combination of above samplers, with ordering and rate allocation per sampler.",
+            "required": false,
+            "children": {
+              "composite_sub_policy": {
+                "description": "A set of policies underneath a composite policy type.",
+                "required": false,
+                "children": {
+                  "boolean_attribute": {
+                    "description": "The policy samples based on a boolean attribute (resource and record).",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "latency": {
+                    "description": "The policy samples based on the duration of the trace.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "numeric_attribute": {
+                    "description": "The policy samples based on number attributes (resource and record).",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "ottl_condition": {
+                    "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "probabilistic": {
+                    "description": "The policy samples a percentage of traces.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "rate_limiting": {
+                    "description": "The policy samples based on rate.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "span_count": {
+                    "description": "The policy samples based on the minimum number of spans within a batch.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "status_code": {
+                    "description": "The policy samples based upon the status code.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "string_attribute": {
+                    "description": "The policy samples based on string attributes (resource and record) value matches.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  },
+                  "trace_state": {
+                    "description": "The policy samples based on TraceState value matches.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "decision_wait",
+                        "type": "duration",
+                        "description": "Wait time since the first span of a trace before making a sampling decision.",
+                        "default": "\"30s\"",
+                        "required": false
+                      },
+                      {
+                        "name": "num_traces",
+                        "type": "int",
+                        "description": "Number of traces kept in memory.",
+                        "default": "50000",
+                        "required": false
+                      },
+                      {
+                        "name": "expected_new_traces_per_sec",
+                        "type": "int",
+                        "description": "Expected number of new traces (helps in allocating data structures).",
+                        "default": "0",
+                        "required": false
+                      },
+                      {
+                        "name": "decision_cache",
+                        "type": "object",
+                        "description": "Configures caches for sampling decisions.",
+                        "default": "{}",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+                  }
+                },
+                "arguments": [
+                  {
+                    "name": "decision_wait",
+                    "type": "duration",
+                    "description": "Wait time since the first span of a trace before making a sampling decision.",
+                    "default": "\"30s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "num_traces",
+                    "type": "int",
+                    "description": "Number of traces kept in memory.",
+                    "default": "50000",
+                    "required": false
+                  },
+                  {
+                    "name": "expected_new_traces_per_sec",
+                    "type": "int",
+                    "description": "Expected number of new traces (helps in allocating data structures).",
+                    "default": "0",
+                    "required": false
+                  },
+                  {
+                    "name": "decision_cache",
+                    "type": "object",
+                    "description": "Configures caches for sampling decisions.",
+                    "default": "{}",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [
+                  {
+                    "block": "boolean_attribute",
+                    "description": "The policy samples based on a boolean attribute (resource and record).",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+                  },
+                  {
+                    "block": "latency",
+                    "description": "The policy samples based on the duration of the trace.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+                  },
+                  {
+                    "block": "numeric_attribute",
+                    "description": "The policy samples based on number attributes (resource and record).",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+                  },
+                  {
+                    "block": "ottl_condition",
+                    "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+                  },
+                  {
+                    "block": "probabilistic",
+                    "description": "The policy samples a percentage of traces.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+                  },
+                  {
+                    "block": "rate_limiting",
+                    "description": "The policy samples based on rate.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+                  },
+                  {
+                    "block": "span_count",
+                    "description": "The policy samples based on the minimum number of spans within a batch.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+                  },
+                  {
+                    "block": "status_code",
+                    "description": "The policy samples based upon the status code.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+                  },
+                  {
+                    "block": "string_attribute",
+                    "description": "The policy samples based on string attributes (resource and record) value matches.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+                  },
+                  {
+                    "block": "trace_state",
+                    "description": "The policy samples based on TraceState value matches.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+                  }
+                ],
+                "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "decision_wait",
+                "type": "duration",
+                "description": "Wait time since the first span of a trace before making a sampling decision.",
+                "default": "\"30s\"",
+                "required": false
+              },
+              {
+                "name": "num_traces",
+                "type": "int",
+                "description": "Number of traces kept in memory.",
+                "default": "50000",
+                "required": false
+              },
+              {
+                "name": "expected_new_traces_per_sec",
+                "type": "int",
+                "description": "Expected number of new traces (helps in allocating data structures).",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "decision_cache",
+                "type": "object",
+                "description": "Configures caches for sampling decisions.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "composite_sub_policy",
+                "description": "A set of policies underneath a composite policy type.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#composite_sub_policy"
+              },
+              {
+                "block": "composite_sub_policy > boolean_attribute",
+                "description": "The policy samples based on a boolean attribute (resource and record).",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+              },
+              {
+                "block": "composite_sub_policy > latency",
+                "description": "The policy samples based on the duration of the trace.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+              },
+              {
+                "block": "composite_sub_policy > numeric_attribute",
+                "description": "The policy samples based on number attributes (resource and record).",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+              },
+              {
+                "block": "composite_sub_policy > ottl_condition",
+                "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+              },
+              {
+                "block": "composite_sub_policy > probabilistic",
+                "description": "The policy samples a percentage of traces.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+              },
+              {
+                "block": "composite_sub_policy > rate_limiting",
+                "description": "The policy samples based on rate.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+              },
+              {
+                "block": "composite_sub_policy > span_count",
+                "description": "The policy samples based on the minimum number of spans within a batch.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+              },
+              {
+                "block": "composite_sub_policy > status_code",
+                "description": "The policy samples based upon the status code.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+              },
+              {
+                "block": "composite_sub_policy > string_attribute",
+                "description": "The policy samples based on string attributes (resource and record) value matches.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+              },
+              {
+                "block": "composite_sub_policy > trace_state",
+                "description": "The policy samples based on TraceState value matches.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+              }
+            ],
+            "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The custom name given to the policy.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "description": "The valid policy type for this policy.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "boolean_attribute",
+            "description": "The policy samples based on a boolean attribute (resource and record).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+          },
+          {
+            "block": "latency",
+            "description": "The policy samples based on the duration of the trace.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+          },
+          {
+            "block": "numeric_attribute",
+            "description": "The policy samples based on the number attributes (resource and record).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+          },
+          {
+            "block": "ottl_condition",
+            "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+          },
+          {
+            "block": "probabilistic",
+            "description": "The policy samples a percentage of traces.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+          },
+          {
+            "block": "rate_limiting",
+            "description": "The policy samples based on rate.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+          },
+          {
+            "block": "span_count",
+            "description": "The policy samples based on the minimum number of spans within a batch.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+          },
+          {
+            "block": "status_code",
+            "description": "The policy samples based upon the status code.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+          },
+          {
+            "block": "string_attribute",
+            "description": "The policy samples based on string attributes (resource and record) value matches.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+          },
+          {
+            "block": "trace_state",
+            "description": "The policy samples based on TraceState value matches.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+          },
+          {
+            "block": "and",
+            "description": "The policy samples based on multiple policies, creates an and policy.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#and"
+          },
+          {
+            "block": "and > and_sub_policy",
+            "description": "A set of policies underneath an and policy type.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#and_sub_policy"
+          },
+          {
+            "block": "and > and_sub_policy > boolean_attribute",
+            "description": "The policy samples based on a boolean attribute (resource and record).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+          },
+          {
+            "block": "and > and_sub_policy > latency",
+            "description": "The policy samples based on the duration of the trace.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+          },
+          {
+            "block": "and > and_sub_policy > numeric_attribute",
+            "description": "The policy samples based on number attributes (resource and record).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+          },
+          {
+            "block": "and > and_sub_policy > ottl_condition",
+            "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+          },
+          {
+            "block": "and > and_sub_policy > probabilistic",
+            "description": "The policy samples a percentage of traces.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+          },
+          {
+            "block": "and > and_sub_policy > rate_limiting",
+            "description": "The policy samples based on rate.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+          },
+          {
+            "block": "and > and_sub_policy > span_count",
+            "description": "The policy samples based on the minimum number of spans within a batch.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+          },
+          {
+            "block": "and > and_sub_policy > status_code",
+            "description": "The policy samples based upon the status code.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+          },
+          {
+            "block": "and > and_sub_policy > string_attribute",
+            "description": "The policy samples based on string attributes (resource and record) value matches.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+          },
+          {
+            "block": "and > and_sub_policy > trace_state",
+            "description": "The policy samples based on TraceState value matches.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+          },
+          {
+            "block": "composite",
+            "description": "The policy samples based on a combination of above samplers, with ordering and rate allocation per sampler.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#composite"
+          },
+          {
+            "block": "composite > composite_sub_policy",
+            "description": "A set of policies underneath a composite policy type.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#composite_sub_policy"
+          },
+          {
+            "block": "composite > composite_sub_policy > boolean_attribute",
+            "description": "The policy samples based on a boolean attribute (resource and record).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#boolean_attribute"
+          },
+          {
+            "block": "composite > composite_sub_policy > latency",
+            "description": "The policy samples based on the duration of the trace.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#latency"
+          },
+          {
+            "block": "composite > composite_sub_policy > numeric_attribute",
+            "description": "The policy samples based on number attributes (resource and record).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#numeric_attribute"
+          },
+          {
+            "block": "composite > composite_sub_policy > ottl_condition",
+            "description": "The policy samples based on a given boolean OTTL condition (span and span event).",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#ottl_condition"
+          },
+          {
+            "block": "composite > composite_sub_policy > probabilistic",
+            "description": "The policy samples a percentage of traces.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#probabilistic"
+          },
+          {
+            "block": "composite > composite_sub_policy > rate_limiting",
+            "description": "The policy samples based on rate.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#rate_limiting"
+          },
+          {
+            "block": "composite > composite_sub_policy > span_count",
+            "description": "The policy samples based on the minimum number of spans within a batch.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#span_count"
+          },
+          {
+            "block": "composite > composite_sub_policy > status_code",
+            "description": "The policy samples based upon the status code.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#status_code"
+          },
+          {
+            "block": "composite > composite_sub_policy > string_attribute",
+            "description": "The policy samples based on string attributes (resource and record) value matches.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#string_attribute"
+          },
+          {
+            "block": "composite > composite_sub_policy > trace_state",
+            "description": "The policy samples based on TraceState value matches.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.tail_sampling/#trace_state"
+          }
+        ],
+        "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.tail_sampling \"<LABEL>\" {\n  policy {\n    ...\n  }\n  ...\n\n  output {\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output",
+      "policy"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.tail_sampling \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  policy {\n    name = \"${2}\"\n    type = \"${3}\"\n  }\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

@@ -1,0 +1,141 @@
+{
+  "name": "otelcol.exporter.file",
+  "usage": "otelcol.exporter.file \"<LABEL>\" {\n  path = \"<PATH>\"\n}",
+  "arguments": [
+    {
+      "name": "path",
+      "type": "string",
+      "description": "Path to the file to write telemetry data.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "append",
+      "type": "bool",
+      "description": "Append to the file when true; truncate when false.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "compression",
+      "type": "string",
+      "description": "Compression algorithm. Alloy supports only \"zstd\".",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "flush_interval",
+      "type": "duration",
+      "description": "Time between flushes to disk. Must be greater than zero.",
+      "default": "\"1s\"",
+      "required": false
+    },
+    {
+      "name": "format",
+      "type": "string",
+      "description": "Data format. Must be \"json\" or \"proto\".",
+      "default": "\"json\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "compression_params",
+      "description": "Configures the compression codec.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.file/#compression_params"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures internal metrics for this component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.file/#debug_metrics"
+    },
+    {
+      "block": "group_by",
+      "description": "Writes to separate files based on a resource attribute value.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.file/#group_by"
+    },
+    {
+      "block": "rotation",
+      "description": "Configures file rotation. Ignored when group_by.enabled is true.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.file/#rotation"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.exporter.file",
+    "arguments": {
+      "path": {
+        "type": "string",
+        "description": "Path to the file to write telemetry data.",
+        "default": "",
+        "required": true
+      },
+      "append": {
+        "type": "bool",
+        "description": "Append to the file when true; truncate when false.",
+        "default": "false",
+        "required": false
+      },
+      "compression": {
+        "type": "string",
+        "description": "Compression algorithm. Alloy supports only \"zstd\".",
+        "default": "",
+        "required": false
+      },
+      "flush_interval": {
+        "type": "duration",
+        "description": "Time between flushes to disk. Must be greater than zero.",
+        "default": "\"1s\"",
+        "required": false
+      },
+      "format": {
+        "type": "string",
+        "description": "Data format. Must be \"json\" or \"proto\".",
+        "default": "\"json\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "compression_params": {
+        "description": "Configures the compression codec.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.file \"<LABEL>\" {\n  path = \"<PATH>\"\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures internal metrics for this component.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.file \"<LABEL>\" {\n  path = \"<PATH>\"\n}"
+      },
+      "group_by": {
+        "description": "Writes to separate files based on a resource attribute value.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.file \"<LABEL>\" {\n  path = \"<PATH>\"\n}"
+      },
+      "rotation": {
+        "description": "Configures file rotation. Ignored when group_by.enabled is true.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.file \"<LABEL>\" {\n  path = \"<PATH>\"\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.exporter.file \"${1:default}\" {\n  compression_params {\n    $0\n  }\n  debug_metrics {\n    $0\n  }\n  group_by {\n    $0\n  }\n  rotation {\n    $0\n  }\n}"
+}

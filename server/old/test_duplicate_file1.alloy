@@ -1,0 +1,6 @@
+prometheus.scrape "test_instance" {
+    targets = [
+        {"__address__" = "localhost:8080"},
+    ]
+    forward_to = [prometheus.remote_write.default.receiver]
+}

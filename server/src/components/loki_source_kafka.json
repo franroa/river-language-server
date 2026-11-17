@@ -1,0 +1,511 @@
+{
+  "name": "loki.source.kafka",
+  "usage": "loki.source.kafka \"<LABEL>\" {\n  brokers    = \"<BROKER_LIST>\"\n  topics     = \"<TOPIC_LIST>\"\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "brokers",
+      "type": "list(string)",
+      "description": "The list of brokers to connect to Kafka.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "topics",
+      "type": "list(string)",
+      "description": "The list of Kafka topics to consume.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "assignor",
+      "type": "string",
+      "description": "The consumer group rebalancing strategy to use.",
+      "default": "\"range\"",
+      "required": false
+    },
+    {
+      "name": "group_id",
+      "type": "string",
+      "description": "The Kafka consumer group ID.",
+      "default": "\"loki.source.kafka\"",
+      "required": false
+    },
+    {
+      "name": "labels",
+      "type": "map(string)",
+      "description": "The labels to associate with each received Kafka event.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "relabel_rules",
+      "type": "RelabelRules",
+      "description": "Relabeling rules to apply on log entries.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "use_incoming_timestamp",
+      "type": "bool",
+      "description": "Whether to use the timestamp received from Kafka.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "description": "Kafka version to connect to.",
+      "default": "\"2.2.1\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "authentication",
+      "description": "Optional authentication configuration with Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#authentication"
+    },
+    {
+      "block": "authentication > sasl_config",
+      "description": "Optional authentication configuration with Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#sasl_config"
+    },
+    {
+      "block": "authentication > sasl_config > oauth_config",
+      "description": "Optional authentication configuration with Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#oauth_config"
+    },
+    {
+      "block": "authentication > sasl_config > tls_config",
+      "description": "Optional authentication configuration with Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#tls_config"
+    },
+    {
+      "block": "authentication > tls_config",
+      "description": "Optional authentication configuration with Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#tls_config"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.kafka",
+    "arguments": {
+      "brokers": {
+        "type": "list(string)",
+        "description": "The list of brokers to connect to Kafka.",
+        "default": "",
+        "required": true
+      },
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "topics": {
+        "type": "list(string)",
+        "description": "The list of Kafka topics to consume.",
+        "default": "",
+        "required": true
+      },
+      "assignor": {
+        "type": "string",
+        "description": "The consumer group rebalancing strategy to use.",
+        "default": "\"range\"",
+        "required": false
+      },
+      "group_id": {
+        "type": "string",
+        "description": "The Kafka consumer group ID.",
+        "default": "\"loki.source.kafka\"",
+        "required": false
+      },
+      "labels": {
+        "type": "map(string)",
+        "description": "The labels to associate with each received Kafka event.",
+        "default": "{}",
+        "required": false
+      },
+      "relabel_rules": {
+        "type": "RelabelRules",
+        "description": "Relabeling rules to apply on log entries.",
+        "default": "{}",
+        "required": false
+      },
+      "use_incoming_timestamp": {
+        "type": "bool",
+        "description": "Whether to use the timestamp received from Kafka.",
+        "default": "false",
+        "required": false
+      },
+      "version": {
+        "type": "string",
+        "description": "Kafka version to connect to.",
+        "default": "\"2.2.1\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "authentication": {
+        "description": "Optional authentication configuration with Kafka brokers.",
+        "required": false,
+        "children": {
+          "sasl_config": {
+            "description": "Optional authentication configuration with Kafka brokers.",
+            "required": false,
+            "children": {
+              "oauth_config": {
+                "description": "Optional authentication configuration with Kafka brokers.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "brokers",
+                    "type": "list(string)",
+                    "description": "The list of brokers to connect to Kafka.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "forward_to",
+                    "type": "list(LogsReceiver)",
+                    "description": "List of receivers to send log entries to.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "topics",
+                    "type": "list(string)",
+                    "description": "The list of Kafka topics to consume.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "assignor",
+                    "type": "string",
+                    "description": "The consumer group rebalancing strategy to use.",
+                    "default": "\"range\"",
+                    "required": false
+                  },
+                  {
+                    "name": "group_id",
+                    "type": "string",
+                    "description": "The Kafka consumer group ID.",
+                    "default": "\"loki.source.kafka\"",
+                    "required": false
+                  },
+                  {
+                    "name": "labels",
+                    "type": "map(string)",
+                    "description": "The labels to associate with each received Kafka event.",
+                    "default": "{}",
+                    "required": false
+                  },
+                  {
+                    "name": "relabel_rules",
+                    "type": "RelabelRules",
+                    "description": "Relabeling rules to apply on log entries.",
+                    "default": "{}",
+                    "required": false
+                  },
+                  {
+                    "name": "use_incoming_timestamp",
+                    "type": "bool",
+                    "description": "Whether to use the timestamp received from Kafka.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "version",
+                    "type": "string",
+                    "description": "Kafka version to connect to.",
+                    "default": "\"2.2.1\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "loki.source.kafka \"<LABEL>\" {\n  brokers    = \"<BROKER_LIST>\"\n  topics     = \"<TOPIC_LIST>\"\n  forward_to = <RECEIVER_LIST>\n}"
+              },
+              "tls_config": {
+                "description": "Optional authentication configuration with Kafka brokers.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "brokers",
+                    "type": "list(string)",
+                    "description": "The list of brokers to connect to Kafka.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "forward_to",
+                    "type": "list(LogsReceiver)",
+                    "description": "List of receivers to send log entries to.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "topics",
+                    "type": "list(string)",
+                    "description": "The list of Kafka topics to consume.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "assignor",
+                    "type": "string",
+                    "description": "The consumer group rebalancing strategy to use.",
+                    "default": "\"range\"",
+                    "required": false
+                  },
+                  {
+                    "name": "group_id",
+                    "type": "string",
+                    "description": "The Kafka consumer group ID.",
+                    "default": "\"loki.source.kafka\"",
+                    "required": false
+                  },
+                  {
+                    "name": "labels",
+                    "type": "map(string)",
+                    "description": "The labels to associate with each received Kafka event.",
+                    "default": "{}",
+                    "required": false
+                  },
+                  {
+                    "name": "relabel_rules",
+                    "type": "RelabelRules",
+                    "description": "Relabeling rules to apply on log entries.",
+                    "default": "{}",
+                    "required": false
+                  },
+                  {
+                    "name": "use_incoming_timestamp",
+                    "type": "bool",
+                    "description": "Whether to use the timestamp received from Kafka.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "version",
+                    "type": "string",
+                    "description": "Kafka version to connect to.",
+                    "default": "\"2.2.1\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "loki.source.kafka \"<LABEL>\" {\n  brokers    = \"<BROKER_LIST>\"\n  topics     = \"<TOPIC_LIST>\"\n  forward_to = <RECEIVER_LIST>\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "The list of brokers to connect to Kafka.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "forward_to",
+                "type": "list(LogsReceiver)",
+                "description": "List of receivers to send log entries to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "topics",
+                "type": "list(string)",
+                "description": "The list of Kafka topics to consume.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "assignor",
+                "type": "string",
+                "description": "The consumer group rebalancing strategy to use.",
+                "default": "\"range\"",
+                "required": false
+              },
+              {
+                "name": "group_id",
+                "type": "string",
+                "description": "The Kafka consumer group ID.",
+                "default": "\"loki.source.kafka\"",
+                "required": false
+              },
+              {
+                "name": "labels",
+                "type": "map(string)",
+                "description": "The labels to associate with each received Kafka event.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "relabel_rules",
+                "type": "RelabelRules",
+                "description": "Relabeling rules to apply on log entries.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "use_incoming_timestamp",
+                "type": "bool",
+                "description": "Whether to use the timestamp received from Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "version",
+                "type": "string",
+                "description": "Kafka version to connect to.",
+                "default": "\"2.2.1\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "oauth_config",
+                "description": "Optional authentication configuration with Kafka brokers.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#oauth_config"
+              },
+              {
+                "block": "tls_config",
+                "description": "Optional authentication configuration with Kafka brokers.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#tls_config"
+              }
+            ],
+            "usage": "loki.source.kafka \"<LABEL>\" {\n  brokers    = \"<BROKER_LIST>\"\n  topics     = \"<TOPIC_LIST>\"\n  forward_to = <RECEIVER_LIST>\n}"
+          },
+          "tls_config": {
+            "description": "Optional authentication configuration with Kafka brokers.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "The list of brokers to connect to Kafka.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "forward_to",
+                "type": "list(LogsReceiver)",
+                "description": "List of receivers to send log entries to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "topics",
+                "type": "list(string)",
+                "description": "The list of Kafka topics to consume.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "assignor",
+                "type": "string",
+                "description": "The consumer group rebalancing strategy to use.",
+                "default": "\"range\"",
+                "required": false
+              },
+              {
+                "name": "group_id",
+                "type": "string",
+                "description": "The Kafka consumer group ID.",
+                "default": "\"loki.source.kafka\"",
+                "required": false
+              },
+              {
+                "name": "labels",
+                "type": "map(string)",
+                "description": "The labels to associate with each received Kafka event.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "relabel_rules",
+                "type": "RelabelRules",
+                "description": "Relabeling rules to apply on log entries.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "use_incoming_timestamp",
+                "type": "bool",
+                "description": "Whether to use the timestamp received from Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "version",
+                "type": "string",
+                "description": "Kafka version to connect to.",
+                "default": "\"2.2.1\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "loki.source.kafka \"<LABEL>\" {\n  brokers    = \"<BROKER_LIST>\"\n  topics     = \"<TOPIC_LIST>\"\n  forward_to = <RECEIVER_LIST>\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "type",
+            "type": "string",
+            "description": "Type of authentication.",
+            "default": "\"none\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "sasl_config",
+            "description": "Optional authentication configuration with Kafka brokers.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#sasl_config"
+          },
+          {
+            "block": "sasl_config > oauth_config",
+            "description": "Optional authentication configuration with Kafka brokers.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#oauth_config"
+          },
+          {
+            "block": "sasl_config > tls_config",
+            "description": "Optional authentication configuration with Kafka brokers.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#tls_config"
+          },
+          {
+            "block": "tls_config",
+            "description": "Optional authentication configuration with Kafka brokers.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kafka/#tls_config"
+          }
+        ],
+        "usage": "loki.source.kafka \"<LABEL>\" {\n  brokers    = \"<BROKER_LIST>\"\n  topics     = \"<TOPIC_LIST>\"\n  forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.kafka \"${1:default}\" {\n  authentication {\n  }\n}"
+}

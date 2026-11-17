@@ -1,0 +1,730 @@
+{
+  "name": "otelcol.receiver.file_stats",
+  "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "include",
+      "type": "string",
+      "description": "Glob path for paths to collect stats from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "collection_interval",
+      "type": "duration",
+      "description": "How often to collect statistics.",
+      "default": "\"1m\"",
+      "required": false
+    },
+    {
+      "name": "initial_delay",
+      "type": "duration",
+      "description": "Initial time to wait before collecting statistics.",
+      "default": "\"1s\"",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "Timeout for a collection; 0s means no timeout.",
+      "default": "\"0s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#debug_metrics"
+    },
+    {
+      "block": "metrics",
+      "description": "Configures which metrics will be sent to downstream components.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics"
+    },
+    {
+      "block": "metrics > file.atime",
+      "description": "Configures the file.atime metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#fileatime"
+    },
+    {
+      "block": "metrics > file.count",
+      "description": "Configures the file.count metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filecount"
+    },
+    {
+      "block": "metrics > file.ctime",
+      "description": "Configures the file.ctime metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filectime"
+    },
+    {
+      "block": "metrics > file.mtime",
+      "description": "Configures the file.mtime metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filemtime"
+    },
+    {
+      "block": "metrics > file.size",
+      "description": "Configures the file.size metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filesize"
+    },
+    {
+      "block": "resource_attributes",
+      "description": "Configures resource attributes for metrics sent to downstream components.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#resource_attributes"
+    },
+    {
+      "block": "resource_attributes > file.name",
+      "description": "Configures the file.name resource attribute.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filename"
+    },
+    {
+      "block": "resource_attributes > file.name > metrics_exclude",
+      "description": "Metrics to exclude the file.name resource attribute from.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_exclude"
+    },
+    {
+      "block": "resource_attributes > file.name > metrics_include",
+      "description": "Metrics to include the file.name resource attribute in.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_include"
+    },
+    {
+      "block": "resource_attributes > file.path",
+      "description": "Configures the file.path resource attribute.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filepath"
+    },
+    {
+      "block": "resource_attributes > file.path > metrics_exclude",
+      "description": "Metrics to exclude the file.path resource attribute from.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_exclude"
+    },
+    {
+      "block": "resource_attributes > file.path > metrics_include",
+      "description": "Metrics to include the file.path resource attribute in.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_include"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.file_stats",
+    "arguments": {
+      "include": {
+        "type": "string",
+        "description": "Glob path for paths to collect stats from.",
+        "default": "",
+        "required": true
+      },
+      "collection_interval": {
+        "type": "duration",
+        "description": "How often to collect statistics.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      "initial_delay": {
+        "type": "duration",
+        "description": "Initial time to wait before collecting statistics.",
+        "default": "\"1s\"",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "Timeout for a collection; 0s means no timeout.",
+        "default": "\"0s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "metrics",
+            "type": "Configures which metrics will be sent to downstream components.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "metrics": {
+        "description": "Configures which metrics will be sent to downstream components.",
+        "required": false,
+        "children": {
+          "file.atime": {
+            "description": "Configures the file.atime metric.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "include",
+                "type": "string",
+                "description": "Glob path for paths to collect stats from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "collection_interval",
+                "type": "duration",
+                "description": "How often to collect statistics.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "initial_delay",
+                "type": "duration",
+                "description": "Initial time to wait before collecting statistics.",
+                "default": "\"1s\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Timeout for a collection; 0s means no timeout.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "file.count": {
+            "description": "Configures the file.count metric.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "include",
+                "type": "string",
+                "description": "Glob path for paths to collect stats from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "collection_interval",
+                "type": "duration",
+                "description": "How often to collect statistics.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "initial_delay",
+                "type": "duration",
+                "description": "Initial time to wait before collecting statistics.",
+                "default": "\"1s\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Timeout for a collection; 0s means no timeout.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "file.ctime": {
+            "description": "Configures the file.ctime metric.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "include",
+                "type": "string",
+                "description": "Glob path for paths to collect stats from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "collection_interval",
+                "type": "duration",
+                "description": "How often to collect statistics.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "initial_delay",
+                "type": "duration",
+                "description": "Initial time to wait before collecting statistics.",
+                "default": "\"1s\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Timeout for a collection; 0s means no timeout.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "file.mtime": {
+            "description": "Configures the file.mtime metric.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "include",
+                "type": "string",
+                "description": "Glob path for paths to collect stats from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "collection_interval",
+                "type": "duration",
+                "description": "How often to collect statistics.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "initial_delay",
+                "type": "duration",
+                "description": "Initial time to wait before collecting statistics.",
+                "default": "\"1s\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Timeout for a collection; 0s means no timeout.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "file.size": {
+            "description": "Configures the file.size metric.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "include",
+                "type": "string",
+                "description": "Glob path for paths to collect stats from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "collection_interval",
+                "type": "duration",
+                "description": "How often to collect statistics.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "initial_delay",
+                "type": "duration",
+                "description": "Initial time to wait before collecting statistics.",
+                "default": "\"1s\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Timeout for a collection; 0s means no timeout.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "file.atime",
+            "description": "Configures the file.atime metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#fileatime"
+          },
+          {
+            "block": "file.count",
+            "description": "Configures the file.count metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filecount"
+          },
+          {
+            "block": "file.ctime",
+            "description": "Configures the file.ctime metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filectime"
+          },
+          {
+            "block": "file.mtime",
+            "description": "Configures the file.mtime metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filemtime"
+          },
+          {
+            "block": "file.size",
+            "description": "Configures the file.size metric.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filesize"
+          }
+        ],
+        "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "resource_attributes": {
+        "description": "Configures resource attributes for metrics sent to downstream components.",
+        "required": false,
+        "children": {
+          "file.name": {
+            "description": "Configures the file.name resource attribute.",
+            "required": false,
+            "children": {
+              "metrics_exclude": {
+                "description": "Metrics to exclude the file.name resource attribute from.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "include",
+                    "type": "string",
+                    "description": "Glob path for paths to collect stats from.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "collection_interval",
+                    "type": "duration",
+                    "description": "How often to collect statistics.",
+                    "default": "\"1m\"",
+                    "required": false
+                  },
+                  {
+                    "name": "initial_delay",
+                    "type": "duration",
+                    "description": "Initial time to wait before collecting statistics.",
+                    "default": "\"1s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "Timeout for a collection; 0s means no timeout.",
+                    "default": "\"0s\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+              },
+              "metrics_include": {
+                "description": "Metrics to include the file.name resource attribute in.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "include",
+                    "type": "string",
+                    "description": "Glob path for paths to collect stats from.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "collection_interval",
+                    "type": "duration",
+                    "description": "How often to collect statistics.",
+                    "default": "\"1m\"",
+                    "required": false
+                  },
+                  {
+                    "name": "initial_delay",
+                    "type": "duration",
+                    "description": "Initial time to wait before collecting statistics.",
+                    "default": "\"1s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "Timeout for a collection; 0s means no timeout.",
+                    "default": "\"0s\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "include",
+                "type": "string",
+                "description": "Glob path for paths to collect stats from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "collection_interval",
+                "type": "duration",
+                "description": "How often to collect statistics.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "initial_delay",
+                "type": "duration",
+                "description": "Initial time to wait before collecting statistics.",
+                "default": "\"1s\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Timeout for a collection; 0s means no timeout.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "metrics_exclude",
+                "description": "Metrics to exclude the file.name resource attribute from.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_exclude"
+              },
+              {
+                "block": "metrics_include",
+                "description": "Metrics to include the file.name resource attribute in.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_include"
+              }
+            ],
+            "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "file.path": {
+            "description": "Configures the file.path resource attribute.",
+            "required": false,
+            "children": {
+              "metrics_exclude": {
+                "description": "Metrics to exclude the file.path resource attribute from.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "include",
+                    "type": "string",
+                    "description": "Glob path for paths to collect stats from.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "collection_interval",
+                    "type": "duration",
+                    "description": "How often to collect statistics.",
+                    "default": "\"1m\"",
+                    "required": false
+                  },
+                  {
+                    "name": "initial_delay",
+                    "type": "duration",
+                    "description": "Initial time to wait before collecting statistics.",
+                    "default": "\"1s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "Timeout for a collection; 0s means no timeout.",
+                    "default": "\"0s\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+              },
+              "metrics_include": {
+                "description": "Metrics to include the file.path resource attribute in.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "include",
+                    "type": "string",
+                    "description": "Glob path for paths to collect stats from.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "collection_interval",
+                    "type": "duration",
+                    "description": "How often to collect statistics.",
+                    "default": "\"1m\"",
+                    "required": false
+                  },
+                  {
+                    "name": "initial_delay",
+                    "type": "duration",
+                    "description": "Initial time to wait before collecting statistics.",
+                    "default": "\"1s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "Timeout for a collection; 0s means no timeout.",
+                    "default": "\"0s\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "include",
+                "type": "string",
+                "description": "Glob path for paths to collect stats from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "collection_interval",
+                "type": "duration",
+                "description": "How often to collect statistics.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "initial_delay",
+                "type": "duration",
+                "description": "Initial time to wait before collecting statistics.",
+                "default": "\"1s\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Timeout for a collection; 0s means no timeout.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "metrics_exclude",
+                "description": "Metrics to exclude the file.path resource attribute from.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_exclude"
+              },
+              {
+                "block": "metrics_include",
+                "description": "Metrics to include the file.path resource attribute in.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_include"
+              }
+            ],
+            "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "file.name",
+            "description": "Configures the file.name resource attribute.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filename"
+          },
+          {
+            "block": "file.name > metrics_exclude",
+            "description": "Metrics to exclude the file.name resource attribute from.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_exclude"
+          },
+          {
+            "block": "file.name > metrics_include",
+            "description": "Metrics to include the file.name resource attribute in.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_include"
+          },
+          {
+            "block": "file.path",
+            "description": "Configures the file.path resource attribute.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#filepath"
+          },
+          {
+            "block": "file.path > metrics_exclude",
+            "description": "Metrics to exclude the file.path resource attribute from.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_exclude"
+          },
+          {
+            "block": "file.path > metrics_include",
+            "description": "Metrics to include the file.path resource attribute in.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.file_stats/#metrics_include"
+          }
+        ],
+        "usage": "otelcol.receiver.file_stats \"<LABEL>\" {\n  include = \"GLOB_PATTERN\"\n\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.file_stats \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  metrics {\n  }\n  resource_attributes {\n  }\n}"
+}

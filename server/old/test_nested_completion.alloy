@@ -1,0 +1,5 @@
+prometheus.remote_write "label" {
+	endpoint {
+		// Cursor should be here - should show 'url' completion
+	}
+}

@@ -1,0 +1,11 @@
+// Test file 1 for cross-file duplicate detection
+prometheus.scrape "shared" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// This should not trigger duplicate (different label)
+prometheus.scrape "unique1" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}

@@ -1,0 +1,81 @@
+{
+  "name": "prometheus.exporter.catchpoint",
+  "usage": "prometheus.exporter.catchpoint \"<LABEL>\" {\n    port              = \"<PORT>\"\n    verbose_logging   = <VERBOSE_LOGGING>\n    webhook_path      = \"<WEBHOOK_PATH>\"\n}",
+  "arguments": [
+    {
+      "name": "port",
+      "type": "string",
+      "description": "Sets the port on which the exporter runs.",
+      "default": "\"9090\"",
+      "required": false
+    },
+    {
+      "name": "verbose_logging",
+      "type": "bool",
+      "description": "Enables verbose logging to provide more detailed output for debugging purposes.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "webhook_path",
+      "type": "string",
+      "description": "Defines the path where the exporter receives webhook data from Catchpoint",
+      "default": "\"/catchpoint-webhook\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.catchpoint",
+    "arguments": {
+      "port": {
+        "type": "string",
+        "description": "Sets the port on which the exporter runs.",
+        "default": "\"9090\"",
+        "required": false
+      },
+      "verbose_logging": {
+        "type": "bool",
+        "description": "Enables verbose logging to provide more detailed output for debugging purposes.",
+        "default": "false",
+        "required": false
+      },
+      "webhook_path": {
+        "type": "string",
+        "description": "Defines the path where the exporter receives webhook data from Catchpoint",
+        "default": "\"/catchpoint-webhook\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.catchpoint \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

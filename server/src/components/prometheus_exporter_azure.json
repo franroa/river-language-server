@@ -1,0 +1,224 @@
+{
+  "name": "prometheus.exporter.azure",
+  "usage": "prometheus.exporter.azure \"<LABEL>\" {\n        subscriptions = [\n                <SUB_ID_1>,\n                <SUB_ID_2>,\n                ...\n        ]\n\n        resource_type = \"<RESOURCE_TYPE>\"\n\n        metrics = [\n                \"<METRIC_1>\",\n                \"<METRIC_2>\",\n                ...\n        ]\n}",
+  "arguments": [
+    {
+      "name": "metrics",
+      "type": "list(string)",
+      "description": "The metrics to scrape from resources.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "resource_type",
+      "type": "string",
+      "description": "The Azure Resource Type to scrape metrics for.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "subscriptions",
+      "type": "list(string)",
+      "description": "List of subscriptions to scrape metrics from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "azure_cloud_environment",
+      "type": "string",
+      "description": "Name of the cloud environment to connect to.",
+      "default": "\"azurecloud\"",
+      "required": false
+    },
+    {
+      "name": "included_dimensions",
+      "type": "list(string)",
+      "description": "List of dimensions to include on the final metrics.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "included_resource_tags",
+      "type": "list(string)",
+      "description": "List of resource tags to include on the final metrics.",
+      "default": "[\"owner\"]",
+      "required": false
+    },
+    {
+      "name": "metric_aggregations",
+      "type": "list(string)",
+      "description": "Aggregations to apply for the metrics produced.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "metric_help_template",
+      "type": "string",
+      "description": "Description of the metric.",
+      "default": "\"Azure metric {metric} for {type} with aggregation {aggregation} as {unit}\"",
+      "required": false
+    },
+    {
+      "name": "metric_name_template",
+      "type": "string",
+      "description": "Metric template used to expose the metrics.",
+      "default": "\"azure_{type}_{metric}_{aggregation}_{unit}\"",
+      "required": false
+    },
+    {
+      "name": "metric_namespace",
+      "type": "string",
+      "description": "Namespace for resource_type which have multiple levels of metrics.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "regions",
+      "type": "list(string)",
+      "description": "The list of regions for gathering metrics. Gathers metrics for all resources in the subscription. Can’t be used if resource_graph_query_filter is set.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "resource_graph_query_filter",
+      "type": "string",
+      "description": "The Kusto query filter to apply when searching for resources. Can’t be used if regions is set.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "timespan",
+      "type": "string",
+      "description": "ISO8601 Duration over which the metrics are being queried.",
+      "default": "\"PT1M\" (1 minute)",
+      "required": false
+    },
+    {
+      "name": "validate_dimensions",
+      "type": "bool",
+      "description": "Enable dimension validation in the azure SDK.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.azure",
+    "arguments": {
+      "metrics": {
+        "type": "list(string)",
+        "description": "The metrics to scrape from resources.",
+        "default": "",
+        "required": true
+      },
+      "resource_type": {
+        "type": "string",
+        "description": "The Azure Resource Type to scrape metrics for.",
+        "default": "",
+        "required": true
+      },
+      "subscriptions": {
+        "type": "list(string)",
+        "description": "List of subscriptions to scrape metrics from.",
+        "default": "",
+        "required": true
+      },
+      "azure_cloud_environment": {
+        "type": "string",
+        "description": "Name of the cloud environment to connect to.",
+        "default": "\"azurecloud\"",
+        "required": false
+      },
+      "included_dimensions": {
+        "type": "list(string)",
+        "description": "List of dimensions to include on the final metrics.",
+        "default": "",
+        "required": false
+      },
+      "included_resource_tags": {
+        "type": "list(string)",
+        "description": "List of resource tags to include on the final metrics.",
+        "default": "[\"owner\"]",
+        "required": false
+      },
+      "metric_aggregations": {
+        "type": "list(string)",
+        "description": "Aggregations to apply for the metrics produced.",
+        "default": "",
+        "required": false
+      },
+      "metric_help_template": {
+        "type": "string",
+        "description": "Description of the metric.",
+        "default": "\"Azure metric {metric} for {type} with aggregation {aggregation} as {unit}\"",
+        "required": false
+      },
+      "metric_name_template": {
+        "type": "string",
+        "description": "Metric template used to expose the metrics.",
+        "default": "\"azure_{type}_{metric}_{aggregation}_{unit}\"",
+        "required": false
+      },
+      "metric_namespace": {
+        "type": "string",
+        "description": "Namespace for resource_type which have multiple levels of metrics.",
+        "default": "",
+        "required": false
+      },
+      "regions": {
+        "type": "list(string)",
+        "description": "The list of regions for gathering metrics. Gathers metrics for all resources in the subscription. Can’t be used if resource_graph_query_filter is set.",
+        "default": "",
+        "required": false
+      },
+      "resource_graph_query_filter": {
+        "type": "string",
+        "description": "The Kusto query filter to apply when searching for resources. Can’t be used if regions is set.",
+        "default": "",
+        "required": false
+      },
+      "timespan": {
+        "type": "string",
+        "description": "ISO8601 Duration over which the metrics are being queried.",
+        "default": "\"PT1M\" (1 minute)",
+        "required": false
+      },
+      "validate_dimensions": {
+        "type": "bool",
+        "description": "Enable dimension validation in the azure SDK.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.azure \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

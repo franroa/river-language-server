@@ -1,0 +1,44 @@
+{
+  "name": "database_observability.postgres",
+  "usage": "database_observability.postgres \"<LABEL>\" {\n  data_source_name = <DATA_SOURCE_NAME>\n  forward_to       = [<LOKI_RECEIVERS>]\n}",
+  "arguments": [
+    {
+      "name": "data_source_name",
+      "type": "secret",
+      "description": "Data Source Name for the Postgres server to connect to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "Where to forward log entries after processing.",
+      "default": "",
+      "required": true
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "database_observability.postgres",
+    "arguments": {
+      "data_source_name": {
+        "type": "secret",
+        "description": "Data Source Name for the Postgres server to connect to.",
+        "default": "",
+        "required": true
+      },
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "Where to forward log entries after processing.",
+        "default": "",
+        "required": true
+      }
+    },
+    "blocks": {},
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "database_observability.postgres \"${1:default}\" {\n}"
+}

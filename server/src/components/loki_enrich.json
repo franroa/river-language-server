@@ -1,0 +1,96 @@
+{
+  "name": "loki.enrich",
+  "usage": "loki.enrich \"<LABEL>\" {\n  // List of targets from a discovery component\n  targets = <DISCOVERY_COMPONENT>.targets\n  \n  // Which label from discovered targets to match against\n  target_match_label = \"<LABEL>\"\n  \n  // Which label from incoming logs to match against\n  logs_match_label = \"<LABEL>\"\n  \n  // List of labels to copy from discovered targets to logs\n  labels_to_copy = [\"<LABEL>\", ...]\n  \n  // Where to send enriched logs\n  forward_to = [<RECEIVER_LIST>]\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "[]loki.LogsReceiver",
+      "description": "List of receivers to send enriched logs to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "target_match_label",
+      "type": "string",
+      "description": "The label from discovered targets to match against, for example, \"__inventory_consul_service\".",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "targets",
+      "type": "[]discovery.Target",
+      "description": "List of targets from a discovery component.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "labels_to_copy",
+      "type": "[]string",
+      "description": "List of labels to copy from discovered targets to logs. If empty, all labels will be copied.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "logs_match_label",
+      "type": "string",
+      "description": "The label from incoming logs to match against discovered targets, for example \"service_name\".",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "receiver",
+      "description": "loki.LogsReceiver",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.enrich",
+    "arguments": {
+      "forward_to": {
+        "type": "[]loki.LogsReceiver",
+        "description": "List of receivers to send enriched logs to.",
+        "default": "",
+        "required": true
+      },
+      "target_match_label": {
+        "type": "string",
+        "description": "The label from discovered targets to match against, for example, \"__inventory_consul_service\".",
+        "default": "",
+        "required": true
+      },
+      "targets": {
+        "type": "[]discovery.Target",
+        "description": "List of targets from a discovery component.",
+        "default": "",
+        "required": true
+      },
+      "labels_to_copy": {
+        "type": "[]string",
+        "description": "List of labels to copy from discovered targets to logs. If empty, all labels will be copied.",
+        "default": "",
+        "required": false
+      },
+      "logs_match_label": {
+        "type": "string",
+        "description": "The label from incoming logs to match against discovered targets, for example \"service_name\".",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "receiver": {
+        "description": "loki.LogsReceiver",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.enrich \"${1:default}\" {\n  receiver {\n    $0\n  }\n}"
+}

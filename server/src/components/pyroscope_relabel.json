@@ -1,0 +1,80 @@
+{
+  "name": "pyroscope.relabel",
+  "usage": "pyroscope.relabel \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n\n    rule {\n        ...\n    }\n\n    ...\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(pyroscope.Appendable)",
+      "description": "List of receivers to forward profiles to after relabeling",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "max_cache_size",
+      "type": "number",
+      "description": "Maximum number of entries in the label cache",
+      "default": "10000",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "rule",
+      "description": "Relabeling rules to apply to received profile entries.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/pyroscope/pyroscope.relabel/#rule"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "ProfilesReceiver",
+      "description": "A receiver that accepts profiles for relabeling."
+    },
+    {
+      "name": "rules",
+      "type": "[]relabel.Config",
+      "description": "The list of relabeling rules."
+    }
+  ],
+  "lsp_structure": {
+    "component": "pyroscope.relabel",
+    "arguments": {
+      "forward_to": {
+        "type": "list(pyroscope.Appendable)",
+        "description": "List of receivers to forward profiles to after relabeling",
+        "default": "",
+        "required": true
+      },
+      "max_cache_size": {
+        "type": "number",
+        "description": "Maximum number of entries in the label cache",
+        "default": "10000",
+        "required": false
+      }
+    },
+    "blocks": {
+      "rule": {
+        "description": "Relabeling rules to apply to received profile entries.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "pyroscope.relabel \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n\n    rule {\n        ...\n    }\n\n    ...\n}"
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "ProfilesReceiver",
+        "description": "A receiver that accepts profiles for relabeling."
+      },
+      "rules": {
+        "type": "[]relabel.Config",
+        "description": "The list of relabeling rules."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "pyroscope.relabel \"${1:default}\" {\n  rule {\n    $0\n  }\n\n  // Exported fields:\n  // - receiver (ProfilesReceiver): A receiver that accepts profiles for relabeling.\n  // - rules ([]relabel.Config): The list of relabeling rules.\n}"
+}

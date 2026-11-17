@@ -1,0 +1,120 @@
+{
+  "name": "prometheus.enrich",
+  "usage": "prometheus.enrich \"<LABEL>\" {\n  targets = <DISCOVERY_COMPONENT>.targets\n\n  target_to_metric_match = {\n    \"<TARGET_LABEL_1>\" = \"<METRIC_LABEL_1>\",\n    \"<TARGET_LABEL_2>\" = \"<METRIC_LABEL_2>\",\n  }\n\n  forward_to = [<RECEIVER_LIST>]\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(MetricsReceiver)",
+      "description": "Where to forward metrics after enrichment.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "List of targets from a discovery component.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "labels_to_copy",
+      "type": "list(string)",
+      "description": "List of labels to copy from discovered targets to metrics. If empty, the component copies all labels.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "metrics_match_label",
+      "type": "string",
+      "description": "(Deprecated) The label from incoming metrics to match against discovered targets, for example \"service_name\".",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "target_match_label",
+      "type": "string",
+      "description": "(Deprecated) The label from discovered targets to match against, for example, \"__inventory_consul_service\".",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "target_to_metric_match",
+      "type": "map(string)",
+      "description": "Map of target label name to metric label name. All entries must match for enrichment.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "receiver",
+      "description": "MetricsReceiver",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "MetricsReceiver",
+      "description": "The input receiver where the component receives samples to enrich."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.enrich",
+    "arguments": {
+      "forward_to": {
+        "type": "list(MetricsReceiver)",
+        "description": "Where to forward metrics after enrichment.",
+        "default": "",
+        "required": true
+      },
+      "targets": {
+        "type": "list(map(string))",
+        "description": "List of targets from a discovery component.",
+        "default": "",
+        "required": true
+      },
+      "labels_to_copy": {
+        "type": "list(string)",
+        "description": "List of labels to copy from discovered targets to metrics. If empty, the component copies all labels.",
+        "default": "",
+        "required": false
+      },
+      "metrics_match_label": {
+        "type": "string",
+        "description": "(Deprecated) The label from incoming metrics to match against discovered targets, for example \"service_name\".",
+        "default": "",
+        "required": false
+      },
+      "target_match_label": {
+        "type": "string",
+        "description": "(Deprecated) The label from discovered targets to match against, for example, \"__inventory_consul_service\".",
+        "default": "",
+        "required": false
+      },
+      "target_to_metric_match": {
+        "type": "map(string)",
+        "description": "Map of target label name to metric label name. All entries must match for enrichment.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "receiver": {
+        "description": "MetricsReceiver",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "MetricsReceiver",
+        "description": "The input receiver where the component receives samples to enrich."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.enrich \"${1:default}\" {\n  receiver {\n    $0\n  }\n\n  // Exported fields:\n  // - receiver (MetricsReceiver): The input receiver where the component receives samples to enrich.\n}"
+}

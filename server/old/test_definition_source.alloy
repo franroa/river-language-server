@@ -1,0 +1,19 @@
+// This file defines components that will be referenced from other files
+
+prometheus.remote_write "default" {
+    endpoint {
+        url = "http://localhost:9090/api/v1/write"
+    }
+}
+
+prometheus.remote_write "backup" {
+    endpoint {
+        url = "http://backup:9090/api/v1/write"
+    }
+}
+
+loki.write "main" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}

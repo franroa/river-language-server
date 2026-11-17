@@ -1,0 +1,123 @@
+{
+  "name": "otelcol.auth.google",
+  "usage": "otelcol.auth.google \"<LABEL>\" {\n    project     = \"<PROJECT_ID>\"\n}",
+  "arguments": [
+    {
+      "name": "audience",
+      "type": "string",
+      "description": "The audience claim used for generating an ID token.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "project",
+      "type": "string",
+      "description": "The project telemetry is sent to.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "quota_project",
+      "type": "string",
+      "description": "A project for quota and billing purposes.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "scopes",
+      "type": "list(string)",
+      "description": "Requested permissions associated with the client.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "token_header",
+      "type": "string",
+      "description": "The HTTP header that carries the token.",
+      "default": "\"authorization\"",
+      "required": false
+    },
+    {
+      "name": "token_type",
+      "type": "string",
+      "description": "The type of token to generate. One of access_token or id_token.",
+      "default": "\"access_token\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.auth.google/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A value that other components can use to authenticate requests."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.auth.google",
+    "arguments": {
+      "audience": {
+        "type": "string",
+        "description": "The audience claim used for generating an ID token.",
+        "default": "",
+        "required": false
+      },
+      "project": {
+        "type": "string",
+        "description": "The project telemetry is sent to.",
+        "default": "",
+        "required": false
+      },
+      "quota_project": {
+        "type": "string",
+        "description": "A project for quota and billing purposes.",
+        "default": "",
+        "required": false
+      },
+      "scopes": {
+        "type": "list(string)",
+        "description": "Requested permissions associated with the client.",
+        "default": "[]",
+        "required": false
+      },
+      "token_header": {
+        "type": "string",
+        "description": "The HTTP header that carries the token.",
+        "default": "\"authorization\"",
+        "required": false
+      },
+      "token_type": {
+        "type": "string",
+        "description": "The type of token to generate. One of access_token or id_token.",
+        "default": "\"access_token\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.auth.google \"<LABEL>\" {\n    project     = \"<PROJECT_ID>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A value that other components can use to authenticate requests."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.auth.google \"${1:default}\" {\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A value that other components can use to authenticate requests.\n}"
+}

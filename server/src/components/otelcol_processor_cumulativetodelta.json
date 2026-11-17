@@ -1,0 +1,195 @@
+{
+  "name": "otelcol.processor.cumulativetodelta",
+  "usage": "otelcol.processor.cumulativetodelta \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "initial_value",
+      "type": "string",
+      "description": "Handling of the first observed point for a given metric identity.",
+      "default": "\"auto\"",
+      "required": false
+    },
+    {
+      "name": "max_staleness",
+      "type": "duration",
+      "description": "The total time a state entry will live past the time it was last seen.",
+      "default": "\"0\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.cumulativetodelta/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.cumulativetodelta/#debug_metrics"
+    },
+    {
+      "block": "exclude",
+      "description": "Configures which metrics to not convert to delta.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.cumulativetodelta/#exclude"
+    },
+    {
+      "block": "include",
+      "description": "Configures which metrics to convert to delta.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.cumulativetodelta/#include"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.cumulativetodelta",
+    "arguments": {
+      "initial_value": {
+        "type": "string",
+        "description": "Handling of the first observed point for a given metric identity.",
+        "default": "\"auto\"",
+        "required": false
+      },
+      "max_staleness": {
+        "type": "duration",
+        "description": "The total time a state entry will live past the time it was last seen.",
+        "default": "\"0\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(string)",
+            "description": "Names or patterns to convert to delta.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(string)",
+            "description": "Names or patterns to exclude when converting to delta.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.cumulativetodelta \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.cumulativetodelta \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "exclude": {
+        "description": "Configures which metrics to not convert to delta.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "match_type",
+            "type": "string",
+            "description": "Match type to use, strict or regexp.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metric_types",
+            "type": "list(string)",
+            "description": "Metric types to exclude when converting to delta.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(string)",
+            "description": "Names or patterns to exclude when converting to delta.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.cumulativetodelta \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "include": {
+        "description": "Configures which metrics to convert to delta.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "match_type",
+            "type": "string",
+            "description": "Match type to use, strict or regexp.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metric_types",
+            "type": "list(string)",
+            "description": "Metric types to convert to delta.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(string)",
+            "description": "Names or patterns to convert to delta.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.cumulativetodelta \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.cumulativetodelta \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  exclude {\n  }\n  include {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

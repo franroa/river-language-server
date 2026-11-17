@@ -1,0 +1,67 @@
+{
+  "name": "discovery.relabel",
+  "usage": "discovery.relabel \"<LABEL>\" {\n  targets = \"<TARGET_LIST>\"\n\n  rule {\n    ...\n  }\n\n  ...\n}",
+  "arguments": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "Targets to relabel",
+      "default": "",
+      "required": true
+    }
+  ],
+  "blocks": [
+    {
+      "block": "rule",
+      "description": "Relabeling rules to apply to targets.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.relabel/#rule"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "output",
+      "type": "list(map(string))",
+      "description": "The set of targets after applying relabeling."
+    },
+    {
+      "name": "rules",
+      "type": "RelabelRules",
+      "description": "The currently configured relabeling rules."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.relabel",
+    "arguments": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "Targets to relabel",
+        "default": "",
+        "required": true
+      }
+    },
+    "blocks": {
+      "rule": {
+        "description": "Relabeling rules to apply to targets.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.relabel \"<LABEL>\" {\n  targets = \"<TARGET_LIST>\"\n\n  rule {\n    ...\n  }\n\n  ...\n}"
+      }
+    },
+    "exported_fields": {
+      "output": {
+        "type": "list(map(string))",
+        "description": "The set of targets after applying relabeling."
+      },
+      "rules": {
+        "type": "RelabelRules",
+        "description": "The currently configured relabeling rules."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.relabel \"${1:default}\" {\n  rule {\n    $0\n  }\n\n  // Exported fields:\n  // - output (list(map(string))): The set of targets after applying relabeling.\n  // - rules (RelabelRules): The currently configured relabeling rules.\n}"
+}

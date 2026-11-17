@@ -1,0 +1,122 @@
+{
+  "name": "otelcol.processor.metric_start_time",
+  "usage": "otelcol.processor.metric_start_time \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "strategy",
+      "type": "string",
+      "description": "Strategy to use for setting start time.",
+      "default": "\"true_reset_point\"",
+      "required": false
+    },
+    {
+      "name": "gc_interval",
+      "type": "duration",
+      "description": "How long to wait before removing a metric from the cache.",
+      "default": "\"10m\"",
+      "required": false
+    },
+    {
+      "name": "start_time_metric_regex",
+      "type": "string",
+      "description": "Regex for a metric name containing the start time. Only applies when strategy is start_time_metric.",
+      "default": "\"\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.metric_start_time/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.metric_start_time/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.metric_start_time",
+    "arguments": {
+      "strategy": {
+        "type": "string",
+        "description": "Strategy to use for setting start time.",
+        "default": "\"true_reset_point\"",
+        "required": false
+      },
+      "gc_interval": {
+        "type": "duration",
+        "description": "How long to wait before removing a metric from the cache.",
+        "default": "\"10m\"",
+        "required": false
+      },
+      "start_time_metric_regex": {
+        "type": "string",
+        "description": "Regex for a metric name containing the start time. Only applies when strategy is start_time_metric.",
+        "default": "\"\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.metric_start_time \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.metric_start_time \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.metric_start_time \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

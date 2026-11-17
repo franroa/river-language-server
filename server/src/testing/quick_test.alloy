@@ -1,0 +1,33 @@
+// Quick LSP Test File
+// Use this for rapid testing of core features
+
+// Test 1: CodeLens - Should see emojis above these lines
+declare "quick_test" {
+    argument "port" { default = 8080 }
+    
+    prometheus.scrape "internal" {
+        targets = [{"__address__" = "localhost:" + string(argument.port.value)}]
+        forward_to = [prometheus.remote_write.default.receiver]
+    }
+}
+
+// Test 2: Completion - Position cursor after quote and press Ctrl+Space
+prometheus.scrape "
+
+// Test 3: Hover - Position cursor on component name and press K
+otelcol.receiver.otlp "test" {
+    grpc { endpoint = "0.0.0.0:4317" }
+    output { traces = [otelcol.exporter.jaeger.default.input] }
+}
+
+// Test 4: Go to Definition - Position cursor on usage and press gd  
+quick_test "instance" { port = 9090 }
+
+// Test 5: Diagnostics - Should see red squiggle (missing required fields)
+prometheus.scrape "broken" {
+    scrape_interval = "15s"
+    // Missing: targets, forward_to
+}
+
+// Test 6: References - Position cursor on declare name and press gr
+// Should find the usage above

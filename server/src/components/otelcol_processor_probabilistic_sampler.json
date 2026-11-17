@@ -1,0 +1,149 @@
+{
+  "name": "otelcol.processor.probabilistic_sampler",
+  "usage": "otelcol.processor.probabilistic_sampler \"<LABEL>\" {\n  output {\n    logs    = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "attribute_source",
+      "type": "string",
+      "description": "Defines where to look for the attribute in from_attribute.",
+      "default": "\"traceID\"",
+      "required": false
+    },
+    {
+      "name": "fail_closed",
+      "type": "bool",
+      "description": "Whether to reject items with sampling-related errors.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "from_attribute",
+      "type": "string",
+      "description": "The name of a log record attribute used for sampling purposes.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "hash_seed",
+      "type": "uint32",
+      "description": "An integer used to compute the hash algorithm.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "mode",
+      "type": "string",
+      "description": "Sampling mode.",
+      "default": "\"proportional\"",
+      "required": false
+    },
+    {
+      "name": "sampling_percentage",
+      "type": "float32",
+      "description": "Percentage of traces or logs sampled.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "sampling_precision",
+      "type": "int",
+      "description": "The number of hexadecimal digits used to encode the sampling threshold.",
+      "default": "4",
+      "required": false
+    },
+    {
+      "name": "sampling_priority",
+      "type": "string",
+      "description": "The name of a log record attribute used to set a different sampling priority from the sampling_percentage setting.",
+      "default": "\"\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.probabilistic_sampler/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.probabilistic_sampler",
+    "arguments": {
+      "attribute_source": {
+        "type": "string",
+        "description": "Defines where to look for the attribute in from_attribute.",
+        "default": "\"traceID\"",
+        "required": false
+      },
+      "fail_closed": {
+        "type": "bool",
+        "description": "Whether to reject items with sampling-related errors.",
+        "default": "true",
+        "required": false
+      },
+      "from_attribute": {
+        "type": "string",
+        "description": "The name of a log record attribute used for sampling purposes.",
+        "default": "\"\"",
+        "required": false
+      },
+      "hash_seed": {
+        "type": "uint32",
+        "description": "An integer used to compute the hash algorithm.",
+        "default": "0",
+        "required": false
+      },
+      "mode": {
+        "type": "string",
+        "description": "Sampling mode.",
+        "default": "\"proportional\"",
+        "required": false
+      },
+      "sampling_percentage": {
+        "type": "float32",
+        "description": "Percentage of traces or logs sampled.",
+        "default": "0",
+        "required": false
+      },
+      "sampling_precision": {
+        "type": "int",
+        "description": "The number of hexadecimal digits used to encode the sampling threshold.",
+        "default": "4",
+        "required": false
+      },
+      "sampling_priority": {
+        "type": "string",
+        "description": "The name of a log record attribute used to set a different sampling priority from the sampling_percentage setting.",
+        "default": "\"\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.probabilistic_sampler \"<LABEL>\" {\n  output {\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.probabilistic_sampler \"${1:default}\" {\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

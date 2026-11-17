@@ -1,0 +1,732 @@
+{
+  "name": "otelcol.connector.spanmetrics",
+  "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "aggregation_temporality",
+      "type": "string",
+      "description": "Configures whether to reset the metrics after flushing.",
+      "default": "\"CUMULATIVE\"",
+      "required": false
+    },
+    {
+      "name": "dimensions_cache_size",
+      "type": "number",
+      "description": "(Deprecated: use aggregation_cardinality_limit instead) How many dimensions to cache.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "exclude_dimensions",
+      "type": "list(string)",
+      "description": "List of dimensions to be excluded from the default set of dimensions.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "metric_timestamp_cache_size",
+      "type": "number",
+      "description": "Controls the size of a cache used to keep track of the last time a metric was flushed.",
+      "default": "1000",
+      "required": false
+    },
+    {
+      "name": "metrics_expiration",
+      "type": "duration",
+      "description": "Time period after which metrics are considered stale and are removed from the cache.",
+      "default": "\"0s\"",
+      "required": false
+    },
+    {
+      "name": "metrics_flush_interval",
+      "type": "duration",
+      "description": "How often to flush generated metrics.",
+      "default": "\"60s\"",
+      "required": false
+    },
+    {
+      "name": "namespace",
+      "type": "string",
+      "description": "Metric namespace.",
+      "default": "\"traces.span.metrics\"",
+      "required": false
+    },
+    {
+      "name": "resource_metrics_cache_size",
+      "type": "number",
+      "description": "The size of the cache holding metrics for a service.",
+      "default": "1000",
+      "required": false
+    },
+    {
+      "name": "resource_metrics_key_attributes",
+      "type": "list(string)",
+      "description": "Limits the resource attributes used to create the metrics.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "aggregation_cardinality_limit",
+      "type": "number",
+      "description": "The maximum number of unique combinations of dimensions that will be tracked for metrics aggregation.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "include_instrumentation_scope",
+      "type": "list(string)",
+      "description": "A list of instrumentation scope names to include from the traces.",
+      "default": "[]",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "histogram",
+      "description": "Configures the histogram derived from spans durations.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#histogram"
+    },
+    {
+      "block": "histogram > dimension",
+      "description": "Span event attributes to add as dimensions to the duration metric, on top of the default ones and the ones configured in the top-level dimension block",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#dimension"
+    },
+    {
+      "block": "histogram > explicit",
+      "description": "Configuration for a histogram with explicit buckets.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#explicit"
+    },
+    {
+      "block": "histogram > exponential",
+      "description": "Configuration for a histogram with exponential buckets.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#exponential"
+    },
+    {
+      "block": "output",
+      "description": "Configures where to send telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#output"
+    },
+    {
+      "block": "calls_dimension",
+      "description": "Span event attributes to add as dimensions to the calls metric, on top of the default ones and the ones configured in the top-level dimension block",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#calls_dimension"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#debug_metrics"
+    },
+    {
+      "block": "dimension",
+      "description": "Dimensions to be added in addition to the default ones.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#dimension"
+    },
+    {
+      "block": "events",
+      "description": "Configures the events metric.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#events"
+    },
+    {
+      "block": "events > dimension",
+      "description": "Span event attributes to add as dimensions to the events metric, on top of the default ones and the ones configured in the top-level dimension block.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#dimension"
+    },
+    {
+      "block": "exemplars",
+      "description": "Configures how to attach exemplars to histograms.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#exemplars"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.connector.spanmetrics",
+    "arguments": {
+      "aggregation_temporality": {
+        "type": "string",
+        "description": "Configures whether to reset the metrics after flushing.",
+        "default": "\"CUMULATIVE\"",
+        "required": false
+      },
+      "dimensions_cache_size": {
+        "type": "number",
+        "description": "(Deprecated: use aggregation_cardinality_limit instead) How many dimensions to cache.",
+        "default": "0",
+        "required": false
+      },
+      "exclude_dimensions": {
+        "type": "list(string)",
+        "description": "List of dimensions to be excluded from the default set of dimensions.",
+        "default": "[]",
+        "required": false
+      },
+      "metric_timestamp_cache_size": {
+        "type": "number",
+        "description": "Controls the size of a cache used to keep track of the last time a metric was flushed.",
+        "default": "1000",
+        "required": false
+      },
+      "metrics_expiration": {
+        "type": "duration",
+        "description": "Time period after which metrics are considered stale and are removed from the cache.",
+        "default": "\"0s\"",
+        "required": false
+      },
+      "metrics_flush_interval": {
+        "type": "duration",
+        "description": "How often to flush generated metrics.",
+        "default": "\"60s\"",
+        "required": false
+      },
+      "namespace": {
+        "type": "string",
+        "description": "Metric namespace.",
+        "default": "\"traces.span.metrics\"",
+        "required": false
+      },
+      "resource_metrics_cache_size": {
+        "type": "number",
+        "description": "The size of the cache holding metrics for a service.",
+        "default": "1000",
+        "required": false
+      },
+      "resource_metrics_key_attributes": {
+        "type": "list(string)",
+        "description": "Limits the resource attributes used to create the metrics.",
+        "default": "[]",
+        "required": false
+      },
+      "aggregation_cardinality_limit": {
+        "type": "number",
+        "description": "The maximum number of unique combinations of dimensions that will be tracked for metrics aggregation.",
+        "default": "0",
+        "required": false
+      },
+      "include_instrumentation_scope": {
+        "type": "list(string)",
+        "description": "A list of instrumentation scope names to include from the traces.",
+        "default": "[]",
+        "required": false
+      }
+    },
+    "blocks": {
+      "histogram": {
+        "description": "Configures the histogram derived from spans durations.",
+        "required": true,
+        "children": {
+          "dimension": {
+            "description": "Span event attributes to add as dimensions to the duration metric, on top of the default ones and the ones configured in the top-level dimension block",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "aggregation_temporality",
+                "type": "string",
+                "description": "Configures whether to reset the metrics after flushing.",
+                "default": "\"CUMULATIVE\"",
+                "required": false
+              },
+              {
+                "name": "dimensions_cache_size",
+                "type": "number",
+                "description": "(Deprecated: use aggregation_cardinality_limit instead) How many dimensions to cache.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "exclude_dimensions",
+                "type": "list(string)",
+                "description": "List of dimensions to be excluded from the default set of dimensions.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "metric_timestamp_cache_size",
+                "type": "number",
+                "description": "Controls the size of a cache used to keep track of the last time a metric was flushed.",
+                "default": "1000",
+                "required": false
+              },
+              {
+                "name": "metrics_expiration",
+                "type": "duration",
+                "description": "Time period after which metrics are considered stale and are removed from the cache.",
+                "default": "\"0s\"",
+                "required": false
+              },
+              {
+                "name": "metrics_flush_interval",
+                "type": "duration",
+                "description": "How often to flush generated metrics.",
+                "default": "\"60s\"",
+                "required": false
+              },
+              {
+                "name": "namespace",
+                "type": "string",
+                "description": "Metric namespace.",
+                "default": "\"traces.span.metrics\"",
+                "required": false
+              },
+              {
+                "name": "resource_metrics_cache_size",
+                "type": "number",
+                "description": "The size of the cache holding metrics for a service.",
+                "default": "1000",
+                "required": false
+              },
+              {
+                "name": "resource_metrics_key_attributes",
+                "type": "list(string)",
+                "description": "Limits the resource attributes used to create the metrics.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "aggregation_cardinality_limit",
+                "type": "number",
+                "description": "The maximum number of unique combinations of dimensions that will be tracked for metrics aggregation.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "include_instrumentation_scope",
+                "type": "list(string)",
+                "description": "A list of instrumentation scope names to include from the traces.",
+                "default": "[]",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "explicit": {
+            "description": "Configuration for a histogram with explicit buckets.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "aggregation_temporality",
+                "type": "string",
+                "description": "Configures whether to reset the metrics after flushing.",
+                "default": "\"CUMULATIVE\"",
+                "required": false
+              },
+              {
+                "name": "dimensions_cache_size",
+                "type": "number",
+                "description": "(Deprecated: use aggregation_cardinality_limit instead) How many dimensions to cache.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "exclude_dimensions",
+                "type": "list(string)",
+                "description": "List of dimensions to be excluded from the default set of dimensions.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "metric_timestamp_cache_size",
+                "type": "number",
+                "description": "Controls the size of a cache used to keep track of the last time a metric was flushed.",
+                "default": "1000",
+                "required": false
+              },
+              {
+                "name": "metrics_expiration",
+                "type": "duration",
+                "description": "Time period after which metrics are considered stale and are removed from the cache.",
+                "default": "\"0s\"",
+                "required": false
+              },
+              {
+                "name": "metrics_flush_interval",
+                "type": "duration",
+                "description": "How often to flush generated metrics.",
+                "default": "\"60s\"",
+                "required": false
+              },
+              {
+                "name": "namespace",
+                "type": "string",
+                "description": "Metric namespace.",
+                "default": "\"traces.span.metrics\"",
+                "required": false
+              },
+              {
+                "name": "resource_metrics_cache_size",
+                "type": "number",
+                "description": "The size of the cache holding metrics for a service.",
+                "default": "1000",
+                "required": false
+              },
+              {
+                "name": "resource_metrics_key_attributes",
+                "type": "list(string)",
+                "description": "Limits the resource attributes used to create the metrics.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "aggregation_cardinality_limit",
+                "type": "number",
+                "description": "The maximum number of unique combinations of dimensions that will be tracked for metrics aggregation.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "include_instrumentation_scope",
+                "type": "list(string)",
+                "description": "A list of instrumentation scope names to include from the traces.",
+                "default": "[]",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          },
+          "exponential": {
+            "description": "Configuration for a histogram with exponential buckets.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "aggregation_temporality",
+                "type": "string",
+                "description": "Configures whether to reset the metrics after flushing.",
+                "default": "\"CUMULATIVE\"",
+                "required": false
+              },
+              {
+                "name": "dimensions_cache_size",
+                "type": "number",
+                "description": "(Deprecated: use aggregation_cardinality_limit instead) How many dimensions to cache.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "exclude_dimensions",
+                "type": "list(string)",
+                "description": "List of dimensions to be excluded from the default set of dimensions.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "metric_timestamp_cache_size",
+                "type": "number",
+                "description": "Controls the size of a cache used to keep track of the last time a metric was flushed.",
+                "default": "1000",
+                "required": false
+              },
+              {
+                "name": "metrics_expiration",
+                "type": "duration",
+                "description": "Time period after which metrics are considered stale and are removed from the cache.",
+                "default": "\"0s\"",
+                "required": false
+              },
+              {
+                "name": "metrics_flush_interval",
+                "type": "duration",
+                "description": "How often to flush generated metrics.",
+                "default": "\"60s\"",
+                "required": false
+              },
+              {
+                "name": "namespace",
+                "type": "string",
+                "description": "Metric namespace.",
+                "default": "\"traces.span.metrics\"",
+                "required": false
+              },
+              {
+                "name": "resource_metrics_cache_size",
+                "type": "number",
+                "description": "The size of the cache holding metrics for a service.",
+                "default": "1000",
+                "required": false
+              },
+              {
+                "name": "resource_metrics_key_attributes",
+                "type": "list(string)",
+                "description": "Limits the resource attributes used to create the metrics.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "aggregation_cardinality_limit",
+                "type": "number",
+                "description": "The maximum number of unique combinations of dimensions that will be tracked for metrics aggregation.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "include_instrumentation_scope",
+                "type": "list(string)",
+                "description": "A list of instrumentation scope names to include from the traces.",
+                "default": "[]",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "disable",
+            "type": "bool",
+            "description": "Disable all histogram metrics.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "description": "Configures the histogram units.",
+            "default": "\"ms\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "dimension",
+            "description": "Span event attributes to add as dimensions to the duration metric, on top of the default ones and the ones configured in the top-level dimension block",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#dimension"
+          },
+          {
+            "block": "explicit",
+            "description": "Configuration for a histogram with explicit buckets.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#explicit"
+          },
+          {
+            "block": "exponential",
+            "description": "Configuration for a histogram with exponential buckets.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#exponential"
+          }
+        ],
+        "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "output": {
+        "description": "Configures where to send telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "calls_dimension": {
+        "description": "Span event attributes to add as dimensions to the calls metric, on top of the default ones and the ones configured in the top-level dimension block",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "dimension": {
+        "description": "Dimensions to be added in addition to the default ones.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "Span attribute or resource attribute to look up.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "default",
+            "type": "string",
+            "description": "Value to use if the attribute is missing.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "events": {
+        "description": "Configures the events metric.",
+        "required": false,
+        "children": {
+          "dimension": {
+            "description": "Span event attributes to add as dimensions to the events metric, on top of the default ones and the ones configured in the top-level dimension block.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "aggregation_temporality",
+                "type": "string",
+                "description": "Configures whether to reset the metrics after flushing.",
+                "default": "\"CUMULATIVE\"",
+                "required": false
+              },
+              {
+                "name": "dimensions_cache_size",
+                "type": "number",
+                "description": "(Deprecated: use aggregation_cardinality_limit instead) How many dimensions to cache.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "exclude_dimensions",
+                "type": "list(string)",
+                "description": "List of dimensions to be excluded from the default set of dimensions.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "metric_timestamp_cache_size",
+                "type": "number",
+                "description": "Controls the size of a cache used to keep track of the last time a metric was flushed.",
+                "default": "1000",
+                "required": false
+              },
+              {
+                "name": "metrics_expiration",
+                "type": "duration",
+                "description": "Time period after which metrics are considered stale and are removed from the cache.",
+                "default": "\"0s\"",
+                "required": false
+              },
+              {
+                "name": "metrics_flush_interval",
+                "type": "duration",
+                "description": "How often to flush generated metrics.",
+                "default": "\"60s\"",
+                "required": false
+              },
+              {
+                "name": "namespace",
+                "type": "string",
+                "description": "Metric namespace.",
+                "default": "\"traces.span.metrics\"",
+                "required": false
+              },
+              {
+                "name": "resource_metrics_cache_size",
+                "type": "number",
+                "description": "The size of the cache holding metrics for a service.",
+                "default": "1000",
+                "required": false
+              },
+              {
+                "name": "resource_metrics_key_attributes",
+                "type": "list(string)",
+                "description": "Limits the resource attributes used to create the metrics.",
+                "default": "[]",
+                "required": false
+              },
+              {
+                "name": "aggregation_cardinality_limit",
+                "type": "number",
+                "description": "The maximum number of unique combinations of dimensions that will be tracked for metrics aggregation.",
+                "default": "0",
+                "required": false
+              },
+              {
+                "name": "include_instrumentation_scope",
+                "type": "list(string)",
+                "description": "A list of instrumentation scope names to include from the traces.",
+                "default": "[]",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Enables all events metric.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "dimension",
+            "description": "Span event attributes to add as dimensions to the events metric, on top of the default ones and the ones configured in the top-level dimension block.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanmetrics/#dimension"
+          }
+        ],
+        "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "exemplars": {
+        "description": "Configures how to attach exemplars to histograms.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Configures whether to add exemplars to histograms.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "max_per_data_point",
+            "type": "number",
+            "description": "Limits the number of exemplars that can be added to a unique dimension set.",
+            "default": "null",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.spanmetrics \"<LABEL>\" {\n  histogram {\n    ...\n  }\n\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "histogram",
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.connector.spanmetrics \"${1:default}\" {\n  histogram {\n  }\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  calls_dimension {\n    $0\n  }\n  debug_metrics {\n    $0\n  }\n  dimension {\n    name = \"${2}\"\n  }\n  events {\n  }\n  exemplars {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

@@ -1,0 +1,95 @@
+{
+  "name": "otelcol.connector.host_info",
+  "usage": "otelcol.connector.host_info \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "host_identifiers",
+      "type": "list(string)",
+      "description": "Ordered list of resource attributes used to identify unique hosts.",
+      "default": "[\"host.id\"]",
+      "required": false
+    },
+    {
+      "name": "metrics_flush_interval",
+      "type": "duration",
+      "description": "How often to flush generated metrics.",
+      "default": "\"60s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.host_info/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.host_info/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.connector.host_info",
+    "arguments": {
+      "host_identifiers": {
+        "type": "list(string)",
+        "description": "Ordered list of resource attributes used to identify unique hosts.",
+        "default": "[\"host.id\"]",
+        "required": false
+      },
+      "metrics_flush_interval": {
+        "type": "duration",
+        "description": "How often to flush generated metrics.",
+        "default": "\"60s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.host_info \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.host_info \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.connector.host_info \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

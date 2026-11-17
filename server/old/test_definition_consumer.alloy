@@ -1,0 +1,24 @@
+// This file references components defined in test_definition_source.alloy
+
+prometheus.scrape "web_app" {
+    targets = [
+        {"__address__" = "localhost:8080"},
+    ]
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.scrape "api_service" {
+    targets = [
+        {"__address__" = "localhost:3000"},
+    ]
+    forward_to = [prometheus.remote_write.backup.receiver]
+}
+
+loki.source.file "logs" {
+    targets = [
+        {
+            "__path__" = "/var/log/*.log",
+        },
+    ]
+    forward_to = [loki.write.main.receiver]
+}

@@ -1,0 +1,94 @@
+{
+  "name": "discovery.dns",
+  "usage": "discovery.dns \"<LABEL>\" {\n  names = [\"<NAME_1>\", \"<NAME_2>\", ...]\n}",
+  "arguments": [
+    {
+      "name": "names",
+      "type": "list(string)",
+      "description": "DNS names to look up.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "port",
+      "type": "number",
+      "description": "Port to use for collecting metrics. Not used for SRV records.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "How often to query DNS for updates.",
+      "default": "\"30s\"",
+      "required": false
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "Type of DNS record to query. Must be one of SRV, A, AAAA, MX, or NS.",
+      "default": "\"SRV\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the DNS records."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.dns",
+    "arguments": {
+      "names": {
+        "type": "list(string)",
+        "description": "DNS names to look up.",
+        "default": "",
+        "required": true
+      },
+      "port": {
+        "type": "number",
+        "description": "Port to use for collecting metrics. Not used for SRV records.",
+        "default": "0",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "How often to query DNS for updates.",
+        "default": "\"30s\"",
+        "required": false
+      },
+      "type": {
+        "type": "string",
+        "description": "Type of DNS record to query. Must be one of SRV, A, AAAA, MX, or NS.",
+        "default": "\"SRV\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the DNS records."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.dns \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the DNS records.\n}"
+}

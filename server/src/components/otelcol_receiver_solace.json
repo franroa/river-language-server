@@ -1,0 +1,370 @@
+{
+  "name": "otelcol.receiver.solace",
+  "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "queue",
+      "type": "string",
+      "description": "Name of the Solace telemetry queue to get span trace messages from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "broker",
+      "type": "string",
+      "description": "Name of the Solace broker using AMQP over TLS.",
+      "default": "\"localhost:5671\"",
+      "required": false
+    },
+    {
+      "name": "max_unacknowledged",
+      "type": "int",
+      "description": "Maximum number of unacknowledged messages the Solace broker can transmit.",
+      "default": "10",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#output"
+    },
+    {
+      "block": "authentication",
+      "description": "Configures authentication for connecting to the Solace broker.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#authentication"
+    },
+    {
+      "block": "authentication > sasl_external",
+      "description": "Authenticates against the Solace broker with SASL External.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#sasl_external"
+    },
+    {
+      "block": "authentication > sasl_plain",
+      "description": "Authenticates against the Solace broker with SASL PLAIN.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#sasl_plain"
+    },
+    {
+      "block": "authentication > sasl_xauth2",
+      "description": "Authenticates against the Solace broker with SASL XOauth2.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#sasl_xauth2"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics which this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#debug_metrics"
+    },
+    {
+      "block": "flow",
+      "description": "Configures the behaviour to use when temporary errors are encountered from the next component.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#flow"
+    },
+    {
+      "block": "flow > delayed_retry",
+      "description": "Sets the flow control strategy to delayed retry which will wait before trying to push the message to the next component again.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#delayed_retry"
+    },
+    {
+      "block": "tls",
+      "description": "Configures TLS for connecting to the Solace broker.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#tpm"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.solace",
+    "arguments": {
+      "queue": {
+        "type": "string",
+        "description": "Name of the Solace telemetry queue to get span trace messages from.",
+        "default": "",
+        "required": true
+      },
+      "broker": {
+        "type": "string",
+        "description": "Name of the Solace broker using AMQP over TLS.",
+        "default": "\"localhost:5671\"",
+        "required": false
+      },
+      "max_unacknowledged": {
+        "type": "int",
+        "description": "Maximum number of unacknowledged messages the Solace broker can transmit.",
+        "default": "10",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "authentication": {
+        "description": "Configures authentication for connecting to the Solace broker.",
+        "required": true,
+        "children": {
+          "sasl_external": {
+            "description": "Authenticates against the Solace broker with SASL External.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "queue",
+                "type": "string",
+                "description": "Name of the Solace telemetry queue to get span trace messages from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "broker",
+                "type": "string",
+                "description": "Name of the Solace broker using AMQP over TLS.",
+                "default": "\"localhost:5671\"",
+                "required": false
+              },
+              {
+                "name": "max_unacknowledged",
+                "type": "int",
+                "description": "Maximum number of unacknowledged messages the Solace broker can transmit.",
+                "default": "10",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "sasl_plain": {
+            "description": "Authenticates against the Solace broker with SASL PLAIN.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "queue",
+                "type": "string",
+                "description": "Name of the Solace telemetry queue to get span trace messages from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "broker",
+                "type": "string",
+                "description": "Name of the Solace broker using AMQP over TLS.",
+                "default": "\"localhost:5671\"",
+                "required": false
+              },
+              {
+                "name": "max_unacknowledged",
+                "type": "int",
+                "description": "Maximum number of unacknowledged messages the Solace broker can transmit.",
+                "default": "10",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+          },
+          "sasl_xauth2": {
+            "description": "Authenticates against the Solace broker with SASL XOauth2.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "queue",
+                "type": "string",
+                "description": "Name of the Solace telemetry queue to get span trace messages from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "broker",
+                "type": "string",
+                "description": "Name of the Solace broker using AMQP over TLS.",
+                "default": "\"localhost:5671\"",
+                "required": false
+              },
+              {
+                "name": "max_unacknowledged",
+                "type": "int",
+                "description": "Maximum number of unacknowledged messages the Solace broker can transmit.",
+                "default": "10",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "sasl_external",
+            "description": "Authenticates against the Solace broker with SASL External.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#sasl_external"
+          },
+          {
+            "block": "sasl_plain",
+            "description": "Authenticates against the Solace broker with SASL PLAIN.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#sasl_plain"
+          },
+          {
+            "block": "sasl_xauth2",
+            "description": "Authenticates against the Solace broker with SASL XOauth2.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#sasl_xauth2"
+          }
+        ],
+        "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics which this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "flow": {
+        "description": "Configures the behaviour to use when temporary errors are encountered from the next component.",
+        "required": false,
+        "children": {
+          "delayed_retry": {
+            "description": "Sets the flow control strategy to delayed retry which will wait before trying to push the message to the next component again.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "queue",
+                "type": "string",
+                "description": "Name of the Solace telemetry queue to get span trace messages from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "broker",
+                "type": "string",
+                "description": "Name of the Solace broker using AMQP over TLS.",
+                "default": "\"localhost:5671\"",
+                "required": false
+              },
+              {
+                "name": "max_unacknowledged",
+                "type": "int",
+                "description": "Maximum number of unacknowledged messages the Solace broker can transmit.",
+                "default": "10",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "delayed_retry",
+            "description": "Sets the flow control strategy to delayed retry which will wait before trying to push the message to the next component again.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#delayed_retry"
+          }
+        ],
+        "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+      },
+      "tls": {
+        "description": "Configures TLS for connecting to the Solace broker.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "queue",
+                "type": "string",
+                "description": "Name of the Solace telemetry queue to get span trace messages from.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "broker",
+                "type": "string",
+                "description": "Name of the Solace broker using AMQP over TLS.",
+                "default": "\"localhost:5671\"",
+                "required": false
+              },
+              {
+                "name": "max_unacknowledged",
+                "type": "int",
+                "description": "Maximum number of unacknowledged messages the Solace broker can transmit.",
+                "default": "10",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.solace/#tpm"
+          }
+        ],
+        "usage": "otelcol.receiver.solace \"<LABEL>\" {\n  queue = \"<QUEUE>\"\n  auth {\n    // sasl_plain or sasl_xauth2 or sasl_external block\n  }\n  output {\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output",
+      "authentication"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.solace \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  authentication {\n  }\n  debug_metrics {\n    $0\n  }\n  flow {\n  }\n  tls {\n  }\n}"
+}

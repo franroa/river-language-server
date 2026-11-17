@@ -1,0 +1,1218 @@
+{
+  "name": "otelcol.exporter.kafka",
+  "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}",
+  "arguments": [
+    {
+      "name": "protocol_version",
+      "type": "string",
+      "description": "Kafka protocol version to use.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "brokers",
+      "type": "list(string)",
+      "description": "Kafka brokers to connect to.",
+      "default": "[\"localhost:9092\"]",
+      "required": false
+    },
+    {
+      "name": "client_id",
+      "type": "string",
+      "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+      "default": "\"sarama\"",
+      "required": false
+    },
+    {
+      "name": "encoding",
+      "type": "string",
+      "description": "(Deprecated) Encoding of payload read from Kafka.",
+      "default": "\"otlp_proto\"",
+      "required": false
+    },
+    {
+      "name": "partition_metrics_by_resource_attributes",
+      "type": "bool",
+      "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "partition_traces_by_id",
+      "type": "bool",
+      "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "resolve_canonical_bootstrap_servers_only",
+      "type": "bool",
+      "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "The timeout for every attempt to send data to the backend.",
+      "default": "\"5s\"",
+      "required": false
+    },
+    {
+      "name": "topic_from_attribute",
+      "type": "string",
+      "description": "A resource attribute whose value should be used as the message’s topic.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "topic",
+      "type": "string",
+      "description": "(Deprecated) Kafka topic to send to.",
+      "default": "See below",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "authentication",
+      "description": "Configures authentication for connecting to Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#authentication"
+    },
+    {
+      "block": "authentication > kerberos",
+      "description": "Authenticates against Kafka brokers with Kerberos.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#kerberos"
+    },
+    {
+      "block": "authentication > plaintext",
+      "description": "Authenticates against Kafka brokers with plaintext.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#plaintext"
+    },
+    {
+      "block": "authentication > sasl",
+      "description": "Authenticates against Kafka brokers with SASL.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#sasl"
+    },
+    {
+      "block": "authentication > sasl > aws_msk",
+      "description": "Additional SASL parameters when using AWS_MSK_IAM.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#aws_msk"
+    },
+    {
+      "block": "authentication > tls",
+      "description": "Configures TLS for connecting to the Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#tls"
+    },
+    {
+      "block": "authentication > tls > tpm",
+      "description": "Configures TPM for the TLS `key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#tpm"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics which this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#debug_metrics"
+    },
+    {
+      "block": "logs",
+      "description": "Configures how to send logs to Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#logs"
+    },
+    {
+      "block": "metadata",
+      "description": "Configures how to retrieve metadata from Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#metadata"
+    },
+    {
+      "block": "metadata > retry",
+      "description": "Configures how to retry metadata retrieval.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#retry"
+    },
+    {
+      "block": "metrics",
+      "description": "Configures how to send metrics to Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#metrics"
+    },
+    {
+      "block": "producer",
+      "description": "Kafka producer configuration,",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#producer"
+    },
+    {
+      "block": "producer > compression_params",
+      "description": "Configures the compression parameters for the kafka producer.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#compression_params"
+    },
+    {
+      "block": "retry_on_failure",
+      "description": "Configures retry mechanism for failed requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#retry_on_failure"
+    },
+    {
+      "block": "sending_queue",
+      "description": "Configures batching of data before sending.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#sending_queue"
+    },
+    {
+      "block": "tls",
+      "description": "Configures TLS for connecting to the Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#tpm"
+    },
+    {
+      "block": "traces",
+      "description": "Configures how to send traces to Kafka brokers.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#traces"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.exporter.kafka",
+    "arguments": {
+      "protocol_version": {
+        "type": "string",
+        "description": "Kafka protocol version to use.",
+        "default": "",
+        "required": true
+      },
+      "brokers": {
+        "type": "list(string)",
+        "description": "Kafka brokers to connect to.",
+        "default": "[\"localhost:9092\"]",
+        "required": false
+      },
+      "client_id": {
+        "type": "string",
+        "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+        "default": "\"sarama\"",
+        "required": false
+      },
+      "encoding": {
+        "type": "string",
+        "description": "(Deprecated) Encoding of payload read from Kafka.",
+        "default": "\"otlp_proto\"",
+        "required": false
+      },
+      "partition_metrics_by_resource_attributes": {
+        "type": "bool",
+        "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+        "default": "false",
+        "required": false
+      },
+      "partition_traces_by_id": {
+        "type": "bool",
+        "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+        "default": "false",
+        "required": false
+      },
+      "resolve_canonical_bootstrap_servers_only": {
+        "type": "bool",
+        "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+        "default": "false",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "The timeout for every attempt to send data to the backend.",
+        "default": "\"5s\"",
+        "required": false
+      },
+      "topic_from_attribute": {
+        "type": "string",
+        "description": "A resource attribute whose value should be used as the message’s topic.",
+        "default": "\"\"",
+        "required": false
+      },
+      "topic": {
+        "type": "string",
+        "description": "(Deprecated) Kafka topic to send to.",
+        "default": "See below",
+        "required": false
+      }
+    },
+    "blocks": {
+      "authentication": {
+        "description": "Configures authentication for connecting to Kafka brokers.",
+        "required": false,
+        "children": {
+          "kerberos": {
+            "description": "Authenticates against Kafka brokers with Kerberos.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "[\"localhost:9092\"]",
+                "required": false
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                "default": "\"sarama\"",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "partition_metrics_by_resource_attributes",
+                "type": "bool",
+                "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "partition_traces_by_id",
+                "type": "bool",
+                "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "The timeout for every attempt to send data to the backend.",
+                "default": "\"5s\"",
+                "required": false
+              },
+              {
+                "name": "topic_from_attribute",
+                "type": "string",
+                "description": "A resource attribute whose value should be used as the message’s topic.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to send to.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+          },
+          "plaintext": {
+            "description": "Authenticates against Kafka brokers with plaintext.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "[\"localhost:9092\"]",
+                "required": false
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                "default": "\"sarama\"",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "partition_metrics_by_resource_attributes",
+                "type": "bool",
+                "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "partition_traces_by_id",
+                "type": "bool",
+                "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "The timeout for every attempt to send data to the backend.",
+                "default": "\"5s\"",
+                "required": false
+              },
+              {
+                "name": "topic_from_attribute",
+                "type": "string",
+                "description": "A resource attribute whose value should be used as the message’s topic.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to send to.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+          },
+          "sasl": {
+            "description": "Authenticates against Kafka brokers with SASL.",
+            "required": false,
+            "children": {
+              "aws_msk": {
+                "description": "Additional SASL parameters when using AWS_MSK_IAM.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "protocol_version",
+                    "type": "string",
+                    "description": "Kafka protocol version to use.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "brokers",
+                    "type": "list(string)",
+                    "description": "Kafka brokers to connect to.",
+                    "default": "[\"localhost:9092\"]",
+                    "required": false
+                  },
+                  {
+                    "name": "client_id",
+                    "type": "string",
+                    "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                    "default": "\"sarama\"",
+                    "required": false
+                  },
+                  {
+                    "name": "encoding",
+                    "type": "string",
+                    "description": "(Deprecated) Encoding of payload read from Kafka.",
+                    "default": "\"otlp_proto\"",
+                    "required": false
+                  },
+                  {
+                    "name": "partition_metrics_by_resource_attributes",
+                    "type": "bool",
+                    "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "partition_traces_by_id",
+                    "type": "bool",
+                    "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "resolve_canonical_bootstrap_servers_only",
+                    "type": "bool",
+                    "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "The timeout for every attempt to send data to the backend.",
+                    "default": "\"5s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "topic_from_attribute",
+                    "type": "string",
+                    "description": "A resource attribute whose value should be used as the message’s topic.",
+                    "default": "\"\"",
+                    "required": false
+                  },
+                  {
+                    "name": "topic",
+                    "type": "string",
+                    "description": "(Deprecated) Kafka topic to send to.",
+                    "default": "See below",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "[\"localhost:9092\"]",
+                "required": false
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                "default": "\"sarama\"",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "partition_metrics_by_resource_attributes",
+                "type": "bool",
+                "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "partition_traces_by_id",
+                "type": "bool",
+                "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "The timeout for every attempt to send data to the backend.",
+                "default": "\"5s\"",
+                "required": false
+              },
+              {
+                "name": "topic_from_attribute",
+                "type": "string",
+                "description": "A resource attribute whose value should be used as the message’s topic.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to send to.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "aws_msk",
+                "description": "Additional SASL parameters when using AWS_MSK_IAM.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#aws_msk"
+              }
+            ],
+            "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+          },
+          "tls": {
+            "description": "Configures TLS for connecting to the Kafka brokers.",
+            "required": false,
+            "children": {
+              "tpm": {
+                "description": "Configures TPM for the TLS `key_file.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "protocol_version",
+                    "type": "string",
+                    "description": "Kafka protocol version to use.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "brokers",
+                    "type": "list(string)",
+                    "description": "Kafka brokers to connect to.",
+                    "default": "[\"localhost:9092\"]",
+                    "required": false
+                  },
+                  {
+                    "name": "client_id",
+                    "type": "string",
+                    "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                    "default": "\"sarama\"",
+                    "required": false
+                  },
+                  {
+                    "name": "encoding",
+                    "type": "string",
+                    "description": "(Deprecated) Encoding of payload read from Kafka.",
+                    "default": "\"otlp_proto\"",
+                    "required": false
+                  },
+                  {
+                    "name": "partition_metrics_by_resource_attributes",
+                    "type": "bool",
+                    "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "partition_traces_by_id",
+                    "type": "bool",
+                    "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "resolve_canonical_bootstrap_servers_only",
+                    "type": "bool",
+                    "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "The timeout for every attempt to send data to the backend.",
+                    "default": "\"5s\"",
+                    "required": false
+                  },
+                  {
+                    "name": "topic_from_attribute",
+                    "type": "string",
+                    "description": "A resource attribute whose value should be used as the message’s topic.",
+                    "default": "\"\"",
+                    "required": false
+                  },
+                  {
+                    "name": "topic",
+                    "type": "string",
+                    "description": "(Deprecated) Kafka topic to send to.",
+                    "default": "See below",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "[\"localhost:9092\"]",
+                "required": false
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                "default": "\"sarama\"",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "partition_metrics_by_resource_attributes",
+                "type": "bool",
+                "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "partition_traces_by_id",
+                "type": "bool",
+                "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "The timeout for every attempt to send data to the backend.",
+                "default": "\"5s\"",
+                "required": false
+              },
+              {
+                "name": "topic_from_attribute",
+                "type": "string",
+                "description": "A resource attribute whose value should be used as the message’s topic.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to send to.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "tpm",
+                "description": "Configures TPM for the TLS `key_file.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#tpm"
+              }
+            ],
+            "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "kerberos",
+            "description": "Authenticates against Kafka brokers with Kerberos.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#kerberos"
+          },
+          {
+            "block": "plaintext",
+            "description": "Authenticates against Kafka brokers with plaintext.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#plaintext"
+          },
+          {
+            "block": "sasl",
+            "description": "Authenticates against Kafka brokers with SASL.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#sasl"
+          },
+          {
+            "block": "sasl > aws_msk",
+            "description": "Additional SASL parameters when using AWS_MSK_IAM.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#aws_msk"
+          },
+          {
+            "block": "tls",
+            "description": "Configures TLS for connecting to the Kafka brokers.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#tls"
+          },
+          {
+            "block": "tls > tpm",
+            "description": "Configures TPM for the TLS `key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#tpm"
+          }
+        ],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics which this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "logs": {
+        "description": "Configures how to send logs to Kafka brokers.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "encoding",
+            "type": "string",
+            "description": "The encoding for logs. Refer to Supported encodings.",
+            "default": "\"otlp_proto\"",
+            "required": false
+          },
+          {
+            "name": "topic",
+            "type": "string",
+            "description": "The name of the Kafka topic to which logs will be exported.",
+            "default": "\"otlp_logs\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "metadata": {
+        "description": "Configures how to retrieve metadata from Kafka brokers.",
+        "required": false,
+        "children": {
+          "retry": {
+            "description": "Configures how to retry metadata retrieval.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "[\"localhost:9092\"]",
+                "required": false
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                "default": "\"sarama\"",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "partition_metrics_by_resource_attributes",
+                "type": "bool",
+                "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "partition_traces_by_id",
+                "type": "bool",
+                "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "The timeout for every attempt to send data to the backend.",
+                "default": "\"5s\"",
+                "required": false
+              },
+              {
+                "name": "topic_from_attribute",
+                "type": "string",
+                "description": "A resource attribute whose value should be used as the message’s topic.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to send to.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "retry",
+            "description": "Configures how to retry metadata retrieval.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#retry"
+          }
+        ],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "metrics": {
+        "description": "Configures how to send metrics to Kafka brokers.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "encoding",
+            "type": "string",
+            "description": "The encoding for logs. Refer to Supported encodings.",
+            "default": "\"otlp_proto\"",
+            "required": false
+          },
+          {
+            "name": "topic",
+            "type": "string",
+            "description": "The name of the Kafka topic to which metrics will be exported.",
+            "default": "\"otlp_metrics\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "producer": {
+        "description": "Kafka producer configuration,",
+        "required": false,
+        "children": {
+          "compression_params": {
+            "description": "Configures the compression parameters for the kafka producer.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "[\"localhost:9092\"]",
+                "required": false
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                "default": "\"sarama\"",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "partition_metrics_by_resource_attributes",
+                "type": "bool",
+                "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "partition_traces_by_id",
+                "type": "bool",
+                "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "The timeout for every attempt to send data to the backend.",
+                "default": "\"5s\"",
+                "required": false
+              },
+              {
+                "name": "topic_from_attribute",
+                "type": "string",
+                "description": "A resource attribute whose value should be used as the message’s topic.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to send to.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "compression",
+            "type": "string",
+            "description": "Time to wait between retries.",
+            "default": "\"none\"",
+            "required": false
+          },
+          {
+            "name": "flush_max_messages",
+            "type": "number",
+            "description": "Time to wait between retries.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "max_message_bytes",
+            "type": "number",
+            "description": "The maximum permitted size of a message in bytes.",
+            "default": "1000000",
+            "required": false
+          },
+          {
+            "name": "required_acks",
+            "type": "number",
+            "description": "Controls when a message is regarded as transmitted.",
+            "default": "1",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "compression_params",
+            "description": "Configures the compression parameters for the kafka producer.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#compression_params"
+          }
+        ],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "retry_on_failure": {
+        "description": "Configures retry mechanism for failed requests.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "sending_queue": {
+        "description": "Configures batching of data before sending.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "tls": {
+        "description": "Configures TLS for connecting to the Kafka brokers.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "protocol_version",
+                "type": "string",
+                "description": "Kafka protocol version to use.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "brokers",
+                "type": "list(string)",
+                "description": "Kafka brokers to connect to.",
+                "default": "[\"localhost:9092\"]",
+                "required": false
+              },
+              {
+                "name": "client_id",
+                "type": "string",
+                "description": "Consumer client ID to use. The ID will be used for all produce requests.",
+                "default": "\"sarama\"",
+                "required": false
+              },
+              {
+                "name": "encoding",
+                "type": "string",
+                "description": "(Deprecated) Encoding of payload read from Kafka.",
+                "default": "\"otlp_proto\"",
+                "required": false
+              },
+              {
+                "name": "partition_metrics_by_resource_attributes",
+                "type": "bool",
+                "description": "Whether to include the hash of sorted resource attributes as the message partitioning key in metric messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "partition_traces_by_id",
+                "type": "bool",
+                "description": "Whether to include the trace ID as the message key in trace messages sent to Kafka.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "resolve_canonical_bootstrap_servers_only",
+                "type": "bool",
+                "description": "Whether to resolve then reverse-lookup broker IPs during startup.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "The timeout for every attempt to send data to the backend.",
+                "default": "\"5s\"",
+                "required": false
+              },
+              {
+                "name": "topic_from_attribute",
+                "type": "string",
+                "description": "A resource attribute whose value should be used as the message’s topic.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "topic",
+                "type": "string",
+                "description": "(Deprecated) Kafka topic to send to.",
+                "default": "See below",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.kafka/#tpm"
+          }
+        ],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      },
+      "traces": {
+        "description": "Configures how to send traces to Kafka brokers.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "encoding",
+            "type": "string",
+            "description": "The encoding for logs. Refer to Supported encodings.",
+            "default": "\"otlp_proto\"",
+            "required": false
+          },
+          {
+            "name": "topic",
+            "type": "string",
+            "description": "The name of the Kafka topic to which traces will be exported.",
+            "default": "\"otlp_spans\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.kafka \"LABEL\" {\n  protocol_version = \"PROTOCOL_VERSION\"\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.exporter.kafka \"${1:default}\" {\n  authentication {\n  }\n  debug_metrics {\n    $0\n  }\n  logs {\n  }\n  metadata {\n  }\n  metrics {\n  }\n  producer {\n  }\n  retry_on_failure {\n    $0\n  }\n  sending_queue {\n    $0\n  }\n  tls {\n  }\n  traces {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

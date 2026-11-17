@@ -1,0 +1,150 @@
+{
+  "name": "loki.source.file",
+  "usage": "loki.source.file \"<LABEL>\" {\n  targets    = <TARGET_LIST>\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "List of files to read from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "encoding",
+      "type": "string",
+      "description": "The encoding to convert from when reading files.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "legacy_positions_file",
+      "type": "string",
+      "description": "Allows conversion from legacy positions file.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "tail_from_end",
+      "type": "bool",
+      "description": "Whether to tail from end if a stored position isn’t found.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "decompression",
+      "description": "Configure reading logs from compressed files.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/#decompression"
+    },
+    {
+      "block": "file_watch",
+      "description": "Configure how often files should be polled from disk for changes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/#file_watch"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.file",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "targets": {
+        "type": "list(map(string))",
+        "description": "List of files to read from.",
+        "default": "",
+        "required": true
+      },
+      "encoding": {
+        "type": "string",
+        "description": "The encoding to convert from when reading files.",
+        "default": "\"\"",
+        "required": false
+      },
+      "legacy_positions_file": {
+        "type": "string",
+        "description": "Allows conversion from legacy positions file.",
+        "default": "\"\"",
+        "required": false
+      },
+      "tail_from_end": {
+        "type": "bool",
+        "description": "Whether to tail from end if a stored position isn’t found.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "decompression": {
+        "description": "Configure reading logs from compressed files.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Whether decompression is enabled.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "format",
+            "type": "string",
+            "description": "Compression format.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "initial_delay",
+            "type": "duration",
+            "description": "Time to wait before starting to read from new compressed files.",
+            "default": "0",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.source.file \"<LABEL>\" {\n  targets    = <TARGET_LIST>\n  forward_to = <RECEIVER_LIST>\n}"
+      },
+      "file_watch": {
+        "description": "Configure how often files should be polled from disk for changes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "max_poll_frequency",
+            "type": "duration",
+            "description": "Maximum frequency to poll for files.",
+            "default": "250ms",
+            "required": false
+          },
+          {
+            "name": "min_poll_frequency",
+            "type": "duration",
+            "description": "Minimum frequency to poll for files.",
+            "default": "250ms",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.source.file \"<LABEL>\" {\n  targets    = <TARGET_LIST>\n  forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.file \"${1:default}\" {\n  decompression {\n    enabled = \"${2}\"\n    format = \"${3}\"\n  }\n  file_watch {\n  }\n}"
+}

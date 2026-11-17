@@ -1,0 +1,268 @@
+{
+  "name": "otelcol.processor.transform",
+  "usage": "otelcol.processor.transform \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "error_mode",
+      "type": "string",
+      "description": "How to react to errors if they occur while processing a statement.",
+      "default": "\"propagate\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.transform/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.transform/#debug_metrics"
+    },
+    {
+      "block": "log_statements",
+      "description": "Statements which transform logs.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.transform/#log_statements"
+    },
+    {
+      "block": "metric_statements",
+      "description": "Statements which transform metrics.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.transform/#metric_statements"
+    },
+    {
+      "block": "statements",
+      "description": "Statements which transform logs, metrics, and traces without specifying a context explicitly.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.transform/#statements"
+    },
+    {
+      "block": "trace_statements",
+      "description": "Statements which transform traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.transform/#trace_statements"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.transform",
+    "arguments": {
+      "error_mode": {
+        "type": "string",
+        "description": "How to react to errors if they occur while processing a statement.",
+        "default": "\"propagate\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.transform \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.transform \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "log_statements": {
+        "description": "Statements which transform logs.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "context",
+            "type": "string",
+            "description": "OTTL Context to use when interpreting the associated statements.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "statements",
+            "type": "list(string)",
+            "description": "A list of OTTL statements.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "conditions",
+            "type": "list(string)",
+            "description": "Conditions for the statements to be executed.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "error_mode",
+            "type": "string",
+            "description": "How to react to errors if they occur while processing a statement.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.transform \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "metric_statements": {
+        "description": "Statements which transform metrics.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "context",
+            "type": "string",
+            "description": "OTTL Context to use when interpreting the associated statements.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "statements",
+            "type": "list(string)",
+            "description": "A list of OTTL statements.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "conditions",
+            "type": "list(string)",
+            "description": "Conditions for the statements to be executed.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "error_mode",
+            "type": "string",
+            "description": "How to react to errors if they occur while processing a statement.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.transform \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "statements": {
+        "description": "Statements which transform logs, metrics, and traces without specifying a context explicitly.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "context",
+            "type": "string",
+            "description": "OTTL Context to use when interpreting the associated statements.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "statements",
+            "type": "list(string)",
+            "description": "A list of OTTL statements.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "conditions",
+            "type": "list(string)",
+            "description": "Conditions for the statements to be executed.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "error_mode",
+            "type": "string",
+            "description": "How to react to errors if they occur while processing a statement.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.transform \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "trace_statements": {
+        "description": "Statements which transform traces.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "context",
+            "type": "string",
+            "description": "OTTL Context to use when interpreting the associated statements.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "statements",
+            "type": "list(string)",
+            "description": "A list of OTTL statements.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "conditions",
+            "type": "list(string)",
+            "description": "Conditions for the statements to be executed.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "error_mode",
+            "type": "string",
+            "description": "How to react to errors if they occur while processing a statement.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.transform \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.transform \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  log_statements {\n    context = \"${2}\"\n    statements = \"${3}\"\n  }\n  metric_statements {\n    context = \"${2}\"\n    statements = \"${3}\"\n  }\n  statements {\n    context = \"${2}\"\n    statements = \"${3}\"\n  }\n  trace_statements {\n    context = \"${2}\"\n    statements = \"${3}\"\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

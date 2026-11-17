@@ -1,0 +1,48 @@
+declare "scraped_metrics" {
+  argument "scrape_targets" { }
+
+  argument "otel_exporter_prometheus" { }
+
+  prometheus.scrape "metrics" {
+    targets    = argument.scrape_targets.value
+    forward_to = [otelcol.receiver.prometheus.default.receiver]
+  }
+
+  otelcol.receiver.prometheus "default" {
+    output {
+      metrics = [otelcol.processor.transform.metrics.input]
+    }
+  }
+
+  // CURSOR HERE: Should show ALL possible components, not just completions from component above
+  // Expected completions:
+  // - prometheus.scrape (component type)
+  // - prometheus.remote_write (component type)  
+  // - otelcol.receiver.otlp (component type)
+  // - otelcol.receiver.prometheus (component type)
+  // - otelcol.processor.batch (component type)
+  // - otelcol.processor.transform (component type)
+  // - otelcol.exporter.prometheus (component type)
+  // - loki.source.file (component type)
+  // - loki.write (component type)
+  // - local.file_match (component type)
+  // - argument "name" { } (argument template)
+  // - export "name" { } (export template)
+
+  otelcol.processor.transform "metrics" {
+    error_mode = "ignore"
+
+    metric_statements {
+      context    = "resource"
+      statements = [
+        `set(attributes["app"], resource.attributes["app"]) where resource.attributes["app"] != nil`,
+        `set(attributes["customer"], resource.attributes["customer"]) where resource.attributes["customer"] != nil`,
+        `set(attributes["environment"], resource.attributes["environment"]) where resource.attributes["environment"] != nil`,
+      ]
+    }
+
+    output {
+      metrics = [argument.otel_exporter_prometheus.value]
+    }
+  }
+}

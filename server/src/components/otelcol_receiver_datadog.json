@@ -1,0 +1,265 @@
+{
+  "name": "otelcol.receiver.datadog",
+  "usage": "otelcol.receiver.datadog \"<LABEL>\" {\n  output {\n    metrics = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "host:port to listen for traffic on.",
+      "default": "\"localhost:8126\"",
+      "required": false
+    },
+    {
+      "name": "max_request_body_size",
+      "type": "string",
+      "description": "Maximum request body size the server will allow.",
+      "default": "\"20MiB\"",
+      "required": false
+    },
+    {
+      "name": "include_metadata",
+      "type": "bool",
+      "description": "Propagate incoming connection metadata to downstream consumers.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "read_timeout",
+      "type": "duration",
+      "description": "Read timeout for requests of the HTTP server.",
+      "default": "\"60s\"",
+      "required": false
+    },
+    {
+      "name": "compression_algorithms",
+      "type": "list(string)",
+      "description": "A list of compression algorithms the server can accept.",
+      "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+      "required": false
+    },
+    {
+      "name": "auth",
+      "type": "capsule(otelcol.Handler)",
+      "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.datadog/#output"
+    },
+    {
+      "block": "cors",
+      "description": "Configures CORS for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.datadog/#cors"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.datadog/#debug_metrics"
+    },
+    {
+      "block": "tls",
+      "description": "Configures TLS for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.datadog/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.datadog/#tpm"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.datadog",
+    "arguments": {
+      "endpoint": {
+        "type": "string",
+        "description": "host:port to listen for traffic on.",
+        "default": "\"localhost:8126\"",
+        "required": false
+      },
+      "max_request_body_size": {
+        "type": "string",
+        "description": "Maximum request body size the server will allow.",
+        "default": "\"20MiB\"",
+        "required": false
+      },
+      "include_metadata": {
+        "type": "bool",
+        "description": "Propagate incoming connection metadata to downstream consumers.",
+        "default": "false",
+        "required": false
+      },
+      "read_timeout": {
+        "type": "duration",
+        "description": "Read timeout for requests of the HTTP server.",
+        "default": "\"60s\"",
+        "required": false
+      },
+      "compression_algorithms": {
+        "type": "list(string)",
+        "description": "A list of compression algorithms the server can accept.",
+        "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+        "required": false
+      },
+      "auth": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.datadog \"<LABEL>\" {\n  output {\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "cors": {
+        "description": "Configures CORS for the HTTP server.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "allowed_origins",
+            "type": "list(string)",
+            "description": "Allowed values for the Origin header.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "allowed_headers",
+            "type": "list(string)",
+            "description": "Accepted headers from CORS requests.",
+            "default": "[\"X-Requested-With\"]",
+            "required": false
+          },
+          {
+            "name": "max_age",
+            "type": "number",
+            "description": "Configures the Access-Control-Max-Age response header.",
+            "default": "0",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.datadog \"<LABEL>\" {\n  output {\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.datadog \"<LABEL>\" {\n  output {\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "tls": {
+        "description": "Configures TLS for the HTTP server.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "endpoint",
+                "type": "string",
+                "description": "host:port to listen for traffic on.",
+                "default": "\"localhost:8126\"",
+                "required": false
+              },
+              {
+                "name": "max_request_body_size",
+                "type": "string",
+                "description": "Maximum request body size the server will allow.",
+                "default": "\"20MiB\"",
+                "required": false
+              },
+              {
+                "name": "include_metadata",
+                "type": "bool",
+                "description": "Propagate incoming connection metadata to downstream consumers.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "read_timeout",
+                "type": "duration",
+                "description": "Read timeout for requests of the HTTP server.",
+                "default": "\"60s\"",
+                "required": false
+              },
+              {
+                "name": "compression_algorithms",
+                "type": "list(string)",
+                "description": "A list of compression algorithms the server can accept.",
+                "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+                "required": false
+              },
+              {
+                "name": "auth",
+                "type": "capsule(otelcol.Handler)",
+                "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+                "default": "",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.datadog \"<LABEL>\" {\n  output {\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.datadog/#tpm"
+          }
+        ],
+        "usage": "otelcol.receiver.datadog \"<LABEL>\" {\n  output {\n    metrics = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.datadog \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  cors {\n  }\n  debug_metrics {\n    $0\n  }\n  tls {\n  }\n}"
+}

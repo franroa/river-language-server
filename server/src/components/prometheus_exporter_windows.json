@@ -1,0 +1,619 @@
+{
+  "name": "prometheus.exporter.windows",
+  "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "enabled_collectors",
+      "type": "list(string)",
+      "description": "List of collectors to enable.",
+      "default": "[\"cpu\",\"cs\",\"logical_disk\",\"net\",\"os\",\"service\",\"system\"]",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "dfsr",
+      "description": "Configures the dfsr collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#dfsr"
+    },
+    {
+      "block": "dns",
+      "description": "Configures the dns collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#dns"
+    },
+    {
+      "block": "exchange",
+      "description": "Configures the exchange collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#exchange"
+    },
+    {
+      "block": "filetime",
+      "description": "Configures the filetime collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#filetime"
+    },
+    {
+      "block": "iis",
+      "description": "Configures the iis collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#iis"
+    },
+    {
+      "block": "logical_disk",
+      "description": "Configures the logical_disk collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#logical_disk"
+    },
+    {
+      "block": "mscluster",
+      "description": "Configures the mscluster collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#mscluster"
+    },
+    {
+      "block": "mssql",
+      "description": "Configures the mssql collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#mssql"
+    },
+    {
+      "block": "netframework",
+      "description": "Configures the netframework collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#netframework"
+    },
+    {
+      "block": "network",
+      "description": "Configures the network collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#network"
+    },
+    {
+      "block": "performancecounter",
+      "description": "Configures the performancecounter collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#performancecounter"
+    },
+    {
+      "block": "physical_disk",
+      "description": "Configures the physical_disk collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#physical_disk"
+    },
+    {
+      "block": "printer",
+      "description": "Configures the printer collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#printer"
+    },
+    {
+      "block": "process",
+      "description": "Configures the process collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#process"
+    },
+    {
+      "block": "scheduled_task",
+      "description": "Configures the scheduled_task collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#scheduled_task"
+    },
+    {
+      "block": "service",
+      "description": "Configures the service collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#service"
+    },
+    {
+      "block": "smb_client",
+      "description": "Configures the smb_client collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#smb_client"
+    },
+    {
+      "block": "smb",
+      "description": "Configures the smb collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#smb"
+    },
+    {
+      "block": "smtp",
+      "description": "Configures the smtp collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#smtp"
+    },
+    {
+      "block": "tcp",
+      "description": "Configures the tcp collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#tcp"
+    },
+    {
+      "block": "text_file",
+      "description": "Configures the textfile collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#text_file"
+    },
+    {
+      "block": "update",
+      "description": "Configures the update collector.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.windows/#update"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.windows",
+    "arguments": {
+      "enabled_collectors": {
+        "type": "list(string)",
+        "description": "List of collectors to enable.",
+        "default": "[\"cpu\",\"cs\",\"logical_disk\",\"net\",\"os\",\"service\",\"system\"]",
+        "required": false
+      }
+    },
+    "blocks": {
+      "dfsr": {
+        "description": "Configures the dfsr collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "source_enabled",
+            "type": "list(string)",
+            "description": "A list of DFSR Perflib sources to use.",
+            "default": "[\"connection\",\"folder\",\"volume\"]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "dns": {
+        "description": "Configures the dns collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled_list",
+            "type": "list(string)",
+            "description": "A list of collectors to use.",
+            "default": "[\"metrics\", \"wmi_stats\"]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "exchange": {
+        "description": "Configures the exchange collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled_list",
+            "type": "list(string)",
+            "description": "A list of collectors to use.",
+            "default": "[\"ADAccessProcesses\", \"TransportQueues\", \"HttpProxy\", \"ActiveSync\", \"AvailabilityService\", \"OutlookWebAccess\", \"Autodiscover\", \"WorkloadManagement\", \"RpcClientAccess\", \"MapiHttpEmsmdb\"]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "filetime": {
+        "description": "Configures the filetime collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "file_patterns",
+            "type": "list(string)",
+            "description": "A list of glob patterns matching files to be monitored.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "iis": {
+        "description": "Configures the iis collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "app_exclude",
+            "type": "string",
+            "description": "Regular expression of applications to ignore.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "app_include",
+            "type": "string",
+            "description": "Regular expression of applications to report on.",
+            "default": "\"^.+$\"",
+            "required": false
+          },
+          {
+            "name": "site_exclude",
+            "type": "string",
+            "description": "Regular expression of sites to ignore.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "site_include",
+            "type": "string",
+            "description": "Regular expression of sites to report on.",
+            "default": "\"^.+$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "logical_disk": {
+        "description": "Configures the logical_disk collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exclude",
+            "type": "string",
+            "description": "Regular expression of volumes to exclude.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "string",
+            "description": "Regular expression of volumes to include.",
+            "default": "\"^.+$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "mscluster": {
+        "description": "Configures the mscluster collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled_list",
+            "type": "list(string)",
+            "description": "A list of collectors to use.",
+            "default": "[\"cluster\",\"network\",\"node\",\"resource\",\"resourcegroup\"]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "mssql": {
+        "description": "Configures the mssql collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled_classes",
+            "type": "list(string)",
+            "description": "A list of MSSQL WMI classes to use.",
+            "default": "[\"accessmethods\", \"availreplica\", \"bufman\", \"databases\", \"dbreplica\", \"genstats\", \"info\", \"locks\", \"memmgr\", \"sqlerrors\", \"sqlstats\", \"transactions\", \"waitstats\"]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "netframework": {
+        "description": "Configures the netframework collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled_list",
+            "type": "list(string)",
+            "description": "A list of collectors to use.",
+            "default": "[\"clrexceptions\",\"clrinterop\",\"clrjit\",\"clrloading\",\"clrlocksandthreads\",\"clrmemory\",\"clrremoting\",\"clrsecurity\"]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "network": {
+        "description": "Configures the network collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exclude",
+            "type": "string",
+            "description": "Regular expression of NICs to exclude.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "string",
+            "description": "Regular expression of NICs to include.",
+            "default": "\"^.+$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "performancecounter": {
+        "description": "Configures the performancecounter collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "objects",
+            "type": "string",
+            "description": "YAML string representing the counters to monitor.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "physical_disk": {
+        "description": "Configures the physical_disk collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exclude",
+            "type": "string",
+            "description": "Regular expression of physical disk to exclude.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "string",
+            "description": "Regular expression of physical disk to include.",
+            "default": "\"^.+$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "printer": {
+        "description": "Configures the printer collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exclude",
+            "type": "string",
+            "description": "Regular expression of printer to exclude.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "string",
+            "description": "Regular expression of printer to include.",
+            "default": "\"^.+$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "process": {
+        "description": "Configures the process collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exclude",
+            "type": "string",
+            "description": "Regular expression of processes to exclude.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "string",
+            "description": "Regular expression of processes to include.",
+            "default": "\"^.+$\"",
+            "required": false
+          },
+          {
+            "name": "enable_iis_worker_process",
+            "type": "string",
+            "description": "Enable IIS collectWorker process name queries",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "scheduled_task": {
+        "description": "Configures the scheduled_task collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exclude",
+            "type": "string",
+            "description": "Regular expression of tasks to exclude.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "string",
+            "description": "Regular expression of tasks to include.",
+            "default": "\"^.+$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "service": {
+        "description": "Configures the service collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exclude",
+            "type": "string",
+            "description": "Regular expression of services to exclude.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "string",
+            "description": "Regular expression of services to include.",
+            "default": "\"^.+$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "smb_client": {
+        "description": "Configures the smb_client collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled_list",
+            "type": "list(string)",
+            "description": "Deprecated (no-op), a list of collectors to use.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "smb": {
+        "description": "Configures the smb collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled_list",
+            "type": "list(string)",
+            "description": "Deprecated (no-op), a list of collectors to use.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "smtp": {
+        "description": "Configures the smtp collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "exclude",
+            "type": "string",
+            "description": "Regular expression of virtual servers to ignore.",
+            "default": "\"^$\"",
+            "required": false
+          },
+          {
+            "name": "include",
+            "type": "string",
+            "description": "Regular expression of virtual servers to include.",
+            "default": "\"^.+$\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "tcp": {
+        "description": "Configures the tcp collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled_list",
+            "type": "list(string)",
+            "description": "A list of collectors to use.",
+            "default": "[\"metrics\",\"connections_state\"]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "text_file": {
+        "description": "Configures the textfile collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "text_file_directory",
+            "type": "string",
+            "description": "The directory containing the files to be ingested.",
+            "default": "see below",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      },
+      "update": {
+        "description": "Configures the update collector.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "online",
+            "type": "bool",
+            "description": "Whether to search for updates online.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "scrape_interval",
+            "type": "duration",
+            "description": "How frequently to scrape Windows Update information.",
+            "default": "6h",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.windows \"<LABEL>\" {\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.windows \"${1:default}\" {\n  dfsr {\n  }\n  dns {\n  }\n  exchange {\n  }\n  filetime {\n  }\n  iis {\n  }\n  logical_disk {\n  }\n  mscluster {\n  }\n  mssql {\n  }\n  netframework {\n  }\n  network {\n  }\n  performancecounter {\n  }\n  physical_disk {\n  }\n  printer {\n  }\n  process {\n  }\n  scheduled_task {\n  }\n  service {\n  }\n  smb_client {\n  }\n  smb {\n  }\n  smtp {\n  }\n  tcp {\n  }\n  text_file {\n  }\n  update {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

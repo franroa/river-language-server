@@ -1,0 +1,484 @@
+{
+  "name": "remote.vault",
+  "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}",
+  "arguments": [
+    {
+      "name": "path",
+      "type": "string",
+      "description": "The path to retrieve a secret from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "server",
+      "type": "string",
+      "description": "The Vault server to connect to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "namespace",
+      "type": "string",
+      "description": "The Vault namespace to connect to (Vault Enterprise only).",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "key",
+      "type": "string",
+      "description": "The key to retrieve a secret from.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "reread_frequency",
+      "type": "duration",
+      "description": "Rate to re-read keys.",
+      "default": "\"0s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "auth.approle",
+      "description": "Authenticate to Vault using AppRole.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authapprole"
+    },
+    {
+      "block": "auth.aws",
+      "description": "Authenticate to Vault using AWS.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authaws"
+    },
+    {
+      "block": "auth.azure",
+      "description": "Authenticate to Vault using Azure.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authazure"
+    },
+    {
+      "block": "auth.custom",
+      "description": "Authenticate to Vault with custom authentication.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authcustom"
+    },
+    {
+      "block": "auth.gcp",
+      "description": "Authenticate to Vault using GCP.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authgcp"
+    },
+    {
+      "block": "auth.kubernetes",
+      "description": "Authenticate to Vault using Kubernetes.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authkubernetes"
+    },
+    {
+      "block": "auth.ldap",
+      "description": "Authenticate to Vault using LDAP.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authldap"
+    },
+    {
+      "block": "auth.token",
+      "description": "Authenticate to Vault with a token.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authtoken"
+    },
+    {
+      "block": "auth.userpass",
+      "description": "Authenticate to Vault using a username and password.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#authuserpass"
+    },
+    {
+      "block": "client_options",
+      "description": "Options for the Vault client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.vault/#client_options"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "data",
+      "type": "map(secret)",
+      "description": "Data from the secret obtained from Vault."
+    }
+  ],
+  "lsp_structure": {
+    "component": "remote.vault",
+    "arguments": {
+      "path": {
+        "type": "string",
+        "description": "The path to retrieve a secret from.",
+        "default": "",
+        "required": true
+      },
+      "server": {
+        "type": "string",
+        "description": "The Vault server to connect to.",
+        "default": "",
+        "required": true
+      },
+      "namespace": {
+        "type": "string",
+        "description": "The Vault namespace to connect to (Vault Enterprise only).",
+        "default": "",
+        "required": false
+      },
+      "key": {
+        "type": "string",
+        "description": "The key to retrieve a secret from.",
+        "default": "",
+        "required": false
+      },
+      "reread_frequency": {
+        "type": "duration",
+        "description": "Rate to re-read keys.",
+        "default": "\"0s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "auth.approle": {
+        "description": "Authenticate to Vault using AppRole.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "role_id",
+            "type": "string",
+            "description": "Role ID to authenticate as.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "secret",
+            "type": "secret",
+            "description": "Secret to authenticate with.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "mount_path",
+            "type": "string",
+            "description": "Mount path for the login.",
+            "default": "\"approle\"",
+            "required": false
+          },
+          {
+            "name": "wrapping_token",
+            "type": "bool",
+            "description": "Whether to unwrap the token.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "auth.aws": {
+        "description": "Authenticate to Vault using AWS.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "type",
+            "type": "string",
+            "description": "Mechanism to authenticate against AWS with.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "ec2_signature_type",
+            "type": "string",
+            "description": "Signature to use when authenticating against EC2.",
+            "default": "\"pkcs7\"",
+            "required": false
+          },
+          {
+            "name": "iam_server_id_header",
+            "type": "string",
+            "description": "Configures a X-Vault-AWS-IAM-Server-ID header.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "mount_path",
+            "type": "string",
+            "description": "Mount path for the login.",
+            "default": "\"aws\"",
+            "required": false
+          },
+          {
+            "name": "region",
+            "type": "string",
+            "description": "AWS region to connect to.",
+            "default": "\"us-east-1\"",
+            "required": false
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "description": "Overrides the inferred role name inferred.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "auth.azure": {
+        "description": "Authenticate to Vault using Azure.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "role",
+            "type": "string",
+            "description": "Role name to authenticate as.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "resource_url",
+            "type": "string",
+            "description": "Resource URL to include with authentication request.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "mount_path",
+            "type": "string",
+            "description": "Mount path for the login.",
+            "default": "\"azure\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "auth.custom": {
+        "description": "Authenticate to Vault with custom authentication.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "path",
+            "type": "string",
+            "description": "Path to write to for creating an authentication token.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "data",
+            "type": "map(secret)",
+            "description": "Authentication data.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "namespace",
+            "type": "string",
+            "description": "The namespace to authenticate to.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "auth.gcp": {
+        "description": "Authenticate to Vault using GCP.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "role",
+            "type": "string",
+            "description": "Role name to authenticate as.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "description": "Mechanism to authenticate against GCP with",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "iam_service_account",
+            "type": "string",
+            "description": "IAM service account name to use.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "mount_path",
+            "type": "string",
+            "description": "Mount path for the login.",
+            "default": "\"gcp\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "auth.kubernetes": {
+        "description": "Authenticate to Vault using Kubernetes.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "role",
+            "type": "string",
+            "description": "Role name to authenticate as.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "service_account_file",
+            "type": "string",
+            "description": "Override service account token file to use.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "mount_path",
+            "type": "string",
+            "description": "Mount path for the login.",
+            "default": "\"kubernetes\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "auth.ldap": {
+        "description": "Authenticate to Vault using LDAP.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "username",
+            "type": "string",
+            "description": "LDAP username to authenticate as.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "password",
+            "type": "secret",
+            "description": "LDAP password for the user.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "mount_path",
+            "type": "string",
+            "description": "Mount path for the login.",
+            "default": "\"ldap\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "auth.token": {
+        "description": "Authenticate to Vault with a token.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "token",
+            "type": "secret",
+            "description": "Authentication token to use.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "auth.userpass": {
+        "description": "Authenticate to Vault using a username and password.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "username",
+            "type": "string",
+            "description": "Username to authenticate as.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "password",
+            "type": "secret",
+            "description": "Password for the user.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "mount_path",
+            "type": "string",
+            "description": "Mount path for the login.",
+            "default": "\"userpass\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      },
+      "client_options": {
+        "description": "Options for the Vault client.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "min_retry_wait",
+            "type": "duration",
+            "description": "Minimum time to wait before retrying failed requests.",
+            "default": "\"1000ms\"",
+            "required": false
+          },
+          {
+            "name": "max_retry_wait",
+            "type": "duration",
+            "description": "Maximum time to wait before retrying failed requests.",
+            "default": "\"1500ms\"",
+            "required": false
+          },
+          {
+            "name": "max_retries",
+            "type": "int",
+            "description": "Maximum number of times to retry after a 5xx error.",
+            "default": "2",
+            "required": false
+          },
+          {
+            "name": "timeout",
+            "type": "duration",
+            "description": "Maximum time to wait before a request times out.",
+            "default": "\"60s\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "remote.vault \"<LABEL>\" {\n  server = \"<VAULT_SERVER>\"\n  path   = \"<VAULT_PATH>\"\n  key    = \"<VAULT_KEY>\"\n\n  // Alternatively, use one of the other auth.* mechanisms.\n  auth.token {\n    token = \"<AUTH_TOKEN>\"\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "data": {
+        "type": "map(secret)",
+        "description": "Data from the secret obtained from Vault."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "remote.vault \"${1:default}\" {\n  auth.approle {\n    role_id = \"${2}\"\n    secret = \"${3}\"\n  }\n  auth.aws {\n    type = \"${2}\"\n  }\n  auth.azure {\n    role = \"${2}\"\n  }\n  auth.custom {\n    path = \"${2}\"\n    data = \"${3}\"\n  }\n  auth.gcp {\n    role = \"${2}\"\n    type = \"${3}\"\n  }\n  auth.kubernetes {\n    role = \"${2}\"\n  }\n  auth.ldap {\n    username = \"${2}\"\n    password = \"${3}\"\n  }\n  auth.token {\n    token = \"${2}\"\n  }\n  auth.userpass {\n    username = \"${2}\"\n    password = \"${3}\"\n  }\n  client_options {\n  }\n\n  // Exported fields:\n  // - data (map(secret)): Data from the secret obtained from Vault.\n}"
+}

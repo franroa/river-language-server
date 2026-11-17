@@ -1,0 +1,265 @@
+{
+  "name": "prometheus.write.queue",
+  "usage": "prometheus.write.queue \"<LABEL>\" {\n  endpoint \"default \"{\n    url = \"<REMOTE_WRITE_URL>\"\n\n    ...\n  }\n\n  ...\n}",
+  "arguments": [
+    {
+      "name": "ttl",
+      "type": "duration",
+      "description": "How long the samples can be queued for before they’re discarded.",
+      "default": "\"2h\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "endpoint",
+      "description": "Location to send metrics to.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.write.queue/#endpoint"
+    },
+    {
+      "block": "endpoint > basic_auth",
+      "description": "Configure basic_auth for authenticating to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.write.queue/#basic_auth"
+    },
+    {
+      "block": "endpoint > tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.write.queue/#tls_config"
+    },
+    {
+      "block": "endpoint > parallelism",
+      "description": "Configure parallelism for the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.write.queue/#parallelism"
+    },
+    {
+      "block": "persistence",
+      "description": "Configuration for persistence",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.write.queue/#persistence"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "MetricsReceiver",
+      "description": "A value that other components can use to send metrics to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.write.queue",
+    "arguments": {
+      "ttl": {
+        "type": "duration",
+        "description": "How long the samples can be queued for before they’re discarded.",
+        "default": "\"2h\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "endpoint": {
+        "description": "Location to send metrics to.",
+        "required": false,
+        "children": {
+          "basic_auth": {
+            "description": "Configure basic_auth for authenticating to the endpoint.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "ttl",
+                "type": "duration",
+                "description": "How long the samples can be queued for before they’re discarded.",
+                "default": "\"2h\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.write.queue \"<LABEL>\" {\n  endpoint \"default \"{\n    url = \"<REMOTE_WRITE_URL>\"\n\n    ...\n  }\n\n  ...\n}"
+          },
+          "tls_config": {
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "ttl",
+                "type": "duration",
+                "description": "How long the samples can be queued for before they’re discarded.",
+                "default": "\"2h\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.write.queue \"<LABEL>\" {\n  endpoint \"default \"{\n    url = \"<REMOTE_WRITE_URL>\"\n\n    ...\n  }\n\n  ...\n}"
+          },
+          "parallelism": {
+            "description": "Configure parallelism for the endpoint.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "ttl",
+                "type": "duration",
+                "description": "How long the samples can be queued for before they’re discarded.",
+                "default": "\"2h\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.write.queue \"<LABEL>\" {\n  endpoint \"default \"{\n    url = \"<REMOTE_WRITE_URL>\"\n\n    ...\n  }\n\n  ...\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "url",
+            "type": "string",
+            "description": "Full URL to send metrics to.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "batch_count",
+            "type": "uint",
+            "description": "How many series to queue in each queue.",
+            "default": "1000",
+            "required": false
+          },
+          {
+            "name": "bearer_token",
+            "type": "secret",
+            "description": "Bearer token to authenticate with.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "enable_round_robin",
+            "type": "bool",
+            "description": "Use round robin load balancing when there are multiple IPs for a given endpoint.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "external_labels",
+            "type": "map(string)",
+            "description": "Labels to add to metrics sent over the network.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "flush_interval",
+            "type": "duration",
+            "description": "How long to wait until sending if batch_count isn’t triggered.",
+            "default": "\"1s\"",
+            "required": false
+          },
+          {
+            "name": "headers",
+            "type": "map(secret)",
+            "description": "Custom HTTP headers to add to all requests sent to the server.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "max_retry_attempts",
+            "type": "uint",
+            "description": "Maximum number of retries before dropping the batch.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "proxy_url",
+            "type": "string",
+            "description": "URL of the HTTP proxy to use for requests.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "proxy_from_environment",
+            "type": "bool",
+            "description": "Whether to read proxy configuration from environment variables.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "proxy_connect_headers",
+            "type": "map(secret)",
+            "description": "HTTP headers to send to proxies during CONNECT requests.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "retry_backoff",
+            "type": "duration",
+            "description": "How long to wait between retries.",
+            "default": "\"1s\"",
+            "required": false
+          },
+          {
+            "name": "write_timeout",
+            "type": "duration",
+            "description": "Timeout for requests made to the URL.",
+            "default": "\"30s\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "basic_auth",
+            "description": "Configure basic_auth for authenticating to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.write.queue/#basic_auth"
+          },
+          {
+            "block": "tls_config",
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.write.queue/#tls_config"
+          },
+          {
+            "block": "parallelism",
+            "description": "Configure parallelism for the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.write.queue/#parallelism"
+          }
+        ],
+        "usage": "prometheus.write.queue \"<LABEL>\" {\n  endpoint \"default \"{\n    url = \"<REMOTE_WRITE_URL>\"\n\n    ...\n  }\n\n  ...\n}"
+      },
+      "persistence": {
+        "description": "Configuration for persistence",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "batch_interval",
+            "type": "duration",
+            "description": "How often to batch signals to disk if max_signals_to_batch isn’t reached.",
+            "default": "\"5s\"",
+            "required": false
+          },
+          {
+            "name": "max_signals_to_batch",
+            "type": "uint",
+            "description": "The maximum number of signals before they’re batched to disk.",
+            "default": "10000",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.write.queue \"<LABEL>\" {\n  endpoint \"default \"{\n    url = \"<REMOTE_WRITE_URL>\"\n\n    ...\n  }\n\n  ...\n}"
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "MetricsReceiver",
+        "description": "A value that other components can use to send metrics to."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.write.queue \"${1:default}\" {\n  endpoint {\n    url = \"${2}\"\n  }\n  persistence {\n  }\n\n  // Exported fields:\n  // - receiver (MetricsReceiver): A value that other components can use to send metrics to.\n}"
+}

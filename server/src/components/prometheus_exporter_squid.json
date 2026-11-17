@@ -1,0 +1,81 @@
+{
+  "name": "prometheus.exporter.squid",
+  "usage": "prometheus.exporter.squid \"<LABEL>\" {\n    address = \"<SQUID_ADDRESS>\"\n}",
+  "arguments": [
+    {
+      "name": "address",
+      "type": "string",
+      "description": "The squid address to collect metrics from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "password",
+      "type": "secret",
+      "description": "The password for the user used when querying metrics.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "The username for the user used when querying metrics.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.squid",
+    "arguments": {
+      "address": {
+        "type": "string",
+        "description": "The squid address to collect metrics from.",
+        "default": "",
+        "required": true
+      },
+      "password": {
+        "type": "secret",
+        "description": "The password for the user used when querying metrics.",
+        "default": "",
+        "required": false
+      },
+      "username": {
+        "type": "string",
+        "description": "The username for the user used when querying metrics.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.squid \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

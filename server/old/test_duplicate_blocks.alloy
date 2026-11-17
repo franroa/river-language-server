@@ -1,0 +1,36 @@
+// Test cases for duplicate block validation
+
+// ❌ These should trigger duplicate error (same component type + same label)
+prometheus.scrape "demo" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.scrape "demo" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// ✅ These should NOT trigger error (different labels)
+prometheus.scrape "demo_1" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.scrape "demo_2" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// ✅ These should NOT trigger error (different component types)
+prometheus.remote_write "demo" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+}
+
+loki.write "demo" {
+	endpoint {
+		url = "http://localhost:3100/loki/api/v1/push"
+	}
+}

@@ -1,0 +1,71 @@
+{
+  "name": "otelcol.receiver.fluentforward",
+  "usage": "otelcol.receiver.fluentforward \"<LABEL>\" {\n  endpoint = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "The <HOST:PORT> or unix://<path to socket> address to listen to for logs messages.",
+      "default": "",
+      "required": true
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.fluentforward/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.fluentforward/#debug_metrics"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.fluentforward",
+    "arguments": {
+      "endpoint": {
+        "type": "string",
+        "description": "The <HOST:PORT> or unix://<path to socket> address to listen to for logs messages.",
+        "default": "",
+        "required": true
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.fluentforward \"<LABEL>\" {\n  endpoint = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.fluentforward \"<LABEL>\" {\n  endpoint = \"<IP_ADDRESS:PORT>\"\n\n  output {\n    logs    = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.fluentforward \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n}"
+}

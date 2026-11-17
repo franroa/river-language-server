@@ -1,0 +1,181 @@
+{
+  "name": "otelcol.storage.file",
+  "usage": "otelcol.storage.file \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "create_directory",
+      "type": "bool",
+      "description": "Will the component be responsible for creating the directory.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "directory",
+      "type": "string",
+      "description": "The path to the dedicated data storage directory.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "directory_permissions",
+      "type": "string",
+      "description": "The octal file permissions used when creating the directory if create_directory is set.",
+      "default": "\"0750\"",
+      "required": false
+    },
+    {
+      "name": "fsync",
+      "type": "bool",
+      "description": "Will fsync be called after each write operation.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "The timeout for file storage operations.",
+      "default": "\"1s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "compaction",
+      "description": "Configures file storage compaction.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.storage.file/#compaction"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.storage.file/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "handler",
+      "type": "capsule(otelcol.Handler)",
+      "description": "A value that other components can use to persist state to file storage."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.storage.file",
+    "arguments": {
+      "create_directory": {
+        "type": "bool",
+        "description": "Will the component be responsible for creating the directory.",
+        "default": "true",
+        "required": false
+      },
+      "directory": {
+        "type": "string",
+        "description": "The path to the dedicated data storage directory.",
+        "default": "",
+        "required": false
+      },
+      "directory_permissions": {
+        "type": "string",
+        "description": "The octal file permissions used when creating the directory if create_directory is set.",
+        "default": "\"0750\"",
+        "required": false
+      },
+      "fsync": {
+        "type": "bool",
+        "description": "Will fsync be called after each write operation.",
+        "default": "false",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "The timeout for file storage operations.",
+        "default": "\"1s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "compaction": {
+        "description": "Configures file storage compaction.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "check_interval",
+            "type": "duration",
+            "description": "The interval to check if online compaction is required.",
+            "default": "\"5s\"",
+            "required": false
+          },
+          {
+            "name": "cleanup_on_start",
+            "type": "bool",
+            "description": "Cleanup temporary files on component start.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "directory",
+            "type": "string",
+            "description": "The path to the directory where temporary compaction artifacts will be stored.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "max_transaction_size",
+            "type": "int",
+            "description": "Maximum number of items present in a single compaction iteration.",
+            "default": "65536",
+            "required": false
+          },
+          {
+            "name": "on_rebound",
+            "type": "bool",
+            "description": "Run compaction online when rebound conditions are met.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "on_start",
+            "type": "bool",
+            "description": "Run compaction on component start.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "rebound_needed_threshold_mib",
+            "type": "int",
+            "description": "File storage total allocated size boundary to mark need for online compaction.",
+            "default": "100",
+            "required": false
+          },
+          {
+            "name": "rebound_trigger_threshold_mib",
+            "type": "int",
+            "description": "File storage used allocated size boundary to trigger online compaction.",
+            "default": "10",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.storage.file \"<LABEL>\" {\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.storage.file \"<LABEL>\" {\n}"
+      }
+    },
+    "exported_fields": {
+      "handler": {
+        "type": "capsule(otelcol.Handler)",
+        "description": "A value that other components can use to persist state to file storage."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.storage.file \"${1:default}\" {\n  compaction {\n  }\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - handler (capsule(otelcol.Handler)): A value that other components can use to persist state to file storage.\n}"
+}

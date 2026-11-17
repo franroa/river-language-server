@@ -1,0 +1,246 @@
+{
+  "name": "discovery.azure",
+  "usage": "discovery.azure \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "enable_http2",
+      "type": "bool",
+      "description": "Whether HTTP2 is supported for requests.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "environment",
+      "type": "string",
+      "description": "Azure environment.",
+      "default": "\"AzurePublicCloud\"",
+      "required": false
+    },
+    {
+      "name": "follow_redirects",
+      "type": "bool",
+      "description": "Whether redirects returned by the server should be followed.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "http_headers",
+      "type": "map(list(secret))",
+      "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "no_proxy",
+      "type": "string",
+      "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "port",
+      "type": "number",
+      "description": "The port appended to the __address__ label for each target.",
+      "default": "80",
+      "required": false
+    },
+    {
+      "name": "proxy_connect_header",
+      "type": "map(list(secret))",
+      "description": "Specifies headers to send to proxies during CONNECT requests.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "proxy_from_environment",
+      "type": "bool",
+      "description": "Use the proxy URL indicated by environment variables.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "proxy_url",
+      "type": "string",
+      "description": "HTTP proxy to send requests through.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Interval at which to refresh the list of targets.",
+      "default": "\"5m\"",
+      "required": false
+    },
+    {
+      "name": "subscription_id",
+      "type": "string",
+      "description": "Azure subscription ID.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "managed_identity",
+      "description": "Managed Identity configuration for Azure API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.azure/#managed_identity"
+    },
+    {
+      "block": "oauth",
+      "description": "OAuth 2.0 configuration for Azure API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.azure/#oauth"
+    },
+    {
+      "block": "tls_config",
+      "description": "TLS configuration for requests to the Azure API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/discovery/discovery.azure/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered from the Azure API."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.azure",
+    "arguments": {
+      "enable_http2": {
+        "type": "bool",
+        "description": "Whether HTTP2 is supported for requests.",
+        "default": "true",
+        "required": false
+      },
+      "environment": {
+        "type": "string",
+        "description": "Azure environment.",
+        "default": "\"AzurePublicCloud\"",
+        "required": false
+      },
+      "follow_redirects": {
+        "type": "bool",
+        "description": "Whether redirects returned by the server should be followed.",
+        "default": "true",
+        "required": false
+      },
+      "http_headers": {
+        "type": "map(list(secret))",
+        "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+        "default": "",
+        "required": false
+      },
+      "no_proxy": {
+        "type": "string",
+        "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+        "default": "",
+        "required": false
+      },
+      "port": {
+        "type": "number",
+        "description": "The port appended to the __address__ label for each target.",
+        "default": "80",
+        "required": false
+      },
+      "proxy_connect_header": {
+        "type": "map(list(secret))",
+        "description": "Specifies headers to send to proxies during CONNECT requests.",
+        "default": "",
+        "required": false
+      },
+      "proxy_from_environment": {
+        "type": "bool",
+        "description": "Use the proxy URL indicated by environment variables.",
+        "default": "false",
+        "required": false
+      },
+      "proxy_url": {
+        "type": "string",
+        "description": "HTTP proxy to send requests through.",
+        "default": "",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Interval at which to refresh the list of targets.",
+        "default": "\"5m\"",
+        "required": false
+      },
+      "subscription_id": {
+        "type": "string",
+        "description": "Azure subscription ID.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "managed_identity": {
+        "description": "Managed Identity configuration for Azure API.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "client_id",
+            "type": "string",
+            "description": "Managed Identity client ID.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "discovery.azure \"<LABEL>\" {\n}"
+      },
+      "oauth": {
+        "description": "OAuth 2.0 configuration for Azure API.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "client_id",
+            "type": "string",
+            "description": "OAuth 2.0 client ID.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "client_secret",
+            "type": "string",
+            "description": "OAuth 2.0 client secret.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "tenant_id",
+            "type": "string",
+            "description": "OAuth 2.0 tenant ID.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "discovery.azure \"<LABEL>\" {\n}"
+      },
+      "tls_config": {
+        "description": "TLS configuration for requests to the Azure API.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "discovery.azure \"<LABEL>\" {\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered from the Azure API."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.azure \"${1:default}\" {\n  managed_identity {\n    client_id = \"${2}\"\n  }\n  oauth {\n    client_id = \"${2}\"\n    client_secret = \"${3}\"\n    tenant_id = \"${4}\"\n  }\n  tls_config {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered from the Azure API.\n}"
+}

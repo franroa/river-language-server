@@ -1,0 +1,1069 @@
+{
+  "name": "loki.process",
+  "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "Where to forward log entries after processing.",
+      "default": "",
+      "required": true
+    }
+  ],
+  "blocks": [
+    {
+      "block": "stage.cri",
+      "description": "Configures a pre-defined CRI-format pipeline.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagecri"
+    },
+    {
+      "block": "stage.decolorize",
+      "description": "Strips ANSI color codes from log lines.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagedecolorize"
+    },
+    {
+      "block": "stage.docker",
+      "description": "Configures a pre-defined Docker log format pipeline.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagedocker"
+    },
+    {
+      "block": "stage.drop",
+      "description": "Configures a drop processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagedrop"
+    },
+    {
+      "block": "stage.eventlogmessage",
+      "description": "Extracts data from the Message field in the Windows Event Log.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stageeventlogmessage"
+    },
+    {
+      "block": "stage.geoip",
+      "description": "Configures a geoip processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagegeoip"
+    },
+    {
+      "block": "stage.json",
+      "description": "Configures a JSON processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagejson"
+    },
+    {
+      "block": "stage.label_drop",
+      "description": "Configures a label_drop processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagelabel_drop"
+    },
+    {
+      "block": "stage.label_keep",
+      "description": "Configures a label_keep processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagelabel_keep"
+    },
+    {
+      "block": "stage.labels",
+      "description": "Configures a labels processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagelabels"
+    },
+    {
+      "block": "stage.limit",
+      "description": "Configures a limit processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagelimit"
+    },
+    {
+      "block": "stage.logfmt",
+      "description": "Configures a logfmt processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagelogfmt"
+    },
+    {
+      "block": "stage.luhn",
+      "description": "Configures a luhn processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stageluhn"
+    },
+    {
+      "block": "stage.match",
+      "description": "Configures a match processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagematch"
+    },
+    {
+      "block": "stage.metrics",
+      "description": "Configures a metrics stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagemetrics"
+    },
+    {
+      "block": "stage.multiline",
+      "description": "Configures a multiline processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagemultiline"
+    },
+    {
+      "block": "stage.output",
+      "description": "Configures an output processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stageoutput"
+    },
+    {
+      "block": "stage.pack",
+      "description": "Configures a pack processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagepack"
+    },
+    {
+      "block": "stage.regex",
+      "description": "Configures a regex processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stageregex"
+    },
+    {
+      "block": "stage.replace",
+      "description": "Configures a replace processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagereplace"
+    },
+    {
+      "block": "stage.sampling",
+      "description": "Configures a sampling processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagesampling"
+    },
+    {
+      "block": "stage.static_labels",
+      "description": "Configures a static_labels processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagestatic_labels"
+    },
+    {
+      "block": "stage.structured_metadata",
+      "description": "Configures a structured metadata processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagestructured_metadata"
+    },
+    {
+      "block": "stage.template",
+      "description": "Configures a template processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagetemplate"
+    },
+    {
+      "block": "stage.tenant",
+      "description": "Configures a tenant processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagetenant"
+    },
+    {
+      "block": "stage.timestamp",
+      "description": "Configures a timestamp processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagetimestamp"
+    },
+    {
+      "block": "stage.windowsevent",
+      "description": "Configures a windowsevent processing stage.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/#stagewindowsevent"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "LogsReceiver",
+      "description": "A value that other components can use to send log entries to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "loki.process",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "Where to forward log entries after processing.",
+        "default": "",
+        "required": true
+      }
+    },
+    "blocks": {
+      "stage.cri": {
+        "description": "Configures a pre-defined CRI-format pipeline.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "max_partial_line_size_truncate",
+            "type": "bool",
+            "description": "Truncate partial lines that are longer than max_partial_line_size.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "max_partial_line_size",
+            "type": "number",
+            "description": "Maximum number of characters which a partial line can have.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "max_partial_lines",
+            "type": "number",
+            "description": "Maximum number of partial lines to hold in memory.",
+            "default": "100",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.decolorize": {
+        "description": "Strips ANSI color codes from log lines.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.docker": {
+        "description": "Configures a pre-defined Docker log format pipeline.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.drop": {
+        "description": "Configures a drop processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "drop_counter_reason",
+            "type": "string",
+            "description": "A custom reason to report for dropped lines.",
+            "default": "\"drop_stage\"",
+            "required": false
+          },
+          {
+            "name": "expression",
+            "type": "string",
+            "description": "A valid RE2 regular expression.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "longer_than",
+            "type": "string",
+            "description": "If specified, the stage drops lines whose size exceeds the configured value.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "older_than",
+            "type": "duration",
+            "description": "If specified, the stage drops lines whose timestamp is older than the current time minus this duration.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "separator",
+            "type": "string",
+            "description": "When source is a comma-separated list of names, this separator is placed between concatenated extracted data values.",
+            "default": "\";\"",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Name or comma-separated list of names from extracted data to match. If empty or not defined, it uses the log message.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "If both source and value are specified, the stage drops lines where value exactly matches the source content.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.eventlogmessage": {
+        "description": "Extracts data from the Message field in the Windows Event Log.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "drop_invalid_labels",
+            "type": "bool",
+            "description": "Whether to drop fields that aren’t valid label names.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "overwrite_existing",
+            "type": "bool",
+            "description": "Whether to overwrite existing extracted data fields.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Name of the field in the extracted data to parse.",
+            "default": "\"message\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.geoip": {
+        "description": "Configures a geoip processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "db",
+            "type": "string",
+            "description": "Path to the Maxmind DB file.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "IP from extracted data to parse.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "custom_lookups",
+            "type": "map(string)",
+            "description": "Key-value pairs of JMESPath expressions.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "db_type",
+            "type": "string",
+            "description": "Maxmind DB type. Allowed values are \"city\", \"asn\", \"country\".",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.json": {
+        "description": "Configures a JSON processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.label_drop": {
+        "description": "Configures a label_drop processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "values",
+            "type": "list(string)",
+            "description": "Configures a label_drop processing stage.",
+            "default": "{}",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.label_keep": {
+        "description": "Configures a label_keep processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "values",
+            "type": "list(string)",
+            "description": "Configures a label_keep processing stage.",
+            "default": "{}",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.labels": {
+        "description": "Configures a labels processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "values",
+            "type": "map(string)",
+            "description": "Configures a labels processing stage.",
+            "default": "{}",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.limit": {
+        "description": "Configures a limit processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "burst",
+            "type": "number",
+            "description": "The maximum number of burst lines that the stage forwards.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "rate",
+            "type": "number",
+            "description": "The maximum rate of lines per second that the stage forwards.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "by_label_name",
+            "type": "string",
+            "description": "The label to use when rate-limiting on a label name.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "drop",
+            "type": "bool",
+            "description": "Whether to discard or backpressure lines that exceed the rate limit.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "max_distinct_labels",
+            "type": "number",
+            "description": "The number of unique values to keep track of when rate-limiting by_label_name.",
+            "default": "10000",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.logfmt": {
+        "description": "Configures a logfmt processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "mapping",
+            "type": "map(string)",
+            "description": "Key-value pairs of logmft fields to extract.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Source of the data to parse as logfmt.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.luhn": {
+        "description": "Configures a luhn processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "min_length",
+            "type": "int",
+            "description": "Minimum length of digits to consider",
+            "default": "13",
+            "required": false
+          },
+          {
+            "name": "replacement",
+            "type": "string",
+            "description": "String to substitute the matched patterns with",
+            "default": "\"**REDACTED**\"",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Source of the data to parse.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.match": {
+        "description": "Configures a match processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "selector",
+            "type": "string",
+            "description": "The LogQL stream selector and line filter expressions to use.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "action",
+            "type": "string",
+            "description": "The action to take when the selector matches the log line. Supported values are \"keep\" and \"drop\"",
+            "default": "\"keep\"",
+            "required": false
+          },
+          {
+            "name": "drop_counter_reason",
+            "type": "string",
+            "description": "A custom reason to report for dropped lines.",
+            "default": "\"match_stage\"",
+            "required": false
+          },
+          {
+            "name": "pipeline_name",
+            "type": "string",
+            "description": "A custom name to use for the nested pipeline.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.metrics": {
+        "description": "Configures a metrics stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "metric.counter",
+            "type": "Defines a counter metric.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metric.gauge",
+            "type": "Defines a gauge metric.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metric.histogram",
+            "type": "Defines a histogram metric.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "action",
+            "type": "string",
+            "description": "The action to take. Valid actions are inc and add.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The metric name.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "count_entry_bytes",
+            "type": "bool",
+            "description": "If set to true, counts all log lines bytes.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "The metric’s description and help text.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "match_all",
+            "type": "bool",
+            "description": "If set to true, all log lines are counted, without attempting to match the source to the extracted map.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "max_idle_duration",
+            "type": "duration",
+            "description": "Maximum amount of time to wait until the metric is marked as ‘stale’ and removed.",
+            "default": "\"5m\"",
+            "required": false
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to the metric name.",
+            "default": "\"loki_process_custom_\"",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Key from the extracted data map to use for the metric. Defaults to the metric name.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "If set, the metric only changes if source exactly matches the value.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "action",
+            "type": "string",
+            "description": "The action to take. Valid actions are inc, dec, set, add, or sub.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The metric name.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "The metric’s description and help text.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "max_idle_duration",
+            "type": "duration",
+            "description": "Maximum amount of time to wait until the metric is marked as ‘stale’ and removed.",
+            "default": "\"5m\"",
+            "required": false
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to the metric name.",
+            "default": "\"loki_process_custom_\"",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Key from the extracted data map to use for the metric. Defaults to the metric name.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "If set, the metric only changes if source exactly matches the value.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "buckets",
+            "type": "list(float)",
+            "description": "Predefined buckets",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The metric name.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "The metric’s description and help text.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "max_idle_duration",
+            "type": "duration",
+            "description": "Maximum amount of time to wait until the metric is marked as ‘stale’ and removed.",
+            "default": "\"5m\"",
+            "required": false
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to the metric name.",
+            "default": "\"loki_process_custom_\"",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Key from the extracted data map to use for the metric. Defaults to the metric name.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "If set, the metric only changes if source exactly matches the value.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.multiline": {
+        "description": "Configures a multiline processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "firstline",
+            "type": "string",
+            "description": "Name from extracted data to use for the log entry.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "max_lines",
+            "type": "number",
+            "description": "The maximum number of lines a block can have.",
+            "default": "128",
+            "required": false
+          },
+          {
+            "name": "max_wait_time",
+            "type": "duration",
+            "description": "The maximum time to wait for a multiline block.",
+            "default": "\"3s\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.output": {
+        "description": "Configures an output processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Name from extracted data to use for the log entry.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.pack": {
+        "description": "Configures a pack processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "labels",
+            "type": "list(string)",
+            "description": "The values from the extracted data and labels to pack with the log entry.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "ingest_timestamp",
+            "type": "bool",
+            "description": "Whether to replace the log entry timestamp with the time the pack stage runs.",
+            "default": "true",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.regex": {
+        "description": "Configures a regex processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "expression",
+            "type": "string",
+            "description": "A valid RE2 regular expression. Each capture group must be named.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Name from extracted data to parse. If empty, uses the log message.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "labels_from_groups",
+            "type": "bool",
+            "description": "Whether to automatically add named capture groups as labels.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.replace": {
+        "description": "Configures a replace processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "expression",
+            "type": "string",
+            "description": "A RE2 regular expression containing capture groups.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "replace",
+            "type": "string",
+            "description": "Value replaced by the capture group.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Source of the data to parse. If empty, it uses the log message.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.sampling": {
+        "description": "Configures a sampling processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "rate",
+            "type": "float",
+            "description": "The sampling rate in a range of [0, 1]",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "drop_counter_reason",
+            "type": "string",
+            "description": "The label to add to loki_process_dropped_lines_total metric when logs are dropped by this stage.",
+            "default": "sampling_stage",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.static_labels": {
+        "description": "Configures a static_labels processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "values",
+            "type": "map(string)",
+            "description": "Configures a static_labels processing stage.",
+            "default": "{}",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.structured_metadata": {
+        "description": "Configures a structured metadata processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "values",
+            "type": "map(string)",
+            "description": "Specifies the list of labels to add from extracted values map to log entry.",
+            "default": "{}",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.template": {
+        "description": "Configures a template processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Name from extracted data to parse. If the key doesn’t exist, a new entry is created.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "template",
+            "type": "string",
+            "description": "Go template string to use.",
+            "default": "",
+            "required": true
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.tenant": {
+        "description": "Configures a tenant processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "label",
+            "type": "string",
+            "description": "The label to set as tenant ID.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "The name from the extracted value to use as tenant ID.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "The value to set as the tenant ID.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.timestamp": {
+        "description": "Configures a timestamp processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "format",
+            "type": "string",
+            "description": "Determines how to parse the source string.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Name from extracted values map to use for the timestamp.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "action_on_failure",
+            "type": "string",
+            "description": "What to do when the timestamp can’t be extracted or parsed.",
+            "default": "\"fudge\"",
+            "required": false
+          },
+          {
+            "name": "fallback_formats",
+            "type": "list(string)",
+            "description": "Fallback formats to try if the format field fails.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "location",
+            "type": "string",
+            "description": "IANA Timezone Database location to use when parsing.",
+            "default": "\"\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      },
+      "stage.windowsevent": {
+        "description": "Configures a windowsevent processing stage.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Name of the field in the extracted data to parse.",
+            "default": "message",
+            "required": false
+          },
+          {
+            "name": "drop_invalid_labels",
+            "type": "bool",
+            "description": "Whether to drop fields that aren’t valid label names.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "overwrite_existing",
+            "type": "bool",
+            "description": "Whether to overwrite existing extracted data fields.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "loki.process \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  stage.<STAGENAME> {\n    ...\n  }\n  ...\n}"
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "LogsReceiver",
+        "description": "A value that other components can use to send log entries to."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.process \"${1:default}\" {\n  stage.cri {\n  }\n  stage.decolorize {\n    $0\n  }\n  stage.docker {\n    $0\n  }\n  stage.drop {\n  }\n  stage.eventlogmessage {\n  }\n  stage.geoip {\n    db = \"${2}\"\n    source = \"${3}\"\n  }\n  stage.json {\n    $0\n  }\n  stage.label_drop {\n  }\n  stage.label_keep {\n  }\n  stage.labels {\n  }\n  stage.limit {\n    burst = \"${2}\"\n    rate = \"${3}\"\n  }\n  stage.logfmt {\n    mapping = \"${2}\"\n  }\n  stage.luhn {\n  }\n  stage.match {\n    selector = \"${2}\"\n  }\n  stage.metrics {\n    action = \"${5}\"\n    name = \"${6}\"\n    action = \"${14}\"\n    name = \"${15}\"\n    buckets = \"${21}\"\n    name = \"${22}\"\n  }\n  stage.multiline {\n    firstline = \"${2}\"\n  }\n  stage.output {\n    source = \"${2}\"\n  }\n  stage.pack {\n    labels = \"${2}\"\n  }\n  stage.regex {\n    expression = \"${2}\"\n  }\n  stage.replace {\n    expression = \"${2}\"\n  }\n  stage.sampling {\n    rate = \"${2}\"\n  }\n  stage.static_labels {\n  }\n  stage.structured_metadata {\n  }\n  stage.template {\n    source = \"${2}\"\n    template = \"${3}\"\n  }\n  stage.tenant {\n  }\n  stage.timestamp {\n    format = \"${2}\"\n    source = \"${3}\"\n  }\n  stage.windowsevent {\n  }\n\n  // Exported fields:\n  // - receiver (LogsReceiver): A value that other components can use to send log entries to.\n}"
+}

@@ -1,0 +1,83 @@
+// Comprehensive test for both map comma validation AND unknown block validation
+
+// ✅ This should be completely valid
+prometheus.remote_write "perfect_example" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	wal {
+		retention = "1h"
+	}
+	
+	external_labels = {
+		instance = "local",
+		env = "production",
+		service = "my-app",
+	}
+}
+
+// ❌ This should show MAP COMMA errors (missing commas within map)
+prometheus.remote_write "comma_errors" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	external_labels = {
+		instance = "local"        // ERROR: Missing comma
+		env = "production"        // ERROR: Missing comma  
+		service = "my-app"        // ERROR: Missing comma (even last property should have one)
+	}
+}
+
+// ❌ This should show UNKNOWN BLOCK errors  
+prometheus.remote_write "block_errors" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	// ERROR: basic_auth is not valid for prometheus.remote_write (only for prometheus.scrape)
+	basic_auth {
+		username = "user",
+		password = "pass",
+	}
+	
+	// ERROR: completely made up block
+	fake_config {
+		setting = "value",
+	}
+	
+	external_labels = {
+		env = "test",
+	}
+}
+
+// ❌ This should show BOTH types of errors
+prometheus.remote_write "multiple_errors" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	// UNKNOWN BLOCK ERROR: tls_config not valid for remote_write
+	tls_config {
+		cert_file = "/path/to/cert.pem"
+	}
+	
+	// MAP COMMA ERRORS: missing commas in map
+	external_labels = {
+		instance = "local"        // ERROR: Missing comma
+		env = "production"        // ERROR: Missing comma
+	}
+}
+
+// For comparison: ✅ This should be valid (prometheus.scrape DOES support basic_auth)
+prometheus.scrape "valid_scrape" {
+	forward_to = [prometheus.remote_write.perfect_example.receiver]
+	targets = [{__address__ = "localhost:8080"}]
+	
+	// This IS valid for prometheus.scrape
+	basic_auth {
+		username = "scrape_user",
+		password = "scrape_pass",
+	}
+}

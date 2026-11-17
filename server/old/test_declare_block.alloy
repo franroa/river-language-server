@@ -1,0 +1,26 @@
+declare "app_observability" {
+    loki.relabel "relabel_rules" {
+        rule {
+            regex         = "^(.*?)/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            replacement   = "$1/uuid"
+            action        = "replace"
+            source_labels = ["request_route"]
+            target_label  = "request_route_formated"
+        }
+        
+        // Missing forward_to - should show ERROR
+        // forward_to = [loki.write.loki_exporter.receiver]
+    }
+
+    prometheus.scrape "metrics" {
+        targets = []
+        // Missing forward_to - should show ERROR
+        
+        endpoint {
+            // Missing url - should show ERROR  
+            basic_auth {
+                // Missing username/password - should show WARNING if they're recommended
+            }
+        }
+    }
+}

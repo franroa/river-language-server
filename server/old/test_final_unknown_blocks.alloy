@@ -1,0 +1,62 @@
+// Comprehensive test for unknown block validation
+
+// This should be completely valid - only using defined blocks for prometheus.remote_write
+prometheus.remote_write "valid_example" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	wal {
+		retention_duration = "1h"
+	}
+	
+	external_labels = {
+		env = "production",
+		service = "my-app"
+	},
+}
+
+// These should trigger "unknown block" errors for prometheus.remote_write
+prometheus.remote_write "invalid_example" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	// ERROR: basic_auth is valid for prometheus.scrape but NOT for prometheus.remote_write
+	basic_auth {
+		username = "user"
+		password = "pass"
+	}
+	
+	// ERROR: tls_config is valid for prometheus.scrape but NOT for prometheus.remote_write  
+	tls_config {
+		cert_file = "/path/to/cert.pem"
+		key_file = "/path/to/key.pem"
+	}
+	
+	// ERROR: completely made up block name
+	fake_authentication {
+		token = "abc123"
+	}
+	
+	// ERROR: another invalid block
+	custom_config {
+		setting = "value"
+	}
+}
+
+// For comparison: prometheus.scrape DOES support basic_auth and tls_config
+prometheus.scrape "scrape_example" {
+	forward_to = [prometheus.remote_write.valid_example.receiver]
+	targets = [{__address__ = "localhost:8080"}]
+	
+	// These ARE valid for prometheus.scrape
+	basic_auth {
+		username = "scrape_user"
+		password = "scrape_pass"
+	}
+	
+	tls_config {
+		cert_file = "/path/to/scrape_cert.pem"
+	}
+}

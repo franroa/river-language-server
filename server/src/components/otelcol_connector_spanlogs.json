@@ -1,0 +1,216 @@
+{
+  "name": "otelcol.connector.spanlogs",
+  "usage": "otelcol.connector.spanlogs \"<LABEL>\" {\n  output {\n    logs    = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "event_attributes",
+      "type": "list(string)",
+      "description": "Additional event attributes to log.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "events",
+      "type": "bool",
+      "description": "Log one line for every span event.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "labels",
+      "type": "list(string)",
+      "description": "A list of keys that will be logged as labels.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "process_attributes",
+      "type": "list(string)",
+      "description": "Additional process attributes to log.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "processes",
+      "type": "bool",
+      "description": "Log one line for every process.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "roots",
+      "type": "bool",
+      "description": "Log one line for every root span of a trace.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "span_attributes",
+      "type": "list(string)",
+      "description": "Additional span attributes to log.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "spans",
+      "type": "bool",
+      "description": "Log one line per span.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanlogs/#output"
+    },
+    {
+      "block": "overrides",
+      "description": "Overrides for keys in the log body.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.connector.spanlogs/#overrides"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.connector.spanlogs",
+    "arguments": {
+      "event_attributes": {
+        "type": "list(string)",
+        "description": "Additional event attributes to log.",
+        "default": "[]",
+        "required": false
+      },
+      "events": {
+        "type": "bool",
+        "description": "Log one line for every span event.",
+        "default": "false",
+        "required": false
+      },
+      "labels": {
+        "type": "list(string)",
+        "description": "A list of keys that will be logged as labels.",
+        "default": "[]",
+        "required": false
+      },
+      "process_attributes": {
+        "type": "list(string)",
+        "description": "Additional process attributes to log.",
+        "default": "[]",
+        "required": false
+      },
+      "processes": {
+        "type": "bool",
+        "description": "Log one line for every process.",
+        "default": "false",
+        "required": false
+      },
+      "roots": {
+        "type": "bool",
+        "description": "Log one line for every root span of a trace.",
+        "default": "false",
+        "required": false
+      },
+      "span_attributes": {
+        "type": "list(string)",
+        "description": "Additional span attributes to log.",
+        "default": "[]",
+        "required": false
+      },
+      "spans": {
+        "type": "bool",
+        "description": "Log one line per span.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.spanlogs \"<LABEL>\" {\n  output {\n    logs    = [...]\n  }\n}"
+      },
+      "overrides": {
+        "description": "Overrides for keys in the log body.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "duration_key",
+            "type": "string",
+            "description": "Log key for the duration of the span.",
+            "default": "dur",
+            "required": false
+          },
+          {
+            "name": "logs_instance_tag",
+            "type": "string",
+            "description": "Indicates if the log line is for a span, root, or process.",
+            "default": "traces",
+            "required": false
+          },
+          {
+            "name": "service_key",
+            "type": "string",
+            "description": "Log key for the service name of the resource.",
+            "default": "svc",
+            "required": false
+          },
+          {
+            "name": "span_name_key",
+            "type": "string",
+            "description": "Log key for the name of the span.",
+            "default": "span",
+            "required": false
+          },
+          {
+            "name": "status_key",
+            "type": "string",
+            "description": "Log key for the status of the span.",
+            "default": "status",
+            "required": false
+          },
+          {
+            "name": "trace_id_key",
+            "type": "string",
+            "description": "Log key for the trace ID of the span.",
+            "default": "tid",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.connector.spanlogs \"<LABEL>\" {\n  output {\n    logs    = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.connector.spanlogs \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  overrides {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

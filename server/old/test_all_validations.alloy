@@ -1,0 +1,57 @@
+// Comprehensive test for ALL validations:
+// 1. Map comma validation
+// 2. Unknown block validation  
+// 3. Duplicate block validation
+
+// ❌ DUPLICATE BLOCK ERROR: Same component type + same label
+prometheus.scrape "demo" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.scrape "demo" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// ❌ UNKNOWN BLOCK ERROR: not_known is not valid for prometheus.remote_write
+prometheus.remote_write "invalid_blocks" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	not_known = {}
+}
+
+// ❌ MAP COMMA ERRORS: Missing commas within map properties
+prometheus.remote_write "comma_errors" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	external_labels = {
+		instance = "local"        // ERROR: Missing comma
+		env = "production"        // ERROR: Missing comma  
+	}
+}
+
+// ✅ COMPLETELY VALID: No errors should be shown
+prometheus.scrape "valid_example" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.remote_write "valid_example" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	wal {
+		retention = "1h"
+	}
+	
+	external_labels = {
+		instance = "local",       // ✅ Has comma
+		env = "production",       // ✅ Has comma
+	}
+}

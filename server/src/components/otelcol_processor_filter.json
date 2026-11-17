@@ -1,0 +1,182 @@
+{
+  "name": "otelcol.processor.filter",
+  "usage": "otelcol.processor.filter \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "error_mode",
+      "type": "string",
+      "description": "How to react to errors if they occur while processing a statement.",
+      "default": "\"propagate\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.filter/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.filter/#debug_metrics"
+    },
+    {
+      "block": "logs",
+      "description": "Statements which filter logs.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.filter/#logs"
+    },
+    {
+      "block": "metrics",
+      "description": "Statements which filter metrics.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.filter/#metrics"
+    },
+    {
+      "block": "traces",
+      "description": "Statements which filter traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.filter/#traces"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.filter",
+    "arguments": {
+      "error_mode": {
+        "type": "string",
+        "description": "How to react to errors if they occur while processing a statement.",
+        "default": "\"propagate\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "Statements which filter logs.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "Statements which filter metrics.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "Statements which filter traces.",
+            "description": "no",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.filter \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.filter \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "logs": {
+        "description": "Statements which filter logs.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "log_record",
+            "type": "list(string)",
+            "description": "List of OTTL statements filtering OTLP metric.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.filter \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "metrics": {
+        "description": "Statements which filter metrics.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.filter \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "traces": {
+        "description": "Statements which filter traces.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "span",
+            "type": "list(string)",
+            "description": "List of OTTL statements filtering OTLP spans.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "spanevent",
+            "type": "list(string)",
+            "description": "List of OTTL statements filtering OTLP span events.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.filter \"<LABEL>\" {\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.filter \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  logs {\n  }\n  metrics {\n    $0\n  }\n  traces {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

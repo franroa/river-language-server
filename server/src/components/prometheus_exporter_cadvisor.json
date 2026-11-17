@@ -1,0 +1,276 @@
+{
+  "name": "prometheus.exporter.cadvisor",
+  "usage": "prometheus.exporter.cadvisor \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "allowlisted_container_labels",
+      "type": "list(string)",
+      "description": "Allowlist of container labels to convert to Prometheus labels.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "containerd_host",
+      "type": "string",
+      "description": "The containerd endpoint.",
+      "default": "\"/run/containerd/containerd.sock\"",
+      "required": false
+    },
+    {
+      "name": "containerd_namespace",
+      "type": "string",
+      "description": "The containerd namespace.",
+      "default": "\"k8s.io\"",
+      "required": false
+    },
+    {
+      "name": "disable_root_cgroup_stats",
+      "type": "bool",
+      "description": "Disable collecting root Cgroup stats.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "disabled_metrics",
+      "type": "list(string)",
+      "description": "List of metrics to be disabled which, if set, overrides the default disabled metrics.",
+      "default": "(see below)",
+      "required": false
+    },
+    {
+      "name": "docker_host",
+      "type": "string",
+      "description": "Docker endpoint.",
+      "default": "\"unix:///var/run/docker.sock\"",
+      "required": false
+    },
+    {
+      "name": "docker_only",
+      "type": "bool",
+      "description": "Only report docker containers in addition to root stats.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "docker_tls_ca",
+      "type": "string",
+      "description": "Path to a trusted CA for TLS connection to docker.",
+      "default": "\"ca.pem\"",
+      "required": false
+    },
+    {
+      "name": "docker_tls_cert",
+      "type": "string",
+      "description": "Path to client certificate for TLS connection to docker.",
+      "default": "\"cert.pem\"",
+      "required": false
+    },
+    {
+      "name": "docker_tls_key",
+      "type": "string",
+      "description": "Path to private key for TLS connection to docker.",
+      "default": "\"key.pem\"",
+      "required": false
+    },
+    {
+      "name": "enabled_metrics",
+      "type": "list(string)",
+      "description": "List of metrics to be enabled which, if set, overrides disabled_metrics.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "env_metadata_allowlist",
+      "type": "list(string)",
+      "description": "Allowlist of environment variable keys matched with a specified prefix that needs to be collected for containers.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "perf_events_config",
+      "type": "string",
+      "description": "Path to a JSON file containing the configuration of perf events to measure.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "raw_cgroup_prefix_allowlist",
+      "type": "list(string)",
+      "description": "List of cgroup path prefixes that need to be collected, even when docker_only is specified.",
+      "default": "[]",
+      "required": false
+    },
+    {
+      "name": "resctrl_interval",
+      "type": "duration",
+      "description": "Interval to update resctrl mon groups.",
+      "default": "\"0\"",
+      "required": false
+    },
+    {
+      "name": "storage_duration",
+      "type": "duration",
+      "description": "Length of time to keep data stored in memory.",
+      "default": "\"2m\"",
+      "required": false
+    },
+    {
+      "name": "store_container_labels",
+      "type": "bool",
+      "description": "Whether to convert container labels and environment variables into labels on Prometheus metrics for each container.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "use_docker_tls",
+      "type": "bool",
+      "description": "Use TLS to connect to docker.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.cadvisor",
+    "arguments": {
+      "allowlisted_container_labels": {
+        "type": "list(string)",
+        "description": "Allowlist of container labels to convert to Prometheus labels.",
+        "default": "[]",
+        "required": false
+      },
+      "containerd_host": {
+        "type": "string",
+        "description": "The containerd endpoint.",
+        "default": "\"/run/containerd/containerd.sock\"",
+        "required": false
+      },
+      "containerd_namespace": {
+        "type": "string",
+        "description": "The containerd namespace.",
+        "default": "\"k8s.io\"",
+        "required": false
+      },
+      "disable_root_cgroup_stats": {
+        "type": "bool",
+        "description": "Disable collecting root Cgroup stats.",
+        "default": "false",
+        "required": false
+      },
+      "disabled_metrics": {
+        "type": "list(string)",
+        "description": "List of metrics to be disabled which, if set, overrides the default disabled metrics.",
+        "default": "(see below)",
+        "required": false
+      },
+      "docker_host": {
+        "type": "string",
+        "description": "Docker endpoint.",
+        "default": "\"unix:///var/run/docker.sock\"",
+        "required": false
+      },
+      "docker_only": {
+        "type": "bool",
+        "description": "Only report docker containers in addition to root stats.",
+        "default": "false",
+        "required": false
+      },
+      "docker_tls_ca": {
+        "type": "string",
+        "description": "Path to a trusted CA for TLS connection to docker.",
+        "default": "\"ca.pem\"",
+        "required": false
+      },
+      "docker_tls_cert": {
+        "type": "string",
+        "description": "Path to client certificate for TLS connection to docker.",
+        "default": "\"cert.pem\"",
+        "required": false
+      },
+      "docker_tls_key": {
+        "type": "string",
+        "description": "Path to private key for TLS connection to docker.",
+        "default": "\"key.pem\"",
+        "required": false
+      },
+      "enabled_metrics": {
+        "type": "list(string)",
+        "description": "List of metrics to be enabled which, if set, overrides disabled_metrics.",
+        "default": "[]",
+        "required": false
+      },
+      "env_metadata_allowlist": {
+        "type": "list(string)",
+        "description": "Allowlist of environment variable keys matched with a specified prefix that needs to be collected for containers.",
+        "default": "[]",
+        "required": false
+      },
+      "perf_events_config": {
+        "type": "string",
+        "description": "Path to a JSON file containing the configuration of perf events to measure.",
+        "default": "\"\"",
+        "required": false
+      },
+      "raw_cgroup_prefix_allowlist": {
+        "type": "list(string)",
+        "description": "List of cgroup path prefixes that need to be collected, even when docker_only is specified.",
+        "default": "[]",
+        "required": false
+      },
+      "resctrl_interval": {
+        "type": "duration",
+        "description": "Interval to update resctrl mon groups.",
+        "default": "\"0\"",
+        "required": false
+      },
+      "storage_duration": {
+        "type": "duration",
+        "description": "Length of time to keep data stored in memory.",
+        "default": "\"2m\"",
+        "required": false
+      },
+      "store_container_labels": {
+        "type": "bool",
+        "description": "Whether to convert container labels and environment variables into labels on Prometheus metrics for each container.",
+        "default": "true",
+        "required": false
+      },
+      "use_docker_tls": {
+        "type": "bool",
+        "description": "Use TLS to connect to docker.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.cadvisor \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

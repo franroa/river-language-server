@@ -1,0 +1,661 @@
+{
+  "name": "prometheus.exporter.cloudwatch",
+  "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}",
+  "arguments": [
+    {
+      "name": "sts_region",
+      "type": "string",
+      "description": "AWS region to use when calling STS for retrieving account information.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "aws_sdk_version_v2",
+      "type": "bool",
+      "description": "Use AWS SDK version 2.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "fips_disabled",
+      "type": "bool",
+      "description": "Disable use of FIPS endpoints. Set ’true’ when running outside of USA regions.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "debug",
+      "type": "bool",
+      "description": "Enable debug logging on CloudWatch exporter internals.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "discovery_exported_tags",
+      "type": "map(list(string))",
+      "description": "List of tags (value) per service (key) to export in all metrics.",
+      "default": "{}",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "discovery",
+      "description": "Configures a discovery job. You can configure multiple jobs.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#discovery"
+    },
+    {
+      "block": "discovery > role",
+      "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#role"
+    },
+    {
+      "block": "discovery > metric",
+      "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#metric"
+    },
+    {
+      "block": "static",
+      "description": "Configures a static job. You can configure multiple jobs.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#static"
+    },
+    {
+      "block": "static > role",
+      "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#role"
+    },
+    {
+      "block": "static > metric",
+      "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#metric"
+    },
+    {
+      "block": "custom_namespace",
+      "description": "Configures a custom namespace job. You can configure multiple jobs.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#custom_namespace"
+    },
+    {
+      "block": "custom_namespace > role",
+      "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#role"
+    },
+    {
+      "block": "custom_namespace > metric",
+      "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#metric"
+    },
+    {
+      "block": "decoupled_scraping",
+      "description": "Configures the decoupled scraping feature to retrieve metrics on a schedule and return the cached metrics.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#decoupled_scraping"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.cloudwatch",
+    "arguments": {
+      "sts_region": {
+        "type": "string",
+        "description": "AWS region to use when calling STS for retrieving account information.",
+        "default": "",
+        "required": true
+      },
+      "aws_sdk_version_v2": {
+        "type": "bool",
+        "description": "Use AWS SDK version 2.",
+        "default": "false",
+        "required": false
+      },
+      "fips_disabled": {
+        "type": "bool",
+        "description": "Disable use of FIPS endpoints. Set ’true’ when running outside of USA regions.",
+        "default": "true",
+        "required": false
+      },
+      "debug": {
+        "type": "bool",
+        "description": "Enable debug logging on CloudWatch exporter internals.",
+        "default": "false",
+        "required": false
+      },
+      "discovery_exported_tags": {
+        "type": "map(list(string))",
+        "description": "List of tags (value) per service (key) to export in all metrics.",
+        "default": "{}",
+        "required": false
+      }
+    },
+    "blocks": {
+      "discovery": {
+        "description": "Configures a discovery job. You can configure multiple jobs.",
+        "required": false,
+        "children": {
+          "role": {
+            "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "sts_region",
+                "type": "string",
+                "description": "AWS region to use when calling STS for retrieving account information.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "aws_sdk_version_v2",
+                "type": "bool",
+                "description": "Use AWS SDK version 2.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "fips_disabled",
+                "type": "bool",
+                "description": "Disable use of FIPS endpoints. Set ’true’ when running outside of USA regions.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug logging on CloudWatch exporter internals.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "discovery_exported_tags",
+                "type": "map(list(string))",
+                "description": "List of tags (value) per service (key) to export in all metrics.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+          },
+          "metric": {
+            "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+            "required": true,
+            "children": {},
+            "arguments": [
+              {
+                "name": "sts_region",
+                "type": "string",
+                "description": "AWS region to use when calling STS for retrieving account information.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "aws_sdk_version_v2",
+                "type": "bool",
+                "description": "Use AWS SDK version 2.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "fips_disabled",
+                "type": "bool",
+                "description": "Disable use of FIPS endpoints. Set ’true’ when running outside of USA regions.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug logging on CloudWatch exporter internals.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "discovery_exported_tags",
+                "type": "map(list(string))",
+                "description": "List of tags (value) per service (key) to export in all metrics.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "regions",
+            "type": "list(string)",
+            "description": "List of AWS regions.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "description": "CloudWatch service alias (\"alb\", \"ec2\", etc) or namespace name (\"AWS/EC2\", \"AWS/S3\", etc). Refer to supported-services for a complete list.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "custom_tags",
+            "type": "map(string)",
+            "description": "Custom tags to be added as a list of key / value pairs. When exported to Prometheus format, the label name follows the following format: custom_tag_{key}.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "dimension_name_requirements",
+            "type": "list(string)",
+            "description": "List of metric dimensions to query. Before querying metric values, the total list of metrics are filtered to only those that contain exactly this list of dimensions. An empty or undefined list results in all dimension combinations being included.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "nil_to_zero",
+            "type": "bool",
+            "description": "When true, NaN metric values are converted to 0. Individual metrics can override this value in the metric block.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "recently_active_only",
+            "type": "bool",
+            "description": "Only return metrics that have been active in the last 3 hours.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "search_tags",
+            "type": "map(string)",
+            "description": "List of key / value pairs to use for tag filtering (all must match). The value can be a regular expression.",
+            "default": "{}",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "role",
+            "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#role"
+          },
+          {
+            "block": "metric",
+            "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+            "required": true,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#metric"
+          }
+        ],
+        "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+      },
+      "static": {
+        "description": "Configures a static job. You can configure multiple jobs.",
+        "required": false,
+        "children": {
+          "role": {
+            "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "sts_region",
+                "type": "string",
+                "description": "AWS region to use when calling STS for retrieving account information.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "aws_sdk_version_v2",
+                "type": "bool",
+                "description": "Use AWS SDK version 2.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "fips_disabled",
+                "type": "bool",
+                "description": "Disable use of FIPS endpoints. Set ’true’ when running outside of USA regions.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug logging on CloudWatch exporter internals.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "discovery_exported_tags",
+                "type": "map(list(string))",
+                "description": "List of tags (value) per service (key) to export in all metrics.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+          },
+          "metric": {
+            "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+            "required": true,
+            "children": {},
+            "arguments": [
+              {
+                "name": "sts_region",
+                "type": "string",
+                "description": "AWS region to use when calling STS for retrieving account information.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "aws_sdk_version_v2",
+                "type": "bool",
+                "description": "Use AWS SDK version 2.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "fips_disabled",
+                "type": "bool",
+                "description": "Disable use of FIPS endpoints. Set ’true’ when running outside of USA regions.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug logging on CloudWatch exporter internals.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "discovery_exported_tags",
+                "type": "map(list(string))",
+                "description": "List of tags (value) per service (key) to export in all metrics.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "dimensions",
+            "type": "map(string)",
+            "description": "CloudWatch metric dimensions as a list of name / value pairs. Must uniquely define all metrics in this job.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "namespace",
+            "type": "string",
+            "description": "CloudWatch metric namespace.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "regions",
+            "type": "list(string)",
+            "description": "List of AWS regions.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "custom_tags",
+            "type": "map(string)",
+            "description": "Custom tags to be added as a list of key / value pairs. When exported to Prometheus format, the label name follows the following format: custom_tag_{key}.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "nil_to_zero",
+            "type": "bool",
+            "description": "When true, NaN metric values are converted to 0. Individual metrics can override this value in the metric block.",
+            "default": "true",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "role",
+            "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#role"
+          },
+          {
+            "block": "metric",
+            "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+            "required": true,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#metric"
+          }
+        ],
+        "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+      },
+      "custom_namespace": {
+        "description": "Configures a custom namespace job. You can configure multiple jobs.",
+        "required": false,
+        "children": {
+          "role": {
+            "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "sts_region",
+                "type": "string",
+                "description": "AWS region to use when calling STS for retrieving account information.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "aws_sdk_version_v2",
+                "type": "bool",
+                "description": "Use AWS SDK version 2.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "fips_disabled",
+                "type": "bool",
+                "description": "Disable use of FIPS endpoints. Set ’true’ when running outside of USA regions.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug logging on CloudWatch exporter internals.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "discovery_exported_tags",
+                "type": "map(list(string))",
+                "description": "List of tags (value) per service (key) to export in all metrics.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+          },
+          "metric": {
+            "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+            "required": true,
+            "children": {},
+            "arguments": [
+              {
+                "name": "sts_region",
+                "type": "string",
+                "description": "AWS region to use when calling STS for retrieving account information.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "aws_sdk_version_v2",
+                "type": "bool",
+                "description": "Use AWS SDK version 2.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "fips_disabled",
+                "type": "bool",
+                "description": "Disable use of FIPS endpoints. Set ’true’ when running outside of USA regions.",
+                "default": "true",
+                "required": false
+              },
+              {
+                "name": "debug",
+                "type": "bool",
+                "description": "Enable debug logging on CloudWatch exporter internals.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "discovery_exported_tags",
+                "type": "map(list(string))",
+                "description": "List of tags (value) per service (key) to export in all metrics.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "namespace",
+            "type": "string",
+            "description": "CloudWatch metric namespace.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "regions",
+            "type": "list(string)",
+            "description": "List of AWS regions.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "custom_tags",
+            "type": "map(string)",
+            "description": "Custom tags to be added as a list of key / value pairs. When exported to Prometheus format, the label name follows the following format: custom_tag_{key}.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "dimension_name_requirements",
+            "type": "list(string)",
+            "description": "List of metric dimensions to query. Before querying metric values, the total list of metrics are filtered to only those that contain exactly this list of dimensions. An empty or undefined list results in all dimension combinations being included.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "nil_to_zero",
+            "type": "bool",
+            "description": "When true, NaN metric values are converted to 0. Individual metrics can override this value in the metric block.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "recently_active_only",
+            "type": "bool",
+            "description": "Only return metrics that have been active in the last 3 hours.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "role",
+            "description": "Configures the IAM roles the job should assume to scrape metrics. Defaults to the role configured in the environment Alloy runs on.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#role"
+          },
+          {
+            "block": "metric",
+            "description": "Configures the list of metrics the job should scrape. You can define multiple metrics inside one job.",
+            "required": true,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.cloudwatch/#metric"
+          }
+        ],
+        "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+      },
+      "decoupled_scraping": {
+        "description": "Configures the decoupled scraping feature to retrieve metrics on a schedule and return the cached metrics.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Controls whether the decoupled scraping featured is enabled",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "scrape_interval",
+            "type": "string",
+            "description": "Controls how frequently to asynchronously gather new CloudWatch metrics",
+            "default": "5m",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.cloudwatch \"queues\" {\n    sts_region      = \"us-east-2\"\n    aws_sdk_version_v2 = false\n    discovery {\n        type        = \"AWS/SQS\"\n        regions     = [\"us-east-2\"]\n        search_tags = {\n            \"scrape\" = \"true\",\n        }\n\n        metric {\n            name       = \"NumberOfMessagesSent\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n\n        metric {\n            name       = \"NumberOfMessagesReceived\"\n            statistics = [\"Sum\", \"Average\"]\n            period     = \"1m\"\n        }\n    }\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [
+      "discovery > metric",
+      "static > metric",
+      "custom_namespace > metric"
+    ],
+    "conditional_blocks": {
+      "discovery": {
+        "condition": "when discovery block is present",
+        "required_children": [
+          "metric"
+        ]
+      },
+      "static": {
+        "condition": "when static block is present",
+        "required_children": [
+          "metric"
+        ]
+      },
+      "custom_namespace": {
+        "condition": "when custom_namespace block is present",
+        "required_children": [
+          "metric"
+        ]
+      }
+    }
+  },
+  "template": "prometheus.exporter.cloudwatch \"${1:default}\" {\n  discovery {\n    regions = \"${2}\"\n    type = \"${3}\"\n    metric {\n      $0\n    }\n  }\n  static {\n    dimensions = \"${2}\"\n    namespace = \"${3}\"\n    regions = \"${4}\"\n    metric {\n      $0\n    }\n  }\n  custom_namespace {\n    namespace = \"${2}\"\n    regions = \"${3}\"\n    metric {\n      $0\n    }\n  }\n  decoupled_scraping {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

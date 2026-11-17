@@ -1,0 +1,409 @@
+{
+  "name": "otelcol.receiver.jaeger",
+  "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}",
+  "arguments": [],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#output"
+    },
+    {
+      "block": "protocols",
+      "description": "Configures the protocols the component can accept traffic over.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#protocols"
+    },
+    {
+      "block": "protocols > grpc",
+      "description": "Configures a Jaeger gRPC server to receive traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#grpc"
+    },
+    {
+      "block": "protocols > grpc > tls",
+      "description": "Configures TLS for the gRPC server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tls"
+    },
+    {
+      "block": "protocols > grpc > tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tpm"
+    },
+    {
+      "block": "protocols > grpc > keepalive",
+      "description": "Configures keepalive settings for the configured server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#keepalive"
+    },
+    {
+      "block": "protocols > grpc > keepalive > server_parameters",
+      "description": "Server parameters used to configure keepalive settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#server_parameters"
+    },
+    {
+      "block": "protocols > grpc > keepalive > enforcement_policy",
+      "description": "Enforcement policy for keepalive settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#enforcement_policy"
+    },
+    {
+      "block": "protocols > thrift_http",
+      "description": "Configures a Thrift HTTP server to receive traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#thrift_http"
+    },
+    {
+      "block": "protocols > thrift_http > cors",
+      "description": "Configures CORS for the Thrift HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#cors"
+    },
+    {
+      "block": "protocols > thrift_http > tls",
+      "description": "Configures TLS for the Thrift HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tls"
+    },
+    {
+      "block": "protocols > thrift_http > tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tpm"
+    },
+    {
+      "block": "protocols > thrift_binary",
+      "description": "Configures a Thrift binary UDP server to receive traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#thrift_binary"
+    },
+    {
+      "block": "protocols > thrift_compact",
+      "description": "Configures a Thrift compact UDP server to receive traces.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#thrift_compact"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#debug_metrics"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.jaeger",
+    "arguments": {},
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "protocols": {
+        "description": "Configures the protocols the component can accept traffic over.",
+        "required": true,
+        "children": {
+          "grpc": {
+            "description": "Configures a Jaeger gRPC server to receive traces.",
+            "required": false,
+            "children": {
+              "tls": {
+                "description": "Configures TLS for the gRPC server.",
+                "required": false,
+                "children": {
+                  "tpm": {
+                    "description": "Configures TPM settings for the TLS key_file.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [],
+                    "nested_blocks": [],
+                    "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+                  }
+                },
+                "arguments": [],
+                "nested_blocks": [
+                  {
+                    "block": "tpm",
+                    "description": "Configures TPM settings for the TLS key_file.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tpm"
+                  }
+                ],
+                "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+              },
+              "keepalive": {
+                "description": "Configures keepalive settings for the configured server.",
+                "required": false,
+                "children": {
+                  "server_parameters": {
+                    "description": "Server parameters used to configure keepalive settings.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [],
+                    "nested_blocks": [],
+                    "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+                  },
+                  "enforcement_policy": {
+                    "description": "Enforcement policy for keepalive settings.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [],
+                    "nested_blocks": [],
+                    "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+                  }
+                },
+                "arguments": [],
+                "nested_blocks": [
+                  {
+                    "block": "server_parameters",
+                    "description": "Server parameters used to configure keepalive settings.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#server_parameters"
+                  },
+                  {
+                    "block": "enforcement_policy",
+                    "description": "Enforcement policy for keepalive settings.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#enforcement_policy"
+                  }
+                ],
+                "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+              }
+            },
+            "arguments": [],
+            "nested_blocks": [
+              {
+                "block": "tls",
+                "description": "Configures TLS for the gRPC server.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tls"
+              },
+              {
+                "block": "tls > tpm",
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tpm"
+              },
+              {
+                "block": "keepalive",
+                "description": "Configures keepalive settings for the configured server.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#keepalive"
+              },
+              {
+                "block": "keepalive > server_parameters",
+                "description": "Server parameters used to configure keepalive settings.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#server_parameters"
+              },
+              {
+                "block": "keepalive > enforcement_policy",
+                "description": "Enforcement policy for keepalive settings.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#enforcement_policy"
+              }
+            ],
+            "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "thrift_http": {
+            "description": "Configures a Thrift HTTP server to receive traces.",
+            "required": false,
+            "children": {
+              "cors": {
+                "description": "Configures CORS for the Thrift HTTP server.",
+                "required": false,
+                "children": {},
+                "arguments": [],
+                "nested_blocks": [],
+                "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+              },
+              "tls": {
+                "description": "Configures TLS for the Thrift HTTP server.",
+                "required": false,
+                "children": {
+                  "tpm": {
+                    "description": "Configures TPM settings for the TLS key_file.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [],
+                    "nested_blocks": [],
+                    "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+                  }
+                },
+                "arguments": [],
+                "nested_blocks": [
+                  {
+                    "block": "tpm",
+                    "description": "Configures TPM settings for the TLS key_file.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tpm"
+                  }
+                ],
+                "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+              }
+            },
+            "arguments": [],
+            "nested_blocks": [
+              {
+                "block": "cors",
+                "description": "Configures CORS for the Thrift HTTP server.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#cors"
+              },
+              {
+                "block": "tls",
+                "description": "Configures TLS for the Thrift HTTP server.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tls"
+              },
+              {
+                "block": "tls > tpm",
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tpm"
+              }
+            ],
+            "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "thrift_binary": {
+            "description": "Configures a Thrift binary UDP server to receive traces.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          },
+          "thrift_compact": {
+            "description": "Configures a Thrift compact UDP server to receive traces.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "grpc",
+            "description": "Configures a Jaeger gRPC server to receive traces.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#grpc"
+          },
+          {
+            "block": "grpc > tls",
+            "description": "Configures TLS for the gRPC server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tls"
+          },
+          {
+            "block": "grpc > tls > tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tpm"
+          },
+          {
+            "block": "grpc > keepalive",
+            "description": "Configures keepalive settings for the configured server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#keepalive"
+          },
+          {
+            "block": "grpc > keepalive > server_parameters",
+            "description": "Server parameters used to configure keepalive settings.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#server_parameters"
+          },
+          {
+            "block": "grpc > keepalive > enforcement_policy",
+            "description": "Enforcement policy for keepalive settings.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#enforcement_policy"
+          },
+          {
+            "block": "thrift_http",
+            "description": "Configures a Thrift HTTP server to receive traces.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#thrift_http"
+          },
+          {
+            "block": "thrift_http > cors",
+            "description": "Configures CORS for the Thrift HTTP server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#cors"
+          },
+          {
+            "block": "thrift_http > tls",
+            "description": "Configures TLS for the Thrift HTTP server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tls"
+          },
+          {
+            "block": "thrift_http > tls > tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#tpm"
+          },
+          {
+            "block": "thrift_binary",
+            "description": "Configures a Thrift binary UDP server to receive traces.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#thrift_binary"
+          },
+          {
+            "block": "thrift_compact",
+            "description": "Configures a Thrift compact UDP server to receive traces.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.jaeger/#thrift_compact"
+          }
+        ],
+        "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.jaeger \"<LABEL>\" {\n  protocols {\n    grpc {}\n    thrift_http {}\n    thrift_binary {}\n    thrift_compact {}\n  }\n\n  output {\n    metrics = [...]\n    logs    = [...]\n    traces  = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output",
+      "protocols"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.jaeger \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  protocols {\n  }\n  debug_metrics {\n    $0\n  }\n}"
+}

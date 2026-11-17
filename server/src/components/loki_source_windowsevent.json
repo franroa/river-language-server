@@ -1,0 +1,161 @@
+{
+  "name": "loki.source.windowsevent",
+  "usage": "loki.source.windowsevent \"<LABEL>\" {\n  eventlog_name = \"<EVENTLOG_NAME>\"\n  forward_to    = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "eventlog_name",
+      "type": "string",
+      "description": "Event log to read from.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "xpath_query",
+      "type": "string",
+      "description": "XPath query to select events.",
+      "default": "\"*\"",
+      "required": false
+    },
+    {
+      "name": "bookmark_path",
+      "type": "string",
+      "description": "Keeps position in event log.",
+      "default": "\"DATA_PATH/bookmark.xml\"",
+      "required": false
+    },
+    {
+      "name": "exclude_event_data",
+      "type": "bool",
+      "description": "Exclude event data.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "exclude_event_message",
+      "type": "bool",
+      "description": "Exclude the human-friendly event message.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "exclude_user_data",
+      "type": "bool",
+      "description": "Exclude user data.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "labels",
+      "type": "map(string)",
+      "description": "The labels to associate with incoming logs.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "locale",
+      "type": "number",
+      "description": "Locale ID for event rendering. 0 default is Windows Locale.",
+      "default": "0",
+      "required": false
+    },
+    {
+      "name": "poll_interval",
+      "type": "duration",
+      "description": "How often to poll the event log.",
+      "default": "\"3s\"",
+      "required": false
+    },
+    {
+      "name": "use_incoming_timestamp",
+      "type": "bool",
+      "description": "When false, assigns the current timestamp to the log.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.windowsevent",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "eventlog_name": {
+        "type": "string",
+        "description": "Event log to read from.",
+        "default": "",
+        "required": false
+      },
+      "xpath_query": {
+        "type": "string",
+        "description": "XPath query to select events.",
+        "default": "\"*\"",
+        "required": false
+      },
+      "bookmark_path": {
+        "type": "string",
+        "description": "Keeps position in event log.",
+        "default": "\"DATA_PATH/bookmark.xml\"",
+        "required": false
+      },
+      "exclude_event_data": {
+        "type": "bool",
+        "description": "Exclude event data.",
+        "default": "false",
+        "required": false
+      },
+      "exclude_event_message": {
+        "type": "bool",
+        "description": "Exclude the human-friendly event message.",
+        "default": "false",
+        "required": false
+      },
+      "exclude_user_data": {
+        "type": "bool",
+        "description": "Exclude user data.",
+        "default": "false",
+        "required": false
+      },
+      "labels": {
+        "type": "map(string)",
+        "description": "The labels to associate with incoming logs.",
+        "default": "{}",
+        "required": false
+      },
+      "locale": {
+        "type": "number",
+        "description": "Locale ID for event rendering. 0 default is Windows Locale.",
+        "default": "0",
+        "required": false
+      },
+      "poll_interval": {
+        "type": "duration",
+        "description": "How often to poll the event log.",
+        "default": "\"3s\"",
+        "required": false
+      },
+      "use_incoming_timestamp": {
+        "type": "bool",
+        "description": "When false, assigns the current timestamp to the log.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {},
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.windowsevent \"${1:default}\" {\n}"
+}

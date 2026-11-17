@@ -1,0 +1,484 @@
+{
+  "name": "prometheus.exporter.kafka",
+  "usage": "prometheus.exporter.kafka \"<LABEL>\" {\n    kafka_uris = \"<KAFKA_URI_LIST>\"\n}",
+  "arguments": [
+    {
+      "name": "kafka_uris",
+      "type": "array(string)",
+      "description": "Address array (host:port) of Kafka server.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "allow_auto_topic_creation",
+      "type": "bool",
+      "description": "If true, the broker may auto-create topics that you requested which don’t already exist.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "allow_concurrency",
+      "type": "bool",
+      "description": "If set to true, all scrapes trigger Kafka operations. Otherwise, they share results. WARNING: Disable this on large clusters.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "ca_file",
+      "type": "string",
+      "description": "The optional certificate authority file for TLS client authentication.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "cert_file",
+      "type": "string",
+      "description": "The optional certificate file for TLS client authentication.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "groups_exclude_regex",
+      "type": "string",
+      "description": "Regex that determines which consumer groups to exclude.",
+      "default": "\"^$\"",
+      "required": false
+    },
+    {
+      "name": "groups_filter_regex",
+      "type": "string",
+      "description": "Regex filter for consumer groups to be monitored.",
+      "default": "\".*\"",
+      "required": false
+    },
+    {
+      "name": "gssapi_kerberos_auth_type",
+      "type": "string",
+      "description": "Kerberos auth type. Either keytabAuth or userAuth.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "gssapi_kerberos_config_path",
+      "type": "string",
+      "description": "Kerberos configuration path.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "gssapi_key_tab_path",
+      "type": "string",
+      "description": "Kerberos keytab file path.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "gssapi_realm",
+      "type": "string",
+      "description": "Kerberos realm.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "gssapi_service_name",
+      "type": "string",
+      "description": "Service name when using Kerberos Authorization",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "insecure_skip_verify",
+      "type": "bool",
+      "description": "If set to true, the server’s certificate isn’t checked for validity. This makes your HTTPS connections insecure.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "instance",
+      "type": "string",
+      "description": "Theinstancelabel for metrics, default is the hostname:port of the first kafka_uris. You must manually provide the instance value if there is more than one string in kafka_uris.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "kafka_cluster_name",
+      "type": "string",
+      "description": "Kafka cluster name.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "kafka_version",
+      "type": "string",
+      "description": "Kafka broker version.",
+      "default": "\"2.0.0\"",
+      "required": false
+    },
+    {
+      "name": "key_file",
+      "type": "string",
+      "description": "The optional key file for TLS client authentication.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "max_offsets",
+      "type": "int",
+      "description": "The maximum number of offsets to store in the interpolation table for a partition.",
+      "default": "1000",
+      "required": false
+    },
+    {
+      "name": "metadata_refresh_interval",
+      "type": "duration",
+      "description": "Metadata refresh interval.",
+      "default": "\"1m\"",
+      "required": false
+    },
+    {
+      "name": "offset_show_all",
+      "type": "bool",
+      "description": "If true, the broker may auto-create topics that you requested which don’t already exist.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "prune_interval_seconds",
+      "type": "int",
+      "description": "Deprecated (no-op), use metadata_refresh_interval instead.",
+      "default": "30",
+      "required": false
+    },
+    {
+      "name": "sasl_disable_pafx_fast",
+      "type": "bool",
+      "description": "Configure the Kerberos client to not use PA_FX_FAST.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "sasl_mechanism",
+      "type": "string",
+      "description": "The SASL SCRAM SHA algorithm SHA256 or SHA512 as mechanism.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "sasl_password",
+      "type": "string",
+      "description": "SASL user password.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "sasl_username",
+      "type": "string",
+      "description": "SASL user name.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "tls_server_name",
+      "type": "string",
+      "description": "Used to verify the hostname on the returned certificates unless tls.insecure-skip-tls-verify is given. If you don’t provide the Kafka server name, the hostname is taken from the URL.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "topic_workers",
+      "type": "int",
+      "description": "Minimum number of topics to monitor.",
+      "default": "100",
+      "required": false
+    },
+    {
+      "name": "topics_exclude_regex",
+      "type": "string",
+      "description": "Regex that determines which topics to exclude.",
+      "default": "\"^$\"",
+      "required": false
+    },
+    {
+      "name": "topics_filter_regex",
+      "type": "string",
+      "description": "Regex filter for topics to be monitored.",
+      "default": "\".*\"",
+      "required": false
+    },
+    {
+      "name": "use_sasl_handshake",
+      "type": "bool",
+      "description": "Only set this to false if using a non-Kafka SASL proxy.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "use_sasl",
+      "type": "bool",
+      "description": "Connect using SASL/PLAIN.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "use_tls",
+      "type": "bool",
+      "description": "Connect using TLS.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "use_zookeeper_lag",
+      "type": "bool",
+      "description": "If set to true, use a group from zookeeper.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "zookeeper_uris",
+      "type": "array(string)",
+      "description": "Address array (hosts) of zookeeper server.",
+      "default": "",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.kafka",
+    "arguments": {
+      "kafka_uris": {
+        "type": "array(string)",
+        "description": "Address array (host:port) of Kafka server.",
+        "default": "",
+        "required": true
+      },
+      "allow_auto_topic_creation": {
+        "type": "bool",
+        "description": "If true, the broker may auto-create topics that you requested which don’t already exist.",
+        "default": "",
+        "required": false
+      },
+      "allow_concurrency": {
+        "type": "bool",
+        "description": "If set to true, all scrapes trigger Kafka operations. Otherwise, they share results. WARNING: Disable this on large clusters.",
+        "default": "true",
+        "required": false
+      },
+      "ca_file": {
+        "type": "string",
+        "description": "The optional certificate authority file for TLS client authentication.",
+        "default": "",
+        "required": false
+      },
+      "cert_file": {
+        "type": "string",
+        "description": "The optional certificate file for TLS client authentication.",
+        "default": "",
+        "required": false
+      },
+      "groups_exclude_regex": {
+        "type": "string",
+        "description": "Regex that determines which consumer groups to exclude.",
+        "default": "\"^$\"",
+        "required": false
+      },
+      "groups_filter_regex": {
+        "type": "string",
+        "description": "Regex filter for consumer groups to be monitored.",
+        "default": "\".*\"",
+        "required": false
+      },
+      "gssapi_kerberos_auth_type": {
+        "type": "string",
+        "description": "Kerberos auth type. Either keytabAuth or userAuth.",
+        "default": "",
+        "required": false
+      },
+      "gssapi_kerberos_config_path": {
+        "type": "string",
+        "description": "Kerberos configuration path.",
+        "default": "",
+        "required": false
+      },
+      "gssapi_key_tab_path": {
+        "type": "string",
+        "description": "Kerberos keytab file path.",
+        "default": "",
+        "required": false
+      },
+      "gssapi_realm": {
+        "type": "string",
+        "description": "Kerberos realm.",
+        "default": "",
+        "required": false
+      },
+      "gssapi_service_name": {
+        "type": "string",
+        "description": "Service name when using Kerberos Authorization",
+        "default": "",
+        "required": false
+      },
+      "insecure_skip_verify": {
+        "type": "bool",
+        "description": "If set to true, the server’s certificate isn’t checked for validity. This makes your HTTPS connections insecure.",
+        "default": "",
+        "required": false
+      },
+      "instance": {
+        "type": "string",
+        "description": "Theinstancelabel for metrics, default is the hostname:port of the first kafka_uris. You must manually provide the instance value if there is more than one string in kafka_uris.",
+        "default": "",
+        "required": false
+      },
+      "kafka_cluster_name": {
+        "type": "string",
+        "description": "Kafka cluster name.",
+        "default": "",
+        "required": false
+      },
+      "kafka_version": {
+        "type": "string",
+        "description": "Kafka broker version.",
+        "default": "\"2.0.0\"",
+        "required": false
+      },
+      "key_file": {
+        "type": "string",
+        "description": "The optional key file for TLS client authentication.",
+        "default": "",
+        "required": false
+      },
+      "max_offsets": {
+        "type": "int",
+        "description": "The maximum number of offsets to store in the interpolation table for a partition.",
+        "default": "1000",
+        "required": false
+      },
+      "metadata_refresh_interval": {
+        "type": "duration",
+        "description": "Metadata refresh interval.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      "offset_show_all": {
+        "type": "bool",
+        "description": "If true, the broker may auto-create topics that you requested which don’t already exist.",
+        "default": "true",
+        "required": false
+      },
+      "prune_interval_seconds": {
+        "type": "int",
+        "description": "Deprecated (no-op), use metadata_refresh_interval instead.",
+        "default": "30",
+        "required": false
+      },
+      "sasl_disable_pafx_fast": {
+        "type": "bool",
+        "description": "Configure the Kerberos client to not use PA_FX_FAST.",
+        "default": "",
+        "required": false
+      },
+      "sasl_mechanism": {
+        "type": "string",
+        "description": "The SASL SCRAM SHA algorithm SHA256 or SHA512 as mechanism.",
+        "default": "",
+        "required": false
+      },
+      "sasl_password": {
+        "type": "string",
+        "description": "SASL user password.",
+        "default": "",
+        "required": false
+      },
+      "sasl_username": {
+        "type": "string",
+        "description": "SASL user name.",
+        "default": "",
+        "required": false
+      },
+      "tls_server_name": {
+        "type": "string",
+        "description": "Used to verify the hostname on the returned certificates unless tls.insecure-skip-tls-verify is given. If you don’t provide the Kafka server name, the hostname is taken from the URL.",
+        "default": "",
+        "required": false
+      },
+      "topic_workers": {
+        "type": "int",
+        "description": "Minimum number of topics to monitor.",
+        "default": "100",
+        "required": false
+      },
+      "topics_exclude_regex": {
+        "type": "string",
+        "description": "Regex that determines which topics to exclude.",
+        "default": "\"^$\"",
+        "required": false
+      },
+      "topics_filter_regex": {
+        "type": "string",
+        "description": "Regex filter for topics to be monitored.",
+        "default": "\".*\"",
+        "required": false
+      },
+      "use_sasl_handshake": {
+        "type": "bool",
+        "description": "Only set this to false if using a non-Kafka SASL proxy.",
+        "default": "true",
+        "required": false
+      },
+      "use_sasl": {
+        "type": "bool",
+        "description": "Connect using SASL/PLAIN.",
+        "default": "",
+        "required": false
+      },
+      "use_tls": {
+        "type": "bool",
+        "description": "Connect using TLS.",
+        "default": "",
+        "required": false
+      },
+      "use_zookeeper_lag": {
+        "type": "bool",
+        "description": "If set to true, use a group from zookeeper.",
+        "default": "",
+        "required": false
+      },
+      "zookeeper_uris": {
+        "type": "array(string)",
+        "description": "Address array (hosts) of zookeeper server.",
+        "default": "",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.kafka \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

@@ -1,0 +1,487 @@
+{
+  "name": "prometheus.operator.podmonitors",
+  "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(MetricsReceiver)",
+      "description": "List of receivers to send scraped metrics to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "namespaces",
+      "type": "list(string)",
+      "description": "List of namespaces to search for PodMonitor resources. If not specified, all namespaces will be searched.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "informer_sync_timeout",
+      "type": "duration",
+      "description": "Timeout for initial sync of PodMonitor resources.",
+      "default": "\"1m\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "client",
+      "description": "Configures Kubernetes client used to find PodMonitors.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#client"
+    },
+    {
+      "block": "client > authorization",
+      "description": "Configure generic authorization to the Kubernetes API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#authorization"
+    },
+    {
+      "block": "client > basic_auth",
+      "description": "Configure basic authentication to the Kubernetes API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#basic_auth"
+    },
+    {
+      "block": "client > oauth2",
+      "description": "Configure OAuth 2.0 for authenticating to the Kubernetes API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#oauth2"
+    },
+    {
+      "block": "client > oauth2 > tls_config",
+      "description": "Configure TLS settings for connecting to the Kubernetes API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#tls_config"
+    },
+    {
+      "block": "client > tls_config",
+      "description": "Configure TLS settings for connecting to the Kubernetes API.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#tls_config"
+    },
+    {
+      "block": "clustering",
+      "description": "Configure the component for when Alloy is running in clustered mode.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#clustering"
+    },
+    {
+      "block": "rule",
+      "description": "Relabeling rules to apply to discovered targets.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#rule"
+    },
+    {
+      "block": "scrape",
+      "description": "Default scrape configuration to apply to discovered targets.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#scrape"
+    },
+    {
+      "block": "selector",
+      "description": "Label selector for which PodMonitors to discover.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#selector"
+    },
+    {
+      "block": "selector > match_expression",
+      "description": "Label selector expression for which PodMonitors to discover.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#match_expression"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "prometheus.operator.podmonitors",
+    "arguments": {
+      "forward_to": {
+        "type": "list(MetricsReceiver)",
+        "description": "List of receivers to send scraped metrics to.",
+        "default": "",
+        "required": true
+      },
+      "namespaces": {
+        "type": "list(string)",
+        "description": "List of namespaces to search for PodMonitor resources. If not specified, all namespaces will be searched.",
+        "default": "",
+        "required": false
+      },
+      "informer_sync_timeout": {
+        "type": "duration",
+        "description": "Timeout for initial sync of PodMonitor resources.",
+        "default": "\"1m\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "client": {
+        "description": "Configures Kubernetes client used to find PodMonitors.",
+        "required": false,
+        "children": {
+          "authorization": {
+            "description": "Configure generic authorization to the Kubernetes API.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "forward_to",
+                "type": "list(MetricsReceiver)",
+                "description": "List of receivers to send scraped metrics to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "namespaces",
+                "type": "list(string)",
+                "description": "List of namespaces to search for PodMonitor resources. If not specified, all namespaces will be searched.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "informer_sync_timeout",
+                "type": "duration",
+                "description": "Timeout for initial sync of PodMonitor resources.",
+                "default": "\"1m\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+          },
+          "basic_auth": {
+            "description": "Configure basic authentication to the Kubernetes API.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "forward_to",
+                "type": "list(MetricsReceiver)",
+                "description": "List of receivers to send scraped metrics to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "namespaces",
+                "type": "list(string)",
+                "description": "List of namespaces to search for PodMonitor resources. If not specified, all namespaces will be searched.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "informer_sync_timeout",
+                "type": "duration",
+                "description": "Timeout for initial sync of PodMonitor resources.",
+                "default": "\"1m\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+          },
+          "oauth2": {
+            "description": "Configure OAuth 2.0 for authenticating to the Kubernetes API.",
+            "required": false,
+            "children": {
+              "tls_config": {
+                "description": "Configure TLS settings for connecting to the Kubernetes API.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "forward_to",
+                    "type": "list(MetricsReceiver)",
+                    "description": "List of receivers to send scraped metrics to.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "namespaces",
+                    "type": "list(string)",
+                    "description": "List of namespaces to search for PodMonitor resources. If not specified, all namespaces will be searched.",
+                    "default": "",
+                    "required": false
+                  },
+                  {
+                    "name": "informer_sync_timeout",
+                    "type": "duration",
+                    "description": "Timeout for initial sync of PodMonitor resources.",
+                    "default": "\"1m\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "forward_to",
+                "type": "list(MetricsReceiver)",
+                "description": "List of receivers to send scraped metrics to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "namespaces",
+                "type": "list(string)",
+                "description": "List of namespaces to search for PodMonitor resources. If not specified, all namespaces will be searched.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "informer_sync_timeout",
+                "type": "duration",
+                "description": "Timeout for initial sync of PodMonitor resources.",
+                "default": "\"1m\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "tls_config",
+                "description": "Configure TLS settings for connecting to the Kubernetes API.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#tls_config"
+              }
+            ],
+            "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+          },
+          "tls_config": {
+            "description": "Configure TLS settings for connecting to the Kubernetes API.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "forward_to",
+                "type": "list(MetricsReceiver)",
+                "description": "List of receivers to send scraped metrics to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "namespaces",
+                "type": "list(string)",
+                "description": "List of namespaces to search for PodMonitor resources. If not specified, all namespaces will be searched.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "informer_sync_timeout",
+                "type": "duration",
+                "description": "Timeout for initial sync of PodMonitor resources.",
+                "default": "\"1m\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "api_server",
+            "type": "string",
+            "description": "URL of the Kubernetes API server.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "kubeconfig_file",
+            "type": "string",
+            "description": "Path of the kubeconfig file to use for connecting to Kubernetes.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "bearer_token_file",
+            "type": "string",
+            "description": "File containing a bearer token to authenticate with.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "bearer_token",
+            "type": "secret",
+            "description": "Bearer token to authenticate with.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "enable_http2",
+            "type": "bool",
+            "description": "Whether HTTP2 is supported for requests.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "follow_redirects",
+            "type": "bool",
+            "description": "Whether redirects returned by the server should be followed.",
+            "default": "true",
+            "required": false
+          },
+          {
+            "name": "http_headers",
+            "type": "map(list(secret))",
+            "description": "Custom HTTP headers to be sent along with each request. The map key is the header name.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "proxy_url",
+            "type": "string",
+            "description": "HTTP proxy to send requests through.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "no_proxy",
+            "type": "string",
+            "description": "Comma-separated list of IP addresses, CIDR notations, and domain names to exclude from proxying.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "proxy_from_environment",
+            "type": "bool",
+            "description": "Use the proxy URL indicated by environment variables.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "proxy_connect_header",
+            "type": "map(list(secret))",
+            "description": "Specifies headers to send to proxies during CONNECT requests.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "authorization",
+            "description": "Configure generic authorization to the Kubernetes API.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#authorization"
+          },
+          {
+            "block": "basic_auth",
+            "description": "Configure basic authentication to the Kubernetes API.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#basic_auth"
+          },
+          {
+            "block": "oauth2",
+            "description": "Configure OAuth 2.0 for authenticating to the Kubernetes API.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#oauth2"
+          },
+          {
+            "block": "oauth2 > tls_config",
+            "description": "Configure TLS settings for connecting to the Kubernetes API.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#tls_config"
+          },
+          {
+            "block": "tls_config",
+            "description": "Configure TLS settings for connecting to the Kubernetes API.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#tls_config"
+          }
+        ],
+        "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+      },
+      "clustering": {
+        "description": "Configure the component for when Alloy is running in clustered mode.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": "Enables sharing targets with other cluster nodes.",
+            "default": "false",
+            "required": true
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+      },
+      "rule": {
+        "description": "Relabeling rules to apply to discovered targets.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+      },
+      "scrape": {
+        "description": "Default scrape configuration to apply to discovered targets.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+      },
+      "selector": {
+        "description": "Label selector for which PodMonitors to discover.",
+        "required": false,
+        "children": {
+          "match_expression": {
+            "description": "Label selector expression for which PodMonitors to discover.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "forward_to",
+                "type": "list(MetricsReceiver)",
+                "description": "List of receivers to send scraped metrics to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "namespaces",
+                "type": "list(string)",
+                "description": "List of namespaces to search for PodMonitor resources. If not specified, all namespaces will be searched.",
+                "default": "",
+                "required": false
+              },
+              {
+                "name": "informer_sync_timeout",
+                "type": "duration",
+                "description": "Timeout for initial sync of PodMonitor resources.",
+                "default": "\"1m\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "match_labels",
+            "type": "map(string)",
+            "description": "Label keys and values used to discover resources.",
+            "default": "{}",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "match_expression",
+            "description": "Label selector expression for which PodMonitors to discover.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.operator.podmonitors/#match_expression"
+          }
+        ],
+        "usage": "prometheus.operator.podmonitors \"<LABEL>\" {\n    forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.operator.podmonitors \"${1:default}\" {\n  client {\n  }\n  clustering {\n    enabled = false\n  }\n  rule {\n    $0\n  }\n  scrape {\n    $0\n  }\n  selector {\n  }\n}"
+}

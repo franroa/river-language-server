@@ -1,0 +1,81 @@
+{
+  "name": "discovery.serverset",
+  "usage": "discovery.serverset \"<LABEL>\" {\n    servers = \"<SERVERS_LIST>\"\n    paths   = \"<ZOOKEEPER_PATHS_LIST>\"\n}",
+  "arguments": [
+    {
+      "name": "paths",
+      "type": "list(string)",
+      "description": "The Zookeeper paths to discover Serversets from.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "servers",
+      "type": "list(string)",
+      "description": "The Zookeeper servers to connect to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "The Zookeeper session timeout",
+      "default": "\"10s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of targets discovered."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.serverset",
+    "arguments": {
+      "paths": {
+        "type": "list(string)",
+        "description": "The Zookeeper paths to discover Serversets from.",
+        "default": "",
+        "required": true
+      },
+      "servers": {
+        "type": "list(string)",
+        "description": "The Zookeeper servers to connect to.",
+        "default": "",
+        "required": true
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "The Zookeeper session timeout",
+        "default": "\"10s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of targets discovered."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.serverset \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of targets discovered.\n}"
+}

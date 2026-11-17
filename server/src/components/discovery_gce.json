@@ -1,0 +1,120 @@
+{
+  "name": "discovery.gce",
+  "usage": "discovery.gce \"<LABEL>\" {\n  project = \"<PROJECT_NAME>\"\n  zone    = \"<ZONE_NAME>\"\n}",
+  "arguments": [
+    {
+      "name": "project",
+      "type": "string",
+      "description": "The Google Cloud Platform Project.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "zone",
+      "type": "string",
+      "description": "The zone of the scrape targets.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "filter",
+      "type": "string",
+      "description": "Filter can be used optionally to filter the instance list by other criteria.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "port",
+      "type": "int",
+      "description": "The port to scrape metrics from. If using the public IP address, this must instead be specified in the relabeling rule.",
+      "default": "80",
+      "required": false
+    },
+    {
+      "name": "refresh_interval",
+      "type": "duration",
+      "description": "Refresh interval to re-read the instance list.",
+      "default": "\"60s\"",
+      "required": false
+    },
+    {
+      "name": "tag_separator",
+      "type": "string",
+      "description": "The tag separator is used to separate the tags on concatenation.",
+      "default": "\",\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "targets",
+      "description": "list(map(string))",
+      "required": false,
+      "url": null
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The set of discovered GCE targets."
+    }
+  ],
+  "lsp_structure": {
+    "component": "discovery.gce",
+    "arguments": {
+      "project": {
+        "type": "string",
+        "description": "The Google Cloud Platform Project.",
+        "default": "",
+        "required": true
+      },
+      "zone": {
+        "type": "string",
+        "description": "The zone of the scrape targets.",
+        "default": "",
+        "required": true
+      },
+      "filter": {
+        "type": "string",
+        "description": "Filter can be used optionally to filter the instance list by other criteria.",
+        "default": "",
+        "required": false
+      },
+      "port": {
+        "type": "int",
+        "description": "The port to scrape metrics from. If using the public IP address, this must instead be specified in the relabeling rule.",
+        "default": "80",
+        "required": false
+      },
+      "refresh_interval": {
+        "type": "duration",
+        "description": "Refresh interval to re-read the instance list.",
+        "default": "\"60s\"",
+        "required": false
+      },
+      "tag_separator": {
+        "type": "string",
+        "description": "The tag separator is used to separate the tags on concatenation.",
+        "default": "\",\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "targets": {
+        "description": "list(map(string))",
+        "required": false,
+        "children": {}
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The set of discovered GCE targets."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "discovery.gce \"${1:default}\" {\n  targets {\n    $0\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The set of discovered GCE targets.\n}"
+}

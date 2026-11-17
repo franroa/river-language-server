@@ -1,0 +1,168 @@
+{
+  "name": "loki.source.syslog",
+  "usage": "loki.source.syslog \"<LABEL>\" {\n  listener {\n    address = \"<LISTEN_ADDRESS>\"\n  }\n  ...\n\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "relabel_rules",
+      "type": "RelabelRules",
+      "description": "Relabeling rules to apply on log entries.",
+      "default": "{}",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "listener",
+      "description": "Configures a listener for Syslog messages.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.syslog/#listener"
+    },
+    {
+      "block": "listener > tls_config",
+      "description": "Configures TLS settings for connecting to the endpoint for TCP connections.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.syslog/#tls_config"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.syslog",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "relabel_rules": {
+        "type": "RelabelRules",
+        "description": "Relabeling rules to apply on log entries.",
+        "default": "{}",
+        "required": false
+      }
+    },
+    "blocks": {
+      "listener": {
+        "description": "Configures a listener for Syslog messages.",
+        "required": false,
+        "children": {
+          "tls_config": {
+            "description": "Configures TLS settings for connecting to the endpoint for TCP connections.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "forward_to",
+                "type": "list(LogsReceiver)",
+                "description": "List of receivers to send log entries to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "relabel_rules",
+                "type": "RelabelRules",
+                "description": "Relabeling rules to apply on log entries.",
+                "default": "{}",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "loki.source.syslog \"<LABEL>\" {\n  listener {\n    address = \"<LISTEN_ADDRESS>\"\n  }\n  ...\n\n  forward_to = <RECEIVER_LIST>\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "address",
+            "type": "string",
+            "description": "The <host:port> address to listen to for syslog messages.",
+            "default": "",
+            "required": true
+          },
+          {
+            "name": "idle_timeout",
+            "type": "duration",
+            "description": "The idle timeout for TCP connections.",
+            "default": "\"120s\"",
+            "required": false
+          },
+          {
+            "name": "label_structured_data",
+            "type": "bool",
+            "description": "Whether to translate syslog structured data to Loki labels.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "labels",
+            "type": "map(string)",
+            "description": "The labels to associate with each received syslog record.",
+            "default": "{}",
+            "required": false
+          },
+          {
+            "name": "max_message_length",
+            "type": "int",
+            "description": "The maximum limit to the length of syslog messages.",
+            "default": "8192",
+            "required": false
+          },
+          {
+            "name": "protocol",
+            "type": "string",
+            "description": "The protocol to listen to for syslog messages. Must be either tcp or udp.",
+            "default": "\"tcp\"",
+            "required": false
+          },
+          {
+            "name": "rfc3164_default_to_current_year",
+            "type": "bool",
+            "description": "Whether to default the incoming timestamp of an rfc3164 message to the current year.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "syslog_format",
+            "type": "string",
+            "description": "The format for incoming messages. Must be either rfc5424 or rfc3164.",
+            "default": "\"rfc5424\"",
+            "required": false
+          },
+          {
+            "name": "use_incoming_timestamp",
+            "type": "bool",
+            "description": "Whether to set the timestamp to the incoming syslog record timestamp.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "use_rfc5424_message",
+            "type": "bool",
+            "description": "Whether to forward the full RFC5424-formatted syslog message.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "tls_config",
+            "description": "Configures TLS settings for connecting to the endpoint for TCP connections.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.syslog/#tls_config"
+          }
+        ],
+        "usage": "loki.source.syslog \"<LABEL>\" {\n  listener {\n    address = \"<LISTEN_ADDRESS>\"\n  }\n  ...\n\n  forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.syslog \"${1:default}\" {\n  listener {\n    address = \"${2}\"\n  }\n}"
+}

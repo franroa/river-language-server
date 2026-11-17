@@ -1,0 +1,461 @@
+{
+  "name": "otelcol.extension.jaeger_remote_sampling",
+  "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}",
+  "arguments": [],
+  "blocks": [
+    {
+      "block": "source",
+      "description": "Configures the Jaeger remote sampling document.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#source"
+    },
+    {
+      "block": "source > remote",
+      "description": "Configures the gRPC client used to retrieve the Jaeger remote sampling document.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#remote"
+    },
+    {
+      "block": "source > remote > keepalive client",
+      "description": "Configures keepalive settings for the gRPC client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#keepalive-client"
+    },
+    {
+      "block": "source > remote > tls client",
+      "description": "Configures TLS for the gRPC client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tls-client"
+    },
+    {
+      "block": "http",
+      "description": "Configures the HTTP server to serve Jaeger remote sampling.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#http"
+    },
+    {
+      "block": "http > cors",
+      "description": "Configures CORS for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#cors"
+    },
+    {
+      "block": "http > tls",
+      "description": "Configures TLS for the HTTP server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tls"
+    },
+    {
+      "block": "http > tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tpm"
+    },
+    {
+      "block": "grpc",
+      "description": "Configures the gRPC server to serve Jaeger remote sampling.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#grpc"
+    },
+    {
+      "block": "grpc > keepalive",
+      "description": "Configures keepalive settings for the configured server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#keepalive"
+    },
+    {
+      "block": "grpc > keepalive > enforcement_policy",
+      "description": "Enforcement policy for keepalive settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#enforcement_policy"
+    },
+    {
+      "block": "grpc > keepalive > server_parameters",
+      "description": "Server parameters used to configure keepalive settings.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#server_parameters"
+    },
+    {
+      "block": "grpc > tls",
+      "description": "Configures TLS for the gRPC server.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tls"
+    },
+    {
+      "block": "grpc > tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tpm"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#debug_metrics"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.extension.jaeger_remote_sampling",
+    "arguments": {},
+    "blocks": {
+      "source": {
+        "description": "Configures the Jaeger remote sampling document.",
+        "required": true,
+        "children": {
+          "remote": {
+            "description": "Configures the gRPC client used to retrieve the Jaeger remote sampling document.",
+            "required": false,
+            "children": {
+              "keepalive client": {
+                "description": "Configures keepalive settings for the gRPC client.",
+                "required": false,
+                "children": {},
+                "arguments": [],
+                "nested_blocks": [],
+                "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+              },
+              "tls client": {
+                "description": "Configures TLS for the gRPC client.",
+                "required": false,
+                "children": {},
+                "arguments": [],
+                "nested_blocks": [],
+                "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+              }
+            },
+            "arguments": [],
+            "nested_blocks": [
+              {
+                "block": "keepalive client",
+                "description": "Configures keepalive settings for the gRPC client.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#keepalive-client"
+              },
+              {
+                "block": "tls client",
+                "description": "Configures TLS for the gRPC client.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tls-client"
+              }
+            ],
+            "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "content",
+            "type": "string",
+            "description": "A string containing the Jaeger remote sampling contents directly.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "file",
+            "type": "string",
+            "description": "A local file containing a Jaeger remote sampling document.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "reload_interval",
+            "type": "duration",
+            "description": "The interval at which to reload the specified file. Leave at 0 to never reload.",
+            "default": "\"0\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "remote",
+            "description": "Configures the gRPC client used to retrieve the Jaeger remote sampling document.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#remote"
+          },
+          {
+            "block": "remote > keepalive client",
+            "description": "Configures keepalive settings for the gRPC client.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#keepalive-client"
+          },
+          {
+            "block": "remote > tls client",
+            "description": "Configures TLS for the gRPC client.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tls-client"
+          }
+        ],
+        "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+      },
+      "http": {
+        "description": "Configures the HTTP server to serve Jaeger remote sampling.",
+        "required": false,
+        "children": {
+          "cors": {
+            "description": "Configures CORS for the HTTP server.",
+            "required": false,
+            "children": {},
+            "arguments": [],
+            "nested_blocks": [],
+            "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+          },
+          "tls": {
+            "description": "Configures TLS for the HTTP server.",
+            "required": false,
+            "children": {
+              "tpm": {
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "children": {},
+                "arguments": [],
+                "nested_blocks": [],
+                "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+              }
+            },
+            "arguments": [],
+            "nested_blocks": [
+              {
+                "block": "tpm",
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tpm"
+              }
+            ],
+            "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "auth",
+            "type": "capsule(otelcol.Handler)",
+            "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "compression_algorithms",
+            "type": "list(string)",
+            "description": "A list of compression algorithms the server can accept.",
+            "default": "[\"\", \"gzip\", \"zstd\", \"zlib\", \"snappy\", \"deflate\", \"lz4\"]",
+            "required": false
+          },
+          {
+            "name": "endpoint",
+            "type": "string",
+            "description": "host:port to listen for traffic on.",
+            "default": "\"0.0.0.0:5778\"",
+            "required": false
+          },
+          {
+            "name": "include_metadata",
+            "type": "boolean",
+            "description": "Propagate incoming connection metadata to downstream consumers.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "max_request_body_size",
+            "type": "string",
+            "description": "Maximum request body size the server will allow.",
+            "default": "\"20MiB\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "cors",
+            "description": "Configures CORS for the HTTP server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#cors"
+          },
+          {
+            "block": "tls",
+            "description": "Configures TLS for the HTTP server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tls"
+          },
+          {
+            "block": "tls > tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tpm"
+          }
+        ],
+        "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+      },
+      "grpc": {
+        "description": "Configures the gRPC server to serve Jaeger remote sampling.",
+        "required": false,
+        "children": {
+          "keepalive": {
+            "description": "Configures keepalive settings for the configured server.",
+            "required": false,
+            "children": {
+              "enforcement_policy": {
+                "description": "Enforcement policy for keepalive settings.",
+                "required": false,
+                "children": {},
+                "arguments": [],
+                "nested_blocks": [],
+                "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+              },
+              "server_parameters": {
+                "description": "Server parameters used to configure keepalive settings.",
+                "required": false,
+                "children": {},
+                "arguments": [],
+                "nested_blocks": [],
+                "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+              }
+            },
+            "arguments": [],
+            "nested_blocks": [
+              {
+                "block": "enforcement_policy",
+                "description": "Enforcement policy for keepalive settings.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#enforcement_policy"
+              },
+              {
+                "block": "server_parameters",
+                "description": "Server parameters used to configure keepalive settings.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#server_parameters"
+              }
+            ],
+            "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+          },
+          "tls": {
+            "description": "Configures TLS for the gRPC server.",
+            "required": false,
+            "children": {
+              "tpm": {
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "children": {},
+                "arguments": [],
+                "nested_blocks": [],
+                "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+              }
+            },
+            "arguments": [],
+            "nested_blocks": [
+              {
+                "block": "tpm",
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tpm"
+              }
+            ],
+            "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+          }
+        },
+        "arguments": [
+          {
+            "name": "auth",
+            "type": "capsule(otelcol.Handler)",
+            "description": "Handler from an otelcol.auth component to use for authenticating requests.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "endpoint",
+            "type": "string",
+            "description": "host:port to listen for traffic on.",
+            "default": "\"0.0.0.0:14250\"",
+            "required": false
+          },
+          {
+            "name": "include_metadata",
+            "type": "boolean",
+            "description": "Propagate incoming connection metadata to downstream consumers.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "max_concurrent_streams",
+            "type": "number",
+            "description": "Limit the number of concurrent streaming RPC calls.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "max_recv_msg_size",
+            "type": "string",
+            "description": "Maximum size of messages the server will accept.",
+            "default": "\"4MiB\"",
+            "required": false
+          },
+          {
+            "name": "read_buffer_size",
+            "type": "string",
+            "description": "Size of the read buffer the gRPC server will use for reading from clients.",
+            "default": "\"512KiB\"",
+            "required": false
+          },
+          {
+            "name": "transport",
+            "type": "string",
+            "description": "Transport to use for the gRPC server.",
+            "default": "\"tcp\"",
+            "required": false
+          },
+          {
+            "name": "write_buffer_size",
+            "type": "string",
+            "description": "Size of the write buffer the gRPC server will use for writing to clients.",
+            "default": "",
+            "required": false
+          }
+        ],
+        "nested_blocks": [
+          {
+            "block": "keepalive",
+            "description": "Configures keepalive settings for the configured server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#keepalive"
+          },
+          {
+            "block": "keepalive > enforcement_policy",
+            "description": "Enforcement policy for keepalive settings.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#enforcement_policy"
+          },
+          {
+            "block": "keepalive > server_parameters",
+            "description": "Server parameters used to configure keepalive settings.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#server_parameters"
+          },
+          {
+            "block": "tls",
+            "description": "Configures TLS for the gRPC server.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tls"
+          },
+          {
+            "block": "tls > tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.extension.jaeger_remote_sampling/#tpm"
+          }
+        ],
+        "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.extension.jaeger_remote_sampling \"<LABEL>\" {\n  source {\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "source"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.extension.jaeger_remote_sampling \"${1:default}\" {\n  source {\n  }\n  http {\n    endpoint = \"0.0.0.0:4318\"\n  }\n  grpc {\n    endpoint = \"0.0.0.0:4317\"\n  }\n  debug_metrics {\n    $0\n  }\n}"
+}

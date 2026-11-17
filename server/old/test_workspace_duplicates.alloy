@@ -1,0 +1,14 @@
+// Test file for workspace duplicate detection
+// This file contains a component that should be detected as duplicate
+// when compared with other files in the workspace
+
+prometheus.scrape "demo" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// This is a unique component (different label)
+prometheus.scrape "unique" {
+	targets    = prometheus.exporter.mssql.sqlserver.targets
+	forward_to = [prometheus.remote_write.default.receiver]
+}

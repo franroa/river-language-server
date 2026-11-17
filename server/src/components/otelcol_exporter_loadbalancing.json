@@ -1,0 +1,584 @@
+{
+  "name": "otelcol.exporter.loadbalancing",
+  "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}",
+  "arguments": [
+    {
+      "name": "routing_key",
+      "type": "string",
+      "description": "Routing strategy for load balancing.",
+      "default": "\"traceID\"",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+      "default": "\"0s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "resolver",
+      "description": "Configures discovering the endpoints to export to.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#resolver"
+    },
+    {
+      "block": "resolver > aws_cloud_map",
+      "description": "AWS CloudMap-sourced list of endpoints to export to.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#aws_cloud_map"
+    },
+    {
+      "block": "resolver > dns",
+      "description": "DNS-sourced list of endpoints to export to.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#dns"
+    },
+    {
+      "block": "resolver > kubernetes",
+      "description": "Kubernetes-sourced list of endpoints to export to.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#kubernetes"
+    },
+    {
+      "block": "resolver > static",
+      "description": "Static list of endpoints to export to.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#static"
+    },
+    {
+      "block": "protocol",
+      "description": "Protocol settings. Only OTLP is supported at the moment.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#protocol"
+    },
+    {
+      "block": "protocol > otlp",
+      "description": "Configures an OTLP exporter.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#otlp"
+    },
+    {
+      "block": "protocol > otlp > client",
+      "description": "Configures the exporter gRPC client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#client"
+    },
+    {
+      "block": "protocol > otlp > client > keepalive",
+      "description": "Configures keepalive settings for the gRPC client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#keepalive"
+    },
+    {
+      "block": "protocol > otlp > client > tls",
+      "description": "Configures TLS for the gRPC client.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tls"
+    },
+    {
+      "block": "protocol > otlp > client > tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tpm"
+    },
+    {
+      "block": "protocol > otlp > queue",
+      "description": "Configures batching of data before sending.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#queue"
+    },
+    {
+      "block": "protocol > otlp > retry",
+      "description": "Configures retry mechanism for failed requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#retry"
+    },
+    {
+      "block": "queue",
+      "description": "Configures batching of data before sending to the otlp > protocol exporter.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#queue"
+    },
+    {
+      "block": "retry",
+      "description": "Configures retry mechanism for failed requests to the otlp > protocol exporter.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#retry"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#debug_metrics"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.exporter.loadbalancing",
+    "arguments": {
+      "routing_key": {
+        "type": "string",
+        "description": "Routing strategy for load balancing.",
+        "default": "\"traceID\"",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+        "default": "\"0s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "resolver": {
+        "description": "Configures discovering the endpoints to export to.",
+        "required": true,
+        "children": {
+          "aws_cloud_map": {
+            "description": "AWS CloudMap-sourced list of endpoints to export to.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "routing_key",
+                "type": "string",
+                "description": "Routing strategy for load balancing.",
+                "default": "\"traceID\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+          },
+          "dns": {
+            "description": "DNS-sourced list of endpoints to export to.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "routing_key",
+                "type": "string",
+                "description": "Routing strategy for load balancing.",
+                "default": "\"traceID\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+          },
+          "kubernetes": {
+            "description": "Kubernetes-sourced list of endpoints to export to.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "routing_key",
+                "type": "string",
+                "description": "Routing strategy for load balancing.",
+                "default": "\"traceID\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+          },
+          "static": {
+            "description": "Static list of endpoints to export to.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "routing_key",
+                "type": "string",
+                "description": "Routing strategy for load balancing.",
+                "default": "\"traceID\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "aws_cloud_map",
+            "description": "AWS CloudMap-sourced list of endpoints to export to.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#aws_cloud_map"
+          },
+          {
+            "block": "dns",
+            "description": "DNS-sourced list of endpoints to export to.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#dns"
+          },
+          {
+            "block": "kubernetes",
+            "description": "Kubernetes-sourced list of endpoints to export to.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#kubernetes"
+          },
+          {
+            "block": "static",
+            "description": "Static list of endpoints to export to.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#static"
+          }
+        ],
+        "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+      },
+      "protocol": {
+        "description": "Protocol settings. Only OTLP is supported at the moment.",
+        "required": false,
+        "children": {
+          "otlp": {
+            "description": "Configures an OTLP exporter.",
+            "required": false,
+            "children": {
+              "client": {
+                "description": "Configures the exporter gRPC client.",
+                "required": false,
+                "children": {
+                  "keepalive": {
+                    "description": "Configures keepalive settings for the gRPC client.",
+                    "required": false,
+                    "children": {},
+                    "arguments": [
+                      {
+                        "name": "routing_key",
+                        "type": "string",
+                        "description": "Routing strategy for load balancing.",
+                        "default": "\"traceID\"",
+                        "required": false
+                      },
+                      {
+                        "name": "timeout",
+                        "type": "duration",
+                        "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                        "default": "\"0s\"",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [],
+                    "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+                  },
+                  "tls": {
+                    "description": "Configures TLS for the gRPC client.",
+                    "required": false,
+                    "children": {
+                      "tpm": {
+                        "description": "Configures TPM settings for the TLS key_file.",
+                        "required": false,
+                        "children": {},
+                        "arguments": [
+                          {
+                            "name": "routing_key",
+                            "type": "string",
+                            "description": "Routing strategy for load balancing.",
+                            "default": "\"traceID\"",
+                            "required": false
+                          },
+                          {
+                            "name": "timeout",
+                            "type": "duration",
+                            "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                            "default": "\"0s\"",
+                            "required": false
+                          }
+                        ],
+                        "nested_blocks": [],
+                        "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "name": "routing_key",
+                        "type": "string",
+                        "description": "Routing strategy for load balancing.",
+                        "default": "\"traceID\"",
+                        "required": false
+                      },
+                      {
+                        "name": "timeout",
+                        "type": "duration",
+                        "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                        "default": "\"0s\"",
+                        "required": false
+                      }
+                    ],
+                    "nested_blocks": [
+                      {
+                        "block": "tpm",
+                        "description": "Configures TPM settings for the TLS key_file.",
+                        "required": false,
+                        "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tpm"
+                      }
+                    ],
+                    "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+                  }
+                },
+                "arguments": [
+                  {
+                    "name": "routing_key",
+                    "type": "string",
+                    "description": "Routing strategy for load balancing.",
+                    "default": "\"traceID\"",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                    "default": "\"0s\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [
+                  {
+                    "block": "keepalive",
+                    "description": "Configures keepalive settings for the gRPC client.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#keepalive"
+                  },
+                  {
+                    "block": "tls",
+                    "description": "Configures TLS for the gRPC client.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tls"
+                  },
+                  {
+                    "block": "tls > tpm",
+                    "description": "Configures TPM settings for the TLS key_file.",
+                    "required": false,
+                    "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tpm"
+                  }
+                ],
+                "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+              },
+              "queue": {
+                "description": "Configures batching of data before sending.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "routing_key",
+                    "type": "string",
+                    "description": "Routing strategy for load balancing.",
+                    "default": "\"traceID\"",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                    "default": "\"0s\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+              },
+              "retry": {
+                "description": "Configures retry mechanism for failed requests.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "routing_key",
+                    "type": "string",
+                    "description": "Routing strategy for load balancing.",
+                    "default": "\"traceID\"",
+                    "required": false
+                  },
+                  {
+                    "name": "timeout",
+                    "type": "duration",
+                    "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                    "default": "\"0s\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "routing_key",
+                "type": "string",
+                "description": "Routing strategy for load balancing.",
+                "default": "\"traceID\"",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Time to wait before marking a request to the otlp > protocol exporter as failed.",
+                "default": "\"0s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "client",
+                "description": "Configures the exporter gRPC client.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#client"
+              },
+              {
+                "block": "client > keepalive",
+                "description": "Configures keepalive settings for the gRPC client.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#keepalive"
+              },
+              {
+                "block": "client > tls",
+                "description": "Configures TLS for the gRPC client.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tls"
+              },
+              {
+                "block": "client > tls > tpm",
+                "description": "Configures TPM settings for the TLS key_file.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tpm"
+              },
+              {
+                "block": "queue",
+                "description": "Configures batching of data before sending.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#queue"
+              },
+              {
+                "block": "retry",
+                "description": "Configures retry mechanism for failed requests.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#retry"
+              }
+            ],
+            "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "otlp",
+            "description": "Configures an OTLP exporter.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#otlp"
+          },
+          {
+            "block": "otlp > client",
+            "description": "Configures the exporter gRPC client.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#client"
+          },
+          {
+            "block": "otlp > client > keepalive",
+            "description": "Configures keepalive settings for the gRPC client.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#keepalive"
+          },
+          {
+            "block": "otlp > client > tls",
+            "description": "Configures TLS for the gRPC client.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tls"
+          },
+          {
+            "block": "otlp > client > tls > tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#tpm"
+          },
+          {
+            "block": "otlp > queue",
+            "description": "Configures batching of data before sending.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#queue"
+          },
+          {
+            "block": "otlp > retry",
+            "description": "Configures retry mechanism for failed requests.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.loadbalancing/#retry"
+          }
+        ],
+        "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+      },
+      "queue": {
+        "description": "Configures batching of data before sending to the otlp > protocol exporter.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+      },
+      "retry": {
+        "description": "Configures retry mechanism for failed requests to the otlp > protocol exporter.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.loadbalancing \"<LABEL>\" {\n  resolver {\n    ...\n  }\n  protocol {\n    otlp {\n      client {}\n    }\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "resolver"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.exporter.loadbalancing \"${1:default}\" {\n  resolver {\n  }\n  protocol {\n  }\n  queue {\n    $0\n  }\n  retry {\n    $0\n  }\n  debug_metrics {\n    $0\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

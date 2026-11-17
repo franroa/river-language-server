@@ -1,0 +1,139 @@
+{
+  "name": "prometheus.exporter.process",
+  "usage": "prometheus.exporter.process \"<LABEL>\" {\n}",
+  "arguments": [
+    {
+      "name": "gather_smaps",
+      "type": "bool",
+      "description": "Gather metrics from the smaps file for a process.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "procfs_path",
+      "type": "string",
+      "description": "The procfs mount point.",
+      "default": "\"/proc\"",
+      "required": false
+    },
+    {
+      "name": "recheck_on_scrape",
+      "type": "bool",
+      "description": "Recheck process names on each scrape.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "track_children",
+      "type": "bool",
+      "description": "Whether to track a process’ children.",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "track_threads",
+      "type": "bool",
+      "description": "Report metrics for a process’ individual threads.",
+      "default": "true",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "matcher",
+      "description": "A collection of matching rules to use for deciding which processes to monitor.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.exporter.process/#matcher"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "targets",
+      "type": "list(map(string))",
+      "description": "The targets that can be used to collect exporter metrics."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.exporter.process",
+    "arguments": {
+      "gather_smaps": {
+        "type": "bool",
+        "description": "Gather metrics from the smaps file for a process.",
+        "default": "true",
+        "required": false
+      },
+      "procfs_path": {
+        "type": "string",
+        "description": "The procfs mount point.",
+        "default": "\"/proc\"",
+        "required": false
+      },
+      "recheck_on_scrape": {
+        "type": "bool",
+        "description": "Recheck process names on each scrape.",
+        "default": "true",
+        "required": false
+      },
+      "track_children": {
+        "type": "bool",
+        "description": "Whether to track a process’ children.",
+        "default": "true",
+        "required": false
+      },
+      "track_threads": {
+        "type": "bool",
+        "description": "Report metrics for a process’ individual threads.",
+        "default": "true",
+        "required": false
+      }
+    },
+    "blocks": {
+      "matcher": {
+        "description": "A collection of matching rules to use for deciding which processes to monitor.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "cmdline",
+            "type": "list(string)",
+            "description": "A list of regular expressions applied to the argv of the process.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "comm",
+            "type": "list(string)",
+            "description": "A list of strings that match the base executable name for a process, truncated to 15 characters.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "exe",
+            "type": "list(string)",
+            "description": "A list of strings that match argv[0] for a process.",
+            "default": "",
+            "required": false
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The name to use for identifying the process group name in the metric.",
+            "default": "\"{{.ExeBase}}\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "prometheus.exporter.process \"<LABEL>\" {\n}"
+      }
+    },
+    "exported_fields": {
+      "targets": {
+        "type": "list(map(string))",
+        "description": "The targets that can be used to collect exporter metrics."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.exporter.process \"${1:default}\" {\n  matcher {\n  }\n\n  // Exported fields:\n  // - targets (list(map(string))): The targets that can be used to collect exporter metrics.\n}"
+}

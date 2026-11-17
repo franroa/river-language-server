@@ -1,0 +1,14 @@
+// Test case for your exact example - not_known should throw an error
+
+// Remote write configuration - sends metrics to Mimir
+prometheus.remote_write "default" {
+	endpoint {
+		url = "http://mimir:9009/api/v1/push"
+	}
+
+	external_labels = {
+		instance = "local",
+	}
+
+	not_known = {}
+}

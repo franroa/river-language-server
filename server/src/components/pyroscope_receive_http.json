@@ -1,0 +1,90 @@
+{
+  "name": "pyroscope.receive_http",
+  "usage": "pyroscope.receive_http \"<LABEL>\" {\n  http {\n    listen_address = \"<LISTEN_ADDRESS>\"\n    listen_port = \"<PORT>\"\n  }\n  forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(ProfilesReceiver)",
+      "description": "List of receivers to send profiles to.",
+      "default": "",
+      "required": true
+    }
+  ],
+  "blocks": [
+    {
+      "block": "http",
+      "description": "Configures the HTTP server that receives requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/pyroscope/pyroscope.receive_http/#http"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "pyroscope.receive_http",
+    "arguments": {
+      "forward_to": {
+        "type": "list(ProfilesReceiver)",
+        "description": "List of receivers to send profiles to.",
+        "default": "",
+        "required": true
+      }
+    },
+    "blocks": {
+      "http": {
+        "description": "Configures the HTTP server that receives requests.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "conn_limit",
+            "type": "int",
+            "description": "Maximum number of simultaneous HTTP connections. Defaults to 100.",
+            "default": "0",
+            "required": false
+          },
+          {
+            "name": "listen_address",
+            "type": "string",
+            "description": "Network address on which the server listens for new connections. Defaults to accepting all incoming connections.",
+            "default": "\"\"",
+            "required": false
+          },
+          {
+            "name": "listen_port",
+            "type": "int",
+            "description": "Port number on which the server listens for new connections.",
+            "default": "8080",
+            "required": false
+          },
+          {
+            "name": "server_idle_timeout",
+            "type": "duration",
+            "description": "Idle timeout for the HTTP server.",
+            "default": "\"120s\"",
+            "required": false
+          },
+          {
+            "name": "server_read_timeout",
+            "type": "duration",
+            "description": "Read timeout for the HTTP server.",
+            "default": "\"30s\"",
+            "required": false
+          },
+          {
+            "name": "server_write_timeout",
+            "type": "duration",
+            "description": "Write timeout for the HTTP server.",
+            "default": "\"30s\"",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "pyroscope.receive_http \"<LABEL>\" {\n  http {\n    listen_address = \"<LISTEN_ADDRESS>\"\n    listen_port = \"<PORT>\"\n  }\n  forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "pyroscope.receive_http \"${1:default}\" {\n  http {\n  }\n}"
+}

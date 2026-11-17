@@ -1,0 +1,496 @@
+{
+  "name": "remote.http",
+  "usage": "remote.http \"<LABEL>\" {\n  url = \"<URL_TO_POLL>\"\n}",
+  "arguments": [
+    {
+      "name": "url",
+      "type": "string",
+      "description": "URL to poll.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "body",
+      "type": "string",
+      "description": "The request body.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "headers",
+      "type": "map(string)",
+      "description": "Custom headers for the request.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "is_secret",
+      "type": "bool",
+      "description": "Whether the response body should be treated as a secret.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "method",
+      "type": "string",
+      "description": "Define HTTP method for the request",
+      "default": "\"GET\"",
+      "required": false
+    },
+    {
+      "name": "poll_frequency",
+      "type": "duration",
+      "description": "Frequency to poll the URL.",
+      "default": "\"1m\"",
+      "required": false
+    },
+    {
+      "name": "poll_timeout",
+      "type": "duration",
+      "description": "Timeout when polling the URL.",
+      "default": "\"10s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "client",
+      "description": "HTTP client settings when connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#client"
+    },
+    {
+      "block": "client > authorization",
+      "description": "Configure generic authorization to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#authorization"
+    },
+    {
+      "block": "client > basic_auth",
+      "description": "Configure basic_auth for authenticating to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#basic_auth"
+    },
+    {
+      "block": "client > oauth2",
+      "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#oauth2"
+    },
+    {
+      "block": "client > oauth2 > tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#tls_config"
+    },
+    {
+      "block": "client > tls_config",
+      "description": "Configure TLS settings for connecting to the endpoint.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#tls_config"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "content",
+      "type": "string or secret",
+      "description": "The contents of the file."
+    }
+  ],
+  "lsp_structure": {
+    "component": "remote.http",
+    "arguments": {
+      "url": {
+        "type": "string",
+        "description": "URL to poll.",
+        "default": "",
+        "required": true
+      },
+      "body": {
+        "type": "string",
+        "description": "The request body.",
+        "default": "\"\"",
+        "required": false
+      },
+      "headers": {
+        "type": "map(string)",
+        "description": "Custom headers for the request.",
+        "default": "{}",
+        "required": false
+      },
+      "is_secret": {
+        "type": "bool",
+        "description": "Whether the response body should be treated as a secret.",
+        "default": "false",
+        "required": false
+      },
+      "method": {
+        "type": "string",
+        "description": "Define HTTP method for the request",
+        "default": "\"GET\"",
+        "required": false
+      },
+      "poll_frequency": {
+        "type": "duration",
+        "description": "Frequency to poll the URL.",
+        "default": "\"1m\"",
+        "required": false
+      },
+      "poll_timeout": {
+        "type": "duration",
+        "description": "Timeout when polling the URL.",
+        "default": "\"10s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "client": {
+        "description": "HTTP client settings when connecting to the endpoint.",
+        "required": false,
+        "children": {
+          "authorization": {
+            "description": "Configure generic authorization to the endpoint.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "url",
+                "type": "string",
+                "description": "URL to poll.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "body",
+                "type": "string",
+                "description": "The request body.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "headers",
+                "type": "map(string)",
+                "description": "Custom headers for the request.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "is_secret",
+                "type": "bool",
+                "description": "Whether the response body should be treated as a secret.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "method",
+                "type": "string",
+                "description": "Define HTTP method for the request",
+                "default": "\"GET\"",
+                "required": false
+              },
+              {
+                "name": "poll_frequency",
+                "type": "duration",
+                "description": "Frequency to poll the URL.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "poll_timeout",
+                "type": "duration",
+                "description": "Timeout when polling the URL.",
+                "default": "\"10s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "remote.http \"<LABEL>\" {\n  url = \"<URL_TO_POLL>\"\n}"
+          },
+          "basic_auth": {
+            "description": "Configure basic_auth for authenticating to the endpoint.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "url",
+                "type": "string",
+                "description": "URL to poll.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "body",
+                "type": "string",
+                "description": "The request body.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "headers",
+                "type": "map(string)",
+                "description": "Custom headers for the request.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "is_secret",
+                "type": "bool",
+                "description": "Whether the response body should be treated as a secret.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "method",
+                "type": "string",
+                "description": "Define HTTP method for the request",
+                "default": "\"GET\"",
+                "required": false
+              },
+              {
+                "name": "poll_frequency",
+                "type": "duration",
+                "description": "Frequency to poll the URL.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "poll_timeout",
+                "type": "duration",
+                "description": "Timeout when polling the URL.",
+                "default": "\"10s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "remote.http \"<LABEL>\" {\n  url = \"<URL_TO_POLL>\"\n}"
+          },
+          "oauth2": {
+            "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+            "required": false,
+            "children": {
+              "tls_config": {
+                "description": "Configure TLS settings for connecting to the endpoint.",
+                "required": false,
+                "children": {},
+                "arguments": [
+                  {
+                    "name": "url",
+                    "type": "string",
+                    "description": "URL to poll.",
+                    "default": "",
+                    "required": true
+                  },
+                  {
+                    "name": "body",
+                    "type": "string",
+                    "description": "The request body.",
+                    "default": "\"\"",
+                    "required": false
+                  },
+                  {
+                    "name": "headers",
+                    "type": "map(string)",
+                    "description": "Custom headers for the request.",
+                    "default": "{}",
+                    "required": false
+                  },
+                  {
+                    "name": "is_secret",
+                    "type": "bool",
+                    "description": "Whether the response body should be treated as a secret.",
+                    "default": "false",
+                    "required": false
+                  },
+                  {
+                    "name": "method",
+                    "type": "string",
+                    "description": "Define HTTP method for the request",
+                    "default": "\"GET\"",
+                    "required": false
+                  },
+                  {
+                    "name": "poll_frequency",
+                    "type": "duration",
+                    "description": "Frequency to poll the URL.",
+                    "default": "\"1m\"",
+                    "required": false
+                  },
+                  {
+                    "name": "poll_timeout",
+                    "type": "duration",
+                    "description": "Timeout when polling the URL.",
+                    "default": "\"10s\"",
+                    "required": false
+                  }
+                ],
+                "nested_blocks": [],
+                "usage": "remote.http \"<LABEL>\" {\n  url = \"<URL_TO_POLL>\"\n}"
+              }
+            },
+            "arguments": [
+              {
+                "name": "url",
+                "type": "string",
+                "description": "URL to poll.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "body",
+                "type": "string",
+                "description": "The request body.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "headers",
+                "type": "map(string)",
+                "description": "Custom headers for the request.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "is_secret",
+                "type": "bool",
+                "description": "Whether the response body should be treated as a secret.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "method",
+                "type": "string",
+                "description": "Define HTTP method for the request",
+                "default": "\"GET\"",
+                "required": false
+              },
+              {
+                "name": "poll_frequency",
+                "type": "duration",
+                "description": "Frequency to poll the URL.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "poll_timeout",
+                "type": "duration",
+                "description": "Timeout when polling the URL.",
+                "default": "\"10s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [
+              {
+                "block": "tls_config",
+                "description": "Configure TLS settings for connecting to the endpoint.",
+                "required": false,
+                "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#tls_config"
+              }
+            ],
+            "usage": "remote.http \"<LABEL>\" {\n  url = \"<URL_TO_POLL>\"\n}"
+          },
+          "tls_config": {
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "url",
+                "type": "string",
+                "description": "URL to poll.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "body",
+                "type": "string",
+                "description": "The request body.",
+                "default": "\"\"",
+                "required": false
+              },
+              {
+                "name": "headers",
+                "type": "map(string)",
+                "description": "Custom headers for the request.",
+                "default": "{}",
+                "required": false
+              },
+              {
+                "name": "is_secret",
+                "type": "bool",
+                "description": "Whether the response body should be treated as a secret.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "method",
+                "type": "string",
+                "description": "Define HTTP method for the request",
+                "default": "\"GET\"",
+                "required": false
+              },
+              {
+                "name": "poll_frequency",
+                "type": "duration",
+                "description": "Frequency to poll the URL.",
+                "default": "\"1m\"",
+                "required": false
+              },
+              {
+                "name": "poll_timeout",
+                "type": "duration",
+                "description": "Timeout when polling the URL.",
+                "default": "\"10s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "remote.http \"<LABEL>\" {\n  url = \"<URL_TO_POLL>\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "authorization",
+            "description": "Configure generic authorization to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#authorization"
+          },
+          {
+            "block": "basic_auth",
+            "description": "Configure basic_auth for authenticating to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#basic_auth"
+          },
+          {
+            "block": "oauth2",
+            "description": "Configure OAuth 2.0 for authenticating to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#oauth2"
+          },
+          {
+            "block": "oauth2 > tls_config",
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#tls_config"
+          },
+          {
+            "block": "tls_config",
+            "description": "Configure TLS settings for connecting to the endpoint.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/remote/remote.http/#tls_config"
+          }
+        ],
+        "usage": "remote.http \"<LABEL>\" {\n  url = \"<URL_TO_POLL>\"\n}"
+      }
+    },
+    "exported_fields": {
+      "content": {
+        "type": "string or secret",
+        "description": "The contents of the file."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "remote.http \"${1:default}\" {\n  client {\n  }\n\n  // Exported fields:\n  // - content (string or secret): The contents of the file.\n}"
+}

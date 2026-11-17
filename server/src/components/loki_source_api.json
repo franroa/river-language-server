@@ -1,0 +1,86 @@
+{
+  "name": "loki.source.api",
+  "usage": "loki.source.api \"<LABEL>\" {\n    http {\n        listen_address = \"<LISTEN_ADDRESS>\"\n        listen_port = \"<PORT>\"\n    }\n    forward_to = <RECEIVER_LIST>\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(LogsReceiver)",
+      "description": "List of receivers to send log entries to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "labels",
+      "type": "map(string)",
+      "description": "The labels to associate with each received logs record.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "relabel_rules",
+      "type": "RelabelRules",
+      "description": "Relabeling rules to apply on log entries.",
+      "default": "{}",
+      "required": false
+    },
+    {
+      "name": "use_incoming_timestamp",
+      "type": "bool",
+      "description": "Whether to use the timestamp received from request.",
+      "default": "false",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "http",
+      "description": "Configures the HTTP server that receives requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.api/#http"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "loki.source.api",
+    "arguments": {
+      "forward_to": {
+        "type": "list(LogsReceiver)",
+        "description": "List of receivers to send log entries to.",
+        "default": "",
+        "required": true
+      },
+      "labels": {
+        "type": "map(string)",
+        "description": "The labels to associate with each received logs record.",
+        "default": "{}",
+        "required": false
+      },
+      "relabel_rules": {
+        "type": "RelabelRules",
+        "description": "Relabeling rules to apply on log entries.",
+        "default": "{}",
+        "required": false
+      },
+      "use_incoming_timestamp": {
+        "type": "bool",
+        "description": "Whether to use the timestamp received from request.",
+        "default": "false",
+        "required": false
+      }
+    },
+    "blocks": {
+      "http": {
+        "description": "Configures the HTTP server that receives requests.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "loki.source.api \"<LABEL>\" {\n    http {\n        listen_address = \"<LISTEN_ADDRESS>\"\n        listen_port = \"<PORT>\"\n    }\n    forward_to = <RECEIVER_LIST>\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "loki.source.api \"${1:default}\" {\n  http {\n    $0\n  }\n}"
+}

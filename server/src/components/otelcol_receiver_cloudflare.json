@@ -1,0 +1,163 @@
+{
+  "name": "otelcol.receiver.cloudflare",
+  "usage": "otelcol.receiver.cloudflare \"<LABEL>\" {\n  endpoint = \"<HOST>:<PORT>\"\n\n  output {\n    logs = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "The <HOST:PORT> endpoint address on which the receiver awaits requests from Cloudflare.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "max_request_body_size",
+      "type": "string",
+      "description": "Maximum request body size the receiver accepts, applied to the raw request body and again to the payload after gzip decompression. The receiver rejects larger requests with HTTP 422. Must be greater than 0.",
+      "default": "\"20MiB\"",
+      "required": false
+    },
+    {
+      "name": "secret",
+      "type": "secret",
+      "description": "If this value is set, the receiver expects to see it in any valid requests under the X-CF-Secret header.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "attributes",
+      "type": "map[string]string",
+      "description": "Sets log attributes from message fields. Only string, boolean, integer, or float fields can be mapped.",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "separator",
+      "type": "string",
+      "description": "The separator to join nested fields in the log message when setting attributes.",
+      "default": "\".\"",
+      "required": false
+    },
+    {
+      "name": "timestamp_field",
+      "type": "string",
+      "description": "Log field name that contains timestamp.",
+      "default": "\"EdgeStartTimestamp\"",
+      "required": false
+    },
+    {
+      "name": "timestamp_format",
+      "type": "string",
+      "description": "One of unix, unixnano, or rfc3339, matching how your LogPush job encodes the timestamp field.",
+      "default": "\"rfc3339\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.cloudflare/#output"
+    },
+    {
+      "block": "tls",
+      "description": "Custom server TLS configuration.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.receiver.cloudflare/#tls"
+    }
+  ],
+  "exported_fields": [],
+  "lsp_structure": {
+    "component": "otelcol.receiver.cloudflare",
+    "arguments": {
+      "endpoint": {
+        "type": "string",
+        "description": "The <HOST:PORT> endpoint address on which the receiver awaits requests from Cloudflare.",
+        "default": "",
+        "required": true
+      },
+      "max_request_body_size": {
+        "type": "string",
+        "description": "Maximum request body size the receiver accepts, applied to the raw request body and again to the payload after gzip decompression. The receiver rejects larger requests with HTTP 422. Must be greater than 0.",
+        "default": "\"20MiB\"",
+        "required": false
+      },
+      "secret": {
+        "type": "secret",
+        "description": "If this value is set, the receiver expects to see it in any valid requests under the X-CF-Secret header.",
+        "default": "",
+        "required": false
+      },
+      "attributes": {
+        "type": "map[string]string",
+        "description": "Sets log attributes from message fields. Only string, boolean, integer, or float fields can be mapped.",
+        "default": "",
+        "required": false
+      },
+      "separator": {
+        "type": "string",
+        "description": "The separator to join nested fields in the log message when setting attributes.",
+        "default": "\".\"",
+        "required": false
+      },
+      "timestamp_field": {
+        "type": "string",
+        "description": "Log field name that contains timestamp.",
+        "default": "\"EdgeStartTimestamp\"",
+        "required": false
+      },
+      "timestamp_format": {
+        "type": "string",
+        "description": "One of unix, unixnano, or rfc3339, matching how your LogPush job encodes the timestamp field.",
+        "default": "\"rfc3339\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.cloudflare \"<LABEL>\" {\n  endpoint = \"<HOST>:<PORT>\"\n\n  output {\n    logs = [...]\n  }\n}"
+      },
+      "tls": {
+        "description": "Custom server TLS configuration.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.receiver.cloudflare \"<LABEL>\" {\n  endpoint = \"<HOST>:<PORT>\"\n\n  output {\n    logs = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {},
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.receiver.cloudflare \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  tls {\n    $0\n  }\n}"
+}

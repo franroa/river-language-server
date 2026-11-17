@@ -1,0 +1,53 @@
+// Test cases for map comma validation
+
+// This should trigger an error (multi-line map without comma)
+prometheus.remote_write "default" {
+	endpoint {
+		url = "http://mimir:9009/api/v1/push"
+	}
+
+	external_labels = {
+		instance = "local"
+	}
+}
+
+// This should trigger an error (single-line map without comma)  
+prometheus.remote_write "single" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	external_labels = {env = "prod"}
+}
+
+// This should be valid (multi-line map with comma)
+prometheus.remote_write "valid_multi" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+
+	external_labels = {
+		env = "prod",
+		region = "us-west-2"
+	},
+}
+
+// This should be valid (single-line map with comma)
+prometheus.remote_write "valid_single" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	external_labels = {env = "prod"},
+}
+
+// Non-map properties should not be affected
+prometheus.remote_write "other_props" {
+	endpoint {
+		url = "http://localhost:9090/api/v1/push"
+	}
+	
+	write_relabel_config {
+		target_label = "instance"
+	}
+}

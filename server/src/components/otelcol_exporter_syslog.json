@@ -1,0 +1,230 @@
+{
+  "name": "otelcol.exporter.syslog",
+  "usage": "otelcol.exporter.syslog \"LABEL\" {\n  endpoint = \"HOST\"\n}",
+  "arguments": [
+    {
+      "name": "endpoint",
+      "type": "string",
+      "description": "The endpoint to send syslog formatted logs to.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "network",
+      "type": "string",
+      "description": "The type of network connection to use to send logs.",
+      "default": "\"tcp\"",
+      "required": false
+    },
+    {
+      "name": "port",
+      "type": "int",
+      "description": "The port where the syslog server accepts connections.",
+      "default": "514",
+      "required": false
+    },
+    {
+      "name": "protocol",
+      "type": "string",
+      "description": "The syslog protocol that the syslog server supports.",
+      "default": "\"rfc5424\"",
+      "required": false
+    },
+    {
+      "name": "enable_octet_counting",
+      "type": "bool",
+      "description": "Whether to enable rfc6587 octet counting.",
+      "default": "false",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "type": "duration",
+      "description": "Time to wait before marking a request as failed.",
+      "default": "\"5s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.syslog/#debug_metrics"
+    },
+    {
+      "block": "retry_on_failure",
+      "description": "Configures retry mechanism for failed requests.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.syslog/#retry_on_failure"
+    },
+    {
+      "block": "sending_queue",
+      "description": "Configures batching of data before sending.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.syslog/#sending_queue"
+    },
+    {
+      "block": "tls",
+      "description": "Configures TLS for a TCP connection.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.syslog/#tls"
+    },
+    {
+      "block": "tls > tpm",
+      "description": "Configures TPM settings for the TLS key_file.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.syslog/#tpm"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.exporter.syslog",
+    "arguments": {
+      "endpoint": {
+        "type": "string",
+        "description": "The endpoint to send syslog formatted logs to.",
+        "default": "",
+        "required": true
+      },
+      "network": {
+        "type": "string",
+        "description": "The type of network connection to use to send logs.",
+        "default": "\"tcp\"",
+        "required": false
+      },
+      "port": {
+        "type": "int",
+        "description": "The port where the syslog server accepts connections.",
+        "default": "514",
+        "required": false
+      },
+      "protocol": {
+        "type": "string",
+        "description": "The syslog protocol that the syslog server supports.",
+        "default": "\"rfc5424\"",
+        "required": false
+      },
+      "enable_octet_counting": {
+        "type": "bool",
+        "description": "Whether to enable rfc6587 octet counting.",
+        "default": "false",
+        "required": false
+      },
+      "timeout": {
+        "type": "duration",
+        "description": "Time to wait before marking a request as failed.",
+        "default": "\"5s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.syslog \"LABEL\" {\n  endpoint = \"HOST\"\n}"
+      },
+      "retry_on_failure": {
+        "description": "Configures retry mechanism for failed requests.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.syslog \"LABEL\" {\n  endpoint = \"HOST\"\n}"
+      },
+      "sending_queue": {
+        "description": "Configures batching of data before sending.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.exporter.syslog \"LABEL\" {\n  endpoint = \"HOST\"\n}"
+      },
+      "tls": {
+        "description": "Configures TLS for a TCP connection.",
+        "required": false,
+        "children": {
+          "tpm": {
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "children": {},
+            "arguments": [
+              {
+                "name": "endpoint",
+                "type": "string",
+                "description": "The endpoint to send syslog formatted logs to.",
+                "default": "",
+                "required": true
+              },
+              {
+                "name": "network",
+                "type": "string",
+                "description": "The type of network connection to use to send logs.",
+                "default": "\"tcp\"",
+                "required": false
+              },
+              {
+                "name": "port",
+                "type": "int",
+                "description": "The port where the syslog server accepts connections.",
+                "default": "514",
+                "required": false
+              },
+              {
+                "name": "protocol",
+                "type": "string",
+                "description": "The syslog protocol that the syslog server supports.",
+                "default": "\"rfc5424\"",
+                "required": false
+              },
+              {
+                "name": "enable_octet_counting",
+                "type": "bool",
+                "description": "Whether to enable rfc6587 octet counting.",
+                "default": "false",
+                "required": false
+              },
+              {
+                "name": "timeout",
+                "type": "duration",
+                "description": "Time to wait before marking a request as failed.",
+                "default": "\"5s\"",
+                "required": false
+              }
+            ],
+            "nested_blocks": [],
+            "usage": "otelcol.exporter.syslog \"LABEL\" {\n  endpoint = \"HOST\"\n}"
+          }
+        },
+        "arguments": [],
+        "nested_blocks": [
+          {
+            "block": "tpm",
+            "description": "Configures TPM settings for the TLS key_file.",
+            "required": false,
+            "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.exporter.syslog/#tpm"
+          }
+        ],
+        "usage": "otelcol.exporter.syslog \"LABEL\" {\n  endpoint = \"HOST\"\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.exporter.syslog \"${1:default}\" {\n  debug_metrics {\n    $0\n  }\n  retry_on_failure {\n    $0\n  }\n  sending_queue {\n    $0\n  }\n  tls {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

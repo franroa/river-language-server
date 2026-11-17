@@ -1,0 +1,125 @@
+{
+  "name": "otelcol.processor.interval",
+  "usage": "otelcol.processor.interval \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}",
+  "arguments": [
+    {
+      "name": "interval",
+      "type": "duration",
+      "description": "The interval in which the processor should export aggregated metrics.",
+      "default": "\"60s\"",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "output",
+      "description": "Configures where to send received telemetry data.",
+      "required": true,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.interval/#output"
+    },
+    {
+      "block": "debug_metrics",
+      "description": "Configures the metrics that this component generates to monitor its state.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.interval/#debug_metrics"
+    },
+    {
+      "block": "passthrough",
+      "description": "Configures metric types to be passed through instead of aggregated.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/otelcol/otelcol.processor.interval/#passthrough"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "input",
+      "type": "otelcol.Consumer",
+      "description": "A value that other components can use to send telemetry data to."
+    }
+  ],
+  "lsp_structure": {
+    "component": "otelcol.processor.interval",
+    "arguments": {
+      "interval": {
+        "type": "duration",
+        "description": "The interval in which the processor should export aggregated metrics.",
+        "default": "\"60s\"",
+        "required": false
+      }
+    },
+    "blocks": {
+      "output": {
+        "description": "Configures where to send received telemetry data.",
+        "required": true,
+        "children": {},
+        "arguments": [
+          {
+            "name": "logs",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send logs to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "metrics",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send metrics to.",
+            "default": "[]",
+            "required": false
+          },
+          {
+            "name": "traces",
+            "type": "list(otelcol.Consumer)",
+            "description": "List of consumers to send traces to.",
+            "default": "[]",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.interval \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "debug_metrics": {
+        "description": "Configures the metrics that this component generates to monitor its state.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.interval \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      },
+      "passthrough": {
+        "description": "Configures metric types to be passed through instead of aggregated.",
+        "required": false,
+        "children": {},
+        "arguments": [
+          {
+            "name": "gauge",
+            "type": "bool",
+            "description": "Determines whether gauge metrics should be passed through as they’re or aggregated.",
+            "default": "false",
+            "required": false
+          },
+          {
+            "name": "summary",
+            "type": "bool",
+            "description": "Determines whether summary metrics should be passed through as they’re or aggregated.",
+            "default": "false",
+            "required": false
+          }
+        ],
+        "nested_blocks": [],
+        "usage": "otelcol.processor.interval \"<LABEL>\" {\n  output {\n    metrics = [...]\n  }\n}"
+      }
+    },
+    "exported_fields": {
+      "input": {
+        "type": "otelcol.Consumer",
+        "description": "A value that other components can use to send telemetry data to."
+      }
+    },
+    "required_blocks": [
+      "output"
+    ],
+    "conditional_blocks": {}
+  },
+  "template": "otelcol.processor.interval \"${1:default}\" {\n  output {\n    metrics = []\n    logs = []\n    traces = []\n  }\n  debug_metrics {\n    $0\n  }\n  passthrough {\n  }\n\n  // Exported fields:\n  // - input (otelcol.Consumer): A value that other components can use to send telemetry data to.\n}"
+}

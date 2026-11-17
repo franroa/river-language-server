@@ -1,0 +1,80 @@
+{
+  "name": "prometheus.relabel",
+  "usage": "prometheus.relabel \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  rule {\n    ...\n  }\n\n  ...\n}",
+  "arguments": [
+    {
+      "name": "forward_to",
+      "type": "list(MetricsReceiver)",
+      "description": "Where the metrics should be forwarded to, after relabeling takes place.",
+      "default": "",
+      "required": true
+    },
+    {
+      "name": "max_cache_size",
+      "type": "int",
+      "description": "The maximum number of elements to hold in the relabeling cache.",
+      "default": "100000",
+      "required": false
+    }
+  ],
+  "blocks": [
+    {
+      "block": "rule",
+      "description": "Relabeling rules to apply to received metrics.",
+      "required": false,
+      "url": "https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.relabel/#rule"
+    }
+  ],
+  "exported_fields": [
+    {
+      "name": "receiver",
+      "type": "MetricsReceiver",
+      "description": "The input receiver where samples are sent to be relabeled."
+    },
+    {
+      "name": "rules",
+      "type": "RelabelRules",
+      "description": "The currently configured relabeling rules."
+    }
+  ],
+  "lsp_structure": {
+    "component": "prometheus.relabel",
+    "arguments": {
+      "forward_to": {
+        "type": "list(MetricsReceiver)",
+        "description": "Where the metrics should be forwarded to, after relabeling takes place.",
+        "default": "",
+        "required": true
+      },
+      "max_cache_size": {
+        "type": "int",
+        "description": "The maximum number of elements to hold in the relabeling cache.",
+        "default": "100000",
+        "required": false
+      }
+    },
+    "blocks": {
+      "rule": {
+        "description": "Relabeling rules to apply to received metrics.",
+        "required": false,
+        "children": {},
+        "arguments": [],
+        "nested_blocks": [],
+        "usage": "prometheus.relabel \"<LABEL>\" {\n  forward_to = <RECEIVER_LIST>\n\n  rule {\n    ...\n  }\n\n  ...\n}"
+      }
+    },
+    "exported_fields": {
+      "receiver": {
+        "type": "MetricsReceiver",
+        "description": "The input receiver where samples are sent to be relabeled."
+      },
+      "rules": {
+        "type": "RelabelRules",
+        "description": "The currently configured relabeling rules."
+      }
+    },
+    "required_blocks": [],
+    "conditional_blocks": {}
+  },
+  "template": "prometheus.relabel \"${1:default}\" {\n  rule {\n    $0\n  }\n\n  // Exported fields:\n  // - receiver (MetricsReceiver): The input receiver where samples are sent to be relabeled.\n  // - rules (RelabelRules): The currently configured relabeling rules.\n}"
+}

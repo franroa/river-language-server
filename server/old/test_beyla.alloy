@@ -1,0 +1,18 @@
+beyla.ebpf "default" {
+  enforce_sys_caps = true
+
+  output {
+    metrics_receiver = [prometheus.remote_write.default.receiver]
+  }
+
+  attributes {
+    kubernetes {
+      enable = true
+    }
+  }
+
+  select {
+    attr = "service.name"
+    include = ["GET", "POST"]
+  }
+}
